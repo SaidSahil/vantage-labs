@@ -273,3 +273,39 @@ body::after {
     transition-duration: 0.001ms !important;
   }
 }
+
+/* ─── MOBILE RESPONSIVE OVERRIDES ──────────────── */
+@media (max-width: 767px) {
+  /* Testimonials: uniform padding, no side borders in single-col layout */
+  .testimonial-card {
+    padding: 32px 0 !important;
+    border-right: none !important;
+  }
+
+  /* About pillars: uniform padding, no side borders in single-col layout */
+  .pillar-card {
+    padding: 24px 0 !important;
+    border-right: none !important;
+  }
+
+  /* About stats: uniform padding, no side borders in single-col layout */
+  .stat-cell {
+    padding: 16px 0 !important;
+    border-right: none !important;
+  }
+
+  /* Services grid: remove 2-col border/padding on single-col mobile */
+  .svc-row:nth-child(odd) {
+    border-right: none !important;
+    padding-right: 0 !important;
+  }
+  .svc-row:nth-child(even) {
+    padding-left: 0 !important;
+  }
+
+  /* Project rows: tighten gap on narrow screens */
+  .project-row {
+    gap: 16px !important;
+    grid-template-columns: 40px 1fr auto !important;
+  }
+}

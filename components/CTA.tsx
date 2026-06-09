@@ -59,11 +59,9 @@ export default function CTA() {
         position: 'relative',
         zIndex: 1,
         display: 'grid',
-        gridTemplateColumns: '1fr auto',
         alignItems: 'end',
-        gap: 80,
       }}
-      className="grid-cols-1 md:grid-cols-[1fr_auto]"
+      className="grid-cols-1 md:grid-cols-[1fr_auto] gap-10 md:gap-20"
       >
         {/* Left — headline */}
         <div>
@@ -109,7 +107,7 @@ export default function CTA() {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={viewport}
           transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1], delay: 0.25 }}
-          style={{ textAlign: 'right', flexShrink: 0 }}
+          style={{ flexShrink: 0 }}
           className="text-left md:text-right"
         >
           <p style={{
@@ -118,13 +116,12 @@ export default function CTA() {
             maxWidth: 260,
             lineHeight: 1.7,
             marginBottom: 32,
-            marginLeft: 'auto',
           }}
           className="mr-0 md:ml-auto"
           >
             Book a free 30-minute call. No pitch, no pressure — just a conversation about your project.
           </p>
-          <div style={{ display: 'flex', flexWrap: 'wrap', gap: 12, justifyContent: 'flex-end' }}
+          <div style={{ display: 'flex', flexWrap: 'wrap', gap: 12 }}
             className="justify-start md:justify-end"
           >
             <a

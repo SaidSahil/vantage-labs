@@ -57,17 +57,14 @@ export default function Testimonials() {
         whileInView="visible"
         viewport={viewport}
         variants={stagger(0.12)}
-        style={{
-          display: 'grid',
-          gridTemplateColumns: 'repeat(3, 1fr)',
-          gap: 0,
-        }}
+        style={{ display: 'grid', gap: 0 }}
         className="grid-cols-1 md:grid-cols-3"
       >
         {testimonials.map((t, i) => (
           <motion.div
             key={t.name}
             variants={fadeUp}
+            className="testimonial-card"
             style={{
               padding: i === 0
                 ? 'clamp(28px, 3vw, 40px) clamp(28px, 3vw, 48px) clamp(28px, 3vw, 40px) 0'

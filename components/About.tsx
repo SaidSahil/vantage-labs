@@ -62,7 +62,6 @@ export default function About() {
       {/* Top row: label + headline */}
       <div style={{
         display: 'grid',
-        gridTemplateColumns: '1fr 1fr',
         gap: 'clamp(32px, 6vw, 80px)',
         alignItems: 'end',
         paddingBottom: 'clamp(48px, 6vw, 80px)',
@@ -173,7 +172,6 @@ export default function About() {
         variants={stagger(0.1)}
         style={{
           display: 'grid',
-          gridTemplateColumns: 'repeat(3, 1fr)',
           gap: 0,
           marginBottom: 'clamp(48px, 6vw, 80px)',
         }}
@@ -183,6 +181,7 @@ export default function About() {
           <motion.div
             key={p.title}
             variants={fadeUp}
+            className="pillar-card"
             style={{
               padding: i === 0
                 ? 'clamp(28px, 3vw, 40px) clamp(28px, 3vw, 48px) clamp(28px, 3vw, 40px) 0'
@@ -227,16 +226,16 @@ export default function About() {
         variants={stagger(0.08)}
         style={{
           display: 'grid',
-          gridTemplateColumns: 'repeat(3, 1fr)',
           borderTop: '1px solid #E2E1DC',
           paddingTop: 'clamp(32px, 4vw, 48px)',
         }}
-        className="grid-cols-3"
+        className="grid-cols-1 sm:grid-cols-3"
       >
         {stats.map((stat, i) => (
           <motion.div
             key={stat.label}
             variants={fadeUp}
+            className="stat-cell"
             style={{
               padding: i === 0 ? '0 24px 0 0' : i === 1 ? '0 24px' : '0 0 0 24px',
               borderRight: i < 2 ? '1px solid #E2E1DC' : 'none',

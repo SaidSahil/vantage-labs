@@ -95,6 +95,35 @@ A running record of every session: what was built, what broke, what was fixed, a
 
 ---
 
+---
+
+### [2026-06-09] — Mobile Responsiveness Audit & Fixes
+
+**Changes:**
+- `Testimonials.tsx` — removed `gridTemplateColumns: 'repeat(3, 1fr)'` from inline style (was overriding `grid-cols-1 md:grid-cols-3`); added `.testimonial-card` class
+- `About.tsx` — removed 3 inline `gridTemplateColumns` overrides (top row, pillars, stats); added `.pillar-card` and `.stat-cell` classes; stats grid now uses `grid-cols-1 sm:grid-cols-3`
+- `Why.tsx` — removed `gridTemplateColumns: '1fr 2fr'` and `gap: 80` from inline style; gap now handled via Tailwind `gap-8 md:gap-20`
+- `CTA.tsx` — removed `gridTemplateColumns: '1fr auto'`, `gap: 80`, `textAlign: 'right'`, `marginLeft: 'auto'`, and `justifyContent: 'flex-end'` from inline styles; Tailwind responsive classes (`text-left md:text-right`, `justify-start md:justify-end`, `mr-0 md:ml-auto`) now work correctly
+- `Footer.tsx` — removed `gridTemplateColumns: '1fr auto'` from inline style; Tailwind `grid-cols-1 md:grid-cols-[1fr_auto]` now takes effect
+- `globals.css` — added `@media (max-width: 767px)` section with overrides for `.testimonial-card`, `.pillar-card`, `.stat-cell` (uniform padding, no side borders), `.svc-row:nth-child(odd/even)` (no extra border/padding in 1-col), `.project-row` (tighter gap)
+- `app/services/page.tsx` — replaced the 3-column `1fr 1px 1fr` add-ons grid (non-responsive) with a single flat `flex-col` list that works on all screen sizes
+
+**Bugs encountered:**
+- Root cause was pattern: `style={{ gridTemplateColumns: 'Xfr Yfr' }}` combined with `className="grid-cols-1 md:grid-cols-N"`. Inline styles always win over CSS classes regardless of media query, so every grid was always its desktop layout on mobile.
+- CTA right column had `textAlign: 'right'`, `marginLeft: 'auto'`, and `justifyContent: 'flex-end'` in inline styles, overriding the Tailwind `text-left`, `justify-start`, `mr-0` mobile classes.
+- Services add-ons used a permanent `1fr 1px 1fr` 2-column grid with no responsive fallback.
+
+**Fixes applied:** All inline `gridTemplateColumns` overrides removed; responsive layout now fully delegated to Tailwind classes + mobile CSS overrides in `globals.css`.
+
+**Still open / TODO:**
+- Test on real iOS Safari and Android Chrome
+- Contact form backend (Resend / EmailJS / Formspree)
+- Calendly embed on /contact
+- Domain connection
+- Real project images/media
+
+---
+
 ## Open Issues Tracker
 
 | # | Issue | Severity | Status | Notes |
@@ -104,4 +133,4 @@ A running record of every session: what was built, what broke, what was fixed, a
 | 3 | Domain not connected | High | Open | Deployment pending |
 | 4 | No real project images | Medium | Open | Placeholders used in lib/projects.ts |
 | 5 | No analytics | Low | Open | Vercel Analytics or GA4 |
-| 6 | Mobile Safari / Android Chrome untested | Medium | Open | Test on real devices |
+| 6 | Mobile Safari / Android Chrome untested | Medium | Open | Test on real devices after responsiveness fix |

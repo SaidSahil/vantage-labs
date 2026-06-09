@@ -915,72 +915,35 @@ export default function ServicesPage() {
           whileInView="visible"
           viewport={viewport}
           variants={stagger(0.055)}
-          style={{ display: 'grid', gridTemplateColumns: '1fr 1px 1fr' }}
+          style={{ display: 'flex', flexDirection: 'column' }}
         >
-          {/* Left column */}
-          <div style={{ display: 'flex', flexDirection: 'column' }}>
-            {addons.filter((_, i) => i % 2 === 0).map((addon) => (
-              <motion.div
-                key={addon.label}
-                variants={fadeUp}
-                style={{
-                  display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'space-between',
-                  padding: '20px 32px 20px 0',
-                  borderBottom: '1px solid #E2E1DC',
-                  gap: 20,
-                }}
-              >
-                <span style={{ fontSize: 15, fontWeight: 500, color: '#1C1C1E', lineHeight: 1.4 }}>
-                  {addon.label}
-                </span>
-                <span style={{
-                  fontSize: 13,
-                  fontWeight: 700,
-                  color: '#3D5A80',
-                  whiteSpace: 'nowrap',
-                  letterSpacing: '0.04em',
-                }}>
-                  {addon.price}
-                </span>
-              </motion.div>
-            ))}
-          </div>
-
-          {/* Divider */}
-          <div style={{ background: '#E2E1DC', margin: '0 0' }} />
-
-          {/* Right column */}
-          <div style={{ display: 'flex', flexDirection: 'column' }}>
-            {addons.filter((_, i) => i % 2 !== 0).map((addon) => (
-              <motion.div
-                key={addon.label}
-                variants={fadeUp}
-                style={{
-                  display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'space-between',
-                  padding: '20px 0 20px 32px',
-                  borderBottom: '1px solid #E2E1DC',
-                  gap: 20,
-                }}
-              >
-                <span style={{ fontSize: 15, fontWeight: 500, color: '#1C1C1E', lineHeight: 1.4 }}>
-                  {addon.label}
-                </span>
-                <span style={{
-                  fontSize: 13,
-                  fontWeight: 700,
-                  color: '#3D5A80',
-                  whiteSpace: 'nowrap',
-                  letterSpacing: '0.04em',
-                }}>
-                  {addon.price}
-                </span>
-              </motion.div>
-            ))}
-          </div>
+          {addons.map((addon) => (
+            <motion.div
+              key={addon.label}
+              variants={fadeUp}
+              style={{
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'space-between',
+                padding: '20px 0',
+                borderBottom: '1px solid #E2E1DC',
+                gap: 20,
+              }}
+            >
+              <span style={{ fontSize: 15, fontWeight: 500, color: '#1C1C1E', lineHeight: 1.4 }}>
+                {addon.label}
+              </span>
+              <span style={{
+                fontSize: 13,
+                fontWeight: 700,
+                color: '#3D5A80',
+                whiteSpace: 'nowrap',
+                letterSpacing: '0.04em',
+              }}>
+                {addon.price}
+              </span>
+            </motion.div>
+          ))}
         </motion.div>
 
         <motion.p

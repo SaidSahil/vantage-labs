@@ -50,12 +50,10 @@ export default function Why() {
 
       <div style={{
         display: 'grid',
-        gridTemplateColumns: '1fr 2fr',
-        gap: 80,
         alignItems: 'start',
         position: 'relative',
       }}
-      className="grid-cols-1 md:grid-cols-[1fr_2fr]"
+      className="grid-cols-1 md:grid-cols-[1fr_2fr] gap-8 md:gap-20"
       >
         {/* Left — label + big headline */}
         <div>

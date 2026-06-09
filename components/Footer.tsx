@@ -34,7 +34,6 @@ export default function Footer() {
       <div
         style={{
           display: 'grid',
-          gridTemplateColumns: '1fr auto',
           alignItems: 'start',
           gap: 32,
           paddingBottom: 'clamp(28px, 4vw, 40px)',
