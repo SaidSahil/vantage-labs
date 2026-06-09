@@ -18,6 +18,7 @@ export default function IntroLoader({ onComplete }: { onComplete: () => void }) 
     <AnimatePresence>
       {visible && (
         <motion.div
+          id="intro-loader"
           key="loader"
           initial={{ y: 0 }}
           exit={{ y: '-100%' }}

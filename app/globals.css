@@ -259,6 +259,13 @@ body::after {
   border-radius: 2px;
 }
 
+/* ─── INTRO LOADER ──────────────────────────────── */
+/* Hide the intro loader on mobile at the CSS level so it never flashes black
+   before JS has a chance to skip it via the useEffect mobile check. */
+@media (max-width: 767px) {
+  #intro-loader { display: none !important; }
+}
+
 /* ─── REDUCED MOTION ────────────────────────────── */
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after {
