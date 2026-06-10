@@ -5,12 +5,14 @@ import { motion, AnimatePresence } from 'framer-motion'
 import Link from 'next/link'
 import MagneticButton from '@/components/MagneticButton'
 
-function VMark() {
+function VMark({ light }: { light?: boolean }) {
+  const c  = light ? 'rgba(255,255,255,0.75)' : '#3D5A80'
+  const c2 = light ? 'rgba(255,255,255,0.25)' : 'rgba(61,90,128,0.3)'
   return (
     <svg width="20" height="20" viewBox="0 0 22 22" fill="none" aria-hidden="true">
-      <rect x="1" y="1" width="10" height="10" rx="1.5" stroke="#3D5A80" strokeWidth="1.5" />
-      <rect x="11" y="11" width="10" height="10" rx="1.5" stroke="#3D5A80" strokeWidth="1.5" />
-      <rect x="11" y="1" width="10" height="10" rx="1.5" stroke="#3D5A80" strokeWidth="1.5" opacity="0.3" />
+      <rect x="1" y="1" width="10" height="10" rx="1.5" stroke={c} strokeWidth="1.5" />
+      <rect x="11" y="11" width="10" height="10" rx="1.5" stroke={c} strokeWidth="1.5" />
+      <rect x="11" y="1" width="10" height="10" rx="1.5" stroke={c2} strokeWidth="1.5" />
     </svg>
   )
 }
@@ -18,6 +20,7 @@ function VMark() {
 export default function Navbar() {
   const pathname = usePathname()
   const isHome = pathname === '/'
+  const isWork = pathname === '/work'
 
   const links = [
     { href: '/work',     label: 'Work' },
@@ -29,6 +32,9 @@ export default function Navbar() {
   const [menuOpen, setMenuOpen] = useState(false)
   const [activeHref, setActiveHref] = useState('')
   const menuRef = useRef<HTMLDivElement>(null)
+
+  // true only on the work page before any scroll — triggers white text mode
+  const light = isWork && !scrolled
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 60)
@@ -55,7 +61,6 @@ export default function Navbar() {
     return () => window.removeEventListener('scroll', onScroll)
   }, [])
 
-  // Close dropdown when clicking outside
   useEffect(() => {
     if (!menuOpen) return
     const handler = (e: MouseEvent) => {
@@ -66,6 +71,11 @@ export default function Navbar() {
     document.addEventListener('mousedown', handler)
     return () => document.removeEventListener('mousedown', handler)
   }, [menuOpen])
+
+  const textColor      = light ? '#FFFFFF'                    : '#1C1C1E'
+  const mutedColor     = light ? 'rgba(255,255,255,0.55)'     : 'rgba(28,28,30,0.55)'
+  const borderColor    = light ? 'rgba(255,255,255,0.28)'     : 'rgba(28,28,30,0.18)'
+  const dividerColor   = light ? 'rgba(255,255,255,0.18)'     : '#E2E1DC'
 
   return (
     <nav
@@ -94,8 +104,8 @@ export default function Navbar() {
         aria-label="Vantage Labs home"
         style={{ display: 'flex', alignItems: 'center', gap: 9, textDecoration: 'none' }}
       >
-        <VMark />
-        <span style={{ fontSize: 13, fontWeight: 700, letterSpacing: '-0.01em', color: '#1C1C1E' }}>
+        <VMark light={light} />
+        <span style={{ fontSize: 13, fontWeight: 700, letterSpacing: '-0.01em', color: textColor, transition: 'color 0.35s ease' }}>
           Vantage Labs
         </span>
       </Link>
@@ -106,45 +116,48 @@ export default function Navbar() {
         className="hidden md:flex"
         role="list"
       >
-        {links.map((link, i) => (
-          <motion.li
-            key={link.href}
-            initial={{ opacity: 0, y: -5 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.25 + i * 0.07, duration: 0.45, ease: 'easeOut' }}
-          >
-            <Link
-              href={link.href}
-              style={{
-                fontSize: 12,
-                fontWeight: activeHref === link.href ? 600 : 400,
-                letterSpacing: '0.06em',
-                color: activeHref === link.href ? '#1C1C1E' : 'rgba(28,28,30,0.55)',
-                textDecoration: 'none',
-                textTransform: 'uppercase',
-                transition: 'color 0.2s ease, font-weight 0.2s ease',
-                position: 'relative',
-                paddingBottom: 2,
-              }}
-              onMouseEnter={e => (e.currentTarget.style.color = '#1C1C1E')}
-              onMouseLeave={e => (e.currentTarget.style.color = activeHref === link.href ? '#1C1C1E' : 'rgba(28,28,30,0.55)')}
+        {links.map((link, i) => {
+          const isActive = activeHref === link.href
+          return (
+            <motion.li
+              key={link.href}
+              initial={{ opacity: 0, y: -5 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.25 + i * 0.07, duration: 0.45, ease: 'easeOut' }}
             >
-              {link.label}
-              {activeHref === link.href && (
-                <span style={{
-                  position: 'absolute',
-                  bottom: -4,
-                  left: '50%',
-                  transform: 'translateX(-50%)',
-                  width: 4,
-                  height: 4,
-                  borderRadius: '50%',
-                  background: '#3D5A80',
-                }} />
-              )}
-            </Link>
-          </motion.li>
-        ))}
+              <Link
+                href={link.href}
+                style={{
+                  fontSize: 12,
+                  fontWeight: isActive ? 600 : 400,
+                  letterSpacing: '0.06em',
+                  color: isActive ? textColor : mutedColor,
+                  textDecoration: 'none',
+                  textTransform: 'uppercase',
+                  transition: 'color 0.2s ease, font-weight 0.2s ease',
+                  position: 'relative',
+                  paddingBottom: 2,
+                }}
+                onMouseEnter={e => (e.currentTarget.style.color = textColor)}
+                onMouseLeave={e => (e.currentTarget.style.color = isActive ? textColor : mutedColor)}
+              >
+                {link.label}
+                {isActive && (
+                  <span style={{
+                    position: 'absolute',
+                    bottom: -4,
+                    left: '50%',
+                    transform: 'translateX(-50%)',
+                    width: 4,
+                    height: 4,
+                    borderRadius: '50%',
+                    background: light ? '#FFFFFF' : '#3D5A80',
+                  }} />
+                )}
+              </Link>
+            </motion.li>
+          )
+        })}
       </ul>
 
       {/* Desktop CTA */}
@@ -155,7 +168,7 @@ export default function Navbar() {
         style={{ alignItems: 'center', gap: 20 }}
         className="hidden md:flex"
       >
-        <div style={{ width: 1, height: 18, background: '#E2E1DC' }} />
+        <div style={{ width: 1, height: 18, background: dividerColor, transition: 'background 0.35s ease' }} />
         <MagneticButton strength={0.3}>
           <Link
             href="/contact"
@@ -164,24 +177,24 @@ export default function Navbar() {
               fontWeight: 600,
               letterSpacing: '0.06em',
               textTransform: 'uppercase',
-              color: '#1C1C1E',
+              color: textColor,
               textDecoration: 'none',
               padding: '9px 20px',
-              border: '1px solid rgba(28,28,30,0.18)',
+              border: `1px solid ${borderColor}`,
               borderRadius: 100,
               transition: 'all 0.22s ease',
               whiteSpace: 'nowrap',
               display: 'inline-block',
             }}
             onMouseEnter={e => {
-              e.currentTarget.style.background = '#1C1C1E'
-              e.currentTarget.style.color = '#FAFAF8'
-              e.currentTarget.style.borderColor = '#1C1C1E'
+              e.currentTarget.style.background = textColor
+              e.currentTarget.style.color = light ? '#1C1C1E' : '#FAFAF8'
+              e.currentTarget.style.borderColor = textColor
             }}
             onMouseLeave={e => {
               e.currentTarget.style.background = 'transparent'
-              e.currentTarget.style.color = '#1C1C1E'
-              e.currentTarget.style.borderColor = 'rgba(28,28,30,0.18)'
+              e.currentTarget.style.color = textColor
+              e.currentTarget.style.borderColor = borderColor
             }}
           >
             Start a Project
@@ -197,9 +210,9 @@ export default function Navbar() {
           aria-expanded={menuOpen}
           type="button"
           style={{
-            background: menuOpen ? '#1C1C1E' : 'transparent',
+            background: menuOpen ? textColor : 'transparent',
             border: '1px solid',
-            borderColor: menuOpen ? '#1C1C1E' : 'rgba(28,28,30,0.18)',
+            borderColor: menuOpen ? textColor : borderColor,
             borderRadius: 100,
             padding: '7px 16px',
             display: 'flex',
@@ -214,7 +227,7 @@ export default function Navbar() {
             fontWeight: 600,
             letterSpacing: '0.08em',
             textTransform: 'uppercase',
-            color: menuOpen ? '#FAFAF8' : '#1C1C1E',
+            color: menuOpen ? (light ? '#1C1C1E' : '#FAFAF8') : textColor,
             transition: 'color 0.2s ease',
           }}>
             Menu
@@ -230,7 +243,7 @@ export default function Navbar() {
           >
             <path
               d="M2 3.5L5 6.5L8 3.5"
-              stroke={menuOpen ? '#FAFAF8' : '#1C1C1E'}
+              stroke={menuOpen ? (light ? '#1C1C1E' : '#FAFAF8') : textColor}
               strokeWidth="1.5"
               strokeLinecap="round"
               strokeLinejoin="round"

@@ -126,6 +126,31 @@ A running record of every session: what was built, what broke, what was fixed, a
 
 ---
 
+### [2026-06-10] — Work Page: White Nav on Dark Hero
+
+**Changes:**
+- `components/Navbar.tsx` — added `isWork` check via `usePathname()`; added `light` flag (`isWork && !scrolled`); extracted `textColor`, `mutedColor`, `borderColor`, `dividerColor` variables that switch between white and default dark based on `light`; updated logo text, VMark strokes, desktop nav links, CTA button, divider line, and mobile Menu button to use these variables
+- VMark now accepts a `light` prop to render white strokes on the dark hero
+
+**Bugs encountered:**
+- On /work, the dark hero background made the navbar (logo, links, menu button) invisible since all text was dark on dark
+
+**Fixes applied:**
+- `light = isWork && !scrolled` — true only before the user scrolls on the Work page
+- All nav elements use `textColor`/`borderColor` which are white when `light`, dark otherwise
+- On scroll past 60px, `light` becomes false and nav snaps back to default light background + dark text
+- Mobile dropdown panel always stays light-colored (renders below the hero, context is clear)
+- No other pages affected — only `/work` path triggers the light mode
+
+**Still open / TODO:**
+- Contact form backend
+- Calendly embed
+- Domain connection
+- Real project images
+- Analytics
+
+---
+
 ### [2026-06-10] — Mobile Nav Menu: Services & Contact Pages
 
 **Changes:**
