@@ -370,7 +370,6 @@ export default function ContactPage() {
             maxWidth: 1100,
             margin: '0 auto',
             display: 'grid',
-            gridTemplateColumns: '1fr 1fr',
             gap: 'clamp(48px, 7vw, 100px)',
             alignItems: 'start',
           }}
@@ -526,7 +525,7 @@ export default function ContactPage() {
                     </div>
 
                     {/* Name + Email */}
-                    <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 14 }} className="grid-cols-1 sm:grid-cols-2">
+                    <div style={{ display: 'grid', gap: 14 }} className="grid-cols-1 sm:grid-cols-2">
                       <div>
                         <label htmlFor="c-name" style={labelStyle}>Name</label>
                         <input

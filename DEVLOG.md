@@ -124,6 +124,60 @@ A running record of every session: what was built, what broke, what was fixed, a
 
 ---
 
+---
+
+### [2026-06-10] — Contact Page Mobile Layout Fix
+
+**Changes:**
+- `app/contact/page.tsx` — removed `gridTemplateColumns: '1fr 1fr'` from the main content grid inline style (was overriding Tailwind `grid-cols-1` on mobile; text and form were side-by-side)
+- `app/contact/page.tsx` — removed `gridTemplateColumns: '1fr 1fr'` from the name/email row inside the form (same issue; fields were cramped side-by-side on mobile)
+
+**Bugs encountered:**
+- Contact page on mobile: info text and form were side by side, very congested
+  - Root cause: same inline `gridTemplateColumns` pattern as the mobile audit session — inline styles always win over Tailwind classes regardless of media query
+
+**Fixes applied:**
+- Removed inline `gridTemplateColumns` from both grids; Tailwind responsive classes now control layout
+- Result: on mobile, info text stacks above the form; name/email fields each take full width
+
+**Still open / TODO:**
+- Contact form backend
+- Calendly embed
+- Domain connection
+- Real project images
+- Analytics
+
+---
+
+### [2026-06-10] — Favicon / Browser Tab Icon Fix
+
+**Changes:**
+- `app/icon.svg` — replaced stroke-based mark with filled version (strokes disappear at small favicon sizes on mobile)
+- `app/apple-icon.svg` — created new file: dark background (matches site) with filled logo mark at 180×180; used as apple-touch-icon for iOS/Android home screen
+- `app/favicon.ico` — deleted default Next.js favicon (was showing Next.js logo on mobile browsers as fallback)
+- `app/layout.tsx` — updated `icons` metadata to point to `icon.svg` explicitly and add `apple` icon entry
+- `public/media/vantage-labs-mark.svg` — updated from stroke to fill for consistency across site
+
+**Bugs encountered:**
+- Mobile browser showing a different/default logo in the browser tab
+  - Root cause 1: `app/favicon.ico` was Next.js default (triangle logo) and some mobile browsers used it as fallback
+  - Root cause 2: `icon.svg` used `stroke` which renders poorly/invisibly at small sizes
+  - Root cause 3: No `apple-touch-icon` set, so iOS/Android used fallback behavior
+
+**Fixes applied:**
+- Deleted `favicon.ico`; switched `icon.svg` to filled squares
+- Added `apple-icon.svg` with dark background for iOS home screen
+- Metadata now explicitly declares both `icon` and `apple` icon entries
+
+**Still open / TODO:**
+- Contact form backend
+- Calendly embed
+- Domain connection
+- Real project images
+- Analytics
+
+---
+
 ## Open Issues Tracker
 
 | # | Issue | Severity | Status | Notes |

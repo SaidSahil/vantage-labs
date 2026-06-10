@@ -20,7 +20,8 @@ export const metadata: Metadata = {
     type: 'website',
   },
   icons: {
-    icon: '/media/vantage-labs-mark.svg',
+    icon: [{ url: '/icon.svg', type: 'image/svg+xml' }],
+    apple: [{ url: '/apple-icon.svg', type: 'image/svg+xml' }],
   },
 }
 
