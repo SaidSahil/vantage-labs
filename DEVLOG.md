@@ -126,6 +126,29 @@ A running record of every session: what was built, what broke, what was fixed, a
 
 ---
 
+### [2026-06-10] — Mobile Nav Menu: Services & Contact Pages
+
+**Changes:**
+- `app/services/page.tsx` — added `useRef`, `menuOpen` state, outside-click effect; replaced simple "Contact" pill link with full animated mobile menu dropdown (Menu button + Work/Services/Contact links + Start a Project CTA)
+- `app/contact/page.tsx` — added `useRef`, `menuOpen` state, outside-click effect; replaced "Email Us" pill link with same full animated mobile menu dropdown
+
+**Bugs encountered:**
+- Services and Contact pages had no mobile nav menu — just a single plain pill link
+- Home and Work pages already had the full Menu dropdown (Navbar component), causing inconsistency across the site
+
+**Fixes applied:**
+- Copied exact mobile menu pattern from `Navbar.tsx` into both inline navs
+- All 4 pages now show identical Menu button + animated dropdown on mobile
+
+**Still open / TODO:**
+- Contact form backend
+- Calendly embed
+- Domain connection
+- Real project images
+- Analytics
+
+---
+
 ### [2026-06-10] — Contact Page Mobile Layout Fix
 
 **Changes:**

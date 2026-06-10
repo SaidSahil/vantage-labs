@@ -1,5 +1,5 @@
 'use client'
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import Link from 'next/link'
 import { motion, AnimatePresence } from 'framer-motion'
 import { ArrowLeft, ArrowRight, ArrowUpRight, Plus, Check } from 'lucide-react'
@@ -150,12 +150,23 @@ const addons = [
 export default function ServicesPage() {
   const [scrolled, setScrolled] = useState(false)
   const [open, setOpen] = useState<string | null>('01')
+  const [menuOpen, setMenuOpen] = useState(false)
+  const menuRef = useRef<HTMLDivElement>(null)
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 60)
     window.addEventListener('scroll', onScroll, { passive: true })
     return () => window.removeEventListener('scroll', onScroll)
   }, [])
+
+  useEffect(() => {
+    if (!menuOpen) return
+    const handler = (e: MouseEvent) => {
+      if (menuRef.current && !menuRef.current.contains(e.target as Node)) setMenuOpen(false)
+    }
+    document.addEventListener('mousedown', handler)
+    return () => document.removeEventListener('mousedown', handler)
+  }, [menuOpen])
 
   return (
     <main style={{ background: '#FAFAF8', minHeight: '100vh' }}>
@@ -259,24 +270,116 @@ export default function ServicesPage() {
         >
           Start a Project
         </Link>
-        <Link
-          href="/contact"
-          className="md:hidden"
-          style={{
-            fontSize: 12,
-            fontWeight: 600,
-            letterSpacing: '0.06em',
-            textTransform: 'uppercase',
-            color: '#1C1C1E',
-            textDecoration: 'none',
-            padding: '9px 18px',
-            border: '1px solid rgba(28,28,30,0.18)',
-            borderRadius: 100,
-            whiteSpace: 'nowrap',
-          }}
-        >
-          Contact
-        </Link>
+        {/* Mobile menu */}
+        <div ref={menuRef} className="md:hidden" style={{ position: 'relative' }}>
+          <button
+            onClick={() => setMenuOpen(v => !v)}
+            aria-label={menuOpen ? 'Close menu' : 'Open menu'}
+            aria-expanded={menuOpen}
+            type="button"
+            style={{
+              background: menuOpen ? '#1C1C1E' : 'transparent',
+              border: '1px solid',
+              borderColor: menuOpen ? '#1C1C1E' : 'rgba(28,28,30,0.18)',
+              borderRadius: 100,
+              padding: '7px 16px',
+              display: 'flex',
+              alignItems: 'center',
+              gap: 6,
+              cursor: 'pointer',
+              transition: 'all 0.2s ease',
+            }}
+          >
+            <span style={{
+              fontSize: 11,
+              fontWeight: 600,
+              letterSpacing: '0.08em',
+              textTransform: 'uppercase',
+              color: menuOpen ? '#FAFAF8' : '#1C1C1E',
+              transition: 'color 0.2s ease',
+            }}>
+              Menu
+            </span>
+            <motion.svg
+              width="10" height="10" viewBox="0 0 10 10" fill="none"
+              animate={{ rotate: menuOpen ? 180 : 0 }}
+              transition={{ duration: 0.2 }}
+              aria-hidden="true"
+            >
+              <path d="M2 3.5L5 6.5L8 3.5" stroke={menuOpen ? '#FAFAF8' : '#1C1C1E'} strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+            </motion.svg>
+          </button>
+
+          <AnimatePresence>
+            {menuOpen && (
+              <motion.div
+                initial={{ opacity: 0, y: -8, scale: 0.96 }}
+                animate={{ opacity: 1, y: 0, scale: 1 }}
+                exit={{ opacity: 0, y: -8, scale: 0.96 }}
+                transition={{ duration: 0.18, ease: 'easeOut' }}
+                style={{
+                  position: 'absolute',
+                  top: 'calc(100% + 10px)',
+                  right: 0,
+                  background: '#FAFAF8',
+                  border: '1px solid #E2E1DC',
+                  borderRadius: 16,
+                  boxShadow: '0 8px 32px rgba(0,0,0,0.10)',
+                  minWidth: 180,
+                  overflow: 'hidden',
+                  zIndex: 100,
+                }}
+              >
+                {[
+                  { href: '/work', label: 'Work' },
+                  { href: '/services', label: 'Services' },
+                  { href: '/contact', label: 'Contact' },
+                ].map((link, i, arr) => (
+                  <Link
+                    key={link.href}
+                    href={link.href}
+                    onClick={() => setMenuOpen(false)}
+                    style={{
+                      display: 'block',
+                      padding: '14px 20px',
+                      fontSize: 13,
+                      fontWeight: 500,
+                      color: '#1C1C1E',
+                      textDecoration: 'none',
+                      borderBottom: i < arr.length - 1 ? '1px solid #E2E1DC' : 'none',
+                      transition: 'background 0.15s ease',
+                    }}
+                    onMouseEnter={e => (e.currentTarget.style.background = '#F0EFE9')}
+                    onMouseLeave={e => (e.currentTarget.style.background = 'transparent')}
+                  >
+                    {link.label}
+                  </Link>
+                ))}
+                <div style={{ padding: '12px 20px', borderTop: '1px solid #E2E1DC' }}>
+                  <Link
+                    href="/contact"
+                    onClick={() => setMenuOpen(false)}
+                    style={{
+                      display: 'block',
+                      textAlign: 'center',
+                      fontSize: 12,
+                      fontWeight: 600,
+                      letterSpacing: '0.06em',
+                      textTransform: 'uppercase',
+                      color: '#FAFAF8',
+                      textDecoration: 'none',
+                      padding: '10px 16px',
+                      background: '#1C1C1E',
+                      borderRadius: 100,
+                    }}
+                  >
+                    Start a Project
+                  </Link>
+                </div>
+              </motion.div>
+            )}
+          </AnimatePresence>
+        </div>
       </nav>
 
       {/* ── Hero ───────────────────────────────────────────── */}
