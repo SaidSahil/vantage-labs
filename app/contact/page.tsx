@@ -146,7 +146,7 @@ export default function ContactPage() {
         </Link>
 
         <ul
-          style={{ display: 'flex', gap: 40, listStyle: 'none', margin: 0, padding: 0 }}
+          style={{ gap: 40, listStyle: 'none', margin: 0, padding: 0 }}
           className="hidden md:flex"
         >
           {[
