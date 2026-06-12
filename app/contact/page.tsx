@@ -36,6 +36,26 @@ const budgetOptions = [
 
 type Status = 'idle' | 'loading' | 'success' | 'error'
 
+function WordReveal({ words, baseDelay = 0, style }: { words: string[]; baseDelay?: number; style?: React.CSSProperties }) {
+  return (
+    <span style={{ display: 'block', ...style }}>
+      {words.map((word, i) => (
+        <span key={i} style={{ display: 'inline-block', overflow: 'hidden', verticalAlign: 'bottom' }}>
+          <motion.span
+            initial={{ y: '110%' }}
+            animate={{ y: '0%' }}
+            transition={{ delay: baseDelay + i * 0.07, duration: 0.8, ease }}
+            style={{ display: 'inline-block' }}
+          >
+            {word}
+          </motion.span>
+          {i < words.length - 1 && <span style={{ display: 'inline-block', width: '0.28em' }} />}
+        </span>
+      ))}
+    </span>
+  )
+}
+
 export default function ContactPage() {
   const [scrolled, setScrolled] = useState(false)
   const [focused, setFocused] = useState<string | null>(null)
@@ -423,13 +443,12 @@ export default function ContactPage() {
           <rect x="90" y="90" width="110" height="110" rx="4" stroke="var(--na-accent)" strokeWidth="1.5" fill="none" transform="rotate(15, 145, 145)" />
         </svg>
 
-        <motion.div
-          initial="hidden"
-          animate="visible"
-          variants={stagger(0.1)}
-        >
-          {/* Back + label */}
-          <motion.div variants={fadeUp} style={{ marginBottom: 28 }}>
+          <motion.div
+            initial={{ opacity: 0, y: 14 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.05, duration: 0.5, ease }}
+            style={{ marginBottom: 28 }}
+          >
             <Link
               href="/"
               style={{
@@ -454,9 +473,8 @@ export default function ContactPage() {
             <div className="section-label">06 — Get in Touch</div>
           </motion.div>
 
-          {/* Headline */}
-          <motion.h1
-            variants={fadeUp}
+          {/* Headline — word reveal matching home hero */}
+          <h1
             style={{
               fontSize: 'clamp(48px, 9vw, 124px)',
               fontWeight: 700,
@@ -466,13 +484,19 @@ export default function ContactPage() {
               marginBottom: 32,
             }}
           >
-            Let&apos;s build<br />
-            <span style={{ fontWeight: 300, fontStyle: 'italic', color: 'var(--na-heading)' }}>something.</span>
-          </motion.h1>
+            <WordReveal words={["Let's", 'build']} baseDelay={0.15} />
+            <WordReveal
+              words={['something.']}
+              baseDelay={0.4}
+              style={{ fontStyle: 'italic', fontWeight: 300, color: 'var(--na-heading)' }}
+            />
+          </h1>
 
           {/* Subtext */}
           <motion.p
-            variants={fadeUp}
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ delay: 0.65, duration: 0.6, ease: 'easeOut' }}
             style={{
               fontSize: 'clamp(14px, 1.4vw, 17px)',
               fontWeight: 400,
@@ -484,7 +508,6 @@ export default function ContactPage() {
             Tell us what you&apos;re building. We&apos;ll scope it, price it honestly,
             and get back to you within a day.
           </motion.p>
-        </motion.div>
       </section>
 
       {/* ── Content ─────────────────────────────────────────── */}
