@@ -197,6 +197,7 @@ export default function Hero() {
           lineHeight: 0.92,
           letterSpacing: '-0.04em',
           marginBottom: 32,
+          color: 'var(--na-heading)',
           position: 'relative',
           zIndex: 1,
         }}

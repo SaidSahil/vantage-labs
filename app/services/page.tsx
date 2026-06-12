@@ -513,7 +513,7 @@ export default function ServicesPage() {
               fontWeight: 700,
               letterSpacing: '-0.04em',
               lineHeight: 0.92,
-              color: 'var(--na-text)',
+              color: 'var(--na-heading)',
               marginBottom: 32,
             }}
           >
@@ -847,7 +847,7 @@ export default function ServicesPage() {
               fontSize: 'clamp(32px, 5vw, 60px)',
               fontWeight: 700,
               letterSpacing: '-0.03em',
-              color: 'var(--na-text)',
+              color: 'var(--na-heading)',
               lineHeight: 1.05,
             }}>
               No surprises.<br />
@@ -1046,7 +1046,7 @@ export default function ServicesPage() {
             fontSize: 'clamp(28px, 4vw, 48px)',
             fontWeight: 700,
             letterSpacing: '-0.03em',
-            color: 'var(--na-text)',
+            color: 'var(--na-heading)',
             lineHeight: 1.1,
           }}>
             Bolt on what you need.

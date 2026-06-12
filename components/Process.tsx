@@ -237,7 +237,7 @@ export default function Process() {
           fontWeight: 800,
           letterSpacing: '-0.03em',
           lineHeight: 1.05,
-          color: 'var(--na-text)',
+          color: 'var(--na-heading)',
           maxWidth: 560,
         }}>
           Your project, step<br />

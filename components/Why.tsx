@@ -78,6 +78,7 @@ export default function Why() {
               letterSpacing: '-0.04em',
               lineHeight: 0.95,
               marginTop: 32,
+              color: 'var(--na-heading)',
             }}
           >
             Why<br />

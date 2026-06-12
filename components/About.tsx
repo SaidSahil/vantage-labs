@@ -100,7 +100,7 @@ export default function About() {
                 fontWeight: 800,
                 letterSpacing: '-0.03em',
                 lineHeight: 1.1,
-                color: 'var(--na-text)',
+                color: 'var(--na-heading)',
               }}
             >
               Senior talent.<br />

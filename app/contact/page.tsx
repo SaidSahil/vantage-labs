@@ -461,7 +461,7 @@ export default function ContactPage() {
               fontWeight: 700,
               letterSpacing: '-0.04em',
               lineHeight: 0.92,
-              color: 'var(--na-text)',
+              color: 'var(--na-heading)',
               marginBottom: 32,
             }}
           >

@@ -28,6 +28,8 @@
   --na-inv-accent:  #4F8EF7;
   --na-inv-accent-rgb: 79,142,247;
 
+  --na-heading:     #6B7A99;
+
   --ease: cubic-bezier(0.22, 1, 0.36, 1);
   --ease-out: cubic-bezier(0.55, 0, 1, 0.45);
 }
@@ -42,6 +44,7 @@
   --na-accent:      #4F8EF7;
   --na-accent-rgb:  79,142,247;
   --na-accent-dim:  rgba(79,142,247,0.12);
+  --na-heading:     #4F8EF7;
   --na-border:      rgba(255,255,255,0.07);
   --na-border-mid:  rgba(255,255,255,0.12);
   --na-nav-bg:      rgba(10,10,15,0.85);
