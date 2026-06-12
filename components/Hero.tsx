@@ -12,7 +12,7 @@ const meta = [
 ]
 
 const line1 = ['We', 'build']
-const line2 = ['websites', 'that', 'work.']
+const line2 = ['digital', 'that', 'works.']
 
 function WordReveal({
   words,
@@ -93,6 +93,27 @@ export default function Hero() {
           zIndex: 0,
         }}
       />
+
+      {/* Decorative top-right axis/crosshair mark */}
+      <svg
+        aria-hidden="true"
+        style={{
+          position: 'absolute',
+          top: '20%',
+          right: 'clamp(24px, 5vw, 80px)',
+          width: 'clamp(120px, 15vw, 200px)',
+          opacity: 0.08,
+          pointerEvents: 'none',
+        }}
+        viewBox="0 0 200 200"
+        fill="none"
+      >
+        <circle cx="100" cy="100" r="60" stroke="var(--na-accent)" strokeWidth="1"/>
+        <circle cx="100" cy="100" r="90" stroke="var(--na-accent)" strokeWidth="0.5"/>
+        <line x1="100" y1="0" x2="100" y2="200" stroke="var(--na-accent)" strokeWidth="0.8"/>
+        <line x1="0" y1="100" x2="200" y2="100" stroke="var(--na-accent)" strokeWidth="0.8"/>
+        <circle cx="100" cy="100" r="6" fill="var(--na-accent)"/>
+      </svg>
 
       {/* Bottom-left faint circle */}
       <svg

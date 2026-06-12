@@ -260,7 +260,7 @@ export default function ServicesPage() {
               <ArrowLeft size={11} strokeWidth={2.5} />
               Home
             </Link>
-            <div className="section-label">What We Build</div>
+            <div className="section-label">03 — What We Build</div>
           </motion.div>
 
           {/* Headline — word reveal matching home hero */}

@@ -1,5 +1,5 @@
 import type { Metadata } from 'next'
-import { Inter, Syne } from 'next/font/google'
+import { Inter } from 'next/font/google'
 import { ThemeProvider } from '@/lib/theme'
 import './globals.css'
 
@@ -11,12 +11,6 @@ const inter = Inter({
   display: 'swap',
 })
 
-const syne = Syne({
-  subsets: ['latin'],
-  variable: '--font-syne',
-  weight: ['700', '800'],
-  display: 'swap',
-})
 
 export const metadata: Metadata = {
   title: 'NodeAxis — Custom Websites Starting at $399',
@@ -38,7 +32,7 @@ export default function RootLayout({
   children: React.ReactNode
 }) {
   return (
-    <html lang="en-CA" className={`${inter.variable} ${syne.variable} dark`}>
+    <html lang="en-CA" className={`${inter.variable} dark`}>
       <head>
         {/* Anti-flash: apply saved theme before React hydrates */}
         <script dangerouslySetInnerHTML={{ __html: `

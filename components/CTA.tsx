@@ -128,7 +128,7 @@ export default function CTA() {
               href="https://calendly.com/nodeaxis"
               target="_blank"
               rel="noopener noreferrer"
-              className="btn-primary btn-cta"
+              className="btn-primary"
               style={{ textDecoration: 'none' }}
             >
               Book a Call

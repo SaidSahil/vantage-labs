@@ -86,7 +86,7 @@ export default function About() {
               marginBottom: 28,
             }}
           >
-            Who We Are
+            05 — Who We Are
           </motion.div>
 
           <div style={{ overflow: 'hidden' }}>

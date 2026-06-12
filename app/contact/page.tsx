@@ -191,7 +191,7 @@ export default function ContactPage() {
               <ArrowLeft size={11} strokeWidth={2.5} />
               Home
             </Link>
-            <div className="section-label">Get in Touch</div>
+            <div className="section-label">06 — Get in Touch</div>
           </motion.div>
 
           {/* Headline — word reveal matching home hero */}

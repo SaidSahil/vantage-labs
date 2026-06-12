@@ -20,6 +20,31 @@ A running record of every session: what was built, what broke, what was fixed, a
 
 ---
 
+### [2026-06-11] — Design Revert (D1–D8)
+
+**Changes:**
+- `app/globals.css` — Removed crosshair cursor block (`@media (hover: hover)`, `#cursor`, `.cursor-arm*`, `.cursor-dot`, `.is-hover`, `.is-dark` rules). Removed `cursor: none` body override. Reverted `.footer-link` back to dark-inverted colors (`var(--na-inv-muted)` / `var(--na-inv-text)` with `translateY(-2px)` hover).
+- `app/layout.tsx` — Removed Syne font import and `${syne.variable}` from html className.
+- `app/globals.css` — Removed `--font-display: var(--font-syne)` from `@theme` block. Removed `h1, h2 { font-family: var(--font-display) }` rule. Removed `.btn-cta` and `.btn-cta:hover` overrides.
+- `components/Hero.tsx` — Reverted headline back to `['digital', 'that', 'works.']`. Restored top-right decorative crosshair SVG.
+- `components/IntroLoader.tsx` — Restored original char-by-char NODEAXIS reveal with `CHARS = 'NODEAXIS'.split('')`, staggered motion.span delays, and progress bar.
+- `components/Cursor.tsx` — Reverted to original plain `<div ref={cursorRef} id="cursor" aria-hidden="true" />` (no child arm/dot elements).
+- `components/Footer.tsx` — Restored original dark inverted footer with `var(--na-inv-bg)`, NodeAxisMark SVG, tagline, nav links, LinkedIn, email, and copyright row.
+- `components/About.tsx` — Restored "05 — Who We Are" counter prefix on section label.
+- `app/contact/page.tsx` — Restored "06 — Get in Touch" counter prefix.
+- `app/services/page.tsx` — Restored "03 — What We Build" counter prefix.
+- `components/CTA.tsx` — Removed `.btn-cta` class; back to `.btn-primary`.
+
+**All D* changes reverted. All C*, H*, M*, L* functional fixes retained.**
+
+**Bugs encountered:** Duplicate `--na-muted` property created during contrast fix; resolved by replacing the original value in-place.
+
+**Build:** Clean (`npm run build` — 0 errors, 0 warnings).
+
+**Still open:** Contact form backend, Calendly URL verification, custom domain, real project images, analytics.
+
+---
+
 ### [2026-06-11] — Comprehensive IMPROVEMENTS.md Audit Pass (All Checks Fixed)
 
 **Changes:**
