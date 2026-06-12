@@ -35,22 +35,28 @@ export default function IntroLoader({ onComplete }: { onComplete: () => void }) 
             gap: 32,
           }}
         >
-          {/* NodeAxis crosshair mark */}
+          {/* NodeAxis hex+circuit mark */}
           <motion.svg
             initial={{ opacity: 0, scale: 0.75 }}
             animate={{ opacity: 1, scale: 1 }}
             transition={{ duration: 0.6, ease }}
-            width="40"
-            height="40"
+            width="48"
+            height="48"
             viewBox="0 0 22 22"
             fill="none"
             aria-hidden="true"
           >
-            <circle cx="11" cy="11" r="3" stroke="rgba(79,142,247,0.8)" strokeWidth="1.5"/>
-            <line x1="11" y1="1" x2="11" y2="7" stroke="rgba(79,142,247,0.8)" strokeWidth="1.5" strokeLinecap="round"/>
-            <line x1="11" y1="15" x2="11" y2="21" stroke="rgba(79,142,247,0.8)" strokeWidth="1.5" strokeLinecap="round"/>
-            <line x1="1" y1="11" x2="7" y2="11" stroke="rgba(79,142,247,0.4)" strokeWidth="1.5" strokeLinecap="round"/>
-            <line x1="15" y1="11" x2="21" y2="11" stroke="rgba(79,142,247,0.4)" strokeWidth="1.5" strokeLinecap="round"/>
+            <polygon
+              points="11,1.5 19.5,6.25 19.5,15.75 11,20.5 2.5,15.75 2.5,6.25"
+              stroke="rgba(79,142,247,0.9)" strokeWidth="1.3" strokeLinejoin="round"
+            />
+            <line x1="7" y1="7" x2="7"  y2="15" stroke="rgba(79,142,247,0.9)" strokeWidth="1.7" strokeLinecap="round"/>
+            <line x1="7" y1="7" x2="15" y2="15" stroke="rgba(79,142,247,0.9)" strokeWidth="1.7" strokeLinecap="round"/>
+            <line x1="15" y1="7" x2="15" y2="15" stroke="rgba(79,142,247,0.9)" strokeWidth="1.7" strokeLinecap="round"/>
+            <circle cx="7"  cy="7"  r="1.2" fill="rgba(79,142,247,0.9)"/>
+            <circle cx="15" cy="7"  r="1.2" fill="rgba(79,142,247,0.9)"/>
+            <circle cx="7"  cy="15" r="1.2" fill="rgba(79,142,247,0.9)"/>
+            <circle cx="15" cy="15" r="1.2" fill="rgba(79,142,247,0.9)"/>
           </motion.svg>
 
           {/* Char-by-char wordmark */}

@@ -20,6 +20,23 @@ A running record of every session: what was built, what broke, what was fixed, a
 
 ---
 
+### [2026-06-11] — New Brand Logo (Hex + Circuit N Mark)
+
+**Changes:**
+- Designed new NodeAxis logo: hexagon with diagonal split (dark left / blue right) and circuit-board N letterform with PCB nodes — exported as `public/nodeaxis-logo.svg`
+- Replaced `public/icon.svg` (browser favicon) with simplified 32x32 hex+N mark on dark rounded background
+- Created `public/apple-icon.svg` (180x180) matching same design for iOS home screen
+- Updated `NodeAxisMark` component in `components/Navbar.tsx` — replaced old crosshair with hex+circuit N icon
+- Updated intro loader svg in `components/IntroLoader.tsx` — same hex+circuit mark, 48px, matches brand colors
+
+**Colors used:** `#4F8EF7` (site accent blue) + `#0D0F1A` (site dark bg)
+
+**Open items (unchanged):**
+- Contact form backend not wired
+- Calendly embed pending
+
+---
+
 ### [2026-06-11] — Fix Vercel Deployment Failure (ThemeProvider Type Error)
 
 **Bug:**

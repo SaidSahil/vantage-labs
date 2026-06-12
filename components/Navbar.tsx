@@ -7,14 +7,25 @@ import MagneticButton from '@/components/MagneticButton'
 import { useTheme } from '@/lib/theme'
 
 function NodeAxisMark({ light }: { light?: boolean }) {
-  const c = light ? 'rgba(255,255,255,0.75)' : 'var(--na-accent)'
+  const c = light ? 'rgba(255,255,255,0.85)' : 'var(--na-accent)'
   return (
-    <svg width="20" height="20" viewBox="0 0 22 22" fill="none" aria-hidden="true">
-      <circle cx="11" cy="11" r="3" stroke={c} strokeWidth="1.5"/>
-      <line x1="11" y1="1" x2="11" y2="7" stroke={c} strokeWidth="1.5" strokeLinecap="round"/>
-      <line x1="11" y1="15" x2="11" y2="21" stroke={c} strokeWidth="1.5" strokeLinecap="round"/>
-      <line x1="1" y1="11" x2="7" y2="11" stroke={c} strokeWidth="1.5" strokeLinecap="round" opacity="0.5"/>
-      <line x1="15" y1="11" x2="21" y2="11" stroke={c} strokeWidth="1.5" strokeLinecap="round" opacity="0.5"/>
+    <svg width="22" height="22" viewBox="0 0 22 22" fill="none" aria-hidden="true">
+      {/* Hex outline */}
+      <polygon
+        points="11,1.5 19.5,6.25 19.5,15.75 11,20.5 2.5,15.75 2.5,6.25"
+        stroke={c} strokeWidth="1.3" strokeLinejoin="round"
+      />
+      {/* N — left bar */}
+      <line x1="7" y1="7" x2="7" y2="15" stroke={c} strokeWidth="1.7" strokeLinecap="round"/>
+      {/* N — diagonal */}
+      <line x1="7" y1="7" x2="15" y2="15" stroke={c} strokeWidth="1.7" strokeLinecap="round"/>
+      {/* N — right bar */}
+      <line x1="15" y1="7" x2="15" y2="15" stroke={c} strokeWidth="1.7" strokeLinecap="round"/>
+      {/* Circuit nodes */}
+      <circle cx="7"  cy="7"  r="1.2" fill={c}/>
+      <circle cx="15" cy="7"  r="1.2" fill={c}/>
+      <circle cx="7"  cy="15" r="1.2" fill={c}/>
+      <circle cx="15" cy="15" r="1.2" fill={c}/>
     </svg>
   )
 }
