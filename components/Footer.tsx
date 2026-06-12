@@ -3,11 +3,14 @@ import Link from 'next/link'
 function NodeAxisMark() {
   return (
     <svg width="18" height="18" viewBox="0 0 22 22" fill="none" aria-hidden="true">
-      <circle cx="11" cy="11" r="3" stroke="var(--na-inv-accent)" strokeWidth="1.5"/>
-      <line x1="11" y1="1" x2="11" y2="7" stroke="var(--na-inv-accent)" strokeWidth="1.5" strokeLinecap="round"/>
-      <line x1="11" y1="15" x2="11" y2="21" stroke="var(--na-inv-accent)" strokeWidth="1.5" strokeLinecap="round"/>
-      <line x1="1" y1="11" x2="7" y2="11" stroke="var(--na-inv-accent)" strokeWidth="1.5" strokeLinecap="round" opacity="0.5"/>
-      <line x1="15" y1="11" x2="21" y2="11" stroke="var(--na-inv-accent)" strokeWidth="1.5" strokeLinecap="round" opacity="0.5"/>
+      <polygon points="11,1.5 19.5,6.25 19.5,15.75 11,20.5 2.5,15.75 2.5,6.25" stroke="var(--na-inv-accent)" strokeWidth="1.3" strokeLinejoin="round"/>
+      <line x1="7" y1="7" x2="7"  y2="15" stroke="var(--na-inv-accent)" strokeWidth="1.7" strokeLinecap="round"/>
+      <line x1="7" y1="7" x2="15" y2="15" stroke="var(--na-inv-accent)" strokeWidth="1.7" strokeLinecap="round"/>
+      <line x1="15" y1="7" x2="15" y2="15" stroke="var(--na-inv-accent)" strokeWidth="1.7" strokeLinecap="round"/>
+      <circle cx="7"  cy="7"  r="1.2" fill="var(--na-inv-accent)"/>
+      <circle cx="15" cy="7"  r="1.2" fill="var(--na-inv-accent)"/>
+      <circle cx="7"  cy="15" r="1.2" fill="var(--na-inv-accent)"/>
+      <circle cx="15" cy="15" r="1.2" fill="var(--na-inv-accent)"/>
     </svg>
   )
 }
