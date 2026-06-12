@@ -1,6 +1,7 @@
 'use client'
 import { useState, useEffect } from 'react'
 import IntroLoader from '@/components/IntroLoader'
+import Cursor   from '@/components/Cursor'
 import Navbar   from '@/components/Navbar'
 import Hero     from '@/components/Hero'
 import Marquee  from '@/components/Marquee'
@@ -32,6 +33,7 @@ export default function Home() {
 
   return (
     <main>
+      <Cursor />
       {!loaderDone && <IntroLoader onComplete={handleIntroComplete} />}
       <Navbar />
       <Hero />

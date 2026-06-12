@@ -12,7 +12,7 @@ const meta = [
 ]
 
 const line1 = ['We', 'build']
-const line2 = ['digital', 'that', 'works.']
+const line2 = ['websites', 'that', 'work.']
 
 function WordReveal({
   words,
@@ -33,7 +33,7 @@ function WordReveal({
           <motion.span
             initial={{ y: '110%' }}
             animate={{ y: '0%' }}
-            transition={{ delay: baseDelay + i * 0.07, duration: 0.8, ease }}
+            transition={{ delay: baseDelay + i * 0.07, duration: 0.55, ease }}
             style={{ display: 'inline-block' }}
           >
             {word}
@@ -93,27 +93,6 @@ export default function Hero() {
           zIndex: 0,
         }}
       />
-
-      {/* Decorative top-right axis/crosshair mark */}
-      <svg
-        aria-hidden="true"
-        style={{
-          position: 'absolute',
-          top: '20%',
-          right: 'clamp(24px, 5vw, 80px)',
-          width: 'clamp(120px, 15vw, 200px)',
-          opacity: 0.08,
-          pointerEvents: 'none',
-        }}
-        viewBox="0 0 200 200"
-        fill="none"
-      >
-        <circle cx="100" cy="100" r="60" stroke="var(--na-accent)" strokeWidth="1"/>
-        <circle cx="100" cy="100" r="90" stroke="var(--na-accent)" strokeWidth="0.5"/>
-        <line x1="100" y1="0" x2="100" y2="200" stroke="var(--na-accent)" strokeWidth="0.8"/>
-        <line x1="0" y1="100" x2="200" y2="100" stroke="var(--na-accent)" strokeWidth="0.8"/>
-        <circle cx="100" cy="100" r="6" fill="var(--na-accent)"/>
-      </svg>
 
       {/* Bottom-left faint circle */}
       <svg
@@ -227,7 +206,7 @@ export default function Hero() {
           zIndex: 1,
         }}
       >
-        <div style={{ display: 'flex', flexDirection: 'column', gap: 24, maxWidth: 380 }}>
+        <div style={{ display: 'flex', flexDirection: 'column', gap: 24 }} className="sm:max-w-[380px]">
           <div>
             <p style={{ fontSize: 16, color: 'var(--na-muted)', lineHeight: 1.65, marginBottom: 12 }}>
               Custom websites starting at $399. No templates, no page builders — hand-coded for your business, built to rank and convert.
@@ -264,7 +243,7 @@ export default function Hero() {
             aria-label="See our work"
           >
             See Our Work
-            <ArrowRight size={14} strokeWidth={2} />
+            <ArrowRight size={14} strokeWidth={1.5} />
           </Link>
         </div>
 

@@ -159,6 +159,7 @@ export default function Work() {
             <Link
               key={project.num}
               href={`/projects/${project.slug}`}
+              aria-label={`View ${project.name} project`}
               style={{ textDecoration: 'none', color: 'inherit', display: 'block' }}
             >
             <motion.div
@@ -242,7 +243,7 @@ export default function Work() {
                   transition: 'background 0.2s ease, color 0.2s ease, transform 0.2s ease, border-color 0.2s ease',
                 }}
               >
-                <ArrowUpRight size={16} strokeWidth={2} />
+                <ArrowUpRight size={16} strokeWidth={1.5} />
               </div>
             </motion.div>
             </Link>

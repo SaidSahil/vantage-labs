@@ -20,6 +20,67 @@ A running record of every session: what was built, what broke, what was fixed, a
 
 ---
 
+### [2026-06-11] — Comprehensive IMPROVEMENTS.md Audit Pass (All Checks Fixed)
+
+**Changes:**
+- `app/globals.css` — Wrapped `scroll-behavior: smooth` in `@media (prefers-reduced-motion: no-preference)` (L1). Fixed `--na-muted` in light mode to `#516080` for WCAG AA contrast (H3). Fixed marquee reduced-motion to use `animation-play-state: paused` instead of near-zero duration (M3). Added named z-index token scale (`--z-base` through `--z-loader`) (L3). Added Syne display font rule for `h1`/`h2` (D1). Added `.skip-link` focus styles (C3). Added crosshair cursor CSS replacing old dot+ring style (D7). Added `.btn-cta` override for deeper slate CTA button (D3). Updated `.footer-link` for themed (light/dark) backgrounds (D8).
+- `app/layout.tsx` — Added Syne from `next/font/google` with `--font-syne` variable (D1). Changed `lang="en"` to `lang="en-CA"` (L2). Added `<a href="#main-content" className="skip-link">` as first body element (C3). Removed Calendly stylesheet/script (no longer needed) (C1).
+- `components/Navbar.tsx` — Replaced broken scroll-based `activeHref` system with direct `pathname === link.href` comparison (H2). Removed unused `activeHref` state.
+- `components/Hero.tsx` — Changed headline from "We build digital that works." to "We build websites that work." (D2). Reduced word reveal duration from 0.8 → 0.55 (M2). Removed top-right decorative crosshair SVG (D5). Made subtext `maxWidth` responsive: no limit on mobile, `sm:max-w-[380px]` on sm+ (M9). Unified ArrowRight `strokeWidth` to 1.5 (M6).
+- `components/IntroLoader.tsx` — Simplified char-by-char reveal to single wordmark fade-in (D4). Removed unused `CHARS` array.
+- `components/Work.tsx` — Added `aria-label={\`View ${project.name} project\`}` to each project Link (M1). Unified all icon `strokeWidth` to 1.5 (M6).
+- `components/Process.tsx` — First card now defaults to active on mobile/tablet (< 1024px) via initial state check (M4). Added `onClick` handler so touch users can activate cards (M4). Unified icon `strokeWidth` 1.75 → 1.5 (M6).
+- `components/Marquee.tsx` — Replaced generic items with specific differentiators: "Starting at $399", "2-Week Delivery", "100% Custom Code", "No Templates", "BC-Based Team", etc. (L4).
+- `components/About.tsx` — Removed "05 — " counter prefix from section label (D6).
+- `components/Cursor.tsx` — Redesigned from dot+ring to precision crosshair: two 1px arms + center dot that fills on hover (D7).
+- `components/Footer.tsx` — Redesigned as minimal 1-row strip on `var(--na-bg)` (themed light/dark) instead of always-dark inverted background. Breaks the CTA→Footer→Footer triple-dark rhythm (D8).
+- `app/contact/page.tsx` — Removed "06 — " counter prefix from section label (D6). Unified icon `strokeWidth` to 1.5 (M6).
+- `app/services/page.tsx` — Removed "03 — " counter prefix from section label (D6). Fixed Calendly popup button to direct `<a href>` link (C1). Unified icon `strokeWidth` to 1.5 (M6).
+- `components/CTA.tsx` — Added `.btn-cta` class for deeper slate (`#2A4870`) Book a Call button (D3). Unified ArrowRight `strokeWidth` to 1.5 (M6).
+- `app/page.tsx` — Added `<Cursor />` mount so custom crosshair is actually rendered.
+
+**Already Done (confirmed, no changes needed):**
+- C1 (Calendly link) — CTA.tsx already had a proper `<a href>` direct link
+- C2 (Services mobile grid) — Already correct Tailwind classes, no inline override
+- H1 (Why hover jump) — Already only animates background, no padding shift
+- H4 (iframes) — Work.tsx already uses placeholder div, not iframes
+- H5 (Footer nav) — Already had links + LinkedIn + email
+- H7/H8 (contact/services pages) — Fully built
+- M5 (MagneticButton on text link) — Hero "See Our Work" is already a plain Link
+- M8 (Testimonials) — Already in page.tsx between Work and Services
+- M10 (outcome lines) — Already in projects.ts and rendered in Work.tsx
+
+**Bugs encountered:** None — clean build throughout.
+
+**Still open:**
+- Contact form backend (Formspree endpoint needs to be activated/verified)
+- Calendly URL (confirm `calendly.com/nodeaxis` is live)
+- Custom domain connection
+- Real project screenshots/images
+- Analytics
+- M7: Real founder headshot (placeholder "A" avatar still in About.tsx)
+
+---
+
+### [2026-06-11] — Theme-Aware Logo Mark (All Pages)
+
+**Changes:**
+- `app/globals.css` — Added `--na-logo-color`: `#4F8EF7` (blue) in light mode, `rgba(255,255,255,0.85)` (white) in dark mode
+- `components/Navbar.tsx` — `NodeAxisMark` now uses `var(--na-logo-color)` instead of `var(--na-accent)` when `light` prop is not active; work-page white-on-dark override still works
+- `app/services/page.tsx` — Replaced old crosshair SVG in top nav with hex+N mark using `var(--na-logo-color)`; replaced crosshair in dark footer section with hex+N using `var(--na-inv-accent)` (always blue on dark bg)
+- `app/contact/page.tsx` — Same two replacements as services page
+
+**Result:** Blue logo in light mode, white logo in dark mode — consistent across Home, Work (Navbar component), Services, Contact, and Project detail pages
+
+**Still open:**
+- Contact form backend
+- Calendly embed
+- Domain connection
+- Real project images
+- Analytics
+
+---
+
 ### [2026-06-11] — New Brand Logo (Hex + Circuit N Mark)
 
 **Changes:**

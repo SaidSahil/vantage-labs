@@ -13,7 +13,7 @@ const trustPoints = [
 ]
 
 const contactDetails = [
-  { Icon: Mail,   label: 'Email',        value: 'hello@nodeaxis.ca',         href: 'mailto:hello@nodeaxis.ca' },
+  { Icon: Mail,   label: 'Email',        value: 'info@nodeaxis.ca',         href: 'mailto:info@nodeaxis.ca' },
   { Icon: MapPin, label: 'Location',     value: 'BC, Canada',                href: null },
   { Icon: Clock,  label: 'Availability', value: 'Mon — Fri, 9am — 6pm PST',  href: null },
 ]
@@ -191,7 +191,7 @@ export default function ContactPage() {
               <ArrowLeft size={11} strokeWidth={2.5} />
               Home
             </Link>
-            <div className="section-label">06 — Get in Touch</div>
+            <div className="section-label">Get in Touch</div>
           </motion.div>
 
           {/* Headline — word reveal matching home hero */}
@@ -390,7 +390,7 @@ export default function ContactPage() {
                         margin: '0 auto 28px',
                       }}
                     >
-                      <Check size={22} color="var(--na-accent)" strokeWidth={2} />
+                      <Check size={22} color="var(--na-accent)" strokeWidth={1.5} />
                     </motion.div>
                     <h2 style={{ fontSize: 24, fontWeight: 700, color: 'var(--na-text)', letterSpacing: '-0.02em', marginBottom: 12 }}>
                       Message sent.
@@ -463,7 +463,7 @@ export default function ContactPage() {
                           <option value="">Select a service…</option>
                           {serviceOptions.map(s => <option key={s} value={s}>{s}</option>)}
                         </select>
-                        <ChevronDown size={14} color="var(--na-muted)" strokeWidth={2} style={{ position: 'absolute', right: 14, top: '50%', transform: 'translateY(-50%)', pointerEvents: 'none' }} />
+                        <ChevronDown size={14} color="var(--na-muted)" strokeWidth={1.5} style={{ position: 'absolute', right: 14, top: '50%', transform: 'translateY(-50%)', pointerEvents: 'none' }} />
                       </div>
                     </div>
 
@@ -482,7 +482,7 @@ export default function ContactPage() {
                           <option value="">Select a range…</option>
                           {budgetOptions.map(b => <option key={b} value={b}>{b}</option>)}
                         </select>
-                        <ChevronDown size={14} color="var(--na-muted)" strokeWidth={2} style={{ position: 'absolute', right: 14, top: '50%', transform: 'translateY(-50%)', pointerEvents: 'none' }} />
+                        <ChevronDown size={14} color="var(--na-muted)" strokeWidth={1.5} style={{ position: 'absolute', right: 14, top: '50%', transform: 'translateY(-50%)', pointerEvents: 'none' }} />
                       </div>
                     </div>
 
@@ -514,8 +514,8 @@ export default function ContactPage() {
                           style={{ fontSize: 13, color: '#c0392b', fontWeight: 500 }}
                         >
                           Something went wrong. Email us at{' '}
-                          <a href="mailto:hello@nodeaxis.ca" style={{ color: '#c0392b' }}>
-                            hello@nodeaxis.ca
+                          <a href="mailto:info@nodeaxis.ca" style={{ color: '#c0392b' }}>
+                            info@nodeaxis.ca
                           </a>
                         </motion.p>
                       )}
@@ -563,18 +563,18 @@ export default function ContactPage() {
                       ) : (
                         <>
                           Send Message
-                          <ArrowRight size={14} strokeWidth={2} />
+                          <ArrowRight size={14} strokeWidth={1.5} />
                         </>
                       )}
                     </motion.button>
 
                     <p style={{ fontSize: 12, color: 'var(--na-muted)', textAlign: 'center' }}>
                       Or email us directly at{' '}
-                      <a href="mailto:hello@nodeaxis.ca" style={{ color: 'var(--na-muted)', textDecoration: 'none', transition: 'color 0.2s ease' }}
+                      <a href="mailto:info@nodeaxis.ca" style={{ color: 'var(--na-muted)', textDecoration: 'none', transition: 'color 0.2s ease' }}
                         onMouseEnter={e => (e.currentTarget.style.color = 'var(--na-accent)')}
                         onMouseLeave={e => (e.currentTarget.style.color = 'var(--na-muted)')}
                       >
-                        hello@nodeaxis.ca
+                        info@nodeaxis.ca
                       </a>
                     </p>
                   </motion.form>

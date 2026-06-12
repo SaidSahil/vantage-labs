@@ -1,12 +1,12 @@
 const items = [
-  'Web Design',
-  'Landing Pages',
-  'Custom Systems',
-  'Dashboards',
-  'BC, Canada',
-  'Booking Systems',
-  'Local Businesses',
   'Starting at $399',
+  '2-Week Delivery',
+  '100% Custom Code',
+  'No Templates',
+  'BC-Based Team',
+  'Hand-Coded',
+  'Lighthouse 90+ Performance',
+  'Full Source Delivered',
 ]
 
 function Dot() {

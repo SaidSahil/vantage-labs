@@ -260,7 +260,7 @@ export default function ServicesPage() {
               <ArrowLeft size={11} strokeWidth={2.5} />
               Home
             </Link>
-            <div className="section-label">03 — What We Build</div>
+            <div className="section-label">What We Build</div>
           </motion.div>
 
           {/* Headline — word reveal matching home hero */}
@@ -454,7 +454,7 @@ export default function ServicesPage() {
                       transition: 'background 0.25s ease, color 0.25s ease, border-color 0.25s ease',
                     }}
                   >
-                    <Plus size={13} strokeWidth={2} />
+                    <Plus size={13} strokeWidth={1.5} />
                   </motion.span>
                 </button>
 
@@ -552,7 +552,7 @@ export default function ServicesPage() {
                             }}
                           >
                             Get a Quote
-                            <ArrowUpRight size={13} strokeWidth={2} />
+                            <ArrowUpRight size={13} strokeWidth={1.5} />
                           </Link>
                         </motion.div>
                       </div>
@@ -760,7 +760,7 @@ export default function ServicesPage() {
                   }}
                 >
                   {tier.cta}
-                  <ArrowRight size={13} strokeWidth={2} />
+                  <ArrowRight size={13} strokeWidth={1.5} />
                 </Link>
               </motion.div>
             ))}
@@ -973,18 +973,16 @@ export default function ServicesPage() {
               variants={fadeUp}
               style={{ display: 'flex', gap: 14, justifyContent: 'center', flexWrap: 'wrap' }}
             >
-              <button
+              <a
+                href="https://calendly.com/nodeaxis"
+                target="_blank"
+                rel="noopener noreferrer"
                 className="btn-primary"
-                onClick={() => {
-                  if (typeof window !== 'undefined' && (window as any).Calendly) {
-                    (window as any).Calendly.initPopupWidget({ url: 'https://calendly.com/nodeaxis' })
-                  }
-                }}
-                style={{ cursor: 'pointer' }}
+                style={{ textDecoration: 'none' }}
               >
                 Book a Call
-                <ArrowRight size={15} strokeWidth={2} />
-              </button>
+                <ArrowRight size={15} strokeWidth={1.5} />
+              </a>
               <Link href="/contact" className="btn-ghost">
                 Send a Message
               </Link>

@@ -30,9 +30,7 @@ export default function Cursor() {
 
     const bindHover = () => {
       document.querySelectorAll('a, button, [data-cursor-hover]').forEach(el => {
-        el.addEventListener('mouseenter', () => {
-          cursor.classList.add('is-hover')
-        })
+        el.addEventListener('mouseenter', () => cursor.classList.add('is-hover'))
         el.addEventListener('mouseleave', () => cursor.classList.remove('is-hover'))
       })
     }
@@ -69,5 +67,13 @@ export default function Cursor() {
     }
   }, [])
 
-  return <div ref={cursorRef} id="cursor" aria-hidden="true" />
+  return (
+    <div ref={cursorRef} id="cursor" aria-hidden="true">
+      {/* Crosshair arms */}
+      <div className="cursor-arm cursor-arm-h" />
+      <div className="cursor-arm cursor-arm-v" />
+      {/* Center dot */}
+      <div className="cursor-dot" />
+    </div>
+  )
 }

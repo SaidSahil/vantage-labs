@@ -3,7 +3,6 @@ import { useEffect, useState } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 
 const ease = [0.22, 1, 0.36, 1] as [number, number, number, number]
-const CHARS = 'NODEAXIS'.split('')
 
 export default function IntroLoader({ onComplete }: { onComplete: () => void }) {
   const [visible, setVisible] = useState(true)
@@ -37,9 +36,9 @@ export default function IntroLoader({ onComplete }: { onComplete: () => void }) 
         >
           {/* NodeAxis hex+circuit mark */}
           <motion.svg
-            initial={{ opacity: 0, scale: 0.75 }}
-            animate={{ opacity: 1, scale: 1 }}
-            transition={{ duration: 0.6, ease }}
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ duration: 0.3, ease }}
             width="48"
             height="48"
             viewBox="0 0 22 22"
@@ -59,57 +58,21 @@ export default function IntroLoader({ onComplete }: { onComplete: () => void }) 
             <circle cx="15" cy="15" r="1.2" fill="rgba(79,142,247,0.9)"/>
           </motion.svg>
 
-          {/* Char-by-char wordmark */}
-          <div style={{ display: 'flex', alignItems: 'center' }}>
-            {CHARS.map((char, i) => (
-              <div
-                key={i}
-                style={{ overflow: 'hidden', display: 'inline-block' }}
-              >
-                <motion.span
-                  initial={{ y: 32, opacity: 0 }}
-                  animate={{ y: 0, opacity: 1 }}
-                  transition={{
-                    delay: 0.25 + i * 0.045,
-                    duration: 0.5,
-                    ease,
-                  }}
-                  style={{
-                    display: 'block',
-                    fontSize: 12,
-                    fontWeight: 700,
-                    letterSpacing: char === ' ' ? '0.5em' : '0.22em',
-                    color: 'rgba(255,255,255,0.45)',
-                    fontFamily: 'var(--font-inter), Inter, sans-serif',
-                    width: char === ' ' ? 12 : 'auto',
-                  }}
-                >
-                  {char === ' ' ? ' ' : char}
-                </motion.span>
-              </div>
-            ))}
-          </div>
-
-          {/* Progress bar */}
-          <div style={{
-            width: 100,
-            height: 1,
-            background: 'rgba(255,255,255,0.08)',
-            position: 'relative',
-            overflow: 'hidden',
-          }}>
-            <motion.div
-              initial={{ scaleX: 0 }}
-              animate={{ scaleX: 1 }}
-              transition={{ delay: 0.05, duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
-              style={{
-                position: 'absolute',
-                inset: 0,
-                background: '#4F8EF7',
-                transformOrigin: 'left',
-              }}
-            />
-          </div>
+          {/* Wordmark — single fade-in */}
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ delay: 0.15, duration: 0.3, ease }}
+            style={{
+              fontSize: 12,
+              fontWeight: 700,
+              letterSpacing: '0.22em',
+              color: 'rgba(255,255,255,0.45)',
+              fontFamily: 'var(--font-inter), Inter, sans-serif',
+            }}
+          >
+            NODEAXIS
+          </motion.div>
         </motion.div>
       )}
     </AnimatePresence>

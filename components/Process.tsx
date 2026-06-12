@@ -69,6 +69,7 @@ function StepCard({ step, index, active, onEnter, onLeave, inView }: {
       transition={{ delay: 0.1 + index * 0.12, duration: 0.65, ease }}
       onMouseEnter={onEnter}
       onMouseLeave={onLeave}
+      onClick={() => onEnter()}
       style={{
         flex: 1,
         minWidth: 0,
@@ -112,7 +113,7 @@ function StepCard({ step, index, active, onEnter, onLeave, inView }: {
             justifyContent: 'center',
             transition: 'background 0.25s ease',
           }}>
-            <Icon size={16} strokeWidth={1.75} color={active ? 'var(--na-accent)' : 'var(--na-muted)'} />
+            <Icon size={16} strokeWidth={1.5} color={active ? 'var(--na-accent)' : 'var(--na-muted)'} />
           </div>
         </div>
 
@@ -185,7 +186,9 @@ function StepCard({ step, index, active, onEnter, onLeave, inView }: {
 export default function Process() {
   const ref = useRef<HTMLDivElement>(null)
   const inView = useInView(ref, { once: true, amount: 0.2 })
-  const [activeIndex, setActiveIndex] = useState<number | null>(null)
+  const [activeIndex, setActiveIndex] = useState<number | null>(
+    typeof window !== 'undefined' && window.innerWidth < 1024 ? 0 : null
+  )
 
   return (
     <section

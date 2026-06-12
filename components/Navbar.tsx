@@ -44,7 +44,6 @@ export default function Navbar() {
 
   const [scrolled, setScrolled] = useState(false)
   const [menuOpen, setMenuOpen] = useState(false)
-  const [activeHref, setActiveHref] = useState('')
   const menuRef = useRef<HTMLDivElement>(null)
 
   // true only on the work page before any scroll — triggers white text mode
@@ -53,25 +52,6 @@ export default function Navbar() {
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 60)
     window.addEventListener('scroll', onScroll, { passive: true })
-    return () => window.removeEventListener('scroll', onScroll)
-  }, [])
-
-  useEffect(() => {
-    const map: Record<string, string> = {
-      services: '#services',
-      cta: '#cta',
-    }
-    const onScroll = () => {
-      const scrollY = window.scrollY + 120
-      let current = ''
-      for (const id of Object.keys(map)) {
-        const el = document.getElementById(id)
-        if (el && el.offsetTop <= scrollY) current = id
-      }
-      setActiveHref(map[current] ?? '')
-    }
-    window.addEventListener('scroll', onScroll, { passive: true })
-    onScroll()
     return () => window.removeEventListener('scroll', onScroll)
   }, [])
 
@@ -131,7 +111,7 @@ export default function Navbar() {
         role="list"
       >
         {links.map((link, i) => {
-          const isActive = activeHref === link.href
+          const isActive = pathname === link.href
           return (
             <motion.li
               key={link.href}

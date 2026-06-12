@@ -128,13 +128,13 @@ export default function CTA() {
               href="https://calendly.com/nodeaxis"
               target="_blank"
               rel="noopener noreferrer"
-              className="btn-primary"
+              className="btn-primary btn-cta"
               style={{ textDecoration: 'none' }}
             >
               Book a Call
-              <ArrowRight size={14} strokeWidth={2} />
+              <ArrowRight size={14} strokeWidth={1.5} />
             </a>
-            <a href="mailto:hello@nodeaxis.ca" className="btn-ghost">
+            <a href="mailto:info@nodeaxis.ca" className="btn-ghost">
               Email Us
             </a>
           </div>
