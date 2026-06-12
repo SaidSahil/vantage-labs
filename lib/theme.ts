@@ -1,5 +1,6 @@
 'use client'
-import { createContext, useContext, useEffect, useState } from 'react'
+import { createContext, useContext, useEffect, useState, createElement } from 'react'
+import type { ReactNode } from 'react'
 
 type Theme = 'dark' | 'light'
 
@@ -8,7 +9,7 @@ const ThemeContext = createContext<{ theme: Theme; toggle: () => void }>({
   toggle: () => {},
 })
 
-export function ThemeProvider({ children }: { children: React.ReactNode }) {
+export function ThemeProvider({ children }: { children: ReactNode }): React.JSX.Element {
   const [theme, setTheme] = useState<Theme>('dark')
 
   useEffect(() => {
@@ -27,11 +28,7 @@ export function ThemeProvider({ children }: { children: React.ReactNode }) {
     })
   }
 
-  return (
-    <ThemeContext.Provider value={{ theme, toggle }}>
-      {children}
-    </ThemeContext.Provider>
-  )
+  return createElement(ThemeContext.Provider, { value: { theme, toggle } }, children)
 }
 
 export const useTheme = () => useContext(ThemeContext)
