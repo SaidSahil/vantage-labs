@@ -513,12 +513,12 @@ export default function ServicesPage() {
               fontWeight: 700,
               letterSpacing: '-0.04em',
               lineHeight: 0.92,
-              color: 'var(--na-heading)',
+              color: 'var(--na-text)',
               marginBottom: 32,
             }}
           >
             We build<br />
-            <span style={{ fontWeight: 300, fontStyle: 'italic', color: 'var(--na-muted)' }}>what works.</span>
+            <span style={{ fontWeight: 300, fontStyle: 'italic', color: 'var(--na-heading)' }}>what works.</span>
           </motion.h1>
 
           {/* Subtext */}
@@ -847,11 +847,11 @@ export default function ServicesPage() {
               fontSize: 'clamp(32px, 5vw, 60px)',
               fontWeight: 700,
               letterSpacing: '-0.03em',
-              color: 'var(--na-heading)',
+              color: 'var(--na-text)',
               lineHeight: 1.05,
             }}>
               No surprises.<br />
-              <span style={{ fontWeight: 300, fontStyle: 'italic', color: 'var(--na-muted)' }}>Just clear numbers.</span>
+              <span style={{ fontWeight: 300, fontStyle: 'italic', color: 'var(--na-heading)' }}>Just clear numbers.</span>
             </h2>
           </motion.div>
 
@@ -1046,7 +1046,7 @@ export default function ServicesPage() {
             fontSize: 'clamp(28px, 4vw, 48px)',
             fontWeight: 700,
             letterSpacing: '-0.03em',
-            color: 'var(--na-heading)',
+            color: 'var(--na-text)',
             lineHeight: 1.1,
           }}>
             Bolt on what you need.

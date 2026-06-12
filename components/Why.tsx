@@ -78,12 +78,12 @@ export default function Why() {
               letterSpacing: '-0.04em',
               lineHeight: 0.95,
               marginTop: 32,
-              color: 'var(--na-heading)',
+              color: 'var(--na-text)',
             }}
           >
             Why<br />
             NodeAxis
-            <em style={{ fontStyle: 'italic', fontWeight: 300, color: 'var(--na-accent)' }}>.</em>
+            <em style={{ fontStyle: 'italic', fontWeight: 300, color: 'var(--na-heading)' }}>.</em>
           </motion.h2>
         </div>
 

@@ -100,11 +100,11 @@ export default function About() {
                 fontWeight: 800,
                 letterSpacing: '-0.03em',
                 lineHeight: 1.1,
-                color: 'var(--na-heading)',
+                color: 'var(--na-text)',
               }}
             >
               Senior talent.<br />
-              <em style={{ fontStyle: 'italic', fontWeight: 300, color: 'var(--na-accent)' }}>
+              <em style={{ fontStyle: 'italic', fontWeight: 300, color: 'var(--na-heading)' }}>
                 Local roots.
               </em>
             </motion.h2>

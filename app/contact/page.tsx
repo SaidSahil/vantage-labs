@@ -461,12 +461,12 @@ export default function ContactPage() {
               fontWeight: 700,
               letterSpacing: '-0.04em',
               lineHeight: 0.92,
-              color: 'var(--na-heading)',
+              color: 'var(--na-text)',
               marginBottom: 32,
             }}
           >
             Let&apos;s build<br />
-            <span style={{ fontWeight: 300, fontStyle: 'italic', color: 'var(--na-muted)' }}>something.</span>
+            <span style={{ fontWeight: 300, fontStyle: 'italic', color: 'var(--na-heading)' }}>something.</span>
           </motion.h1>
 
           {/* Subtext */}

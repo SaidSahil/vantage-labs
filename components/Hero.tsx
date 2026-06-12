@@ -197,7 +197,6 @@ export default function Hero() {
           lineHeight: 0.92,
           letterSpacing: '-0.04em',
           marginBottom: 32,
-          color: 'var(--na-heading)',
           position: 'relative',
           zIndex: 1,
         }}
@@ -209,7 +208,7 @@ export default function Hero() {
           style={{
             fontStyle: 'italic',
             fontWeight: 300,
-            color: 'var(--na-accent)',
+            color: 'var(--na-heading)',
           }}
         />
       </h1>

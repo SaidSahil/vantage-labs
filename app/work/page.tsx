@@ -236,9 +236,9 @@ function ProjectGrid() {
       >
         <div>
           <span className="section-label" style={{ display: 'block', marginBottom: 14 }}>All Projects</span>
-          <h2 style={{ fontSize: 'clamp(28px, 4vw, 48px)', fontWeight: 700, letterSpacing: '-0.03em', color: 'var(--na-heading)', lineHeight: 1.1, margin: 0 }}>
+          <h2 style={{ fontSize: 'clamp(28px, 4vw, 48px)', fontWeight: 700, letterSpacing: '-0.03em', color: 'var(--na-text)', lineHeight: 1.1, margin: 0 }}>
             Eight clients.{' '}
-            <em style={{ fontStyle: 'italic', fontWeight: 300, color: 'var(--na-muted)' }}>Eight problems solved.</em>
+            <em style={{ fontStyle: 'italic', fontWeight: 300, color: 'var(--na-heading)' }}>Eight problems solved.</em>
           </h2>
         </div>
         <span style={{ fontSize: 12, fontWeight: 600, letterSpacing: '0.1em', textTransform: 'uppercase', color: 'var(--na-muted)' }}>
@@ -502,12 +502,12 @@ export default function WorkPage() {
             fontSize: 'clamp(32px, 4.5vw, 56px)',
             fontWeight: 700,
             letterSpacing: '-0.03em',
-            color: 'var(--na-heading)',
+            color: 'var(--na-text)',
             lineHeight: 1.1,
             maxWidth: 560,
           }}>
             A process built for{' '}
-            <em style={{ fontStyle: 'italic', fontWeight: 300, color: 'var(--na-muted)' }}>clarity.</em>
+            <em style={{ fontStyle: 'italic', fontWeight: 300, color: 'var(--na-heading)' }}>clarity.</em>
           </h2>
         </motion.div>
 

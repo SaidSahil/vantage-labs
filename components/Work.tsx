@@ -189,7 +189,6 @@ export default function Work() {
                     fontWeight: 800,
                     letterSpacing: '-0.03em',
                     lineHeight: 1.05,
-                    color: 'var(--na-heading)',
                     transition: 'color 0.2s ease',
                   }}
                 >

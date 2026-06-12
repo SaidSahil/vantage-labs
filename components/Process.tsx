@@ -237,11 +237,11 @@ export default function Process() {
           fontWeight: 800,
           letterSpacing: '-0.03em',
           lineHeight: 1.05,
-          color: 'var(--na-heading)',
+          color: 'var(--na-text)',
           maxWidth: 560,
         }}>
           Your project, step<br />
-          <em style={{ fontWeight: 300, color: 'var(--na-accent)' }}>by step.</em>
+          <em style={{ fontWeight: 300, color: 'var(--na-heading)' }}>by step.</em>
         </h2>
         <p style={{
           fontSize: 15,
