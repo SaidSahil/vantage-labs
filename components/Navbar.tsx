@@ -233,7 +233,7 @@ export default function Navbar() {
       </motion.div>
 
       {/* Mobile — Menu dropdown */}
-      <div ref={menuRef} className="md:hidden" style={{ position: 'relative', display: 'flex', alignItems: 'center', gap: 8 }}>
+      <div ref={menuRef} className="flex md:hidden" style={{ position: 'relative', alignItems: 'center', gap: 8 }}>
         {/* Mobile theme toggle */}
         <button
           type="button"
