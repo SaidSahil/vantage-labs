@@ -7,7 +7,7 @@ import MagneticButton from '@/components/MagneticButton'
 import { useTheme } from '@/lib/theme'
 
 function NodeAxisMark({ light }: { light?: boolean }) {
-  const c = light ? 'rgba(255,255,255,0.85)' : 'var(--na-accent)'
+  const c = light ? 'rgba(255,255,255,0.85)' : 'var(--na-logo-color)'
   return (
     <svg width="22" height="22" viewBox="0 0 22 22" fill="none" aria-hidden="true">
       {/* Hex outline */}

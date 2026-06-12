@@ -29,6 +29,7 @@
   --na-inv-accent-rgb: 79,142,247;
 
   --na-heading:     #6B7A99;
+  --na-logo-color:  #4F8EF7;
 
   --ease: cubic-bezier(0.22, 1, 0.36, 1);
   --ease-out: cubic-bezier(0.55, 0, 1, 0.45);
@@ -57,6 +58,7 @@
   --na-inv-border:  rgba(255,255,255,0.06);
   --na-inv-accent:  #4F8EF7;
   --na-inv-accent-rgb: 79,142,247;
+  --na-logo-color:  rgba(255,255,255,0.85);
 }
 
 /* ─── RESET ─────────────────────────────────────── */
