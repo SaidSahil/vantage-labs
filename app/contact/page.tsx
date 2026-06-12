@@ -3,10 +3,8 @@ import { useState, useEffect, useRef } from 'react'
 import Link from 'next/link'
 import { motion, AnimatePresence } from 'framer-motion'
 import { ArrowLeft, ArrowRight, Check, Mail, MapPin, Clock, ChevronDown } from 'lucide-react'
-import { fadeUp, stagger, viewport } from '@/lib/animations'
+import { fadeUp, stagger, ease, viewport as vp } from '@/lib/animations'
 import { useTheme } from '@/lib/theme'
-
-const ease = [0.22, 1, 0.36, 1] as [number, number, number, number]
 
 const trustPoints = [
   'Response within 24 hours — guaranteed.',
@@ -526,7 +524,7 @@ export default function ContactPage() {
           <motion.div
             initial="hidden"
             whileInView="visible"
-            viewport={viewport}
+            viewport={vp}
             variants={stagger(0.1)}
           >
             <motion.h2
@@ -574,11 +572,11 @@ export default function ContactPage() {
 
             {/* Divider */}
             <motion.div
-              variants={fadeUp}
+              variants={stagger(0.08)}
               style={{ borderTop: '1px solid var(--na-border-mid)', paddingTop: 40, display: 'flex', flexDirection: 'column', gap: 24 }}
             >
               {contactDetails.map(({ Icon, label, value, href }, i) => (
-                <div key={i} style={{ display: 'flex', alignItems: 'flex-start', gap: 16 }}>
+                <motion.div key={i} variants={fadeUp} style={{ display: 'flex', alignItems: 'flex-start', gap: 16 }}>
                   <div style={{
                     width: 36, height: 36,
                     borderRadius: 8,
@@ -604,24 +602,27 @@ export default function ContactPage() {
                       <span style={{ fontSize: 14, fontWeight: 500, color: 'var(--na-text)' }}>{value}</span>
                     )}
                   </div>
-                </div>
+                </motion.div>
               ))}
             </motion.div>
           </motion.div>
 
           {/* ─ Right: form ─ */}
           <motion.div
-            initial={{ opacity: 0, y: 32 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={viewport}
-            transition={{ duration: 0.65, ease }}
+            initial="hidden"
+            whileInView="visible"
+            viewport={vp}
+            variants={stagger(0.1)}
           >
-            <div style={{
-              background: 'var(--na-surface)',
-              border: '1px solid var(--na-border-mid)',
-              borderRadius: 16,
-              padding: 'clamp(32px, 4vw, 48px)',
-            }}>
+            <motion.div
+              variants={fadeUp}
+              style={{
+                background: 'var(--na-surface)',
+                border: '1px solid var(--na-border-mid)',
+                borderRadius: 16,
+                padding: 'clamp(32px, 4vw, 48px)',
+              }}
+            >
               <AnimatePresence mode="wait">
                 {status === 'success' ? (
                   <motion.div
@@ -758,20 +759,29 @@ export default function ContactPage() {
                     </div>
 
                     {/* Error */}
-                    {status === 'error' && (
-                      <p style={{ fontSize: 13, color: '#c0392b', fontWeight: 500 }}>
-                        Something went wrong. Email us at{' '}
-                        <a href="mailto:hello@nodeaxis.ca" style={{ color: '#c0392b' }}>
-                          hello@nodeaxis.ca
-                        </a>
-                      </p>
-                    )}
+                    <AnimatePresence>
+                      {status === 'error' && (
+                        <motion.p
+                          key="error-msg"
+                          variants={fadeUp}
+                          initial="hidden"
+                          animate="visible"
+                          exit={{ opacity: 0, y: -8, transition: { duration: 0.2 } }}
+                          style={{ fontSize: 13, color: '#c0392b', fontWeight: 500 }}
+                        >
+                          Something went wrong. Email us at{' '}
+                          <a href="mailto:hello@nodeaxis.ca" style={{ color: '#c0392b' }}>
+                            hello@nodeaxis.ca
+                          </a>
+                        </motion.p>
+                      )}
+                    </AnimatePresence>
 
                     {/* Submit */}
                     <motion.button
                       type="submit"
                       disabled={status === 'loading'}
-                      whileHover={{ scale: status === 'loading' ? 1 : 1.015 }}
+                      whileHover={status === 'loading' ? {} : { y: -2 }}
                       whileTap={{ scale: status === 'loading' ? 1 : 0.98 }}
                       style={{
                         display: 'inline-flex',
@@ -826,7 +836,7 @@ export default function ContactPage() {
                   </motion.form>
                 )}
               </AnimatePresence>
-            </div>
+            </motion.div>
           </motion.div>
 
         </div>

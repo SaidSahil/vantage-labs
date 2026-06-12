@@ -1,13 +1,13 @@
 import type { Variants } from 'framer-motion'
 
-const ease = [0.22, 1, 0.36, 1] as [number, number, number, number]
+export const ease = [0.22, 1, 0.36, 1] as [number, number, number, number]
 
 export const fadeUp: Variants = {
-  hidden: { opacity: 0, y: 28 },
+  hidden: { opacity: 0, y: 32 },
   visible: {
     opacity: 1,
     y: 0,
-    transition: { duration: 0.7, ease }
+    transition: { duration: 0.55, ease }
   }
 }
 
@@ -16,7 +16,7 @@ export const fadeLeft: Variants = {
   visible: {
     opacity: 1,
     x: 0,
-    transition: { duration: 0.7, ease }
+    transition: { duration: 0.5, ease }
   }
 }
 
@@ -25,7 +25,7 @@ export const fadeRight: Variants = {
   visible: {
     opacity: 1,
     x: 0,
-    transition: { duration: 0.7, ease }
+    transition: { duration: 0.5, ease }
   }
 }
 
@@ -53,4 +53,4 @@ export const stagger = (delay = 0.1): Variants => ({
   }
 })
 
-export const viewport = { once: true, amount: 0.2 } as const
+export const viewport = { once: true, margin: '-72px' } as const

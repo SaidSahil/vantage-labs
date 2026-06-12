@@ -3,10 +3,25 @@ import { useState, useEffect, useRef } from 'react'
 import Link from 'next/link'
 import { motion, AnimatePresence } from 'framer-motion'
 import { ArrowLeft, ArrowRight, ArrowUpRight, Plus, Check } from 'lucide-react'
-import { fadeUp, stagger, viewport } from '@/lib/animations'
 import { useTheme } from '@/lib/theme'
 
 const ease = [0.22, 1, 0.36, 1] as [number, number, number, number]
+const vp = { once: true, margin: '-72px' }
+
+const fadeUp = {
+  hidden: { opacity: 0, y: 32 },
+  visible: { opacity: 1, y: 0, transition: { duration: 0.55, ease } },
+}
+
+const fadeLeft = {
+  hidden: { opacity: 0, x: -24 },
+  visible: { opacity: 1, x: 0, transition: { duration: 0.5, ease } },
+}
+
+const stagger = (delay = 0.1) => ({
+  hidden: {},
+  visible: { transition: { staggerChildren: delay } },
+})
 
 const services = [
   {
@@ -567,7 +582,7 @@ export default function ServicesPage() {
         <motion.div
           initial="hidden"
           whileInView="visible"
-          viewport={viewport}
+          viewport={vp}
           variants={fadeUp}
           style={{
             display: 'flex',
@@ -592,7 +607,7 @@ export default function ServicesPage() {
         <motion.div
           initial={{ scaleX: 0, originX: '0%' }}
           whileInView={{ scaleX: 1 }}
-          viewport={viewport}
+          viewport={vp}
           transition={{ duration: 0.6, ease }}
           style={{ height: 1, background: 'var(--na-border-mid)', marginBottom: 0 }}
         />
@@ -601,7 +616,7 @@ export default function ServicesPage() {
         <motion.div
           initial="hidden"
           whileInView="visible"
-          viewport={viewport}
+          viewport={vp}
           variants={stagger(0.07)}
         >
           {services.map((svc) => {
@@ -839,7 +854,7 @@ export default function ServicesPage() {
           <motion.div
             initial="hidden"
             whileInView="visible"
-            viewport={viewport}
+            viewport={vp}
             variants={fadeUp}
             style={{ marginBottom: 64 }}
           >
@@ -862,7 +877,7 @@ export default function ServicesPage() {
           <motion.div
             initial="hidden"
             whileInView="visible"
-            viewport={viewport}
+            viewport={vp}
             variants={stagger(0.1)}
             className="grid grid-cols-1 md:grid-cols-3 gap-6"
           >
@@ -870,8 +885,8 @@ export default function ServicesPage() {
               <motion.div
                 key={tier.name}
                 variants={fadeUp}
-                whileHover={{ y: -6 }}
-                transition={{ duration: 0.25, ease: 'easeOut' }}
+                whileHover={{ y: -4 }}
+                transition={{ duration: 0.2 }}
                 style={{
                   background: tier.highlight ? 'var(--na-text)' : 'var(--na-bg)',
                   border: tier.highlight ? 'none' : '1px solid var(--na-border-mid)',
@@ -1011,7 +1026,7 @@ export default function ServicesPage() {
           <motion.p
             initial="hidden"
             whileInView="visible"
-            viewport={viewport}
+            viewport={vp}
             variants={fadeUp}
             style={{
               marginTop: 32,
@@ -1038,7 +1053,7 @@ export default function ServicesPage() {
         <motion.div
           initial="hidden"
           whileInView="visible"
-          viewport={viewport}
+          viewport={vp}
           variants={fadeUp}
           style={{ marginBottom: 52 }}
         >
@@ -1059,7 +1074,7 @@ export default function ServicesPage() {
         <motion.div
           initial="hidden"
           whileInView="visible"
-          viewport={viewport}
+          viewport={vp}
           variants={stagger(0.055)}
           style={{ display: 'flex', flexDirection: 'column' }}
         >
@@ -1067,6 +1082,8 @@ export default function ServicesPage() {
             <motion.div
               key={addon.label}
               variants={fadeUp}
+              whileHover={{ y: -4 }}
+              transition={{ duration: 0.2 }}
               style={{
                 display: 'flex',
                 alignItems: 'center',
@@ -1095,7 +1112,7 @@ export default function ServicesPage() {
         <motion.p
           initial="hidden"
           whileInView="visible"
-          viewport={viewport}
+          viewport={vp}
           variants={fadeUp}
           style={{
             marginTop: 32,
@@ -1161,7 +1178,7 @@ export default function ServicesPage() {
           <motion.div
             initial="hidden"
             whileInView="visible"
-            viewport={viewport}
+            viewport={vp}
             variants={stagger(0.12)}
           >
             <motion.span
