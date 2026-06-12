@@ -4,6 +4,7 @@ import Link from 'next/link'
 import { motion, AnimatePresence } from 'framer-motion'
 import { ArrowLeft, ArrowRight, Check, Mail, MapPin, Clock, ChevronDown } from 'lucide-react'
 import { fadeUp, stagger, viewport } from '@/lib/animations'
+import { useTheme } from '@/lib/theme'
 
 const ease = [0.22, 1, 0.36, 1] as [number, number, number, number]
 
@@ -44,6 +45,7 @@ export default function ContactPage() {
   const [form, setForm] = useState({ name: '', email: '', service: '', budget: '', message: '' })
   const [menuOpen, setMenuOpen] = useState(false)
   const menuRef = useRef<HTMLDivElement>(null)
+  const { theme, toggle } = useTheme()
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 60)
@@ -185,37 +187,79 @@ export default function ContactPage() {
           ))}
         </ul>
 
-        <Link
-          href="/contact"
-          className="hidden md:inline-block"
-          style={{
-            fontSize: 12,
-            fontWeight: 600,
-            letterSpacing: '0.06em',
-            textTransform: 'uppercase',
-            color: 'var(--na-text)',
-            textDecoration: 'none',
-            padding: '9px 20px',
-            border: '1px solid var(--na-border-mid)',
-            borderRadius: 100,
-            transition: 'all 0.22s ease',
-            whiteSpace: 'nowrap',
-          }}
-          onMouseEnter={e => {
-            e.currentTarget.style.background = 'var(--na-text)'
-            e.currentTarget.style.color = 'var(--na-bg)'
-            e.currentTarget.style.borderColor = 'var(--na-text)'
-          }}
-          onMouseLeave={e => {
-            e.currentTarget.style.background = 'transparent'
-            e.currentTarget.style.color = 'var(--na-text)'
-            e.currentTarget.style.borderColor = 'var(--na-border-mid)'
-          }}
-        >
-          Start a Project
-        </Link>
+        <div className="hidden md:flex" style={{ alignItems: 'center', gap: 12 }}>
+          <div style={{ width: 1, height: 18, background: 'var(--na-border-mid)' }} />
+          <button
+            type="button"
+            onClick={toggle}
+            aria-label={theme === 'dark' ? 'Switch to light mode' : 'Switch to dark mode'}
+            className="theme-toggle"
+          >
+            {theme === 'dark' ? (
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round">
+                <circle cx="12" cy="12" r="5"/>
+                <line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/>
+                <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/>
+                <line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/>
+                <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/>
+              </svg>
+            ) : (
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round">
+                <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>
+              </svg>
+            )}
+          </button>
+          <Link
+            href="/contact"
+            style={{
+              fontSize: 12,
+              fontWeight: 600,
+              letterSpacing: '0.06em',
+              textTransform: 'uppercase',
+              color: 'var(--na-text)',
+              textDecoration: 'none',
+              padding: '9px 20px',
+              border: '1px solid var(--na-border-mid)',
+              borderRadius: 100,
+              transition: 'all 0.22s ease',
+              whiteSpace: 'nowrap',
+            }}
+            onMouseEnter={e => {
+              e.currentTarget.style.background = 'var(--na-text)'
+              e.currentTarget.style.color = 'var(--na-bg)'
+              e.currentTarget.style.borderColor = 'var(--na-text)'
+            }}
+            onMouseLeave={e => {
+              e.currentTarget.style.background = 'transparent'
+              e.currentTarget.style.color = 'var(--na-text)'
+              e.currentTarget.style.borderColor = 'var(--na-border-mid)'
+            }}
+          >
+            Start a Project
+          </Link>
+        </div>
         {/* Mobile menu */}
-        <div ref={menuRef} className="md:hidden" style={{ position: 'relative' }}>
+        <div ref={menuRef} className="md:hidden" style={{ position: 'relative', display: 'flex', alignItems: 'center', gap: 8 }}>
+          <button
+            type="button"
+            onClick={toggle}
+            aria-label={theme === 'dark' ? 'Switch to light mode' : 'Switch to dark mode'}
+            className="theme-toggle"
+          >
+            {theme === 'dark' ? (
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round">
+                <circle cx="12" cy="12" r="5"/>
+                <line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/>
+                <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/>
+                <line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/>
+                <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/>
+              </svg>
+            ) : (
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round">
+                <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>
+              </svg>
+            )}
+          </button>
           <button
             onClick={() => setMenuOpen(v => !v)}
             aria-label={menuOpen ? 'Close menu' : 'Open menu'}

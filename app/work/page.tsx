@@ -28,19 +28,6 @@ const stagger = (delay = 0.1) => ({
   visible: { transition: { staggerChildren: delay } },
 })
 
-// ─── VMark ─────────────────────────────────────────────
-function VMark({ dark }: { dark?: boolean }) {
-  const c = dark ? 'rgba(255,255,255,0.5)' : '#3D5A80'
-  const c2 = dark ? 'rgba(255,255,255,0.2)' : 'rgba(61,90,128,0.3)'
-  return (
-    <svg width="20" height="20" viewBox="0 0 22 22" fill="none" aria-hidden="true">
-      <rect x="1" y="1" width="10" height="10" rx="1.5" stroke={c} strokeWidth="1.5" />
-      <rect x="11" y="11" width="10" height="10" rx="1.5" stroke={c} strokeWidth="1.5" />
-      <rect x="11" y="1" width="10" height="10" rx="1.5" stroke={c2} strokeWidth="1.5" />
-    </svg>
-  )
-}
-
 // ─── Project Card ──────────────────────────────────────
 function ProjectCard({ project }: { project: typeof projects[0] }) {
   const [iframeLoaded, setIframeLoaded] = useState(false)
@@ -54,8 +41,8 @@ function ProjectCard({ project }: { project: typeof projects[0] }) {
         initial={{ boxShadow: '0 2px 16px rgba(0,0,0,0.05)' }}
         style={{
           borderRadius: 12,
-          border: '1px solid #E5E4DF',
-          background: '#FFFFFF',
+          border: '1px solid var(--na-border-mid)',
+          background: 'var(--na-bg)',
           overflow: 'hidden',
           cursor: 'pointer',
           height: '100%',
@@ -65,19 +52,19 @@ function ProjectCard({ project }: { project: typeof projects[0] }) {
         data-cursor-hover
       >
         {/* Preview area — uses padding-top trick so iframe never bleeds into layout */}
-        <div style={{ position: 'relative', width: '100%', paddingTop: '56.25%', background: '#F0EFE9', flexShrink: 0, overflow: 'hidden', borderRadius: '11px 11px 0 0' }}>
+        <div style={{ position: 'relative', width: '100%', paddingTop: '56.25%', background: 'var(--na-surface)', flexShrink: 0, overflow: 'hidden', borderRadius: '11px 11px 0 0' }}>
           {project.preview ? (
             <>
               {!iframeLoaded && (
                 <div style={{
                   position: 'absolute', inset: 0,
                   display: 'flex', alignItems: 'center', justifyContent: 'center',
-                  background: 'linear-gradient(135deg, #ECEAE3, #E4E2DB)',
+                  background: 'linear-gradient(135deg, var(--na-surface), var(--na-surface-2))',
                   zIndex: 1,
                 }}>
                   <div style={{
                     width: 18, height: 18,
-                    border: '2px solid #D0CECC', borderTopColor: '#3D5A80',
+                    border: '2px solid var(--na-border-mid)', borderTopColor: 'var(--na-accent)',
                     borderRadius: '50%', animation: 'spin 0.7s linear infinite',
                   }} />
                 </div>
@@ -113,12 +100,18 @@ function ProjectCard({ project }: { project: typeof projects[0] }) {
               position: 'absolute', inset: 0,
               display: 'flex', flexDirection: 'column',
               alignItems: 'center', justifyContent: 'center', gap: 12,
-              background: 'linear-gradient(135deg, #F4F3EF 0%, #ECEAE3 100%)',
+              background: 'linear-gradient(135deg, var(--na-surface) 0%, var(--na-surface-2) 100%)',
             }}>
-              <VMark />
+              <svg width="24" height="24" viewBox="0 0 22 22" fill="none" aria-hidden="true">
+                <circle cx="11" cy="11" r="3" stroke="var(--na-inv-accent)" strokeWidth="1.5"/>
+                <line x1="11" y1="1" x2="11" y2="7" stroke="var(--na-inv-accent)" strokeWidth="1.5" strokeLinecap="round"/>
+                <line x1="11" y1="15" x2="11" y2="21" stroke="var(--na-inv-accent)" strokeWidth="1.5" strokeLinecap="round"/>
+                <line x1="1" y1="11" x2="7" y2="11" stroke="var(--na-inv-accent)" strokeWidth="1.5" strokeLinecap="round" opacity="0.5"/>
+                <line x1="15" y1="11" x2="21" y2="11" stroke="var(--na-inv-accent)" strokeWidth="1.5" strokeLinecap="round" opacity="0.5"/>
+              </svg>
               <span style={{
                 fontSize: 10, fontWeight: 700, letterSpacing: '0.15em',
-                textTransform: 'uppercase', color: '#C8C6C0',
+                textTransform: 'uppercase', color: 'var(--na-muted)',
               }}>
                 {project.label}
               </span>
@@ -130,14 +123,14 @@ function ProjectCard({ project }: { project: typeof projects[0] }) {
         <div style={{ padding: '20px 24px 24px', flex: 1, display: 'flex', flexDirection: 'column' }}>
           {/* Number + tags */}
           <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 14 }}>
-            <span style={{ fontSize: 11, fontWeight: 700, letterSpacing: '0.12em', color: '#C8C6C0' }}>
+            <span style={{ fontSize: 11, fontWeight: 700, letterSpacing: '0.12em', color: 'var(--na-muted)' }}>
               {project.num}
             </span>
             <div style={{ display: 'flex', gap: 6, flexWrap: 'wrap', justifyContent: 'flex-end' }}>
               {project.tags.slice(0, 2).map(tag => (
                 <span key={tag} style={{
                   fontSize: 10, fontWeight: 700, letterSpacing: '0.1em', textTransform: 'uppercase',
-                  color: '#3D5A80', background: 'rgba(61,90,128,0.08)',
+                  color: 'var(--na-accent)', background: 'var(--na-accent-dim)',
                   padding: '3px 9px', borderRadius: 20,
                 }}>
                   {tag}
@@ -151,18 +144,18 @@ function ProjectCard({ project }: { project: typeof projects[0] }) {
             <div>
               <div style={{
                 fontSize: 18, fontWeight: 700, letterSpacing: '-0.02em', lineHeight: 1.2,
-                color: '#1C1C1E', marginBottom: 8, transition: 'color 0.2s ease',
+                color: 'var(--na-text)', marginBottom: 8, transition: 'color 0.2s ease',
               }}>
                 {project.name}
               </div>
-              <div style={{ fontSize: 13, color: '#8A8A8E', lineHeight: 1.55 }}>
+              <div style={{ fontSize: 13, color: 'var(--na-muted)', lineHeight: 1.55 }}>
                 {project.tagline}
               </div>
             </div>
             <div style={{
-              width: 36, height: 36, border: '1px solid #E2E1DC', borderRadius: '50%',
+              width: 36, height: 36, border: '1px solid var(--na-border-mid)', borderRadius: '50%',
               display: 'flex', alignItems: 'center', justifyContent: 'center',
-              color: '#8A8A8E', flexShrink: 0, marginTop: 2,
+              color: 'var(--na-muted)', flexShrink: 0, marginTop: 2,
               transition: 'background 0.2s ease, border-color 0.2s ease, color 0.2s ease',
             }}>
               <ArrowUpRight size={14} strokeWidth={2} />
@@ -243,12 +236,12 @@ function ProjectGrid() {
       >
         <div>
           <span className="section-label" style={{ display: 'block', marginBottom: 14 }}>All Projects</span>
-          <h2 style={{ fontSize: 'clamp(28px, 4vw, 48px)', fontWeight: 700, letterSpacing: '-0.03em', color: '#1C1C1E', lineHeight: 1.1, margin: 0 }}>
+          <h2 style={{ fontSize: 'clamp(28px, 4vw, 48px)', fontWeight: 700, letterSpacing: '-0.03em', color: 'var(--na-text)', lineHeight: 1.1, margin: 0 }}>
             Eight clients.{' '}
-            <em style={{ fontStyle: 'italic', fontWeight: 300, color: '#8A8A8E' }}>Eight problems solved.</em>
+            <em style={{ fontStyle: 'italic', fontWeight: 300, color: 'var(--na-muted)' }}>Eight problems solved.</em>
           </h2>
         </div>
-        <span style={{ fontSize: 12, fontWeight: 600, letterSpacing: '0.1em', textTransform: 'uppercase', color: '#C8C6C0' }}>
+        <span style={{ fontSize: 12, fontWeight: 600, letterSpacing: '0.1em', textTransform: 'uppercase', color: 'var(--na-muted)' }}>
           {projects.length} Total
         </span>
       </motion.div>
@@ -295,19 +288,19 @@ function ProjectGrid() {
         {/* Controls */}
         <div style={{ marginTop: 32, display: 'flex', alignItems: 'center', gap: 20 }}>
 
-          {/* Prev / Next */}
+          {/* Prev */}
           <button
             onClick={retreat}
             aria-label="Previous projects"
             style={{
               width: 36, height: 36, borderRadius: '50%',
-              border: '1px solid #E2E1DC', background: 'transparent',
+              border: '1px solid var(--na-border-mid)', background: 'transparent',
               display: 'flex', alignItems: 'center', justifyContent: 'center',
-              cursor: 'pointer', color: '#8A8A8E',
+              cursor: 'pointer', color: 'var(--na-muted)',
               transition: 'border-color 0.2s ease, color 0.2s ease',
             }}
-            onMouseEnter={e => { e.currentTarget.style.borderColor = '#1C1C1E'; e.currentTarget.style.color = '#1C1C1E' }}
-            onMouseLeave={e => { e.currentTarget.style.borderColor = '#E2E1DC'; e.currentTarget.style.color = '#8A8A8E' }}
+            onMouseEnter={e => { e.currentTarget.style.borderColor = 'var(--na-text)'; e.currentTarget.style.color = 'var(--na-text)' }}
+            onMouseLeave={e => { e.currentTarget.style.borderColor = 'var(--na-border-mid)'; e.currentTarget.style.color = 'var(--na-muted)' }}
           >
             <ArrowLeft size={13} strokeWidth={2} />
           </button>
@@ -328,12 +321,12 @@ function ProjectGrid() {
                 }}
               >
                 {/* Track */}
-                <div style={{ position: 'absolute', inset: 0, background: '#E2E1DC', borderRadius: 2 }} />
+                <div style={{ position: 'absolute', inset: 0, background: 'var(--na-border-mid)', borderRadius: 2 }} />
                 {/* Fill */}
                 {i === page && (
                   <div style={{
                     position: 'absolute', inset: 0, borderRadius: 2,
-                    background: '#3D5A80',
+                    background: 'var(--na-accent)',
                     transform: `scaleX(${progress})`,
                     transformOrigin: 'left',
                   }} />
@@ -348,19 +341,19 @@ function ProjectGrid() {
             aria-label="Next projects"
             style={{
               width: 36, height: 36, borderRadius: '50%',
-              border: '1px solid #E2E1DC', background: 'transparent',
+              border: '1px solid var(--na-border-mid)', background: 'transparent',
               display: 'flex', alignItems: 'center', justifyContent: 'center',
-              cursor: 'pointer', color: '#8A8A8E',
+              cursor: 'pointer', color: 'var(--na-muted)',
               transition: 'border-color 0.2s ease, color 0.2s ease',
             }}
-            onMouseEnter={e => { e.currentTarget.style.borderColor = '#1C1C1E'; e.currentTarget.style.color = '#1C1C1E' }}
-            onMouseLeave={e => { e.currentTarget.style.borderColor = '#E2E1DC'; e.currentTarget.style.color = '#8A8A8E' }}
+            onMouseEnter={e => { e.currentTarget.style.borderColor = 'var(--na-text)'; e.currentTarget.style.color = 'var(--na-text)' }}
+            onMouseLeave={e => { e.currentTarget.style.borderColor = 'var(--na-border-mid)'; e.currentTarget.style.color = 'var(--na-muted)' }}
           >
             <ArrowRight size={13} strokeWidth={2} />
           </button>
 
           {/* Page count */}
-          <span style={{ fontSize: 11, fontWeight: 600, letterSpacing: '0.1em', textTransform: 'uppercase', color: '#C8C6C0', flexShrink: 0 }}>
+          <span style={{ fontSize: 11, fontWeight: 600, letterSpacing: '0.1em', textTransform: 'uppercase', color: 'var(--na-muted)', flexShrink: 0 }}>
             {page + 1} / {totalPages}
           </span>
         </div>
@@ -410,14 +403,14 @@ export default function WorkPage() {
   ]
 
   return (
-    <main style={{ background: '#FAFAF8', minHeight: '100vh' }}>
+    <main style={{ background: 'var(--na-bg)', minHeight: '100vh' }}>
       <Navbar />
 
       {/* ── Hero ─────────────────────────────────────── */}
       <section
         data-cursor-dark
         style={{
-          background: '#141416',
+          background: 'var(--na-inv-bg)',
           padding: 'clamp(120px, 14vw, 180px) clamp(24px, 4vw, 56px) clamp(72px, 9vw, 100px)',
           position: 'relative',
           overflow: 'hidden',
@@ -433,7 +426,7 @@ export default function WorkPage() {
         <div aria-hidden="true" className="hidden md:block" style={{
           position: 'absolute', top: '50%', right: 'clamp(24px, 4vw, 56px)',
           transform: 'translateY(-50%)',
-          fontSize: 200, fontWeight: 800, color: '#FFFFFF', opacity: 0.025,
+          fontSize: 200, fontWeight: 800, color: 'var(--na-inv-text)', opacity: 0.025,
           lineHeight: 1, letterSpacing: '-0.05em', userSelect: 'none', pointerEvents: 'none',
         }}>
           02
@@ -454,14 +447,14 @@ export default function WorkPage() {
             fontWeight: 700,
             letterSpacing: '-0.04em',
             lineHeight: 1.0,
-            color: '#FFFFFF',
+            color: 'var(--na-inv-text)',
             marginTop: 24,
             marginBottom: 24,
             maxWidth: 800,
           }}
         >
           Work that earns{' '}
-          <em style={{ fontStyle: 'italic', fontWeight: 300, color: 'rgba(255,255,255,0.45)' }}>
+          <em style={{ fontStyle: 'italic', fontWeight: 300, color: 'var(--na-inv-muted)' }}>
             its keep.
           </em>
         </motion.h1>
@@ -471,7 +464,7 @@ export default function WorkPage() {
           initial={{ opacity: 0, y: 16 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5, delay: 0.22, ease }}
-          style={{ fontSize: 16, color: 'rgba(255,255,255,0.45)', maxWidth: 520, lineHeight: 1.7, marginBottom: 60 }}
+          style={{ fontSize: 16, color: 'var(--na-inv-muted)', maxWidth: 520, lineHeight: 1.7, marginBottom: 60 }}
         >
           Every project on this page started with a real business problem and ended with something that actively helps solve it. No filler. No portfolio pieces built for awards. Work built for results.
         </motion.p>
@@ -490,10 +483,10 @@ export default function WorkPage() {
             { num: '$0', label: 'Spent on Templates' },
           ].map(stat => (
             <motion.div key={stat.label} variants={fadeUp}>
-              <div style={{ fontSize: 'clamp(32px, 5vw, 56px)', fontWeight: 800, letterSpacing: '-0.04em', color: '#FFFFFF', lineHeight: 1 }}>
+              <div style={{ fontSize: 'clamp(32px, 5vw, 56px)', fontWeight: 800, letterSpacing: '-0.04em', color: 'var(--na-inv-text)', lineHeight: 1 }}>
                 {stat.num}
               </div>
-              <div style={{ fontSize: 11, fontWeight: 600, letterSpacing: '0.12em', textTransform: 'uppercase', color: 'rgba(255,255,255,0.3)', marginTop: 8 }}>
+              <div style={{ fontSize: 11, fontWeight: 600, letterSpacing: '0.12em', textTransform: 'uppercase', color: 'var(--na-inv-muted)', marginTop: 8 }}>
                 {stat.label}
               </div>
             </motion.div>
@@ -502,19 +495,19 @@ export default function WorkPage() {
       </section>
 
       {/* ── How We Work ──────────────────────────────── */}
-      <section style={{ padding: 'clamp(80px, 10vw, 120px) clamp(24px, 4vw, 56px)', background: '#FAFAF8' }}>
+      <section style={{ padding: 'clamp(80px, 10vw, 120px) clamp(24px, 4vw, 56px)', background: 'var(--na-bg)' }}>
         <motion.div initial="hidden" whileInView="visible" viewport={vp} variants={fadeUp} style={{ marginBottom: 56 }}>
           <span className="section-label" style={{ display: 'block', marginBottom: 16 }}>How We Work</span>
           <h2 style={{
             fontSize: 'clamp(32px, 4.5vw, 56px)',
             fontWeight: 700,
             letterSpacing: '-0.03em',
-            color: '#1C1C1E',
+            color: 'var(--na-text)',
             lineHeight: 1.1,
             maxWidth: 560,
           }}>
             A process built for{' '}
-            <em style={{ fontStyle: 'italic', fontWeight: 300, color: '#8A8A8E' }}>clarity.</em>
+            <em style={{ fontStyle: 'italic', fontWeight: 300, color: 'var(--na-muted)' }}>clarity.</em>
           </h2>
         </motion.div>
 
@@ -535,20 +528,20 @@ export default function WorkPage() {
               variants={fadeUp}
               style={{
                 padding: 'clamp(28px, 3vw, 40px)',
-                borderLeft: i === 0 ? 'none' : '1px solid #E5E4DF',
-                borderTop: '1px solid #E5E4DF',
+                borderLeft: i === 0 ? 'none' : '1px solid var(--na-border-mid)',
+                borderTop: '1px solid var(--na-border-mid)',
                 position: 'relative',
               }}
             >
               {/* Step number */}
               <div style={{
                 fontSize: 11, fontWeight: 700, letterSpacing: '0.15em',
-                textTransform: 'uppercase', color: '#3D5A80', marginBottom: 20,
+                textTransform: 'uppercase', color: 'var(--na-accent)', marginBottom: 20,
                 display: 'flex', alignItems: 'center', gap: 10,
               }}>
                 <span style={{
                   width: 28, height: 28, borderRadius: '50%',
-                  border: '1px solid rgba(61,90,128,0.2)',
+                  border: '1px solid var(--na-accent-dim)',
                   display: 'flex', alignItems: 'center', justifyContent: 'center',
                   fontSize: 10, fontWeight: 700,
                 }}>
@@ -556,7 +549,7 @@ export default function WorkPage() {
                 </span>
                 {step.title}
               </div>
-              <p style={{ fontSize: 14, color: '#8A8A8E', lineHeight: 1.7, margin: 0 }}>
+              <p style={{ fontSize: 14, color: 'var(--na-muted)', lineHeight: 1.7, margin: 0 }}>
                 {step.body}
               </p>
             </motion.div>
@@ -567,7 +560,7 @@ export default function WorkPage() {
       {/* ── Values ───────────────────────────────────── */}
       <section style={{
         padding: 'clamp(80px, 10vw, 120px) clamp(24px, 4vw, 56px)',
-        background: '#141416',
+        background: 'var(--na-inv-bg)',
         position: 'relative',
         overflow: 'hidden',
       }}
@@ -590,12 +583,12 @@ export default function WorkPage() {
               fontSize: 'clamp(32px, 4.5vw, 56px)',
               fontWeight: 700,
               letterSpacing: '-0.03em',
-              color: '#FFFFFF',
+              color: 'var(--na-inv-text)',
               lineHeight: 1.1,
               maxWidth: 520,
             }}>
               The standard we{' '}
-              <em style={{ fontStyle: 'italic', fontWeight: 300, color: 'rgba(255,255,255,0.35)' }}>
+              <em style={{ fontStyle: 'italic', fontWeight: 300, color: 'var(--na-inv-muted)' }}>
                 hold ourselves to.
               </em>
             </h2>
@@ -617,8 +610,8 @@ export default function WorkPage() {
                   gridTemplateColumns: '1fr',
                   gap: 16,
                   padding: 'clamp(32px, 4vw, 48px) 0',
-                  borderTop: i === 0 ? '1px solid rgba(255,255,255,0.08)' : '1px solid rgba(255,255,255,0.08)',
-                  borderBottom: i === values.length - 1 ? '1px solid rgba(255,255,255,0.08)' : 'none',
+                  borderTop: i === 0 ? '1px solid var(--na-inv-border)' : '1px solid var(--na-inv-border)',
+                  borderBottom: i === values.length - 1 ? '1px solid var(--na-inv-border)' : 'none',
                 }}
                 className="values-row"
               >
@@ -627,17 +620,17 @@ export default function WorkPage() {
                     <div style={{ display: 'flex', alignItems: 'center', gap: 14, marginBottom: 0 }}>
                       <div style={{
                         width: 28, height: 28, borderRadius: 6,
-                        background: 'rgba(61,90,128,0.25)',
+                        background: 'rgba(var(--na-inv-accent-rgb), 0.2)',
                         display: 'flex', alignItems: 'center', justifyContent: 'center',
                         flexShrink: 0,
                       }}>
-                        <Check size={14} strokeWidth={2.5} style={{ color: '#5A7FAD' }} />
+                        <Check size={14} strokeWidth={2.5} style={{ color: 'var(--na-inv-accent)' }} />
                       </div>
                       <h3 style={{
                         fontSize: 'clamp(20px, 2.5vw, 28px)',
                         fontWeight: 700,
                         letterSpacing: '-0.02em',
-                        color: '#FFFFFF',
+                        color: 'var(--na-inv-text)',
                         margin: 0,
                       }}>
                         {v.label}
@@ -646,7 +639,7 @@ export default function WorkPage() {
                   </div>
                   <p style={{
                     fontSize: 15,
-                    color: 'rgba(255,255,255,0.45)',
+                    color: 'var(--na-inv-muted)',
                     lineHeight: 1.7,
                     margin: 0,
                     maxWidth: 440,
@@ -669,7 +662,7 @@ export default function WorkPage() {
       <section
         data-cursor-dark
         style={{
-          background: '#1C1C1E',
+          background: 'var(--na-inv-bg)',
           padding: 'clamp(80px, 10vw, 120px) clamp(24px, 4vw, 56px)',
           display: 'flex', flexDirection: 'column', alignItems: 'center',
           textAlign: 'center', gap: 32, position: 'relative', overflow: 'hidden',
@@ -685,13 +678,13 @@ export default function WorkPage() {
             fontSize: 'clamp(36px, 5.5vw, 72px)',
             fontWeight: 700,
             letterSpacing: '-0.04em',
-            color: '#FFFFFF',
+            color: 'var(--na-inv-text)',
             marginBottom: 16,
             lineHeight: 1.05,
           }}>
             Ready to build?
           </h2>
-          <p style={{ fontSize: 16, color: 'rgba(255,255,255,0.4)', maxWidth: 400, margin: '0 auto', lineHeight: 1.65 }}>
+          <p style={{ fontSize: 16, color: 'var(--na-inv-muted)', maxWidth: 400, margin: '0 auto', lineHeight: 1.65 }}>
             Book a free 30-minute call. We will figure out exactly what you need and whether we are the right fit.
           </p>
         </motion.div>
@@ -717,7 +710,7 @@ export default function WorkPage() {
           </Link>
           <Link href="/contact">
             <motion.button
-              whileHover={{ borderColor: 'rgba(255,255,255,0.55)', color: '#FFFFFF' }}
+              whileHover={{ borderColor: 'var(--na-inv-border)', color: 'var(--na-inv-text)' }}
               className="btn-ghost"
               style={{ cursor: 'pointer' }}
               data-cursor-hover
