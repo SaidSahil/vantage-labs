@@ -20,6 +20,29 @@ A running record of every session: what was built, what broke, what was fixed, a
 
 ---
 
+### [2026-06-11] — Fix Vercel Deployment Failure (ThemeProvider Type Error)
+
+**Bug:**
+- Vercel deployment was failing with TypeScript error: `'ThemeProvider' cannot be used as a JSX component`
+- Root cause: `lib/theme.ts` and `lib/theme.tsx` both existed with identical JSX content. TypeScript resolves `.ts` before `.tsx`, so `@/lib/theme` resolved to `theme.ts`. `.ts` files don't support JSX syntax, causing the return type to be inferred as `{}` instead of `JSX.Element`.
+
+**Fix:**
+- Rewrote `lib/theme.ts` to replace JSX return with `React.createElement(...)` so it's valid TypeScript without JSX support
+- Added explicit `React.JSX.Element` return type annotation to `ThemeProvider`
+
+**Build:** `npm run build` passes clean — all 7 routes static/dynamic generated
+
+**Pushed:** commit `0b0394a` → GitHub main → Vercel redeploy triggered
+
+**Open items (unchanged):**
+- Contact form backend not wired
+- Calendly embed pending
+- Custom domain not connected
+- Real project images/media (placeholders only)
+- Analytics not set up
+
+---
+
 ### [2026-06-08] — Initial Build: Full Site Structure
 
 **Changes:**
