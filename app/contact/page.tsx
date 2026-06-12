@@ -1,4 +1,4 @@
-﻿'use client'
+'use client'
 import { useState, useEffect, useRef } from 'react'
 import Link from 'next/link'
 import { motion, AnimatePresence } from 'framer-motion'
@@ -7,16 +7,6 @@ import { fadeUp, stagger, viewport } from '@/lib/animations'
 
 const ease = [0.22, 1, 0.36, 1] as [number, number, number, number]
 
-function VMark({ stroke = '#3D5A80', opacity2 = 0.3 }: { stroke?: string; opacity2?: number }) {
-  return (
-    <svg width="20" height="20" viewBox="0 0 22 22" fill="none" aria-hidden="true">
-      <rect x="1" y="1" width="10" height="10" rx="1.5" stroke={stroke} strokeWidth="1.5" />
-      <rect x="11" y="11" width="10" height="10" rx="1.5" stroke={stroke} strokeWidth="1.5" />
-      <rect x="11" y="1" width="10" height="10" rx="1.5" stroke={stroke} strokeWidth="1.5" opacity={opacity2} />
-    </svg>
-  )
-}
-
 const trustPoints = [
   'Response within 24 hours — guaranteed.',
   'No commitment required to get a quote.',
@@ -24,7 +14,7 @@ const trustPoints = [
 ]
 
 const contactDetails = [
-  { Icon: Mail,   label: 'Email',        value: 'hello@vantagelabs.ca',      href: 'mailto:hello@vantagelabs.ca' },
+  { Icon: Mail,   label: 'Email',        value: 'hello@nodeaxis.ca',         href: 'mailto:hello@nodeaxis.ca' },
   { Icon: MapPin, label: 'Location',     value: 'BC, Canada',                href: null },
   { Icon: Clock,  label: 'Availability', value: 'Mon — Fri, 9am — 6pm PST',  href: null },
 ]
@@ -96,13 +86,13 @@ export default function ContactPage() {
       padding: '14px 16px',
       fontSize: 15,
       fontFamily: 'inherit',
-      background: '#FAFAF8',
-      border: `1.5px solid ${active ? '#3D5A80' : '#E2E1DC'}`,
+      background: 'var(--na-bg)',
+      border: `1.5px solid ${active ? 'var(--na-accent)' : 'var(--na-border-mid)'}`,
       borderRadius: 8,
-      color: '#1C1C1E',
+      color: 'var(--na-text)',
       outline: 'none',
       transition: 'border-color 200ms ease-out, box-shadow 200ms ease-out',
-      boxShadow: active ? '0 0 0 3px rgba(61,90,128,0.08)' : 'none',
+      boxShadow: active ? '0 0 0 3px var(--na-accent-dim)' : 'none',
     }
   }
 
@@ -112,14 +102,14 @@ export default function ContactPage() {
     fontWeight: 600,
     letterSpacing: '0.12em',
     textTransform: 'uppercase',
-    color: '#8A8A8E',
+    color: 'var(--na-muted)',
     marginBottom: 8,
   }
 
   return (
-    <main style={{ background: '#FAFAF8', minHeight: '100vh' }}>
+    <main style={{ background: 'var(--na-bg)', minHeight: '100vh' }}>
 
-      {/* â"€â"€ Navbar â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€ */}
+      {/* ── Navbar ─────────────────────────────────────────── */}
       <nav
         style={{
           position: 'fixed',
@@ -132,16 +122,22 @@ export default function ContactPage() {
           paddingRight: 'clamp(24px, 4vw, 56px)',
           paddingTop: scrolled ? 16 : 28,
           paddingBottom: scrolled ? 16 : 28,
-          background: 'rgba(250,250,248,0.94)',
+          background: 'var(--na-nav-bg)',
           backdropFilter: 'blur(18px)',
-          borderBottom: '1px solid #E2E1DC',
+          borderBottom: '1px solid var(--na-border-mid)',
           transition: 'padding 0.35s cubic-bezier(0.22,1,0.36,1)',
         }}
       >
         <Link href="/" style={{ display: 'flex', alignItems: 'center', gap: 9, textDecoration: 'none' }}>
-          <VMark />
-          <span style={{ fontSize: 13, fontWeight: 700, letterSpacing: '-0.01em', color: '#1C1C1E' }}>
-            Vantage Labs
+          <svg width="20" height="20" viewBox="0 0 22 22" fill="none" aria-hidden="true">
+            <circle cx="11" cy="11" r="3" stroke="var(--na-accent)" strokeWidth="1.5"/>
+            <line x1="11" y1="1" x2="11" y2="7" stroke="var(--na-accent)" strokeWidth="1.5" strokeLinecap="round"/>
+            <line x1="11" y1="15" x2="11" y2="21" stroke="var(--na-accent)" strokeWidth="1.5" strokeLinecap="round"/>
+            <line x1="1" y1="11" x2="7" y2="11" stroke="var(--na-accent)" strokeWidth="1.5" strokeLinecap="round" opacity="0.5"/>
+            <line x1="15" y1="11" x2="21" y2="11" stroke="var(--na-accent)" strokeWidth="1.5" strokeLinecap="round" opacity="0.5"/>
+          </svg>
+          <span style={{ fontSize: 13, fontWeight: 700, letterSpacing: '-0.01em', color: 'var(--na-text)' }}>
+            NodeAxis
           </span>
         </Link>
 
@@ -162,14 +158,14 @@ export default function ContactPage() {
                   fontWeight: link.active ? 600 : 400,
                   letterSpacing: '0.06em',
                   textTransform: 'uppercase',
-                  color: link.active ? '#1C1C1E' : 'rgba(28,28,30,0.55)',
+                  color: link.active ? 'var(--na-text)' : 'var(--na-muted)',
                   textDecoration: 'none',
                   position: 'relative',
                   paddingBottom: 2,
                   transition: 'color 0.2s ease',
                 }}
-                onMouseEnter={e => { if (!link.active) e.currentTarget.style.color = '#1C1C1E' }}
-                onMouseLeave={e => { if (!link.active) e.currentTarget.style.color = 'rgba(28,28,30,0.55)' }}
+                onMouseEnter={e => { if (!link.active) e.currentTarget.style.color = 'var(--na-text)' }}
+                onMouseLeave={e => { if (!link.active) e.currentTarget.style.color = 'var(--na-muted)' }}
               >
                 {link.label}
                 {link.active && (
@@ -181,7 +177,7 @@ export default function ContactPage() {
                     width: 4,
                     height: 4,
                     borderRadius: '50%',
-                    background: '#3D5A80',
+                    background: 'var(--na-accent)',
                   }} />
                 )}
               </Link>
@@ -197,23 +193,23 @@ export default function ContactPage() {
             fontWeight: 600,
             letterSpacing: '0.06em',
             textTransform: 'uppercase',
-            color: '#1C1C1E',
+            color: 'var(--na-text)',
             textDecoration: 'none',
             padding: '9px 20px',
-            border: '1px solid rgba(28,28,30,0.18)',
+            border: '1px solid var(--na-border-mid)',
             borderRadius: 100,
             transition: 'all 0.22s ease',
             whiteSpace: 'nowrap',
           }}
           onMouseEnter={e => {
-            e.currentTarget.style.background = '#1C1C1E'
-            e.currentTarget.style.color = '#FAFAF8'
-            e.currentTarget.style.borderColor = '#1C1C1E'
+            e.currentTarget.style.background = 'var(--na-text)'
+            e.currentTarget.style.color = 'var(--na-bg)'
+            e.currentTarget.style.borderColor = 'var(--na-text)'
           }}
           onMouseLeave={e => {
             e.currentTarget.style.background = 'transparent'
-            e.currentTarget.style.color = '#1C1C1E'
-            e.currentTarget.style.borderColor = 'rgba(28,28,30,0.18)'
+            e.currentTarget.style.color = 'var(--na-text)'
+            e.currentTarget.style.borderColor = 'var(--na-border-mid)'
           }}
         >
           Start a Project
@@ -226,9 +222,9 @@ export default function ContactPage() {
             aria-expanded={menuOpen}
             type="button"
             style={{
-              background: menuOpen ? '#1C1C1E' : 'transparent',
+              background: menuOpen ? 'var(--na-text)' : 'transparent',
               border: '1px solid',
-              borderColor: menuOpen ? '#1C1C1E' : 'rgba(28,28,30,0.18)',
+              borderColor: menuOpen ? 'var(--na-text)' : 'var(--na-border-mid)',
               borderRadius: 100,
               padding: '7px 16px',
               display: 'flex',
@@ -243,7 +239,7 @@ export default function ContactPage() {
               fontWeight: 600,
               letterSpacing: '0.08em',
               textTransform: 'uppercase',
-              color: menuOpen ? '#FAFAF8' : '#1C1C1E',
+              color: menuOpen ? 'var(--na-bg)' : 'var(--na-text)',
               transition: 'color 0.2s ease',
             }}>
               Menu
@@ -254,7 +250,7 @@ export default function ContactPage() {
               transition={{ duration: 0.2 }}
               aria-hidden="true"
             >
-              <path d="M2 3.5L5 6.5L8 3.5" stroke={menuOpen ? '#FAFAF8' : '#1C1C1E'} strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+              <path d="M2 3.5L5 6.5L8 3.5" stroke={menuOpen ? 'var(--na-bg)' : 'var(--na-text)'} strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
             </motion.svg>
           </button>
 
@@ -269,8 +265,8 @@ export default function ContactPage() {
                   position: 'absolute',
                   top: 'calc(100% + 10px)',
                   right: 0,
-                  background: '#FAFAF8',
-                  border: '1px solid #E2E1DC',
+                  background: 'var(--na-bg)',
+                  border: '1px solid var(--na-border-mid)',
                   borderRadius: 16,
                   boxShadow: '0 8px 32px rgba(0,0,0,0.10)',
                   minWidth: 180,
@@ -292,18 +288,18 @@ export default function ContactPage() {
                       padding: '14px 20px',
                       fontSize: 13,
                       fontWeight: 500,
-                      color: '#1C1C1E',
+                      color: 'var(--na-text)',
                       textDecoration: 'none',
-                      borderBottom: i < arr.length - 1 ? '1px solid #E2E1DC' : 'none',
+                      borderBottom: i < arr.length - 1 ? '1px solid var(--na-border-mid)' : 'none',
                       transition: 'background 0.15s ease',
                     }}
-                    onMouseEnter={e => (e.currentTarget.style.background = '#F0EFE9')}
+                    onMouseEnter={e => (e.currentTarget.style.background = 'var(--na-surface)')}
                     onMouseLeave={e => (e.currentTarget.style.background = 'transparent')}
                   >
                     {link.label}
                   </Link>
                 ))}
-                <div style={{ padding: '12px 20px', borderTop: '1px solid #E2E1DC' }}>
+                <div style={{ padding: '12px 20px', borderTop: '1px solid var(--na-border-mid)' }}>
                   <Link
                     href="/contact"
                     onClick={() => setMenuOpen(false)}
@@ -314,10 +310,10 @@ export default function ContactPage() {
                       fontWeight: 600,
                       letterSpacing: '0.06em',
                       textTransform: 'uppercase',
-                      color: '#FAFAF8',
+                      color: 'var(--na-bg)',
                       textDecoration: 'none',
                       padding: '10px 16px',
-                      background: '#1C1C1E',
+                      background: 'var(--na-text)',
                       borderRadius: 100,
                     }}
                   >
@@ -330,7 +326,7 @@ export default function ContactPage() {
         </div>
       </nav>
 
-      {/* â"€â"€ Hero â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€ */}
+      {/* ── Hero ─────────────────────────────────────────────── */}
       <section
         style={{
           minHeight: '55vh',
@@ -340,7 +336,7 @@ export default function ContactPage() {
           padding: 'clamp(120px, 16vw, 180px) clamp(24px, 4vw, 56px) clamp(64px, 8vw, 88px)',
           position: 'relative',
           overflow: 'hidden',
-          borderBottom: '1px solid #E2E1DC',
+          borderBottom: '1px solid var(--na-border-mid)',
         }}
       >
         {/* Ghost number */}
@@ -354,7 +350,7 @@ export default function ContactPage() {
             fontSize: 'clamp(120px, 22vw, 260px)',
             fontWeight: 800,
             letterSpacing: '-0.06em',
-            color: '#1C1C1E',
+            color: 'var(--na-text)',
             opacity: 0.04,
             lineHeight: 1,
             userSelect: 'none',
@@ -378,8 +374,8 @@ export default function ContactPage() {
             pointerEvents: 'none',
           }}
         >
-          <rect x="10" y="10" width="90" height="90" rx="4" stroke="#3D5A80" strokeWidth="1.5" fill="none" transform="rotate(15, 55, 55)" />
-          <rect x="90" y="90" width="110" height="110" rx="4" stroke="#3D5A80" strokeWidth="1.5" fill="none" transform="rotate(15, 145, 145)" />
+          <rect x="10" y="10" width="90" height="90" rx="4" stroke="var(--na-accent)" strokeWidth="1.5" fill="none" transform="rotate(15, 55, 55)" />
+          <rect x="90" y="90" width="110" height="110" rx="4" stroke="var(--na-accent)" strokeWidth="1.5" fill="none" transform="rotate(15, 145, 145)" />
         </svg>
 
         <motion.div
@@ -399,13 +395,13 @@ export default function ContactPage() {
                 fontWeight: 600,
                 letterSpacing: '0.15em',
                 textTransform: 'uppercase',
-                color: 'rgba(28,28,30,0.3)',
+                color: 'var(--na-muted)',
                 textDecoration: 'none',
                 marginBottom: 20,
                 transition: 'color 0.2s ease',
               }}
-              onMouseEnter={e => (e.currentTarget.style.color = 'rgba(28,28,30,0.7)')}
-              onMouseLeave={e => (e.currentTarget.style.color = 'rgba(28,28,30,0.3)')}
+              onMouseEnter={e => (e.currentTarget.style.color = 'var(--na-text)')}
+              onMouseLeave={e => (e.currentTarget.style.color = 'var(--na-muted)')}
             >
               <ArrowLeft size={11} strokeWidth={2.5} />
               Home
@@ -421,12 +417,12 @@ export default function ContactPage() {
               fontWeight: 700,
               letterSpacing: '-0.04em',
               lineHeight: 0.92,
-              color: '#1C1C1E',
+              color: 'var(--na-text)',
               marginBottom: 32,
             }}
           >
             Let&apos;s build<br />
-            <span style={{ fontWeight: 300, fontStyle: 'italic', color: '#8A8A8E' }}>something.</span>
+            <span style={{ fontWeight: 300, fontStyle: 'italic', color: 'var(--na-muted)' }}>something.</span>
           </motion.h1>
 
           {/* Subtext */}
@@ -435,7 +431,7 @@ export default function ContactPage() {
             style={{
               fontSize: 'clamp(14px, 1.4vw, 17px)',
               fontWeight: 400,
-              color: '#8A8A8E',
+              color: 'var(--na-muted)',
               maxWidth: 460,
               lineHeight: 1.75,
             }}
@@ -446,10 +442,10 @@ export default function ContactPage() {
         </motion.div>
       </section>
 
-      {/* â"€â"€ Content â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€ */}
+      {/* ── Content ─────────────────────────────────────────── */}
       <section
         style={{
-          background: '#FFFFFF',
+          background: 'var(--na-bg)',
           padding: 'clamp(72px, 9vw, 112px) clamp(24px, 4vw, 56px)',
           position: 'relative',
         }}
@@ -463,7 +459,7 @@ export default function ContactPage() {
             top: 0,
             bottom: 0,
             width: 2,
-            background: '#3D5A80',
+            background: 'var(--na-accent)',
             opacity: 0.12,
           }}
         />
@@ -479,7 +475,7 @@ export default function ContactPage() {
           className="grid-cols-1 md:grid-cols-2"
         >
 
-          {/* â"€ Left: info â"€ */}
+          {/* ─ Left: info ─ */}
           <motion.div
             initial="hidden"
             whileInView="visible"
@@ -492,7 +488,7 @@ export default function ContactPage() {
                 fontSize: 'clamp(24px, 3vw, 36px)',
                 fontWeight: 700,
                 letterSpacing: '-0.02em',
-                color: '#1C1C1E',
+                color: 'var(--na-text)',
                 marginBottom: 16,
               }}
             >
@@ -501,7 +497,7 @@ export default function ContactPage() {
 
             <motion.p
               variants={fadeUp}
-              style={{ fontSize: 16, color: '#8A8A8E', lineHeight: 1.75, marginBottom: 48, maxWidth: 380 }}
+              style={{ fontSize: 16, color: 'var(--na-muted)', lineHeight: 1.75, marginBottom: 48, maxWidth: 380 }}
             >
               No sales pitch. No commitment. Just an honest conversation about what you need and what it costs.
             </motion.p>
@@ -517,14 +513,14 @@ export default function ContactPage() {
                   <div style={{
                     width: 24, height: 24,
                     borderRadius: '50%',
-                    border: '1px solid #E2E1DC',
-                    background: '#FAFAF8',
+                    border: '1px solid var(--na-border-mid)',
+                    background: 'var(--na-bg)',
                     display: 'flex', alignItems: 'center', justifyContent: 'center',
                     flexShrink: 0,
                   }}>
-                    <Check size={11} color="#3D5A80" strokeWidth={2.5} />
+                    <Check size={11} color="var(--na-accent)" strokeWidth={2.5} />
                   </div>
-                  <span style={{ fontSize: 14, fontWeight: 500, color: '#1C1C1E' }}>{pt}</span>
+                  <span style={{ fontSize: 14, fontWeight: 500, color: 'var(--na-text)' }}>{pt}</span>
                 </motion.div>
               ))}
             </motion.div>
@@ -532,33 +528,33 @@ export default function ContactPage() {
             {/* Divider */}
             <motion.div
               variants={fadeUp}
-              style={{ borderTop: '1px solid #E2E1DC', paddingTop: 40, display: 'flex', flexDirection: 'column', gap: 24 }}
+              style={{ borderTop: '1px solid var(--na-border-mid)', paddingTop: 40, display: 'flex', flexDirection: 'column', gap: 24 }}
             >
               {contactDetails.map(({ Icon, label, value, href }, i) => (
                 <div key={i} style={{ display: 'flex', alignItems: 'flex-start', gap: 16 }}>
                   <div style={{
                     width: 36, height: 36,
                     borderRadius: 8,
-                    border: '1px solid #E2E1DC',
-                    background: '#FAFAF8',
+                    border: '1px solid var(--na-border-mid)',
+                    background: 'var(--na-surface)',
                     display: 'flex', alignItems: 'center', justifyContent: 'center',
                     flexShrink: 0,
                   }}>
-                    <Icon size={15} color="#3D5A80" strokeWidth={1.5} />
+                    <Icon size={15} color="var(--na-accent)" strokeWidth={1.5} />
                   </div>
                   <div>
-                    <div style={{ fontSize: 10, fontWeight: 600, letterSpacing: '0.12em', textTransform: 'uppercase', color: '#8A8A8E', marginBottom: 3 }}>
+                    <div style={{ fontSize: 10, fontWeight: 600, letterSpacing: '0.12em', textTransform: 'uppercase', color: 'var(--na-muted)', marginBottom: 3 }}>
                       {label}
                     </div>
                     {href ? (
-                      <a href={href} style={{ fontSize: 14, fontWeight: 500, color: '#1C1C1E', textDecoration: 'none', transition: 'color 0.2s ease' }}
-                        onMouseEnter={e => (e.currentTarget.style.color = '#3D5A80')}
-                        onMouseLeave={e => (e.currentTarget.style.color = '#1C1C1E')}
+                      <a href={href} style={{ fontSize: 14, fontWeight: 500, color: 'var(--na-text)', textDecoration: 'none', transition: 'color 0.2s ease' }}
+                        onMouseEnter={e => (e.currentTarget.style.color = 'var(--na-accent)')}
+                        onMouseLeave={e => (e.currentTarget.style.color = 'var(--na-text)')}
                       >
                         {value}
                       </a>
                     ) : (
-                      <span style={{ fontSize: 14, fontWeight: 500, color: '#1C1C1E' }}>{value}</span>
+                      <span style={{ fontSize: 14, fontWeight: 500, color: 'var(--na-text)' }}>{value}</span>
                     )}
                   </div>
                 </div>
@@ -566,7 +562,7 @@ export default function ContactPage() {
             </motion.div>
           </motion.div>
 
-          {/* â"€ Right: form â"€ */}
+          {/* ─ Right: form ─ */}
           <motion.div
             initial={{ opacity: 0, y: 32 }}
             whileInView={{ opacity: 1, y: 0 }}
@@ -574,8 +570,8 @@ export default function ContactPage() {
             transition={{ duration: 0.65, ease }}
           >
             <div style={{
-              background: '#FAFAF8',
-              border: '1px solid #E2E1DC',
+              background: 'var(--na-surface)',
+              border: '1px solid var(--na-border-mid)',
               borderRadius: 16,
               padding: 'clamp(32px, 4vw, 48px)',
             }}>
@@ -596,18 +592,18 @@ export default function ContactPage() {
                       style={{
                         width: 56, height: 56,
                         borderRadius: '50%',
-                        border: '1px solid #E2E1DC',
-                        background: '#FFFFFF',
+                        border: '1px solid var(--na-border-mid)',
+                        background: 'var(--na-bg)',
                         display: 'flex', alignItems: 'center', justifyContent: 'center',
                         margin: '0 auto 28px',
                       }}
                     >
-                      <Check size={22} color="#3D5A80" strokeWidth={2} />
+                      <Check size={22} color="var(--na-accent)" strokeWidth={2} />
                     </motion.div>
-                    <h2 style={{ fontSize: 24, fontWeight: 700, color: '#1C1C1E', letterSpacing: '-0.02em', marginBottom: 12 }}>
+                    <h2 style={{ fontSize: 24, fontWeight: 700, color: 'var(--na-text)', letterSpacing: '-0.02em', marginBottom: 12 }}>
                       Message sent.
                     </h2>
-                    <p style={{ fontSize: 15, color: '#8A8A8E', lineHeight: 1.65 }}>
+                    <p style={{ fontSize: 15, color: 'var(--na-muted)', lineHeight: 1.65 }}>
                       We&apos;ll be in touch within 24 hours.<br />Talk soon.
                     </p>
                   </motion.div>
@@ -619,10 +615,10 @@ export default function ContactPage() {
                     style={{ display: 'flex', flexDirection: 'column', gap: 22 }}
                   >
                     <div style={{ marginBottom: 4 }}>
-                      <h2 style={{ fontSize: 18, fontWeight: 700, color: '#1C1C1E', letterSpacing: '-0.02em', marginBottom: 6 }}>
+                      <h2 style={{ fontSize: 18, fontWeight: 700, color: 'var(--na-text)', letterSpacing: '-0.02em', marginBottom: 6 }}>
                         Tell us about your project
                       </h2>
-                      <p style={{ fontSize: 14, color: '#8A8A8E', lineHeight: 1.6 }}>
+                      <p style={{ fontSize: 14, color: 'var(--na-muted)', lineHeight: 1.6 }}>
                         We read every message and respond personally.
                       </p>
                     </div>
@@ -675,7 +671,7 @@ export default function ContactPage() {
                           <option value="">Select a service…</option>
                           {serviceOptions.map(s => <option key={s} value={s}>{s}</option>)}
                         </select>
-                        <ChevronDown size={14} color="#8A8A8E" strokeWidth={2} style={{ position: 'absolute', right: 14, top: '50%', transform: 'translateY(-50%)', pointerEvents: 'none' }} />
+                        <ChevronDown size={14} color="var(--na-muted)" strokeWidth={2} style={{ position: 'absolute', right: 14, top: '50%', transform: 'translateY(-50%)', pointerEvents: 'none' }} />
                       </div>
                     </div>
 
@@ -694,7 +690,7 @@ export default function ContactPage() {
                           <option value="">Select a range…</option>
                           {budgetOptions.map(b => <option key={b} value={b}>{b}</option>)}
                         </select>
-                        <ChevronDown size={14} color="#8A8A8E" strokeWidth={2} style={{ position: 'absolute', right: 14, top: '50%', transform: 'translateY(-50%)', pointerEvents: 'none' }} />
+                        <ChevronDown size={14} color="var(--na-muted)" strokeWidth={2} style={{ position: 'absolute', right: 14, top: '50%', transform: 'translateY(-50%)', pointerEvents: 'none' }} />
                       </div>
                     </div>
 
@@ -718,8 +714,8 @@ export default function ContactPage() {
                     {status === 'error' && (
                       <p style={{ fontSize: 13, color: '#c0392b', fontWeight: 500 }}>
                         Something went wrong. Email us at{' '}
-                        <a href="mailto:hello@vantagelabs.ca" style={{ color: '#c0392b' }}>
-                          hello@vantagelabs.ca
+                        <a href="mailto:hello@nodeaxis.ca" style={{ color: '#c0392b' }}>
+                          hello@nodeaxis.ca
                         </a>
                       </p>
                     )}
@@ -736,8 +732,8 @@ export default function ContactPage() {
                         justifyContent: 'center',
                         gap: 10,
                         padding: '15px 32px',
-                        background: '#1C1C1E',
-                        color: '#FFFFFF',
+                        background: 'var(--na-text)',
+                        color: 'var(--na-bg)',
                         border: 'none',
                         borderRadius: 100,
                         fontSize: 12,
@@ -771,13 +767,13 @@ export default function ContactPage() {
                       )}
                     </motion.button>
 
-                    <p style={{ fontSize: 12, color: '#8A8A8E', textAlign: 'center' }}>
+                    <p style={{ fontSize: 12, color: 'var(--na-muted)', textAlign: 'center' }}>
                       Or email us directly at{' '}
-                      <a href="mailto:hello@vantagelabs.ca" style={{ color: '#8A8A8E', textDecoration: 'none', transition: 'color 0.2s ease' }}
-                        onMouseEnter={e => (e.currentTarget.style.color = '#3D5A80')}
-                        onMouseLeave={e => (e.currentTarget.style.color = '#8A8A8E')}
+                      <a href="mailto:hello@nodeaxis.ca" style={{ color: 'var(--na-muted)', textDecoration: 'none', transition: 'color 0.2s ease' }}
+                        onMouseEnter={e => (e.currentTarget.style.color = 'var(--na-accent)')}
+                        onMouseLeave={e => (e.currentTarget.style.color = 'var(--na-muted)')}
                       >
-                        hello@vantagelabs.ca
+                        hello@nodeaxis.ca
                       </a>
                     </p>
                   </motion.form>
@@ -789,11 +785,11 @@ export default function ContactPage() {
         </div>
       </section>
 
-      {/* â"€â"€ Footer â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€ */}
+      {/* ── Footer ─────────────────────────────────────────── */}
       <footer
         style={{
-          background: '#141416',
-          borderTop: '1px solid rgba(255,255,255,0.06)',
+          background: 'var(--na-inv-bg)',
+          borderTop: '1px solid var(--na-inv-border)',
           padding: 'clamp(28px, 4vw, 44px) clamp(24px, 4vw, 56px)',
           display: 'flex',
           alignItems: 'center',
@@ -804,12 +800,14 @@ export default function ContactPage() {
       >
         <Link href="/" style={{ display: 'flex', alignItems: 'center', gap: 9, textDecoration: 'none' }}>
           <svg width="18" height="18" viewBox="0 0 22 22" fill="none" aria-hidden="true">
-            <rect x="1" y="1" width="10" height="10" rx="1.5" stroke="#3D5A80" strokeWidth="1.5" />
-            <rect x="11" y="11" width="10" height="10" rx="1.5" stroke="#3D5A80" strokeWidth="1.5" />
-            <rect x="11" y="1" width="10" height="10" rx="1.5" stroke="#3D5A80" strokeWidth="1.5" opacity="0.3" />
+            <circle cx="11" cy="11" r="3" stroke="var(--na-inv-accent)" strokeWidth="1.5"/>
+            <line x1="11" y1="1" x2="11" y2="7" stroke="var(--na-inv-accent)" strokeWidth="1.5" strokeLinecap="round"/>
+            <line x1="11" y1="15" x2="11" y2="21" stroke="var(--na-inv-accent)" strokeWidth="1.5" strokeLinecap="round"/>
+            <line x1="1" y1="11" x2="7" y2="11" stroke="var(--na-inv-accent)" strokeWidth="1.5" strokeLinecap="round" opacity="0.5"/>
+            <line x1="15" y1="11" x2="21" y2="11" stroke="var(--na-inv-accent)" strokeWidth="1.5" strokeLinecap="round" opacity="0.5"/>
           </svg>
-          <span style={{ fontSize: 12, fontWeight: 700, letterSpacing: '-0.01em', color: 'rgba(255,255,255,0.6)' }}>
-            Vantage Labs
+          <span style={{ fontSize: 12, fontWeight: 700, letterSpacing: '-0.01em', color: 'var(--na-inv-text)' }}>
+            NodeAxis
           </span>
         </Link>
 
@@ -819,8 +817,8 @@ export default function ContactPage() {
           <Link href="/contact"  className="footer-link" style={{ color: 'rgba(255,255,255,0.55)' }}>Contact</Link>
         </div>
 
-        <span style={{ fontSize: 11, color: 'rgba(255,255,255,0.18)', fontWeight: 500, letterSpacing: '0.06em' }}>
-          © 2026 Vantage Labs · BC, Canada
+        <span style={{ fontSize: 11, color: 'var(--na-inv-muted)', fontWeight: 500, letterSpacing: '0.06em' }}>
+          © 2026 NodeAxis · BC, Canada
         </span>
       </footer>
 

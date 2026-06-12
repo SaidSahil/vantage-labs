@@ -9,11 +9,11 @@ export async function generateMetadata(
 
   if (!project) {
     return {
-      title: 'Project — Vantage Labs',
+      title: 'Project — NodeAxis',
     }
   }
 
-  const title = `${project.name} — Vantage Labs`
+  const title = `${project.name} — NodeAxis`
   const description = project.tagline
 
   return {

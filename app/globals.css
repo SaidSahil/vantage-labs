@@ -2,23 +2,58 @@
 
 /* ─── TAILWIND THEME TOKENS ─────────────────────── */
 @theme {
-  --color-bg: #FAFAF8;
-  --color-surface: #F0EFE9;
-  --color-charcoal: #1C1C1E;
-  --color-slate: #3D5A80;
-  --color-slate-deep: #2C4260;
-  --color-warm: #8A8A8E;
-  --color-stone: #E2E1DC;
-  --color-dark: #141416;
-  --color-slate-light: #5A7FAD;
-
   --font-sans: var(--font-inter);
 }
 
-/* ─── CSS TOKENS ────────────────────────────────── */
+/* ─── NODEAXIS LIGHT THEME (default) ────────────── */
 :root {
+  --na-bg:          #F2F4FB;
+  --na-surface:     #E8EBF7;
+  --na-surface-2:   #DDE1F2;
+  --na-text:        #0D0F1A;
+  --na-muted:       #6B7A99;
+  --na-accent:      #2563EB;
+  --na-accent-rgb:  37,99,235;
+  --na-accent-dim:  rgba(37,99,235,0.08);
+  --na-border:      rgba(13,15,26,0.09);
+  --na-border-mid:  rgba(13,15,26,0.16);
+  --na-nav-bg:      rgba(242,244,251,0.88);
+
+  /* Inverted (dark panel) in light mode */
+  --na-inv-bg:      #0D0F1A;
+  --na-inv-surface: #161820;
+  --na-inv-text:    #E8E8F0;
+  --na-inv-muted:   rgba(232,232,240,0.45);
+  --na-inv-border:  rgba(255,255,255,0.08);
+  --na-inv-accent:  #4F8EF7;
+  --na-inv-accent-rgb: 79,142,247;
+
   --ease: cubic-bezier(0.22, 1, 0.36, 1);
   --ease-out: cubic-bezier(0.55, 0, 1, 0.45);
+}
+
+/* ─── NODEAXIS DARK THEME ────────────────────────── */
+.dark {
+  --na-bg:          #0A0A0F;
+  --na-surface:     #111118;
+  --na-surface-2:   #18181F;
+  --na-text:        #E8E8F0;
+  --na-muted:       #52525B;
+  --na-accent:      #4F8EF7;
+  --na-accent-rgb:  79,142,247;
+  --na-accent-dim:  rgba(79,142,247,0.12);
+  --na-border:      rgba(255,255,255,0.07);
+  --na-border-mid:  rgba(255,255,255,0.12);
+  --na-nav-bg:      rgba(10,10,15,0.85);
+
+  /* Inverted (dark panel) in dark mode — slightly deeper */
+  --na-inv-bg:      #050508;
+  --na-inv-surface: #0D0D14;
+  --na-inv-text:    #E8E8F0;
+  --na-inv-muted:   rgba(232,232,240,0.4);
+  --na-inv-border:  rgba(255,255,255,0.06);
+  --na-inv-accent:  #4F8EF7;
+  --na-inv-accent-rgb: 79,142,247;
 }
 
 /* ─── RESET ─────────────────────────────────────── */
@@ -34,13 +69,14 @@ html {
 
 body {
   font-family: var(--font-inter), 'Inter', sans-serif;
-  background: #FAFAF8;
-  color: #1C1C1E;
+  background: var(--na-bg);
+  color: var(--na-text);
   font-size: 16px;
   line-height: 1.5;
   overflow-x: hidden;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  transition: background 0.35s ease, color 0.35s ease;
 }
 
 a { text-decoration: none; color: inherit; }
@@ -56,17 +92,13 @@ body::after {
   opacity: 0.5;
 }
 
-
-/* ─── NAVBAR ────────────────────────────────────── */
-/* Nav styles are inline in Navbar.tsx */
-
 /* ─── SECTION LABELS ────────────────────────────── */
 .section-label {
   font-size: 11px;
   font-weight: 600;
   letter-spacing: 0.15em;
   text-transform: uppercase;
-  color: #3D5A80;
+  color: var(--na-accent);
 }
 .section-label-dark {
   font-size: 11px;
@@ -80,7 +112,7 @@ body::after {
 .hero-scroll-line {
   width: 48px;
   height: 1px;
-  background: #E2E1DC;
+  background: var(--na-border-mid);
   position: relative;
   overflow: hidden;
 }
@@ -91,7 +123,7 @@ body::after {
   left: -100%;
   width: 100%;
   height: 100%;
-  background: #3D5A80;
+  background: var(--na-accent);
   animation: line-march 1.8s ease-in-out infinite;
 }
 
@@ -110,7 +142,7 @@ body::after {
   align-items: center;
   gap: 32px;
   padding: 32px 0;
-  border-bottom: 1px solid #E2E1DC;
+  border-bottom: 1px solid var(--na-border-mid);
   cursor: pointer;
   position: relative;
   overflow: hidden;
@@ -119,7 +151,7 @@ body::after {
   content: '';
   position: absolute;
   inset: 0;
-  background: #F0EFE9;
+  background: var(--na-surface);
   transform: scaleY(0);
   transform-origin: bottom;
   transition: transform 0.35s var(--ease);
@@ -127,11 +159,11 @@ body::after {
 }
 .project-row:hover::before { transform: scaleY(1); }
 .project-row > * { position: relative; z-index: 1; }
-.project-row:hover .project-name { color: #3D5A80; }
+.project-row:hover .project-name { color: var(--na-accent); }
 .project-row:hover .project-arrow {
-  background: #1C1C1E;
-  border-color: #1C1C1E;
-  color: #FFFFFF;
+  background: var(--na-text);
+  border-color: var(--na-text);
+  color: var(--na-bg);
   transform: rotate(-45deg);
 }
 
@@ -144,21 +176,21 @@ body::after {
   overflow: hidden;
   pointer-events: none;
   z-index: 200;
-  border: 1px solid #E2E1DC;
+  border: 1px solid var(--na-border-mid);
   transition: opacity 0.25s ease, transform 0.25s var(--ease);
 }
 
 /* ─── SERVICES GRID ──────────────────────────────── */
-.svc-row:hover { background: rgba(255,255,255,0.025); }
+.svc-row:hover { background: rgba(var(--na-accent-rgb), 0.03); }
 .svc-row:nth-child(odd) {
-  border-right: 1px solid #2a2a2c;
+  border-right: 1px solid var(--na-inv-border);
   padding-right: 48px;
 }
 .svc-row:nth-child(even) { padding-left: 48px; }
 
 /* ─── WHY ITEMS ──────────────────────────────────── */
 .why-item:hover {
-  background: rgba(0,0,0,0.015);
+  background: rgba(var(--na-accent-rgb), 0.025);
 }
 
 /* ─── BUTTONS ────────────────────────────────────── */
@@ -166,8 +198,8 @@ body::after {
   display: inline-flex;
   align-items: center;
   gap: 12px;
-  background: #FFFFFF;
-  color: #1C1C1E;
+  background: var(--na-inv-text);
+  color: var(--na-inv-bg);
   padding: 18px 36px;
   border-radius: 100px;
   border: none;
@@ -207,13 +239,34 @@ body::after {
 /* ─── FOOTER LINKS ───────────────────────────────── */
 .footer-link {
   font-size: 12px;
-  color: rgba(255,255,255,0.3);
+  color: var(--na-inv-muted);
   transition: color 0.2s ease, transform 0.15s ease;
   letter-spacing: 0.05em;
 }
 .footer-link:hover {
-  color: rgba(255,255,255,0.8);
+  color: var(--na-inv-text);
   transform: translateY(-2px);
+}
+
+/* ─── THEME TOGGLE ───────────────────────────────── */
+.theme-toggle {
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  border: 1px solid var(--na-border-mid);
+  background: transparent;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  color: var(--na-muted);
+  transition: border-color 0.2s ease, color 0.2s ease, background 0.2s ease;
+  flex-shrink: 0;
+}
+.theme-toggle:hover {
+  border-color: var(--na-accent);
+  color: var(--na-accent);
+  background: var(--na-accent-dim);
 }
 
 /* ─── KEYFRAMES ─────────────────────────────────── */
@@ -243,25 +296,23 @@ body::after {
 
 /* ─── SELECTION ─────────────────────────────────── */
 ::selection {
-  background: #3D5A80;
+  background: var(--na-accent);
   color: #fff;
 }
 
 /* ─── SCROLLBAR ─────────────────────────────────── */
 ::-webkit-scrollbar { width: 4px; }
-::-webkit-scrollbar-track { background: #FAFAF8; }
-::-webkit-scrollbar-thumb { background: #E2E1DC; border-radius: 2px; }
+::-webkit-scrollbar-track { background: var(--na-bg); }
+::-webkit-scrollbar-thumb { background: var(--na-border-mid); border-radius: 2px; }
 
 /* ─── FOCUS ─────────────────────────────────────── */
 :focus-visible {
-  outline: 2px solid #3D5A80;
+  outline: 2px solid var(--na-accent);
   outline-offset: 4px;
   border-radius: 2px;
 }
 
 /* ─── INTRO LOADER ──────────────────────────────── */
-/* Hide the intro loader on mobile at the CSS level so it never flashes black
-   before JS has a chance to skip it via the useEffect mobile check. */
 @media (max-width: 767px) {
   #intro-loader { display: none !important; }
 }
@@ -276,25 +327,21 @@ body::after {
 
 /* ─── MOBILE RESPONSIVE OVERRIDES ──────────────── */
 @media (max-width: 767px) {
-  /* Testimonials: uniform padding, no side borders in single-col layout */
   .testimonial-card {
     padding: 32px 0 !important;
     border-right: none !important;
   }
 
-  /* About pillars: uniform padding, no side borders in single-col layout */
   .pillar-card {
     padding: 24px 0 !important;
     border-right: none !important;
   }
 
-  /* About stats: uniform padding, no side borders in single-col layout */
   .stat-cell {
     padding: 16px 0 !important;
     border-right: none !important;
   }
 
-  /* Services grid: remove 2-col border/padding on single-col mobile */
   .svc-row:nth-child(odd) {
     border-right: none !important;
     padding-right: 0 !important;
@@ -303,7 +350,6 @@ body::after {
     padding-left: 0 !important;
   }
 
-  /* Project rows: tighten gap on narrow screens */
   .project-row {
     gap: 16px !important;
     grid-template-columns: 40px 1fr auto !important;

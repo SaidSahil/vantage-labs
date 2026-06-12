@@ -37,10 +37,10 @@ export default function Services() {
       id="services"
       data-cursor-dark
       style={{
-        background: '#141416',
+        background: 'var(--na-inv-bg)',
         color: '#FFFFFF',
         padding: 'clamp(80px, 10vw, 100px) clamp(24px, 4vw, 48px)',
-        borderTop: '1px solid #2a2a2c',
+        borderTop: '1px solid var(--na-inv-border)',
       }}
     >
       {/* Header */}
@@ -53,13 +53,13 @@ export default function Services() {
           display: 'flex',
           alignItems: 'baseline',
           justifyContent: 'space-between',
-          borderBottom: '1px solid #2a2a2c',
+          borderBottom: '1px solid var(--na-inv-border)',
           paddingBottom: '24px',
           marginBottom: 0,
         }}
       >
         <div style={{ display: 'flex', alignItems: 'baseline', gap: 16 }}>
-          <span style={{ fontSize: 13, fontWeight: 600, letterSpacing: '0.1em', textTransform: 'uppercase', color: 'rgba(255,255,255,0.7)' }}>What We Build</span>
+          <span style={{ fontSize: 13, fontWeight: 600, letterSpacing: '0.1em', textTransform: 'uppercase', color: 'var(--na-inv-text)' }}>What We Build</span>
         </div>
         <div style={{ display: 'flex', alignItems: 'center', gap: 24 }}>
           <Link
@@ -69,15 +69,15 @@ export default function Services() {
               fontWeight: 600,
               letterSpacing: '0.1em',
               textTransform: 'uppercase',
-              color: 'rgba(255,255,255,0.3)',
+              color: 'var(--na-inv-muted)',
               display: 'flex',
               alignItems: 'center',
               gap: 8,
               textDecoration: 'none',
               transition: 'color 0.2s ease',
             }}
-            onMouseEnter={e => (e.currentTarget.style.color = 'rgba(255,255,255,0.7)')}
-            onMouseLeave={e => (e.currentTarget.style.color = 'rgba(255,255,255,0.3)')}
+            onMouseEnter={e => (e.currentTarget.style.color = 'var(--na-inv-text)')}
+            onMouseLeave={e => (e.currentTarget.style.color = 'var(--na-inv-muted)')}
           >
             Full Pricing
             <ArrowUpRight size={14} strokeWidth={2} />
@@ -89,15 +89,15 @@ export default function Services() {
               fontWeight: 600,
               letterSpacing: '0.1em',
               textTransform: 'uppercase',
-              color: 'rgba(255,255,255,0.3)',
+              color: 'var(--na-inv-muted)',
               display: 'flex',
               alignItems: 'center',
               gap: 8,
               textDecoration: 'none',
               transition: 'color 0.2s ease',
             }}
-            onMouseEnter={e => (e.currentTarget.style.color = 'rgba(255,255,255,0.7)')}
-            onMouseLeave={e => (e.currentTarget.style.color = 'rgba(255,255,255,0.3)')}
+            onMouseEnter={e => (e.currentTarget.style.color = 'var(--na-inv-text)')}
+            onMouseLeave={e => (e.currentTarget.style.color = 'var(--na-inv-muted)')}
           >
             Get a Quote
             <ArrowUpRight size={14} strokeWidth={2} />
@@ -120,7 +120,7 @@ export default function Services() {
             className="svc-row"
             style={{
               padding: '40px 0',
-              borderBottom: '1px solid #2a2a2c',
+              borderBottom: '1px solid var(--na-inv-border)',
               display: 'grid',
               gridTemplateColumns: '64px 1fr',
               gap: 24,
@@ -132,7 +132,7 @@ export default function Services() {
               fontWeight: 600,
               letterSpacing: '0.1em',
               textTransform: 'uppercase',
-              color: 'rgba(255,255,255,0.25)',
+              color: 'var(--na-inv-muted)',
               paddingTop: 4,
             }}>
               {svc.num}
@@ -154,9 +154,9 @@ export default function Services() {
                     fontWeight: 700,
                     letterSpacing: '0.12em',
                     textTransform: 'uppercase',
-                    color: '#3D5A80',
-                    background: 'rgba(61,90,128,0.12)',
-                    border: '1px solid rgba(61,90,128,0.25)',
+                    color: 'var(--na-inv-accent)',
+                    background: 'rgba(var(--na-inv-accent-rgb), 0.12)',
+                    border: '1px solid rgba(var(--na-inv-accent-rgb), 0.25)',
                     borderRadius: 100,
                     padding: '4px 10px',
                     whiteSpace: 'nowrap',
@@ -169,7 +169,7 @@ export default function Services() {
               <p style={{
                 fontSize: 14,
                 lineHeight: 1.7,
-                color: 'rgba(255,255,255,0.45)',
+                color: 'var(--na-inv-muted)',
                 maxWidth: 340,
               }}>
                 {svc.desc}
@@ -180,7 +180,7 @@ export default function Services() {
                 fontWeight: 600,
                 letterSpacing: '0.1em',
                 textTransform: 'uppercase',
-                color: '#3D5A80',
+                color: 'var(--na-inv-accent)',
               }}>
                 {svc.price}
               </div>

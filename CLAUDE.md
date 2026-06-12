@@ -1,7 +1,7 @@
-# Vantage Labs — Project Context
+# NodeAxis — Project Context
 
 ## What this is
-A Next.js 14 agency website for "Vantage Labs." Dark, high-motion, premium feel. App Router. TypeScript. Tailwind CSS. Framer Motion for all animations.
+A Next.js 14 agency website for "NodeAxis." Supports day/night theme toggle. Dark default, high-motion, premium feel. App Router. TypeScript. Tailwind CSS. Framer Motion for all animations.
 
 ## Project root
 `c:\Users\Said Sahil\Desktop\Project_1\P\projects\Agency\vantage-labs\`
@@ -43,19 +43,24 @@ Each route has its own `layout.tsx` for per-page metadata/SEO.
 
 ## Key lib files
 - `lib/projects.ts` — array of 3 project entries with slug-based routing
+- `lib/theme.tsx` — ThemeContext, ThemeProvider, useTheme hook (dark default, persists to localStorage key `nodeaxis-theme`)
 - `lib/sound.ts` — ambient/interaction audio utilities (not active yet)
 
+## Theme system
+- CSS vars: `--na-*` for normal sections, `--na-inv-*` for always-dark panels (Services, CTA, FAQ, Footer, Marquee, IntroLoader)
+- Default: dark (`.dark` class on `<html>`, set by anti-flash script in layout `<head>`)
+- Toggle: sun/moon button in Navbar, calls `useTheme().toggle()`
+- Anti-flash: inline `<script>` in layout reads localStorage before React hydrates
+
 ## Brand assets (`public/`)
-- `vantage-labs-mark.svg` — icon mark
-- `vantage-labs-logo.svg` — full wordmark
-- `icon.svg` — favicon/meta
+- `icon.svg` — favicon/meta (filled, not stroke)
 
 ## Critical rules (burned in from past bugs)
 1. **Never gate Hero visibility behind a `ready` prop.** Hero must animate on mount unconditionally. Past bug: `ready` wasn't set in time on mobile, causing a blank screen.
 2. **IntroLoader must use `setTimeout`** (matched to animation duration) to signal completion — not `onExitComplete`. `onExitComplete` is unreliable on mobile browsers.
 3. **`app/page.tsx`** wires IntroLoader → Hero state. Keep that handoff clean.
 
-## Current status (as of 2026-06-09)
+## Current status (as of 2026-06-11)
 **Done:**
 - All pages and routes built
 - All components built and integrated
@@ -63,6 +68,8 @@ Each route has its own `layout.tsx` for per-page metadata/SEO.
 - SEO metadata per page
 - Slug-based project detail pages
 - Custom cursor, magnetic button, marquee
+- Full NodeAxis rebrand (was Vantage Labs)
+- Night/day theme toggle with CSS variable system
 
 **Still pending:**
 - Contact form backend (no submission handler — Resend / EmailJS / Formspree not yet wired)

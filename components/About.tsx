@@ -31,7 +31,7 @@ function StatBlock({ value, label }: { value: string; label: string }) {
         fontWeight: 800,
         letterSpacing: '-0.03em',
         lineHeight: 1,
-        color: '#1C1C1E',
+        color: 'var(--na-text)',
       }}>
         {value}
       </span>
@@ -40,7 +40,7 @@ function StatBlock({ value, label }: { value: string; label: string }) {
         fontWeight: 600,
         letterSpacing: '0.08em',
         textTransform: 'uppercase',
-        color: '#8A8A8E',
+        color: 'var(--na-muted)',
         marginTop: 8,
       }}>
         {label}
@@ -54,9 +54,9 @@ export default function About() {
     <section
       id="about"
       style={{
-        background: '#FAFAF8',
+        background: 'var(--na-bg)',
         padding: 'clamp(80px, 10vw, 120px) clamp(24px, 4vw, 56px)',
-        borderTop: '1px solid #E2E1DC',
+        borderTop: '1px solid var(--na-border-mid)',
       }}
     >
       {/* Top row: label + headline */}
@@ -65,7 +65,7 @@ export default function About() {
         gap: 'clamp(32px, 6vw, 80px)',
         alignItems: 'end',
         paddingBottom: 'clamp(48px, 6vw, 80px)',
-        borderBottom: '1px solid #E2E1DC',
+        borderBottom: '1px solid var(--na-border-mid)',
         marginBottom: 'clamp(48px, 6vw, 80px)',
       }}
       className="grid-cols-1 md:grid-cols-2"
@@ -82,7 +82,7 @@ export default function About() {
               fontWeight: 600,
               letterSpacing: '0.15em',
               textTransform: 'uppercase',
-              color: '#3D5A80',
+              color: 'var(--na-accent)',
               marginBottom: 28,
             }}
           >
@@ -100,11 +100,11 @@ export default function About() {
                 fontWeight: 800,
                 letterSpacing: '-0.03em',
                 lineHeight: 1.1,
-                color: '#1C1C1E',
+                color: 'var(--na-text)',
               }}
             >
               Senior talent.<br />
-              <em style={{ fontStyle: 'italic', fontWeight: 300, color: '#3D5A80' }}>
+              <em style={{ fontStyle: 'italic', fontWeight: 300, color: 'var(--na-accent)' }}>
                 Local roots.
               </em>
             </motion.h2>
@@ -123,8 +123,8 @@ export default function About() {
               width: 52,
               height: 52,
               borderRadius: '50%',
-              background: 'linear-gradient(135deg, #3D5A80 0%, #5C7FA8 100%)',
-              border: '2px solid #E2E1DC',
+              background: 'linear-gradient(135deg, var(--na-accent) 0%, var(--na-accent) 100%)',
+              border: '2px solid var(--na-border-mid)',
               display: 'flex',
               alignItems: 'center',
               justifyContent: 'center',
@@ -137,27 +137,27 @@ export default function About() {
               A
             </div>
             <div>
-              <div style={{ fontSize: 15, fontWeight: 700, color: '#1C1C1E', letterSpacing: '-0.01em' }}>
+              <div style={{ fontSize: 15, fontWeight: 700, color: 'var(--na-text)', letterSpacing: '-0.01em' }}>
                 Adam Sahil
               </div>
-              <div style={{ fontSize: 11, fontWeight: 600, letterSpacing: '0.1em', textTransform: 'uppercase', color: '#8A8A8E', marginTop: 3 }}>
-                Founder, Vantage Labs
+              <div style={{ fontSize: 11, fontWeight: 600, letterSpacing: '0.1em', textTransform: 'uppercase', color: 'var(--na-muted)', marginTop: 3 }}>
+                Founder, NodeAxis
               </div>
             </div>
           </div>
           <p style={{
             fontSize: 'clamp(15px, 1.4vw, 18px)',
             lineHeight: 1.75,
-            color: '#8A8A8E',
+            color: 'var(--na-muted)',
             maxWidth: 480,
           }}>
-            I started Vantage Labs after years of watching local BC businesses pay agency-tier rates for cookie-cutter templates that never quite fit.{' '}
-            <strong style={{ color: '#1C1C1E', fontWeight: 600 }}>
+            I started NodeAxis after years of watching local BC businesses pay agency-tier rates for cookie-cutter templates that never quite fit.{' '}
+            <strong style={{ color: 'var(--na-text)', fontWeight: 600 }}>
               Every project here is custom-built from scratch
             </strong>{' '}
             — no themes, no page builders, no shortcuts.{' '}
             Our work is deliberately boutique: a small roster of clients, handled personally, with a starting price that makes senior-level craft{' '}
-            <strong style={{ color: '#1C1C1E', fontWeight: 600 }}>
+            <strong style={{ color: 'var(--na-text)', fontWeight: 600 }}>
               actually accessible.
             </strong>
           </p>
@@ -188,21 +188,21 @@ export default function About() {
                 : i === 1
                 ? 'clamp(28px, 3vw, 40px) clamp(28px, 3vw, 48px)'
                 : 'clamp(28px, 3vw, 40px) 0 clamp(28px, 3vw, 40px) clamp(28px, 3vw, 48px)',
-              borderRight: i < 2 ? '1px solid #E2E1DC' : 'none',
+              borderRight: i < 2 ? '1px solid var(--na-border-mid)' : 'none',
             }}
           >
             <div style={{
               width: 6,
               height: 6,
               borderRadius: '50%',
-              background: '#3D5A80',
+              background: 'var(--na-accent)',
               marginBottom: 20,
             }} />
             <div style={{
               fontSize: 15,
               fontWeight: 700,
               letterSpacing: '-0.01em',
-              color: '#1C1C1E',
+              color: 'var(--na-text)',
               marginBottom: 12,
             }}>
               {p.title}
@@ -210,7 +210,7 @@ export default function About() {
             <p style={{
               fontSize: 14,
               lineHeight: 1.7,
-              color: '#8A8A8E',
+              color: 'var(--na-muted)',
             }}>
               {p.body}
             </p>
@@ -226,7 +226,7 @@ export default function About() {
         variants={stagger(0.08)}
         style={{
           display: 'grid',
-          borderTop: '1px solid #E2E1DC',
+          borderTop: '1px solid var(--na-border-mid)',
           paddingTop: 'clamp(32px, 4vw, 48px)',
         }}
         className="grid-cols-1 sm:grid-cols-3"
@@ -238,7 +238,7 @@ export default function About() {
             className="stat-cell"
             style={{
               padding: i === 0 ? '0 24px 0 0' : i === 1 ? '0 24px' : '0 0 0 24px',
-              borderRight: i < 2 ? '1px solid #E2E1DC' : 'none',
+              borderRight: i < 2 ? '1px solid var(--na-border-mid)' : 'none',
             }}
           >
             <StatBlock value={stat.value} label={stat.label} />

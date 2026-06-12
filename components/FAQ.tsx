@@ -33,7 +33,7 @@ export default function FAQ() {
   return (
     <section
       style={{
-        background: '#141416',
+        background: 'var(--na-inv-bg)',
         padding: 'clamp(80px, 10vw, 120px) clamp(24px, 4vw, 56px)',
         position: 'relative',
         overflow: 'hidden',
@@ -76,7 +76,7 @@ export default function FAQ() {
               fontWeight: 600,
               letterSpacing: '0.15em',
               textTransform: 'uppercase',
-              color: '#3D5A80',
+              color: 'var(--na-inv-accent)',
               marginBottom: 16,
             }}
           >
@@ -88,12 +88,12 @@ export default function FAQ() {
               fontWeight: 700,
               letterSpacing: '-0.03em',
               lineHeight: 1.05,
-              color: '#FFFFFF',
+              color: 'var(--na-inv-text)',
               margin: 0,
             }}
           >
             Answers before{' '}
-            <em style={{ fontStyle: 'italic', fontWeight: 300, color: 'rgba(255,255,255,0.35)' }}>
+            <em style={{ fontStyle: 'italic', fontWeight: 300, color: 'var(--na-inv-muted)' }}>
               you ask.
             </em>
           </h2>
@@ -118,7 +118,7 @@ export default function FAQ() {
                   hidden: { opacity: 0, y: 16 },
                   visible: { opacity: 1, y: 0, transition: { duration: 0.45, ease } },
                 }}
-                style={{ borderTop: '1px solid rgba(255,255,255,0.07)' }}
+                style={{ borderTop: '1px solid var(--na-inv-border)' }}
               >
                 <button
                   onClick={() => setOpen(isOpen ? null : i)}
@@ -141,7 +141,7 @@ export default function FAQ() {
                       fontSize: 'clamp(15px, 1.5vw, 18px)',
                       fontWeight: 600,
                       letterSpacing: '-0.01em',
-                      color: isOpen ? '#FFFFFF' : 'rgba(255,255,255,0.72)',
+                      color: isOpen ? 'var(--na-inv-text)' : 'var(--na-inv-muted)',
                       lineHeight: 1.4,
                       transition: 'color 0.2s ease',
                     }}
@@ -155,13 +155,13 @@ export default function FAQ() {
                       width: 32,
                       height: 32,
                       borderRadius: '50%',
-                      border: `1px solid ${isOpen ? '#3D5A80' : 'rgba(255,255,255,0.12)'}`,
-                      background: isOpen ? 'rgba(61,90,128,0.2)' : 'transparent',
+                      border: isOpen ? '1px solid var(--na-inv-accent)' : '1px solid var(--na-inv-border)',
+                      background: isOpen ? 'rgba(var(--na-inv-accent-rgb), 0.15)' : 'transparent',
                       display: 'flex',
                       alignItems: 'center',
                       justifyContent: 'center',
                       flexShrink: 0,
-                      color: isOpen ? '#5A7FAD' : 'rgba(255,255,255,0.4)',
+                      color: isOpen ? 'var(--na-inv-accent)' : 'var(--na-inv-muted)',
                       fontSize: 20,
                       lineHeight: 1,
                       fontWeight: 300,
@@ -185,7 +185,7 @@ export default function FAQ() {
                       <p
                         style={{
                           fontSize: 'clamp(14px, 1.3vw, 16px)',
-                          color: 'rgba(255,255,255,0.48)',
+                          color: 'var(--na-inv-muted)',
                           lineHeight: 1.75,
                           paddingBottom: 'clamp(20px, 2.5vw, 28px)',
                           margin: 0,

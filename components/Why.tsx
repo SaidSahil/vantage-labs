@@ -30,8 +30,8 @@ export default function Why() {
       id="why"
       style={{
         padding: 'clamp(80px, 10vw, 100px) clamp(24px, 4vw, 48px)',
-        background: '#FAFAF8',
-        borderTop: '1px solid #E2E1DC',
+        background: 'var(--na-bg)',
+        borderTop: '1px solid var(--na-border-mid)',
         position: 'relative',
       }}
     >
@@ -41,7 +41,7 @@ export default function Why() {
         style={{
           position: 'absolute',
           inset: 0,
-          backgroundImage: 'radial-gradient(circle, #1C1C1E 1px, transparent 1px)',
+          backgroundImage: 'radial-gradient(circle, var(--na-text) 1px, transparent 1px)',
           backgroundSize: '28px 28px',
           opacity: 0.035,
           pointerEvents: 'none',
@@ -81,8 +81,8 @@ export default function Why() {
             }}
           >
             Why<br />
-            Vantage
-            <em style={{ fontStyle: 'italic', fontWeight: 300, color: '#3D5A80' }}>.</em>
+            NodeAxis
+            <em style={{ fontStyle: 'italic', fontWeight: 300, color: 'var(--na-accent)' }}>.</em>
           </motion.h2>
         </div>
 
@@ -103,7 +103,7 @@ export default function Why() {
                 className="why-item"
                 style={{
                   padding: '32px 0',
-                  borderTop: '1px solid #E2E1DC',
+                  borderTop: '1px solid var(--na-border-mid)',
                   display: 'grid',
                   gridTemplateColumns: '40px 1fr',
                   gap: 24,
@@ -115,7 +115,7 @@ export default function Why() {
                   fontWeight: 600,
                   letterSpacing: '0.1em',
                   textTransform: 'uppercase',
-                  color: '#3D5A80',
+                  color: 'var(--na-accent)',
                   paddingTop: 4,
                 }}>
                   {r.num}
@@ -127,7 +127,7 @@ export default function Why() {
                     gap: 10,
                     marginBottom: 10,
                   }}>
-                    <Icon size={20} strokeWidth={1.5} color="#3D5A80" />
+                    <Icon size={20} strokeWidth={1.5} color="var(--na-accent)" />
                     <span style={{
                       fontSize: 22,
                       fontWeight: 700,
@@ -136,7 +136,7 @@ export default function Why() {
                       {r.title}
                     </span>
                   </div>
-                  <p style={{ fontSize: 15, color: '#8A8A8E', lineHeight: 1.7 }}>
+                  <p style={{ fontSize: 15, color: 'var(--na-muted)', lineHeight: 1.7 }}>
                     {r.desc}
                   </p>
                 </div>

@@ -40,7 +40,7 @@ export default function Work() {
   return (
     <section
       id="work"
-      style={{ padding: 'clamp(60px, 8vw, 80px) clamp(24px, 4vw, 48px) 0', background: '#FAFAF8' }}
+      style={{ padding: 'clamp(60px, 8vw, 80px) clamp(24px, 4vw, 48px) 0', background: 'var(--na-bg)' }}
     >
       {/* Floating preview */}
       <div
@@ -51,7 +51,7 @@ export default function Work() {
           transform: floatVisible ? 'scale(1) translateY(0)' : 'scale(0.94) translateY(6px)',
           width: PREVIEW_W,
           height: PREVIEW_H,
-          background: '#F0EFE9',
+          background: 'var(--na-surface)',
           overflow: 'hidden',
         }}
         aria-hidden="true"
@@ -64,14 +64,14 @@ export default function Work() {
           alignItems: 'center',
           justifyContent: 'center',
           gap: 10,
-          background: 'linear-gradient(135deg, #F0EFE9 0%, #E8E6DF 100%)',
+          background: 'linear-gradient(135deg, var(--na-surface) 0%, var(--na-surface) 100%)',
           padding: '0 20px',
         }}>
           <span style={{
             fontSize: 13,
             fontWeight: 700,
             letterSpacing: '-0.01em',
-            color: '#1C1C1E',
+            color: 'var(--na-text)',
             textAlign: 'center',
             lineHeight: 1.3,
           }}>
@@ -82,7 +82,7 @@ export default function Work() {
               fontSize: 10,
               fontWeight: 500,
               letterSpacing: '0.06em',
-              color: '#8A8A8E',
+              color: 'var(--na-muted)',
               textAlign: 'center',
             }}>
               {activeProject.externalUrl.replace(/^https?:\/\//, '')}
@@ -97,8 +97,8 @@ export default function Work() {
               fontWeight: 700,
               letterSpacing: '0.1em',
               textTransform: 'uppercase',
-              color: '#3D5A80',
-              border: '1px solid rgba(61,90,128,0.25)',
+              color: 'var(--na-accent)',
+              border: '1px solid var(--na-accent-dim)',
               borderRadius: 100,
               padding: '4px 10px',
               marginTop: 2,
@@ -112,7 +112,7 @@ export default function Work() {
               fontWeight: 600,
               letterSpacing: '0.1em',
               textTransform: 'uppercase',
-              color: '#C8C6C0',
+              color: 'var(--na-muted)',
             }}>
               {activeProject?.label ?? ''}
             </span>
@@ -131,18 +131,18 @@ export default function Work() {
           alignItems: 'baseline',
           justifyContent: 'space-between',
           paddingBottom: 24,
-          borderBottom: '1px solid #E2E1DC',
+          borderBottom: '1px solid var(--na-border-mid)',
         }}
       >
         <div style={{ display: 'flex', alignItems: 'baseline', gap: 16 }}>
-          <span style={{ fontSize: 13, fontWeight: 600, letterSpacing: '0.1em', textTransform: 'uppercase', color: '#1C1C1E' }}>Selected Work</span>
+          <span style={{ fontSize: 13, fontWeight: 600, letterSpacing: '0.1em', textTransform: 'uppercase', color: 'var(--na-text)' }}>Selected Work</span>
         </div>
         <span style={{
           fontSize: 12,
           fontWeight: 600,
           letterSpacing: '0.1em',
           textTransform: 'uppercase',
-          color: '#C8C6C0',
+          color: 'var(--na-muted)',
         }}>
           {projects.length} Projects
         </span>
@@ -175,7 +175,7 @@ export default function Work() {
                 fontSize: 12,
                 fontWeight: 600,
                 letterSpacing: '0.1em',
-                color: '#8A8A8E',
+                color: 'var(--na-muted)',
                 fontVariantNumeric: 'tabular-nums',
               }}>
                 {project.num}
@@ -198,7 +198,7 @@ export default function Work() {
                   <div style={{
                     fontSize: 13,
                     fontWeight: 500,
-                    color: '#3D5A80',
+                    color: 'var(--na-accent)',
                     fontStyle: 'italic',
                     marginTop: 6,
                     lineHeight: 1.5,
@@ -215,8 +215,8 @@ export default function Work() {
                         fontWeight: 600,
                         letterSpacing: '0.1em',
                         textTransform: 'uppercase',
-                        color: '#8A8A8E',
-                        border: '1px solid #E2E1DC',
+                        color: 'var(--na-muted)',
+                        border: '1px solid var(--na-border-mid)',
                         padding: '4px 10px',
                         borderRadius: 20,
                       }}
@@ -232,12 +232,12 @@ export default function Work() {
                 style={{
                   width: 48,
                   height: 48,
-                  border: '1px solid #E2E1DC',
+                  border: '1px solid var(--na-border-mid)',
                   borderRadius: '50%',
                   display: 'flex',
                   alignItems: 'center',
                   justifyContent: 'center',
-                  color: '#8A8A8E',
+                  color: 'var(--na-muted)',
                   flexShrink: 0,
                   transition: 'background 0.2s ease, color 0.2s ease, transform 0.2s ease, border-color 0.2s ease',
                 }}

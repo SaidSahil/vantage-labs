@@ -4,15 +4,17 @@ import { usePathname } from 'next/navigation'
 import { motion, AnimatePresence } from 'framer-motion'
 import Link from 'next/link'
 import MagneticButton from '@/components/MagneticButton'
+import { useTheme } from '@/lib/theme'
 
-function VMark({ light }: { light?: boolean }) {
-  const c  = light ? 'rgba(255,255,255,0.75)' : '#3D5A80'
-  const c2 = light ? 'rgba(255,255,255,0.25)' : 'rgba(61,90,128,0.3)'
+function NodeAxisMark({ light }: { light?: boolean }) {
+  const c = light ? 'rgba(255,255,255,0.75)' : 'var(--na-accent)'
   return (
     <svg width="20" height="20" viewBox="0 0 22 22" fill="none" aria-hidden="true">
-      <rect x="1" y="1" width="10" height="10" rx="1.5" stroke={c} strokeWidth="1.5" />
-      <rect x="11" y="11" width="10" height="10" rx="1.5" stroke={c} strokeWidth="1.5" />
-      <rect x="11" y="1" width="10" height="10" rx="1.5" stroke={c2} strokeWidth="1.5" />
+      <circle cx="11" cy="11" r="3" stroke={c} strokeWidth="1.5"/>
+      <line x1="11" y1="1" x2="11" y2="7" stroke={c} strokeWidth="1.5" strokeLinecap="round"/>
+      <line x1="11" y1="15" x2="11" y2="21" stroke={c} strokeWidth="1.5" strokeLinecap="round"/>
+      <line x1="1" y1="11" x2="7" y2="11" stroke={c} strokeWidth="1.5" strokeLinecap="round" opacity="0.5"/>
+      <line x1="15" y1="11" x2="21" y2="11" stroke={c} strokeWidth="1.5" strokeLinecap="round" opacity="0.5"/>
     </svg>
   )
 }
@@ -21,6 +23,7 @@ export default function Navbar() {
   const pathname = usePathname()
   const isHome = pathname === '/'
   const isWork = pathname === '/work'
+  const { theme, toggle } = useTheme()
 
   const links = [
     { href: '/work',     label: 'Work' },
@@ -72,10 +75,10 @@ export default function Navbar() {
     return () => document.removeEventListener('mousedown', handler)
   }, [menuOpen])
 
-  const textColor      = light ? '#FFFFFF'                    : '#1C1C1E'
-  const mutedColor     = light ? 'rgba(255,255,255,0.55)'     : 'rgba(28,28,30,0.55)'
-  const borderColor    = light ? 'rgba(255,255,255,0.28)'     : 'rgba(28,28,30,0.18)'
-  const dividerColor   = light ? 'rgba(255,255,255,0.18)'     : '#E2E1DC'
+  const textColor    = light ? '#FFFFFF'                : 'var(--na-text)'
+  const mutedColor   = light ? 'rgba(255,255,255,0.55)' : 'var(--na-muted)'
+  const borderColor  = light ? 'rgba(255,255,255,0.28)' : 'var(--na-border-mid)'
+  const dividerColor = light ? 'rgba(255,255,255,0.18)' : 'var(--na-border-mid)'
 
   return (
     <nav
@@ -93,20 +96,20 @@ export default function Navbar() {
         paddingTop: scrolled ? 16 : 28,
         paddingBottom: scrolled ? 16 : 28,
         transition: 'all 0.35s cubic-bezier(0.22,1,0.36,1)',
-        background: scrolled ? 'rgba(250,250,248,0.92)' : 'transparent',
+        background: scrolled ? 'var(--na-nav-bg)' : 'transparent',
         backdropFilter: scrolled ? 'blur(18px)' : 'none',
-        borderBottom: scrolled ? '1px solid #E2E1DC' : '1px solid transparent',
+        borderBottom: scrolled ? '1px solid var(--na-border)' : '1px solid transparent',
       }}
     >
       {/* Logo */}
       <Link
         href={isHome ? '#hero' : '/'}
-        aria-label="Vantage Labs home"
+        aria-label="NodeAxis home"
         style={{ display: 'flex', alignItems: 'center', gap: 9, textDecoration: 'none' }}
       >
-        <VMark light={light} />
+        <NodeAxisMark light={light} />
         <span style={{ fontSize: 13, fontWeight: 700, letterSpacing: '-0.01em', color: textColor, transition: 'color 0.35s ease' }}>
-          Vantage Labs
+          NodeAxis
         </span>
       </Link>
 
@@ -151,7 +154,7 @@ export default function Navbar() {
                     width: 4,
                     height: 4,
                     borderRadius: '50%',
-                    background: light ? '#FFFFFF' : '#3D5A80',
+                    background: light ? '#FFFFFF' : 'var(--na-accent)',
                   }} />
                 )}
               </Link>
@@ -165,10 +168,37 @@ export default function Navbar() {
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ delay: 0.5, duration: 0.4 }}
-        style={{ alignItems: 'center', gap: 20 }}
+        style={{ alignItems: 'center', gap: 12 }}
         className="hidden md:flex"
       >
         <div style={{ width: 1, height: 18, background: dividerColor, transition: 'background 0.35s ease' }} />
+
+        {/* Theme toggle */}
+        <button
+          type="button"
+          onClick={toggle}
+          aria-label={theme === 'dark' ? 'Switch to light mode' : 'Switch to dark mode'}
+          className="theme-toggle"
+        >
+          {theme === 'dark' ? (
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round">
+              <circle cx="12" cy="12" r="5"/>
+              <line x1="12" y1="1" x2="12" y2="3"/>
+              <line x1="12" y1="21" x2="12" y2="23"/>
+              <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/>
+              <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/>
+              <line x1="1" y1="12" x2="3" y2="12"/>
+              <line x1="21" y1="12" x2="23" y2="12"/>
+              <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/>
+              <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/>
+            </svg>
+          ) : (
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round">
+              <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>
+            </svg>
+          )}
+        </button>
+
         <MagneticButton strength={0.3}>
           <Link
             href="/contact"
@@ -188,7 +218,7 @@ export default function Navbar() {
             }}
             onMouseEnter={e => {
               e.currentTarget.style.background = textColor
-              e.currentTarget.style.color = light ? '#1C1C1E' : '#FAFAF8'
+              e.currentTarget.style.color = light ? '#0D0F1A' : 'var(--na-bg)'
               e.currentTarget.style.borderColor = textColor
             }}
             onMouseLeave={e => {
@@ -203,16 +233,42 @@ export default function Navbar() {
       </motion.div>
 
       {/* Mobile — Menu dropdown */}
-      <div ref={menuRef} className="md:hidden" style={{ position: 'relative' }}>
+      <div ref={menuRef} className="md:hidden" style={{ position: 'relative', display: 'flex', alignItems: 'center', gap: 8 }}>
+        {/* Mobile theme toggle */}
+        <button
+          type="button"
+          onClick={toggle}
+          aria-label={theme === 'dark' ? 'Switch to light mode' : 'Switch to dark mode'}
+          className="theme-toggle"
+        >
+          {theme === 'dark' ? (
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round">
+              <circle cx="12" cy="12" r="5"/>
+              <line x1="12" y1="1" x2="12" y2="3"/>
+              <line x1="12" y1="21" x2="12" y2="23"/>
+              <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/>
+              <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/>
+              <line x1="1" y1="12" x2="3" y2="12"/>
+              <line x1="21" y1="12" x2="23" y2="12"/>
+              <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/>
+              <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/>
+            </svg>
+          ) : (
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round">
+              <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>
+            </svg>
+          )}
+        </button>
+
         <button
           onClick={() => setMenuOpen(v => !v)}
           aria-label={menuOpen ? 'Close menu' : 'Open menu'}
           aria-expanded={menuOpen}
           type="button"
           style={{
-            background: menuOpen ? textColor : 'transparent',
+            background: menuOpen ? 'var(--na-text)' : 'transparent',
             border: '1px solid',
-            borderColor: menuOpen ? textColor : borderColor,
+            borderColor: menuOpen ? 'var(--na-text)' : borderColor,
             borderRadius: 100,
             padding: '7px 16px',
             display: 'flex',
@@ -227,7 +283,7 @@ export default function Navbar() {
             fontWeight: 600,
             letterSpacing: '0.08em',
             textTransform: 'uppercase',
-            color: menuOpen ? (light ? '#1C1C1E' : '#FAFAF8') : textColor,
+            color: menuOpen ? 'var(--na-bg)' : textColor,
             transition: 'color 0.2s ease',
           }}>
             Menu
@@ -243,7 +299,7 @@ export default function Navbar() {
           >
             <path
               d="M2 3.5L5 6.5L8 3.5"
-              stroke={menuOpen ? (light ? '#1C1C1E' : '#FAFAF8') : textColor}
+              stroke={menuOpen ? 'var(--na-bg)' : textColor}
               strokeWidth="1.5"
               strokeLinecap="round"
               strokeLinejoin="round"
@@ -262,8 +318,8 @@ export default function Navbar() {
                 position: 'absolute',
                 top: 'calc(100% + 10px)',
                 right: 0,
-                background: '#FAFAF8',
-                border: '1px solid #E2E1DC',
+                background: 'var(--na-bg)',
+                border: '1px solid var(--na-border-mid)',
                 borderRadius: 16,
                 boxShadow: '0 8px 32px rgba(0,0,0,0.10)',
                 minWidth: 180,
@@ -280,18 +336,18 @@ export default function Navbar() {
                     padding: '14px 20px',
                     fontSize: 13,
                     fontWeight: 500,
-                    color: '#1C1C1E',
+                    color: 'var(--na-text)',
                     textDecoration: 'none',
-                    borderBottom: i < links.length - 1 ? '1px solid #E2E1DC' : 'none',
+                    borderBottom: i < links.length - 1 ? '1px solid var(--na-border-mid)' : 'none',
                     transition: 'background 0.15s ease',
                   }}
-                  onMouseEnter={e => (e.currentTarget.style.background = '#F0EFE9')}
+                  onMouseEnter={e => (e.currentTarget.style.background = 'var(--na-surface)')}
                   onMouseLeave={e => (e.currentTarget.style.background = 'transparent')}
                 >
                   {link.label}
                 </Link>
               ))}
-              <div style={{ padding: '12px 20px', borderTop: '1px solid #E2E1DC' }}>
+              <div style={{ padding: '12px 20px', borderTop: '1px solid var(--na-border-mid)' }}>
                 <Link
                   href="/contact"
                   onClick={() => setMenuOpen(false)}
@@ -302,10 +358,10 @@ export default function Navbar() {
                     fontWeight: 600,
                     letterSpacing: '0.06em',
                     textTransform: 'uppercase',
-                    color: '#FAFAF8',
+                    color: 'var(--na-inv-text)',
                     textDecoration: 'none',
                     padding: '10px 16px',
-                    background: '#1C1C1E',
+                    background: 'var(--na-inv-bg)',
                     borderRadius: 100,
                   }}
                 >

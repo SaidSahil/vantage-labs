@@ -7,16 +7,6 @@ import { fadeUp, stagger, viewport } from '@/lib/animations'
 
 const ease = [0.22, 1, 0.36, 1] as [number, number, number, number]
 
-function VMark() {
-  return (
-    <svg width="20" height="20" viewBox="0 0 22 22" fill="none" aria-hidden="true">
-      <rect x="1" y="1" width="10" height="10" rx="1.5" stroke="#3D5A80" strokeWidth="1.5" />
-      <rect x="11" y="11" width="10" height="10" rx="1.5" stroke="#3D5A80" strokeWidth="1.5" />
-      <rect x="11" y="1" width="10" height="10" rx="1.5" stroke="#3D5A80" strokeWidth="1.5" opacity="0.3" />
-    </svg>
-  )
-}
-
 const services = [
   {
     num: '01',
@@ -169,7 +159,7 @@ export default function ServicesPage() {
   }, [menuOpen])
 
   return (
-    <main style={{ background: '#FAFAF8', minHeight: '100vh' }}>
+    <main style={{ background: 'var(--na-bg)', minHeight: '100vh' }}>
 
       {/* ── Navbar ─────────────────────────────────────────── */}
       <nav
@@ -184,16 +174,22 @@ export default function ServicesPage() {
           paddingRight: 'clamp(24px, 4vw, 56px)',
           paddingTop: scrolled ? 16 : 28,
           paddingBottom: scrolled ? 16 : 28,
-          background: 'rgba(250,250,248,0.94)',
+          background: 'var(--na-nav-bg)',
           backdropFilter: 'blur(18px)',
-          borderBottom: '1px solid #E2E1DC',
+          borderBottom: '1px solid var(--na-border-mid)',
           transition: 'padding 0.35s cubic-bezier(0.22,1,0.36,1)',
         }}
       >
         <Link href="/" style={{ display: 'flex', alignItems: 'center', gap: 9, textDecoration: 'none' }}>
-          <VMark />
-          <span style={{ fontSize: 13, fontWeight: 700, letterSpacing: '-0.01em', color: '#1C1C1E' }}>
-            Vantage Labs
+          <svg width="20" height="20" viewBox="0 0 22 22" fill="none" aria-hidden="true">
+            <circle cx="11" cy="11" r="3" stroke="var(--na-accent)" strokeWidth="1.5"/>
+            <line x1="11" y1="1" x2="11" y2="7" stroke="var(--na-accent)" strokeWidth="1.5" strokeLinecap="round"/>
+            <line x1="11" y1="15" x2="11" y2="21" stroke="var(--na-accent)" strokeWidth="1.5" strokeLinecap="round"/>
+            <line x1="1" y1="11" x2="7" y2="11" stroke="var(--na-accent)" strokeWidth="1.5" strokeLinecap="round" opacity="0.5"/>
+            <line x1="15" y1="11" x2="21" y2="11" stroke="var(--na-accent)" strokeWidth="1.5" strokeLinecap="round" opacity="0.5"/>
+          </svg>
+          <span style={{ fontSize: 13, fontWeight: 700, letterSpacing: '-0.01em', color: 'var(--na-text)' }}>
+            NodeAxis
           </span>
         </Link>
 
@@ -214,14 +210,14 @@ export default function ServicesPage() {
                   fontWeight: link.active ? 600 : 400,
                   letterSpacing: '0.06em',
                   textTransform: 'uppercase',
-                  color: link.active ? '#1C1C1E' : 'rgba(28,28,30,0.55)',
+                  color: link.active ? 'var(--na-text)' : 'var(--na-muted)',
                   textDecoration: 'none',
                   position: 'relative',
                   paddingBottom: 2,
                   transition: 'color 0.2s ease',
                 }}
-                onMouseEnter={e => { if (!link.active) e.currentTarget.style.color = '#1C1C1E' }}
-                onMouseLeave={e => { if (!link.active) e.currentTarget.style.color = 'rgba(28,28,30,0.55)' }}
+                onMouseEnter={e => { if (!link.active) e.currentTarget.style.color = 'var(--na-text)' }}
+                onMouseLeave={e => { if (!link.active) e.currentTarget.style.color = 'var(--na-muted)' }}
               >
                 {link.label}
                 {link.active && (
@@ -233,7 +229,7 @@ export default function ServicesPage() {
                     width: 4,
                     height: 4,
                     borderRadius: '50%',
-                    background: '#3D5A80',
+                    background: 'var(--na-accent)',
                   }} />
                 )}
               </Link>
@@ -249,23 +245,23 @@ export default function ServicesPage() {
             fontWeight: 600,
             letterSpacing: '0.06em',
             textTransform: 'uppercase',
-            color: '#1C1C1E',
+            color: 'var(--na-text)',
             textDecoration: 'none',
             padding: '9px 20px',
-            border: '1px solid rgba(28,28,30,0.18)',
+            border: '1px solid var(--na-border-mid)',
             borderRadius: 100,
             transition: 'all 0.22s ease',
             whiteSpace: 'nowrap',
           }}
           onMouseEnter={e => {
-            e.currentTarget.style.background = '#1C1C1E'
-            e.currentTarget.style.color = '#FAFAF8'
-            e.currentTarget.style.borderColor = '#1C1C1E'
+            e.currentTarget.style.background = 'var(--na-text)'
+            e.currentTarget.style.color = 'var(--na-bg)'
+            e.currentTarget.style.borderColor = 'var(--na-text)'
           }}
           onMouseLeave={e => {
             e.currentTarget.style.background = 'transparent'
-            e.currentTarget.style.color = '#1C1C1E'
-            e.currentTarget.style.borderColor = 'rgba(28,28,30,0.18)'
+            e.currentTarget.style.color = 'var(--na-text)'
+            e.currentTarget.style.borderColor = 'var(--na-border-mid)'
           }}
         >
           Start a Project
@@ -278,9 +274,9 @@ export default function ServicesPage() {
             aria-expanded={menuOpen}
             type="button"
             style={{
-              background: menuOpen ? '#1C1C1E' : 'transparent',
+              background: menuOpen ? 'var(--na-text)' : 'transparent',
               border: '1px solid',
-              borderColor: menuOpen ? '#1C1C1E' : 'rgba(28,28,30,0.18)',
+              borderColor: menuOpen ? 'var(--na-text)' : 'var(--na-border-mid)',
               borderRadius: 100,
               padding: '7px 16px',
               display: 'flex',
@@ -295,7 +291,7 @@ export default function ServicesPage() {
               fontWeight: 600,
               letterSpacing: '0.08em',
               textTransform: 'uppercase',
-              color: menuOpen ? '#FAFAF8' : '#1C1C1E',
+              color: menuOpen ? 'var(--na-bg)' : 'var(--na-text)',
               transition: 'color 0.2s ease',
             }}>
               Menu
@@ -306,7 +302,7 @@ export default function ServicesPage() {
               transition={{ duration: 0.2 }}
               aria-hidden="true"
             >
-              <path d="M2 3.5L5 6.5L8 3.5" stroke={menuOpen ? '#FAFAF8' : '#1C1C1E'} strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+              <path d="M2 3.5L5 6.5L8 3.5" stroke={menuOpen ? 'var(--na-bg)' : 'var(--na-text)'} strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
             </motion.svg>
           </button>
 
@@ -321,8 +317,8 @@ export default function ServicesPage() {
                   position: 'absolute',
                   top: 'calc(100% + 10px)',
                   right: 0,
-                  background: '#FAFAF8',
-                  border: '1px solid #E2E1DC',
+                  background: 'var(--na-bg)',
+                  border: '1px solid var(--na-border-mid)',
                   borderRadius: 16,
                   boxShadow: '0 8px 32px rgba(0,0,0,0.10)',
                   minWidth: 180,
@@ -344,18 +340,18 @@ export default function ServicesPage() {
                       padding: '14px 20px',
                       fontSize: 13,
                       fontWeight: 500,
-                      color: '#1C1C1E',
+                      color: 'var(--na-text)',
                       textDecoration: 'none',
-                      borderBottom: i < arr.length - 1 ? '1px solid #E2E1DC' : 'none',
+                      borderBottom: i < arr.length - 1 ? '1px solid var(--na-border-mid)' : 'none',
                       transition: 'background 0.15s ease',
                     }}
-                    onMouseEnter={e => (e.currentTarget.style.background = '#F0EFE9')}
+                    onMouseEnter={e => (e.currentTarget.style.background = 'var(--na-surface)')}
                     onMouseLeave={e => (e.currentTarget.style.background = 'transparent')}
                   >
                     {link.label}
                   </Link>
                 ))}
-                <div style={{ padding: '12px 20px', borderTop: '1px solid #E2E1DC' }}>
+                <div style={{ padding: '12px 20px', borderTop: '1px solid var(--na-border-mid)' }}>
                   <Link
                     href="/contact"
                     onClick={() => setMenuOpen(false)}
@@ -366,10 +362,10 @@ export default function ServicesPage() {
                       fontWeight: 600,
                       letterSpacing: '0.06em',
                       textTransform: 'uppercase',
-                      color: '#FAFAF8',
+                      color: 'var(--na-bg)',
                       textDecoration: 'none',
                       padding: '10px 16px',
-                      background: '#1C1C1E',
+                      background: 'var(--na-text)',
                       borderRadius: 100,
                     }}
                   >
@@ -392,7 +388,7 @@ export default function ServicesPage() {
           padding: 'clamp(120px, 16vw, 180px) clamp(24px, 4vw, 56px) clamp(64px, 8vw, 88px)',
           position: 'relative',
           overflow: 'hidden',
-          borderBottom: '1px solid #E2E1DC',
+          borderBottom: '1px solid var(--na-border-mid)',
         }}
       >
         {/* Ghost number */}
@@ -406,7 +402,7 @@ export default function ServicesPage() {
             fontSize: 'clamp(120px, 22vw, 260px)',
             fontWeight: 800,
             letterSpacing: '-0.06em',
-            color: '#1C1C1E',
+            color: 'var(--na-text)',
             opacity: 0.04,
             lineHeight: 1,
             userSelect: 'none',
@@ -430,8 +426,8 @@ export default function ServicesPage() {
             pointerEvents: 'none',
           }}
         >
-          <rect x="10" y="10" width="90" height="90" rx="4" stroke="#3D5A80" strokeWidth="1.5" fill="none" transform="rotate(15, 55, 55)" />
-          <rect x="90" y="90" width="110" height="110" rx="4" stroke="#3D5A80" strokeWidth="1.5" fill="none" transform="rotate(15, 145, 145)" />
+          <rect x="10" y="10" width="90" height="90" rx="4" stroke="var(--na-accent)" strokeWidth="1.5" fill="none" transform="rotate(15, 55, 55)" />
+          <rect x="90" y="90" width="110" height="110" rx="4" stroke="var(--na-accent)" strokeWidth="1.5" fill="none" transform="rotate(15, 145, 145)" />
         </svg>
 
         <motion.div
@@ -451,13 +447,13 @@ export default function ServicesPage() {
                 fontWeight: 600,
                 letterSpacing: '0.15em',
                 textTransform: 'uppercase',
-                color: 'rgba(28,28,30,0.3)',
+                color: 'var(--na-muted)',
                 textDecoration: 'none',
                 marginBottom: 20,
                 transition: 'color 0.2s ease',
               }}
-              onMouseEnter={e => (e.currentTarget.style.color = 'rgba(28,28,30,0.7)')}
-              onMouseLeave={e => (e.currentTarget.style.color = 'rgba(28,28,30,0.3)')}
+              onMouseEnter={e => (e.currentTarget.style.color = 'var(--na-text)')}
+              onMouseLeave={e => (e.currentTarget.style.color = 'var(--na-muted)')}
             >
               <ArrowLeft size={11} strokeWidth={2.5} />
               Home
@@ -473,12 +469,12 @@ export default function ServicesPage() {
               fontWeight: 700,
               letterSpacing: '-0.04em',
               lineHeight: 0.92,
-              color: '#1C1C1E',
+              color: 'var(--na-text)',
               marginBottom: 32,
             }}
           >
             We build<br />
-            <span style={{ fontWeight: 300, fontStyle: 'italic', color: '#8A8A8E' }}>what works.</span>
+            <span style={{ fontWeight: 300, fontStyle: 'italic', color: 'var(--na-muted)' }}>what works.</span>
           </motion.h1>
 
           {/* Subtext */}
@@ -487,7 +483,7 @@ export default function ServicesPage() {
             style={{
               fontSize: 'clamp(14px, 1.4vw, 17px)',
               fontWeight: 400,
-              color: '#8A8A8E',
+              color: 'var(--na-muted)',
               maxWidth: 460,
               lineHeight: 1.75,
             }}
@@ -501,7 +497,7 @@ export default function ServicesPage() {
       {/* ── Services Accordion ─────────────────────────────── */}
       <section
         style={{
-          background: '#FFFFFF',
+          background: 'var(--na-bg)',
           padding: 'clamp(72px, 9vw, 112px) clamp(24px, 4vw, 56px)',
           position: 'relative',
         }}
@@ -515,7 +511,7 @@ export default function ServicesPage() {
             top: 0,
             bottom: 0,
             width: 2,
-            background: '#3D5A80',
+            background: 'var(--na-accent)',
             opacity: 0.12,
           }}
         />
@@ -539,7 +535,7 @@ export default function ServicesPage() {
             fontWeight: 500,
             letterSpacing: '0.1em',
             textTransform: 'uppercase',
-            color: 'rgba(28,28,30,0.25)',
+            color: 'var(--na-muted)',
           }}>
             Click to expand
           </span>
@@ -551,7 +547,7 @@ export default function ServicesPage() {
           whileInView={{ scaleX: 1 }}
           viewport={viewport}
           transition={{ duration: 0.6, ease }}
-          style={{ height: 1, background: '#E2E1DC', marginBottom: 0 }}
+          style={{ height: 1, background: 'var(--na-border-mid)', marginBottom: 0 }}
         />
 
         {/* Rows */}
@@ -570,9 +566,9 @@ export default function ServicesPage() {
                   aria-expanded={isOpen}
                   style={{
                     width: '100%',
-                    background: isOpen ? '#F0EFE9' : 'transparent',
+                    background: isOpen ? 'var(--na-surface)' : 'transparent',
                     border: 'none',
-                    borderBottom: isOpen ? 'none' : '1px solid #E2E1DC',
+                    borderBottom: isOpen ? 'none' : '1px solid var(--na-border-mid)',
                     cursor: 'pointer',
                     textAlign: 'left',
                     padding: `28px ${isOpen ? '20px' : '0px'}`,
@@ -589,7 +585,7 @@ export default function ServicesPage() {
                     fontWeight: 600,
                     letterSpacing: '0.12em',
                     textTransform: 'uppercase',
-                    color: isOpen ? '#3D5A80' : 'rgba(28,28,30,0.22)',
+                    color: isOpen ? 'var(--na-accent)' : 'var(--na-muted)',
                     transition: 'color 0.25s ease',
                   }}>
                     {svc.num}
@@ -601,7 +597,7 @@ export default function ServicesPage() {
                       fontSize: 'clamp(17px, 2.2vw, 26px)',
                       fontWeight: 700,
                       letterSpacing: '-0.02em',
-                      color: '#1C1C1E',
+                      color: 'var(--na-text)',
                       lineHeight: 1.2,
                       marginBottom: isOpen ? 0 : 4,
                     }}>
@@ -610,7 +606,7 @@ export default function ServicesPage() {
                     {!isOpen && (
                       <div style={{
                         fontSize: 13,
-                        color: 'rgba(28,28,30,0.38)',
+                        color: 'var(--na-muted)',
                         lineHeight: 1.5,
                         fontWeight: 400,
                       }}>
@@ -627,7 +623,7 @@ export default function ServicesPage() {
                       fontWeight: 700,
                       letterSpacing: '0.1em',
                       textTransform: 'uppercase',
-                      color: '#3D5A80',
+                      color: 'var(--na-accent)',
                       whiteSpace: 'nowrap',
                     }}
                   >
@@ -645,9 +641,9 @@ export default function ServicesPage() {
                       width: 32,
                       height: 32,
                       borderRadius: '50%',
-                      border: `1px solid ${isOpen ? '#1C1C1E' : '#E2E1DC'}`,
-                      background: isOpen ? '#1C1C1E' : 'transparent',
-                      color: isOpen ? '#FFFFFF' : '#1C1C1E',
+                      border: `1px solid ${isOpen ? 'var(--na-text)' : 'var(--na-border-mid)'}`,
+                      background: isOpen ? 'var(--na-text)' : 'transparent',
+                      color: isOpen ? 'var(--na-bg)' : 'var(--na-text)',
                       flexShrink: 0,
                       transition: 'background 0.25s ease, color 0.25s ease, border-color 0.25s ease',
                     }}
@@ -665,10 +661,10 @@ export default function ServicesPage() {
                       animate={{ height: 'auto', opacity: 1 }}
                       exit={{ height: 0, opacity: 0 }}
                       transition={{ duration: 0.38, ease }}
-                      style={{ overflow: 'hidden', borderBottom: '1px solid #E2E1DC' }}
+                      style={{ overflow: 'hidden', borderBottom: '1px solid var(--na-border-mid)' }}
                     >
                       <div
-                        style={{ background: '#F0EFE9', padding: 'clamp(24px, 3vw, 36px) 20px clamp(32px, 4vw, 44px)' }}
+                        style={{ background: 'var(--na-surface)', padding: 'clamp(24px, 3vw, 36px) 20px clamp(32px, 4vw, 44px)' }}
                         className="grid grid-cols-1 md:grid-cols-2 gap-8"
                       >
                         {/* Bullets */}
@@ -684,7 +680,7 @@ export default function ServicesPage() {
                                 alignItems: 'flex-start',
                                 gap: 12,
                                 fontSize: 14,
-                                color: '#1C1C1E',
+                                color: 'var(--na-text)',
                                 lineHeight: 1.6,
                               }}
                             >
@@ -692,14 +688,14 @@ export default function ServicesPage() {
                                 width: 18,
                                 height: 18,
                                 borderRadius: '50%',
-                                background: 'rgba(61,90,128,0.12)',
+                                background: 'var(--na-accent-dim)',
                                 display: 'flex',
                                 alignItems: 'center',
                                 justifyContent: 'center',
                                 flexShrink: 0,
                                 marginTop: 2,
                               }}>
-                                <Check size={10} strokeWidth={2.5} color="#3D5A80" />
+                                <Check size={10} strokeWidth={2.5} color="var(--na-accent)" />
                               </span>
                               {b}
                             </motion.li>
@@ -718,7 +714,7 @@ export default function ServicesPage() {
                             fontWeight: 700,
                             letterSpacing: '0.12em',
                             textTransform: 'uppercase',
-                            color: '#3D5A80',
+                            color: 'var(--na-accent)',
                           }}>
                             {svc.price}
                           </div>
@@ -732,8 +728,8 @@ export default function ServicesPage() {
                               fontWeight: 700,
                               letterSpacing: '0.08em',
                               textTransform: 'uppercase',
-                              color: '#FAFAF8',
-                              background: '#1C1C1E',
+                              color: 'var(--na-bg)',
+                              background: 'var(--na-text)',
                               padding: '13px 24px',
                               borderRadius: 100,
                               textDecoration: 'none',
@@ -766,7 +762,7 @@ export default function ServicesPage() {
       {/* ── Pricing ────────────────────────────────────────── */}
       <section
         style={{
-          background: '#F0EFE9',
+          background: 'var(--na-surface)',
           padding: 'clamp(80px, 10vw, 120px) clamp(24px, 4vw, 56px)',
           position: 'relative',
           overflow: 'hidden',
@@ -785,7 +781,7 @@ export default function ServicesPage() {
         >
           <defs>
             <pattern id="srv-dots" x="0" y="0" width="24" height="24" patternUnits="userSpaceOnUse">
-              <circle cx="1" cy="1" r="1" fill="#1C1C1E" opacity="0.06" />
+              <circle cx="1" cy="1" r="1" fill="var(--na-text)" opacity="0.06" />
             </pattern>
           </defs>
           <rect width="100%" height="100%" fill="url(#srv-dots)" />
@@ -807,11 +803,11 @@ export default function ServicesPage() {
               fontSize: 'clamp(32px, 5vw, 60px)',
               fontWeight: 700,
               letterSpacing: '-0.03em',
-              color: '#1C1C1E',
+              color: 'var(--na-text)',
               lineHeight: 1.05,
             }}>
               No surprises.<br />
-              <span style={{ fontWeight: 300, fontStyle: 'italic', color: '#8A8A8E' }}>Just clear numbers.</span>
+              <span style={{ fontWeight: 300, fontStyle: 'italic', color: 'var(--na-muted)' }}>Just clear numbers.</span>
             </h2>
           </motion.div>
 
@@ -830,8 +826,8 @@ export default function ServicesPage() {
                 whileHover={{ y: -6 }}
                 transition={{ duration: 0.25, ease: 'easeOut' }}
                 style={{
-                  background: tier.highlight ? '#1C1C1E' : '#FFFFFF',
-                  border: tier.highlight ? 'none' : '1px solid #E2E1DC',
+                  background: tier.highlight ? 'var(--na-text)' : 'var(--na-bg)',
+                  border: tier.highlight ? 'none' : '1px solid var(--na-border-mid)',
                   borderRadius: 12,
                   padding: 'clamp(28px, 3vw, 40px)',
                   display: 'flex',
@@ -850,7 +846,7 @@ export default function ServicesPage() {
                     position: 'absolute',
                     top: 0, left: 0, right: 0,
                     height: 2,
-                    background: '#3D5A80',
+                    background: 'var(--na-accent)',
                   }} />
                 )}
 
@@ -861,7 +857,7 @@ export default function ServicesPage() {
                     fontWeight: 600,
                     letterSpacing: '0.15em',
                     textTransform: 'uppercase',
-                    color: '#3D5A80',
+                    color: 'var(--na-accent)',
                     marginBottom: 10,
                   }}>
                     {tier.name}
@@ -870,7 +866,7 @@ export default function ServicesPage() {
                     fontSize: 'clamp(36px, 5vw, 54px)',
                     fontWeight: 800,
                     letterSpacing: '-0.04em',
-                    color: tier.highlight ? '#FFFFFF' : '#1C1C1E',
+                    color: tier.highlight ? 'var(--na-inv-text)' : 'var(--na-text)',
                     lineHeight: 1,
                     marginBottom: 4,
                   }}>
@@ -880,7 +876,7 @@ export default function ServicesPage() {
                     fontSize: 12,
                     fontWeight: 500,
                     letterSpacing: '0.05em',
-                    color: tier.highlight ? 'rgba(255,255,255,0.35)' : 'rgba(28,28,30,0.38)',
+                    color: tier.highlight ? 'var(--na-inv-muted)' : 'var(--na-muted)',
                     marginBottom: 14,
                   }}>
                     {tier.sub}
@@ -888,14 +884,14 @@ export default function ServicesPage() {
                   <p style={{
                     fontSize: 13,
                     lineHeight: 1.65,
-                    color: tier.highlight ? 'rgba(255,255,255,0.48)' : 'rgba(28,28,30,0.55)',
+                    color: tier.highlight ? 'var(--na-inv-muted)' : 'var(--na-muted)',
                   }}>
                     {tier.desc}
                   </p>
                 </div>
 
                 {/* Divider */}
-                <div style={{ height: 1, background: tier.highlight ? 'rgba(255,255,255,0.08)' : '#E2E1DC' }} />
+                <div style={{ height: 1, background: tier.highlight ? 'rgba(255,255,255,0.08)' : 'var(--na-border-mid)' }} />
 
                 {/* Features */}
                 <ul style={{ listStyle: 'none', display: 'flex', flexDirection: 'column', gap: 11, flex: 1 }}>
@@ -907,7 +903,7 @@ export default function ServicesPage() {
                         alignItems: 'flex-start',
                         gap: 10,
                         fontSize: 13,
-                        color: tier.highlight ? 'rgba(255,255,255,0.72)' : '#1C1C1E',
+                        color: tier.highlight ? 'rgba(255,255,255,0.72)' : 'var(--na-text)',
                         lineHeight: 1.5,
                       }}
                     >
@@ -915,14 +911,14 @@ export default function ServicesPage() {
                         width: 16,
                         height: 16,
                         borderRadius: '50%',
-                        background: tier.highlight ? 'rgba(61,90,128,0.45)' : 'rgba(61,90,128,0.1)',
+                        background: tier.highlight ? 'rgba(61,90,128,0.45)' : 'var(--na-accent-dim)',
                         display: 'flex',
                         alignItems: 'center',
                         justifyContent: 'center',
                         flexShrink: 0,
                         marginTop: 1,
                       }}>
-                        <Check size={9} strokeWidth={2.5} color="#3D5A80" />
+                        <Check size={9} strokeWidth={2.5} color="var(--na-accent)" />
                       </span>
                       {f}
                     </li>
@@ -941,8 +937,8 @@ export default function ServicesPage() {
                     fontWeight: 700,
                     letterSpacing: '0.08em',
                     textTransform: 'uppercase',
-                    color: tier.highlight ? '#1C1C1E' : '#FAFAF8',
-                    background: tier.highlight ? '#FFFFFF' : '#1C1C1E',
+                    color: tier.highlight ? 'var(--na-text)' : 'var(--na-bg)',
+                    background: tier.highlight ? 'var(--na-inv-text)' : 'var(--na-text)',
                     padding: '14px 24px',
                     borderRadius: 100,
                     textDecoration: 'none',
@@ -975,7 +971,7 @@ export default function ServicesPage() {
               fontSize: 12,
               fontWeight: 500,
               letterSpacing: '0.04em',
-              color: 'rgba(28,28,30,0.38)',
+              color: 'var(--na-muted)',
               textAlign: 'center',
             }}
           >
@@ -987,9 +983,9 @@ export default function ServicesPage() {
       {/* ── Add-ons ────────────────────────────────────────── */}
       <section
         style={{
-          background: '#FFFFFF',
+          background: 'var(--na-bg)',
           padding: 'clamp(72px, 9vw, 112px) clamp(24px, 4vw, 56px)',
-          borderTop: '1px solid #E2E1DC',
+          borderTop: '1px solid var(--na-border-mid)',
         }}
       >
         <motion.div
@@ -1006,7 +1002,7 @@ export default function ServicesPage() {
             fontSize: 'clamp(28px, 4vw, 48px)',
             fontWeight: 700,
             letterSpacing: '-0.03em',
-            color: '#1C1C1E',
+            color: 'var(--na-text)',
             lineHeight: 1.1,
           }}>
             Bolt on what you need.
@@ -1029,17 +1025,17 @@ export default function ServicesPage() {
                 alignItems: 'center',
                 justifyContent: 'space-between',
                 padding: '20px 0',
-                borderBottom: '1px solid #E2E1DC',
+                borderBottom: '1px solid var(--na-border-mid)',
                 gap: 20,
               }}
             >
-              <span style={{ fontSize: 15, fontWeight: 500, color: '#1C1C1E', lineHeight: 1.4 }}>
+              <span style={{ fontSize: 15, fontWeight: 500, color: 'var(--na-text)', lineHeight: 1.4 }}>
                 {addon.label}
               </span>
               <span style={{
                 fontSize: 13,
                 fontWeight: 700,
-                color: '#3D5A80',
+                color: 'var(--na-accent)',
                 whiteSpace: 'nowrap',
                 letterSpacing: '0.04em',
               }}>
@@ -1058,7 +1054,7 @@ export default function ServicesPage() {
             marginTop: 32,
             fontSize: 13,
             fontStyle: 'italic',
-            color: '#3D5A80',
+            color: 'var(--na-accent)',
             lineHeight: 1.6,
           }}
         >
@@ -1070,7 +1066,7 @@ export default function ServicesPage() {
       <section
         data-cursor-dark
         style={{
-          background: '#1C1C1E',
+          background: 'var(--na-inv-bg)',
           padding: 'clamp(100px, 14vw, 160px) clamp(24px, 4vw, 56px)',
           textAlign: 'center',
           position: 'relative',
@@ -1129,7 +1125,7 @@ export default function ServicesPage() {
                 fontWeight: 600,
                 letterSpacing: '0.15em',
                 textTransform: 'uppercase',
-                color: 'rgba(255,255,255,0.28)',
+                color: 'var(--na-inv-muted)',
                 marginBottom: 24,
               }}
             >
@@ -1142,7 +1138,7 @@ export default function ServicesPage() {
                 fontSize: 'clamp(52px, 11vw, 128px)',
                 fontWeight: 800,
                 letterSpacing: '-0.04em',
-                color: '#FFFFFF',
+                color: 'var(--na-inv-text)',
                 lineHeight: 0.92,
                 marginBottom: 32,
               }}
@@ -1154,7 +1150,7 @@ export default function ServicesPage() {
               variants={fadeUp}
               style={{
                 fontSize: 'clamp(14px, 1.4vw, 17px)',
-                color: 'rgba(255,255,255,0.38)',
+                color: 'var(--na-inv-muted)',
                 maxWidth: 460,
                 margin: '0 auto 52px',
                 lineHeight: 1.75,
@@ -1173,8 +1169,7 @@ export default function ServicesPage() {
                 className="btn-primary"
                 onClick={() => {
                   if (typeof window !== 'undefined' && (window as any).Calendly) {
-                    // TODO: replace with actual Calendly link
-                    (window as any).Calendly.initPopupWidget({ url: 'https://calendly.com/vantagelabs' })
+                    (window as any).Calendly.initPopupWidget({ url: 'https://calendly.com/nodeaxis' })
                   }
                 }}
                 style={{ cursor: 'pointer' }}
@@ -1193,8 +1188,8 @@ export default function ServicesPage() {
       {/* ── Footer ─────────────────────────────────────────── */}
       <footer
         style={{
-          background: '#141416',
-          borderTop: '1px solid rgba(255,255,255,0.06)',
+          background: 'var(--na-inv-bg)',
+          borderTop: '1px solid var(--na-inv-border)',
           padding: 'clamp(28px, 4vw, 44px) clamp(24px, 4vw, 56px)',
           display: 'flex',
           alignItems: 'center',
@@ -1205,12 +1200,14 @@ export default function ServicesPage() {
       >
         <Link href="/" style={{ display: 'flex', alignItems: 'center', gap: 9, textDecoration: 'none' }}>
           <svg width="18" height="18" viewBox="0 0 22 22" fill="none" aria-hidden="true">
-            <rect x="1" y="1" width="10" height="10" rx="1.5" stroke="#3D5A80" strokeWidth="1.5" />
-            <rect x="11" y="11" width="10" height="10" rx="1.5" stroke="#3D5A80" strokeWidth="1.5" />
-            <rect x="11" y="1" width="10" height="10" rx="1.5" stroke="#3D5A80" strokeWidth="1.5" opacity="0.3" />
+            <circle cx="11" cy="11" r="3" stroke="var(--na-inv-accent)" strokeWidth="1.5"/>
+            <line x1="11" y1="1" x2="11" y2="7" stroke="var(--na-inv-accent)" strokeWidth="1.5" strokeLinecap="round"/>
+            <line x1="11" y1="15" x2="11" y2="21" stroke="var(--na-inv-accent)" strokeWidth="1.5" strokeLinecap="round"/>
+            <line x1="1" y1="11" x2="7" y2="11" stroke="var(--na-inv-accent)" strokeWidth="1.5" strokeLinecap="round" opacity="0.5"/>
+            <line x1="15" y1="11" x2="21" y2="11" stroke="var(--na-inv-accent)" strokeWidth="1.5" strokeLinecap="round" opacity="0.5"/>
           </svg>
-          <span style={{ fontSize: 12, fontWeight: 700, letterSpacing: '-0.01em', color: 'rgba(255,255,255,0.6)' }}>
-            Vantage Labs
+          <span style={{ fontSize: 12, fontWeight: 700, letterSpacing: '-0.01em', color: 'var(--na-inv-text)' }}>
+            NodeAxis
           </span>
         </Link>
 
@@ -1222,11 +1219,11 @@ export default function ServicesPage() {
 
         <span style={{
           fontSize: 11,
-          color: 'rgba(255,255,255,0.18)',
+          color: 'var(--na-inv-muted)',
           fontWeight: 500,
           letterSpacing: '0.06em',
         }}>
-          © 2026 Vantage Labs · BC, Canada
+          © 2026 NodeAxis · BC, Canada
         </span>
       </footer>
 

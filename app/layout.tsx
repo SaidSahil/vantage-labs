@@ -1,6 +1,7 @@
 import type { Metadata } from 'next'
 import { Inter } from 'next/font/google'
 import Script from 'next/script'
+import { ThemeProvider } from '@/lib/theme'
 import './globals.css'
 
 const inter = Inter({
@@ -12,10 +13,10 @@ const inter = Inter({
 })
 
 export const metadata: Metadata = {
-  title: 'Vantage Labs — Custom Websites Starting at $399',
+  title: 'NodeAxis — Custom Websites Starting at $399',
   description: 'Hand-coded websites and landing pages for small businesses. No templates, no page builders. Built to rank and convert. Starting at $399.',
   openGraph: {
-    title: 'Vantage Labs — Custom Websites Starting at $399',
+    title: 'NodeAxis — Custom Websites Starting at $399',
     description: 'Hand-coded websites and landing pages for small businesses. No templates, no page builders. Built to rank and convert. Starting at $399.',
     type: 'website',
   },
@@ -31,12 +32,18 @@ export default function RootLayout({
   children: React.ReactNode
 }) {
   return (
-    <html lang="en" className={inter.variable}>
+    <html lang="en" className={`${inter.variable} dark`}>
       <head>
+        {/* Anti-flash: apply saved theme before React hydrates */}
+        <script dangerouslySetInnerHTML={{ __html: `
+          (function(){try{var t=localStorage.getItem('nodeaxis-theme');if(t==='light'){document.documentElement.classList.remove('dark')}else{document.documentElement.classList.add('dark')}}catch(e){document.documentElement.classList.add('dark')}})();
+        ` }} />
         <link rel="stylesheet" href="https://assets.calendly.com/assets/external/widget.css" />
       </head>
       <body>
-        {children}
+        <ThemeProvider>
+          {children}
+        </ThemeProvider>
         <Script src="https://assets.calendly.com/assets/external/widget.js" strategy="lazyOnload" />
       </body>
     </html>

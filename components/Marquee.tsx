@@ -17,7 +17,7 @@ function Dot() {
         width: 5,
         height: 5,
         borderRadius: '50%',
-        background: '#3D5A80',
+        background: 'var(--na-inv-accent)',
         flexShrink: 0,
         display: 'inline-block',
       }}
@@ -34,10 +34,10 @@ export default function Marquee() {
       aria-label="Services and pricing overview"
       style={{
         overflow: 'hidden',
-        background: '#1C1C1E',
+        background: 'var(--na-inv-bg)',
         padding: '14px 0',
-        borderTop: '1px solid #2a2a2c',
-        borderBottom: '1px solid #2a2a2c',
+        borderTop: '1px solid var(--na-inv-border)',
+        borderBottom: '1px solid var(--na-inv-border)',
       }}
     >
       <div className="ticker-track">
@@ -53,7 +53,7 @@ export default function Marquee() {
               fontWeight: 600,
               letterSpacing: '0.12em',
               textTransform: 'uppercase',
-              color: 'rgba(255,255,255,0.45)',
+              color: 'var(--na-inv-muted)',
               whiteSpace: 'nowrap',
             }}
           >

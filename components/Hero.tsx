@@ -59,27 +59,60 @@ export default function Hero() {
         padding: '0 clamp(24px, 4vw, 48px) 64px',
         position: 'relative',
         overflow: 'hidden',
-        borderBottom: '1px solid #E2E1DC',
-        background: '#FAFAF8',
+        borderBottom: '1px solid var(--na-border-mid)',
+        background: 'var(--na-bg)',
       }}
     >
-      {/* Decorative top-right geometric mark */}
+      {/* Blueprint grid */}
+      <div
+        aria-hidden="true"
+        style={{
+          position: 'absolute',
+          inset: 0,
+          backgroundImage: 'linear-gradient(var(--na-border) 1px, transparent 1px), linear-gradient(90deg, var(--na-border) 1px, transparent 1px)',
+          backgroundSize: '80px 80px',
+          maskImage: 'radial-gradient(ellipse 70% 60% at 60% 40%, black 0%, transparent 80%)',
+          WebkitMaskImage: 'radial-gradient(ellipse 70% 60% at 60% 40%, black 0%, transparent 80%)',
+          pointerEvents: 'none',
+          zIndex: 0,
+        }}
+      />
+
+      {/* Accent glow */}
+      <div
+        aria-hidden="true"
+        style={{
+          position: 'absolute',
+          top: '10%',
+          right: '5%',
+          width: 'clamp(200px, 30vw, 450px)',
+          height: 'clamp(200px, 30vw, 450px)',
+          background: 'radial-gradient(circle, var(--na-accent-dim) 0%, transparent 70%)',
+          pointerEvents: 'none',
+          borderRadius: '50%',
+          zIndex: 0,
+        }}
+      />
+
+      {/* Decorative top-right axis/crosshair mark */}
       <svg
         aria-hidden="true"
         style={{
           position: 'absolute',
           top: '20%',
           right: 'clamp(24px, 5vw, 80px)',
-          width: 'clamp(120px, 15vw, 220px)',
-          opacity: 0.07,
-          transform: 'rotate(15deg)',
+          width: 'clamp(120px, 15vw, 200px)',
+          opacity: 0.08,
           pointerEvents: 'none',
         }}
         viewBox="0 0 200 200"
         fill="none"
       >
-        <rect x="20" y="20" width="80" height="120" stroke="#3D5A80" strokeWidth="1.5" />
-        <rect x="60" y="60" width="80" height="120" stroke="#3D5A80" strokeWidth="1.5" />
+        <circle cx="100" cy="100" r="60" stroke="var(--na-accent)" strokeWidth="1"/>
+        <circle cx="100" cy="100" r="90" stroke="var(--na-accent)" strokeWidth="0.5"/>
+        <line x1="100" y1="0" x2="100" y2="200" stroke="var(--na-accent)" strokeWidth="0.8"/>
+        <line x1="0" y1="100" x2="200" y2="100" stroke="var(--na-accent)" strokeWidth="0.8"/>
+        <circle cx="100" cy="100" r="6" fill="var(--na-accent)"/>
       </svg>
 
       {/* Bottom-left faint circle */}
@@ -97,7 +130,7 @@ export default function Hero() {
         viewBox="0 0 400 400"
         fill="none"
       >
-        <circle cx="200" cy="200" r="199" stroke="#1C1C1E" strokeWidth="1.5" />
+        <circle cx="200" cy="200" r="199" stroke="var(--na-text)" strokeWidth="1.5" />
       </svg>
 
       {/* Meta row — top left */}
@@ -111,6 +144,7 @@ export default function Hero() {
           left: 'clamp(24px, 4vw, 48px)',
           display: 'flex',
           gap: 48,
+          zIndex: 1,
         }}
         className="hidden md:flex"
       >
@@ -121,12 +155,12 @@ export default function Hero() {
               fontWeight: 600,
               letterSpacing: '0.15em',
               textTransform: 'uppercase',
-              color: '#8A8A8E',
+              color: 'var(--na-muted)',
               marginBottom: 4,
             }}>
               {item.label}
             </span>
-            <span style={{ fontSize: 13, fontWeight: 500, color: '#1C1C1E' }}>
+            <span style={{ fontSize: 13, fontWeight: 500, color: 'var(--na-text)' }}>
               {item.value}
             </span>
           </div>
@@ -146,8 +180,9 @@ export default function Hero() {
           fontWeight: 600,
           letterSpacing: '0.15em',
           textTransform: 'uppercase',
-          color: '#8A8A8E',
+          color: 'var(--na-muted)',
           writingMode: 'vertical-rl',
+          zIndex: 1,
         }}
         className="hidden md:block"
       >
@@ -162,6 +197,8 @@ export default function Hero() {
           lineHeight: 0.92,
           letterSpacing: '-0.04em',
           marginBottom: 32,
+          position: 'relative',
+          zIndex: 1,
         }}
       >
         <WordReveal words={line1} baseDelay={0} />
@@ -171,7 +208,7 @@ export default function Hero() {
           style={{
             fontStyle: 'italic',
             fontWeight: 300,
-            color: '#3D5A80',
+            color: 'var(--na-accent)',
           }}
         />
       </h1>
@@ -186,11 +223,13 @@ export default function Hero() {
           alignItems: 'flex-end',
           justifyContent: 'space-between',
           gap: 24,
+          position: 'relative',
+          zIndex: 1,
         }}
       >
         <div style={{ display: 'flex', flexDirection: 'column', gap: 24, maxWidth: 380 }}>
           <div>
-            <p style={{ fontSize: 16, color: '#8A8A8E', lineHeight: 1.65, marginBottom: 12 }}>
+            <p style={{ fontSize: 16, color: 'var(--na-muted)', lineHeight: 1.65, marginBottom: 12 }}>
               Custom websites starting at $399. No templates, no page builders — hand-coded for your business, built to rank and convert.
             </p>
             <span style={{
@@ -201,9 +240,9 @@ export default function Hero() {
               fontWeight: 700,
               letterSpacing: '0.06em',
               textTransform: 'uppercase',
-              color: '#3D5A80',
-              background: 'rgba(61,90,128,0.08)',
-              border: '1px solid rgba(61,90,128,0.18)',
+              color: 'var(--na-accent)',
+              background: 'var(--na-accent-dim)',
+              border: '1px solid rgba(var(--na-accent-rgb), 0.2)',
               borderRadius: 100,
               padding: '5px 14px',
             }}>
@@ -220,7 +259,7 @@ export default function Hero() {
               fontWeight: 600,
               letterSpacing: '0.06em',
               textTransform: 'uppercase',
-              color: '#3D5A80',
+              color: 'var(--na-accent)',
             }}
             aria-label="See our work"
           >
@@ -239,7 +278,7 @@ export default function Hero() {
             fontWeight: 600,
             letterSpacing: '0.15em',
             textTransform: 'uppercase',
-            color: '#8A8A8E',
+            color: 'var(--na-muted)',
             flexShrink: 0,
           }}
           className="hidden sm:flex"
@@ -257,7 +296,7 @@ export default function Hero() {
             display: 'flex',
             alignItems: 'center',
             justifyContent: 'center',
-            color: '#C8C6C0',
+            color: 'var(--na-muted)',
           }}
           aria-hidden="true"
         >

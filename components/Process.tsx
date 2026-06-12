@@ -13,7 +13,7 @@ const steps = [
     subtitle: 'We learn your business goals',
     desc: 'One focused call. We dig into your business, your users, your competitors, and what success actually looks like for you.',
     duration: '1–2 days',
-    color: '#3D5A80',
+    color: 'var(--na-accent)',
   },
   {
     num: '02',
@@ -22,7 +22,7 @@ const steps = [
     subtitle: 'You see every screen first',
     desc: 'Wireframes and high-fidelity mockups built around your brand. You approve every screen before a single line of code is written.',
     duration: '3–5 days',
-    color: '#5A7FAD',
+    color: 'var(--na-accent)',
   },
   {
     num: '03',
@@ -31,7 +31,7 @@ const steps = [
     subtitle: 'Hand-coded, built to the approved design',
     desc: 'Hand-coded, fast, and built exactly to the approved design. Performance-first, mobile-first. Every component purpose-built for your project.',
     duration: '5–14 days',
-    color: '#3D5A80',
+    color: 'var(--na-accent)',
   },
   {
     num: '04',
@@ -40,7 +40,7 @@ const steps = [
     subtitle: 'Refine until it\'s right',
     desc: 'We share a live staging link. You test it, break it, and tell us exactly what to change. We refine until it\'s right.',
     duration: '2–3 days',
-    color: '#5A7FAD',
+    color: 'var(--na-accent)',
   },
   {
     num: '05',
@@ -49,7 +49,7 @@ const steps = [
     subtitle: 'We handle the handoff',
     desc: 'Your site goes live. We handle hosting setup, test across every device, and walk you through everything — credentials, domain, full handoff.',
     duration: '1 day',
-    color: '#3D5A80',
+    color: 'var(--na-accent)',
   },
 ]
 
@@ -79,13 +79,13 @@ function StepCard({ step, index, active, onEnter, onLeave, inView }: {
       {/* Card */}
       <div
         style={{
-          border: `1px solid ${active ? 'rgba(61,90,128,0.5)' : '#E2E1DC'}`,
+          border: active ? '1px solid var(--na-accent)' : '1px solid var(--na-border-mid)',
           borderRadius: 16,
           padding: '28px 24px',
-          background: active ? 'rgba(61,90,128,0.04)' : '#FFFFFF',
+          background: active ? 'var(--na-accent-dim)' : 'var(--na-bg)',
           transition: 'border-color 0.25s ease, background 0.25s ease, transform 0.25s ease, box-shadow 0.25s ease',
           transform: active ? 'translateY(-4px)' : 'translateY(0)',
-          boxShadow: active ? '0 12px 32px rgba(61,90,128,0.10)' : '0 1px 4px rgba(0,0,0,0.04)',
+          boxShadow: active ? '0 12px 32px var(--na-accent-dim)' : '0 1px 4px rgba(0,0,0,0.04)',
           height: '100%',
           boxSizing: 'border-box',
         }}
@@ -97,7 +97,7 @@ function StepCard({ step, index, active, onEnter, onLeave, inView }: {
             fontWeight: 700,
             letterSpacing: '0.15em',
             textTransform: 'uppercase',
-            color: active ? step.color : '#C8C6C0',
+            color: active ? 'var(--na-accent)' : 'var(--na-muted)',
             transition: 'color 0.25s ease',
           }}>
             {step.num}
@@ -106,13 +106,13 @@ function StepCard({ step, index, active, onEnter, onLeave, inView }: {
             width: 36,
             height: 36,
             borderRadius: '50%',
-            background: active ? `rgba(61,90,128,0.12)` : '#F0EFE9',
+            background: active ? 'var(--na-accent-dim)' : 'var(--na-surface)',
             display: 'flex',
             alignItems: 'center',
             justifyContent: 'center',
             transition: 'background 0.25s ease',
           }}>
-            <Icon size={16} strokeWidth={1.75} color={active ? step.color : '#8A8A8E'} />
+            <Icon size={16} strokeWidth={1.75} color={active ? 'var(--na-accent)' : 'var(--na-muted)'} />
           </div>
         </div>
 
@@ -121,7 +121,7 @@ function StepCard({ step, index, active, onEnter, onLeave, inView }: {
           fontSize: 17,
           fontWeight: 800,
           letterSpacing: '-0.02em',
-          color: '#1C1C1E',
+          color: 'var(--na-text)',
           marginBottom: 6,
           lineHeight: 1.2,
         }}>
@@ -134,7 +134,7 @@ function StepCard({ step, index, active, onEnter, onLeave, inView }: {
           fontWeight: 600,
           letterSpacing: '0.08em',
           textTransform: 'uppercase',
-          color: active ? step.color : '#B0AFAB',
+          color: active ? 'var(--na-accent)' : 'var(--na-muted)',
           marginBottom: 16,
           transition: 'color 0.25s ease',
         }}>
@@ -145,7 +145,7 @@ function StepCard({ step, index, active, onEnter, onLeave, inView }: {
         <p style={{
           fontSize: 13,
           lineHeight: 1.75,
-          color: '#8A8A8E',
+          color: 'var(--na-muted)',
           margin: 0,
         }}>
           {step.desc}
@@ -160,8 +160,8 @@ function StepCard({ step, index, active, onEnter, onLeave, inView }: {
           fontSize: 11,
           fontWeight: 600,
           letterSpacing: '0.06em',
-          color: active ? step.color : '#B0AFAB',
-          background: active ? `rgba(61,90,128,0.08)` : '#F6F5F2',
+          color: active ? 'var(--na-accent)' : 'var(--na-muted)',
+          background: active ? 'var(--na-accent-dim)' : 'var(--na-surface)',
           padding: '5px 12px',
           borderRadius: 100,
           transition: 'color 0.25s ease, background 0.25s ease',
@@ -170,7 +170,7 @@ function StepCard({ step, index, active, onEnter, onLeave, inView }: {
             width: 5,
             height: 5,
             borderRadius: '50%',
-            background: active ? step.color : '#C8C6C0',
+            background: active ? 'var(--na-accent)' : 'var(--na-muted)',
             display: 'inline-block',
             flexShrink: 0,
             transition: 'background 0.25s ease',
@@ -192,9 +192,9 @@ export default function Process() {
       id="process"
       ref={ref}
       style={{
-        background: '#FAFAF8',
+        background: 'var(--na-bg)',
         padding: 'clamp(80px, 10vw, 100px) clamp(24px, 4vw, 48px)',
-        borderTop: '1px solid #E2E1DC',
+        borderTop: '1px solid var(--na-border-mid)',
       }}
     >
       {/* Header */}
@@ -206,20 +206,20 @@ export default function Process() {
           display: 'flex',
           alignItems: 'baseline',
           justifyContent: 'space-between',
-          borderBottom: '1px solid #E2E1DC',
+          borderBottom: '1px solid var(--na-border-mid)',
           paddingBottom: 24,
           marginBottom: 56,
         }}
       >
         <div style={{ display: 'flex', alignItems: 'baseline', gap: 16 }}>
-          <span style={{ fontSize: 13, fontWeight: 600, letterSpacing: '0.1em', textTransform: 'uppercase', color: '#1C1C1E' }}>How We Build</span>
+          <span style={{ fontSize: 13, fontWeight: 600, letterSpacing: '0.1em', textTransform: 'uppercase', color: 'var(--na-text)' }}>How We Build</span>
         </div>
         <div style={{
           fontSize: 12,
           fontWeight: 600,
           letterSpacing: '0.08em',
           textTransform: 'uppercase',
-          color: '#8A8A8E',
+          color: 'var(--na-muted)',
         }}>
           Avg. 2–4 weeks start to launch
         </div>
@@ -237,15 +237,15 @@ export default function Process() {
           fontWeight: 800,
           letterSpacing: '-0.03em',
           lineHeight: 1.05,
-          color: '#1C1C1E',
+          color: 'var(--na-text)',
           maxWidth: 560,
         }}>
           Your project, step<br />
-          <em style={{ fontWeight: 300, color: '#3D5A80' }}>by step.</em>
+          <em style={{ fontWeight: 300, color: 'var(--na-accent)' }}>by step.</em>
         </h2>
         <p style={{
           fontSize: 15,
-          color: '#8A8A8E',
+          color: 'var(--na-muted)',
           lineHeight: 1.7,
           maxWidth: 440,
           marginTop: 16,
@@ -266,7 +266,7 @@ export default function Process() {
           left: '10%',
           right: '10%',
           height: 1,
-          background: '#E2E1DC',
+          background: 'var(--na-border-mid)',
           transform: 'translateY(-50%)',
         }} />
         {/* Animated fill */}
@@ -280,7 +280,7 @@ export default function Process() {
             left: '10%',
             right: '10%',
             height: 1,
-            background: 'linear-gradient(90deg, #3D5A80 0%, #5A7FAD 100%)',
+            background: 'var(--na-accent)',
             transform: 'translateY(-50%)',
             transformOrigin: 'left',
           }}
@@ -297,9 +297,9 @@ export default function Process() {
                 width: 10,
                 height: 10,
                 borderRadius: '50%',
-                background: activeIndex === i ? step.color : '#3D5A80',
-                border: `2px solid ${activeIndex === i ? step.color : '#FAFAF8'}`,
-                boxShadow: activeIndex === i ? `0 0 0 3px rgba(61,90,128,0.2)` : 'none',
+                background: 'var(--na-accent)',
+                border: activeIndex === i ? '2px solid var(--na-accent)' : '2px solid var(--na-bg)',
+                boxShadow: activeIndex === i ? `0 0 0 3px var(--na-accent-dim)` : 'none',
                 transition: 'box-shadow 0.25s ease, border-color 0.25s ease',
               }}
             />
@@ -336,7 +336,7 @@ export default function Process() {
         style={{
           marginTop: 40,
           paddingTop: 32,
-          borderTop: '1px solid #E2E1DC',
+          borderTop: '1px solid var(--na-border-mid)',
           display: 'flex',
           alignItems: 'center',
           justifyContent: 'space-between',
@@ -344,7 +344,7 @@ export default function Process() {
           gap: 16,
         }}
       >
-        <p style={{ fontSize: 13, color: '#B0AFAB', lineHeight: 1.6, maxWidth: 420 }}>
+        <p style={{ fontSize: 13, color: 'var(--na-muted)', lineHeight: 1.6, maxWidth: 420 }}>
           Timelines vary by project complexity. Rush delivery available — ask us.
         </p>
         <div style={{ display: 'flex', gap: 32 }}>
@@ -354,8 +354,8 @@ export default function Process() {
             { label: 'Communication', value: 'Daily updates' },
           ].map(item => (
             <div key={item.label} style={{ textAlign: 'right' }}>
-              <div style={{ fontSize: 11, fontWeight: 600, letterSpacing: '0.1em', textTransform: 'uppercase', color: '#B0AFAB', marginBottom: 4 }}>{item.label}</div>
-              <div style={{ fontSize: 14, fontWeight: 700, color: '#1C1C1E' }}>{item.value}</div>
+              <div style={{ fontSize: 11, fontWeight: 600, letterSpacing: '0.1em', textTransform: 'uppercase', color: 'var(--na-muted)', marginBottom: 4 }}>{item.label}</div>
+              <div style={{ fontSize: 14, fontWeight: 700, color: 'var(--na-text)' }}>{item.value}</div>
             </div>
           ))}
         </div>

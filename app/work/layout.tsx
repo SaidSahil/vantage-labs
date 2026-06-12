@@ -1,10 +1,10 @@
 import type { Metadata } from 'next'
 
 export const metadata: Metadata = {
-  title: 'Our Work — Vantage Labs',
+  title: 'Our Work — NodeAxis',
   description: 'Real projects built for real businesses across Canada. Custom websites, booking systems, and dashboards — every one hand-coded and built to perform.',
   openGraph: {
-    title: 'Our Work — Vantage Labs',
+    title: 'Our Work — NodeAxis',
     description: 'Real projects built for real businesses across Canada. Custom websites, booking systems, and dashboards — every one hand-coded and built to perform.',
     type: 'website',
   },

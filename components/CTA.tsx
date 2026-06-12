@@ -9,12 +9,12 @@ export default function CTA() {
       id="cta"
       data-cursor-dark
       style={{
-        background: '#1C1C1E',
+        background: 'var(--na-inv-bg)',
         color: '#FFFFFF',
         padding: 'clamp(100px, 14vw, 140px) clamp(24px, 4vw, 48px)',
         position: 'relative',
         overflow: 'hidden',
-        borderTop: '1px solid #2a2a2c',
+        borderTop: '1px solid var(--na-inv-border)',
       }}
     >
       {/* Ghost background text */}
@@ -75,7 +75,7 @@ export default function CTA() {
               fontWeight: 600,
               letterSpacing: '0.15em',
               textTransform: 'uppercase',
-              color: 'rgba(255,255,255,0.3)',
+              color: 'var(--na-inv-muted)',
               marginBottom: 24,
             }}
           >
@@ -95,7 +95,7 @@ export default function CTA() {
           >
             Ready to
             <br />
-            <em style={{ fontStyle: 'italic', fontWeight: 300, color: 'rgba(255,255,255,0.45)' }}>
+            <em style={{ fontStyle: 'italic', fontWeight: 300, color: 'var(--na-inv-muted)' }}>
               build?
             </em>
           </motion.h2>
@@ -112,7 +112,7 @@ export default function CTA() {
         >
           <p style={{
             fontSize: 15,
-            color: 'rgba(255,255,255,0.62)',
+            color: 'var(--na-inv-muted)',
             maxWidth: 260,
             lineHeight: 1.7,
             marginBottom: 32,
@@ -125,7 +125,7 @@ export default function CTA() {
             className="justify-start md:justify-end"
           >
             <a
-              href="https://calendly.com/vantage-labs"
+              href="https://calendly.com/nodeaxis"
               target="_blank"
               rel="noopener noreferrer"
               className="btn-primary"
@@ -134,7 +134,7 @@ export default function CTA() {
               Book a Call
               <ArrowRight size={14} strokeWidth={2} />
             </a>
-            <a href="mailto:hello@vantagelabs.ca" className="btn-ghost">
+            <a href="mailto:hello@nodeaxis.ca" className="btn-ghost">
               Email Us
             </a>
           </div>

@@ -1,11 +1,13 @@
 import Link from 'next/link'
 
-function VMark() {
+function NodeAxisMark() {
   return (
     <svg width="18" height="18" viewBox="0 0 22 22" fill="none" aria-hidden="true">
-      <rect x="1" y="1" width="10" height="10" rx="1.5" stroke="rgba(255,255,255,0.4)" strokeWidth="1.5" />
-      <rect x="11" y="11" width="10" height="10" rx="1.5" stroke="rgba(255,255,255,0.4)" strokeWidth="1.5" />
-      <rect x="11" y="1" width="10" height="10" rx="1.5" stroke="rgba(255,255,255,0.15)" strokeWidth="1.5" />
+      <circle cx="11" cy="11" r="3" stroke="var(--na-inv-accent)" strokeWidth="1.5"/>
+      <line x1="11" y1="1" x2="11" y2="7" stroke="var(--na-inv-accent)" strokeWidth="1.5" strokeLinecap="round"/>
+      <line x1="11" y1="15" x2="11" y2="21" stroke="var(--na-inv-accent)" strokeWidth="1.5" strokeLinecap="round"/>
+      <line x1="1" y1="11" x2="7" y2="11" stroke="var(--na-inv-accent)" strokeWidth="1.5" strokeLinecap="round" opacity="0.5"/>
+      <line x1="15" y1="11" x2="21" y2="11" stroke="var(--na-inv-accent)" strokeWidth="1.5" strokeLinecap="round" opacity="0.5"/>
     </svg>
   )
 }
@@ -25,9 +27,9 @@ export default function Footer() {
     <footer
       data-cursor-dark
       style={{
-        background: '#141416',
+        background: 'var(--na-inv-bg)',
         padding: 'clamp(40px, 5vw, 60px) clamp(24px, 4vw, 48px)',
-        borderTop: '1px solid #2a2a2c',
+        borderTop: '1px solid var(--na-inv-border)',
       }}
     >
       {/* Top row */}
@@ -37,7 +39,7 @@ export default function Footer() {
           alignItems: 'start',
           gap: 32,
           paddingBottom: 'clamp(28px, 4vw, 40px)',
-          borderBottom: '1px solid rgba(255,255,255,0.06)',
+          borderBottom: '1px solid var(--na-inv-border)',
           marginBottom: 'clamp(24px, 3vw, 32px)',
         }}
         className="grid-cols-1 md:grid-cols-[1fr_auto]"
@@ -50,15 +52,15 @@ export default function Footer() {
             gap: 10,
             fontSize: 14,
             fontWeight: 700,
-            color: 'rgba(255,255,255,0.6)',
+            color: 'var(--na-inv-text)',
             marginBottom: 10,
           }}>
-            <VMark />
-            Vantage Labs
+            <NodeAxisMark />
+            NodeAxis
           </div>
           <p style={{
             fontSize: 13,
-            color: 'rgba(255,255,255,0.22)',
+            color: 'var(--na-inv-muted)',
             lineHeight: 1.6,
             maxWidth: 280,
           }}>
@@ -82,7 +84,7 @@ export default function Footer() {
             <li><Link href="/contact" className="footer-link">Contact</Link></li>
             <li>
               <a
-                href="https://linkedin.com/company/vantage-labs"
+                href="https://linkedin.com/company/nodeaxis"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="footer-link"
@@ -93,8 +95,8 @@ export default function Footer() {
               </a>
             </li>
             <li>
-              <a href="mailto:hello@vantagelabs.ca" className="footer-link">
-                hello@vantagelabs.ca
+              <a href="mailto:hello@nodeaxis.ca" className="footer-link">
+                hello@nodeaxis.ca
               </a>
             </li>
           </ul>
@@ -114,13 +116,13 @@ export default function Footer() {
           fontWeight: 600,
           letterSpacing: '0.1em',
           textTransform: 'uppercase',
-          color: 'rgba(255,255,255,0.2)',
+          color: 'var(--na-inv-muted)',
         }}>
-          © 2026 Vantage Labs — BC, Canada
+          © 2026 NodeAxis — BC, Canada
         </span>
         <span style={{
           fontSize: 11,
-          color: 'rgba(255,255,255,0.12)',
+          color: 'var(--na-inv-border)',
           letterSpacing: '0.06em',
         }}>
           Hand-coded. No templates.

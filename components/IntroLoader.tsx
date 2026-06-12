@@ -3,7 +3,7 @@ import { useEffect, useState } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 
 const ease = [0.22, 1, 0.36, 1] as [number, number, number, number]
-const CHARS = 'VANTAGE LABS'.split('')
+const CHARS = 'NODEAXIS'.split('')
 
 export default function IntroLoader({ onComplete }: { onComplete: () => void }) {
   const [visible, setVisible] = useState(true)
@@ -35,7 +35,7 @@ export default function IntroLoader({ onComplete }: { onComplete: () => void }) 
             gap: 32,
           }}
         >
-          {/* VMark */}
+          {/* NodeAxis crosshair mark */}
           <motion.svg
             initial={{ opacity: 0, scale: 0.75 }}
             animate={{ opacity: 1, scale: 1 }}
@@ -46,9 +46,11 @@ export default function IntroLoader({ onComplete }: { onComplete: () => void }) 
             fill="none"
             aria-hidden="true"
           >
-            <rect x="1" y="1" width="10" height="10" rx="1.5" stroke="rgba(255,255,255,0.65)" strokeWidth="1.5" />
-            <rect x="11" y="11" width="10" height="10" rx="1.5" stroke="rgba(255,255,255,0.65)" strokeWidth="1.5" />
-            <rect x="11" y="1" width="10" height="10" rx="1.5" stroke="#3D5A80" strokeWidth="1.5" />
+            <circle cx="11" cy="11" r="3" stroke="rgba(79,142,247,0.8)" strokeWidth="1.5"/>
+            <line x1="11" y1="1" x2="11" y2="7" stroke="rgba(79,142,247,0.8)" strokeWidth="1.5" strokeLinecap="round"/>
+            <line x1="11" y1="15" x2="11" y2="21" stroke="rgba(79,142,247,0.8)" strokeWidth="1.5" strokeLinecap="round"/>
+            <line x1="1" y1="11" x2="7" y2="11" stroke="rgba(79,142,247,0.4)" strokeWidth="1.5" strokeLinecap="round"/>
+            <line x1="15" y1="11" x2="21" y2="11" stroke="rgba(79,142,247,0.4)" strokeWidth="1.5" strokeLinecap="round"/>
           </motion.svg>
 
           {/* Char-by-char wordmark */}
@@ -76,7 +78,7 @@ export default function IntroLoader({ onComplete }: { onComplete: () => void }) 
                     width: char === ' ' ? 12 : 'auto',
                   }}
                 >
-                  {char === ' ' ? ' ' : char}
+                  {char === ' ' ? ' ' : char}
                 </motion.span>
               </div>
             ))}
@@ -97,7 +99,7 @@ export default function IntroLoader({ onComplete }: { onComplete: () => void }) 
               style={{
                 position: 'absolute',
                 inset: 0,
-                background: '#3D5A80',
+                background: '#4F8EF7',
                 transformOrigin: 'left',
               }}
             />
