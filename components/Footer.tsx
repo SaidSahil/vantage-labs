@@ -1,3 +1,6 @@
+'use client'
+import { motion } from 'framer-motion'
+import { fadeUp, viewport } from '@/lib/animations'
 import Link from 'next/link'
 
 function NodeAxisMark() {
@@ -27,7 +30,11 @@ function LinkedInIcon() {
 
 export default function Footer() {
   return (
-    <footer
+    <motion.footer
+      initial="hidden"
+      whileInView="visible"
+      viewport={viewport}
+      variants={fadeUp}
       data-cursor-dark
       style={{
         background: 'var(--na-inv-bg)',
@@ -131,6 +138,6 @@ export default function Footer() {
           Hand-coded. No templates.
         </span>
       </div>
-    </footer>
+    </motion.footer>
   )
 }

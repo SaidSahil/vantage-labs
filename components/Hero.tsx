@@ -1,4 +1,5 @@
 'use client'
+import { Fragment } from 'react'
 import { motion } from 'framer-motion'
 import Link from 'next/link'
 import { ArrowRight } from 'lucide-react'
@@ -26,22 +27,21 @@ function WordReveal({
   return (
     <span style={{ display: 'block', ...style }}>
       {words.map((word, i) => (
-        <span
-          key={i}
-          style={{ display: 'inline-block', overflow: 'hidden', verticalAlign: 'bottom' }}
-        >
-          <motion.span
-            initial={{ y: '110%' }}
-            animate={{ y: '0%' }}
-            transition={{ delay: baseDelay + i * 0.07, duration: 0.55, ease }}
-            style={{ display: 'inline-block' }}
-          >
-            {word}
-          </motion.span>
+        <Fragment key={i}>
+          <span style={{ display: 'inline-block', overflow: 'hidden', verticalAlign: 'bottom' }}>
+            <motion.span
+              initial={{ y: '110%' }}
+              animate={{ y: '0%' }}
+              transition={{ delay: baseDelay + i * 0.07, duration: 0.55, ease }}
+              style={{ display: 'inline-block' }}
+            >
+              {word}
+            </motion.span>
+          </span>
           {i < words.length - 1 && (
-            <span style={{ display: 'inline-block', width: '0.28em' }} />
+            <span style={{ display: 'inline-block', width: '0.35em' }} />
           )}
-        </span>
+        </Fragment>
       ))}
     </span>
   )

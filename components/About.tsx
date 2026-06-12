@@ -1,6 +1,7 @@
 'use client'
 import { motion } from 'framer-motion'
 import { fadeLeft, fadeRight, fadeUp, stagger, viewport } from '@/lib/animations'
+import { useCountUp } from '@/lib/useCountUp'
 
 const stats = [
   { value: '~2 weeks', label: 'Avg delivery time' },
@@ -23,28 +24,52 @@ const pillars = [
   },
 ]
 
+const valueStyle = {
+  fontSize: 'clamp(28px, 3.5vw, 42px)',
+  fontWeight: 800,
+  letterSpacing: '-0.03em',
+  lineHeight: 1,
+  color: 'var(--na-text)',
+} as const
+
+const labelStyle = {
+  fontSize: 11,
+  fontWeight: 600,
+  letterSpacing: '0.08em',
+  textTransform: 'uppercase' as const,
+  color: 'var(--na-muted)',
+  marginTop: 8,
+}
+
 function StatBlock({ value, label }: { value: string; label: string }) {
   return (
     <div style={{ display: 'flex', flexDirection: 'column' }}>
-      <span style={{
-        fontSize: 'clamp(28px, 3.5vw, 42px)',
-        fontWeight: 800,
-        letterSpacing: '-0.03em',
-        lineHeight: 1,
-        color: 'var(--na-text)',
-      }}>
-        {value}
+      <span style={valueStyle}>{value}</span>
+      <span style={labelStyle}>{label}</span>
+    </div>
+  )
+}
+
+function PriceCountUp({ label }: { label: string }) {
+  const { count, ref } = useCountUp(399, 1200)
+  return (
+    <div style={{ display: 'flex', flexDirection: 'column' }}>
+      <span style={valueStyle}>
+        $<span ref={ref}>{count}</span>
       </span>
-      <span style={{
-        fontSize: 11,
-        fontWeight: 600,
-        letterSpacing: '0.08em',
-        textTransform: 'uppercase',
-        color: 'var(--na-muted)',
-        marginTop: 8,
-      }}>
-        {label}
+      <span style={labelStyle}>{label}</span>
+    </div>
+  )
+}
+
+function PercentCountUp({ label }: { label: string }) {
+  const { count, ref } = useCountUp(100, 900)
+  return (
+    <div style={{ display: 'flex', flexDirection: 'column' }}>
+      <span style={valueStyle}>
+        <span ref={ref}>{count}</span>%
       </span>
+      <span style={labelStyle}>{label}</span>
     </div>
   )
 }
@@ -231,19 +256,35 @@ export default function About() {
         }}
         className="grid-cols-1 sm:grid-cols-3"
       >
-        {stats.map((stat, i) => (
-          <motion.div
-            key={stat.label}
-            variants={fadeUp}
-            className="stat-cell"
-            style={{
-              padding: i === 0 ? '0 24px 0 0' : i === 1 ? '0 24px' : '0 0 0 24px',
-              borderRight: i < 2 ? '1px solid var(--na-border-mid)' : 'none',
-            }}
-          >
-            <StatBlock value={stat.value} label={stat.label} />
-          </motion.div>
-        ))}
+        {/* ~2 weeks — static */}
+        <motion.div
+          key="avg-delivery"
+          variants={fadeUp}
+          className="stat-cell"
+          style={{ padding: '0 24px 0 0', borderRight: '1px solid var(--na-border-mid)' }}
+        >
+          <StatBlock value={stats[0].value} label={stats[0].label} />
+        </motion.div>
+
+        {/* $399 — animated count-up */}
+        <motion.div
+          key="starting-price"
+          variants={fadeUp}
+          className="stat-cell"
+          style={{ padding: '0 24px', borderRight: '1px solid var(--na-border-mid)' }}
+        >
+          <PriceCountUp label={stats[1].label} />
+        </motion.div>
+
+        {/* 100% — animated count-up */}
+        <motion.div
+          key="custom-code"
+          variants={fadeUp}
+          className="stat-cell"
+          style={{ padding: '0 0 0 24px', borderRight: 'none' }}
+        >
+          <PercentCountUp label={stats[2].label} />
+        </motion.div>
       </motion.div>
     </section>
   )

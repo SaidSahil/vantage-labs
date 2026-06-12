@@ -1,3 +1,7 @@
+'use client'
+import { motion } from 'framer-motion'
+import { fadeUp, viewport } from '@/lib/animations'
+
 const items = [
   'Starting at $399',
   '2-Week Delivery',
@@ -29,7 +33,11 @@ export default function Marquee() {
   const doubled = [...items, ...items]
 
   return (
-    <div
+    <motion.div
+      initial="hidden"
+      whileInView="visible"
+      viewport={viewport}
+      variants={fadeUp}
       role="region"
       aria-label="Services and pricing overview"
       style={{
@@ -62,6 +70,6 @@ export default function Marquee() {
           </div>
         ))}
       </div>
-    </div>
+    </motion.div>
   )
 }

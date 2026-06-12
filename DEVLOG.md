@@ -146,6 +146,28 @@ A running record of every session: what was built, what broke, what was fixed, a
 
 ---
 
+### [2026-06-12] — NodeAxis Critique Fixes: Priority #1 & #2
+
+**Changes:**
+- `components/Hero.tsx` — Fixed hero headline rendering bug. The `WordReveal` inter-word spacer was placed inside the `overflow: hidden` animation wrapper, causing words to concatenate ("Webuilddigitalthatworks"). Fix: added `import { Fragment } from 'react'`, wrapped each word iteration in `<Fragment key={i}>`, moved the spacer span outside the overflow-hidden container, increased spacer from `0.28em` → `0.35em` for reliable rendering at all font sizes.
+- `components/Marquee.tsx` — Added `'use client'` directive, imported `motion`/`fadeUp`/`viewport`. Replaced outer `<div>` with `<motion.div whileInView>` so the marquee band fades up on scroll entry.
+- `components/Footer.tsx` — Added `'use client'`, imported `motion`/`fadeUp`/`viewport`. Replaced `<footer>` with `<motion.footer whileInView>` so the footer fades up on scroll entry.
+- `components/About.tsx` — Wired up the unused `useCountUp` hook. Extracted shared `valueStyle`/`labelStyle` constants. Added `PriceCountUp` component (counts 0→399 over 1200ms, renders as `$399`). Added `PercentCountUp` component (counts 0→100 over 900ms, renders as `100%`). Stats row now has static `~2 weeks`, animated `$399`, animated `100%` — all stagger-revealed on scroll.
+
+**Bugs fixed:**
+- Hero headline concatenation bug — all words in "We build digital that works." now separated by proper 0.35em spacers outside the clip container.
+
+**Still open:**
+- Contact form backend not wired
+- Calendly embed pending
+- Custom domain not connected
+- Real project images/media (placeholders only)
+- Analytics not set up
+- Real founder headshot (placeholder "A" avatar in About.tsx)
+- Critique items #3–#22 (animated counters in Work section, portfolio thumbnails, color system, etc.)
+
+---
+
 ### [2026-06-08] — Initial Build: Full Site Structure
 
 **Changes:**
