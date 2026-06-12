@@ -239,7 +239,7 @@ export default function ContactPage() {
           </Link>
         </div>
         {/* Mobile menu */}
-        <div ref={menuRef} className="md:hidden" style={{ position: 'relative', display: 'flex', alignItems: 'center', gap: 8 }}>
+        <div ref={menuRef} className="flex md:hidden" style={{ position: 'relative', alignItems: 'center', gap: 8 }}>
           <button
             type="button"
             onClick={toggle}
