@@ -53,73 +53,45 @@ function ProjectCard({ project }: { project: typeof projects[0] }) {
       >
         {/* Preview area — uses padding-top trick so iframe never bleeds into layout */}
         <div style={{ position: 'relative', width: '100%', paddingTop: '56.25%', background: 'var(--na-surface)', flexShrink: 0, overflow: 'hidden', borderRadius: '11px 11px 0 0' }}>
-          {project.preview ? (
-            <>
-              {!iframeLoaded && (
-                <div style={{
-                  position: 'absolute', inset: 0,
-                  display: 'flex', alignItems: 'center', justifyContent: 'center',
-                  background: 'linear-gradient(135deg, var(--na-surface), var(--na-surface-2))',
-                  zIndex: 1,
-                }}>
-                  <div style={{
-                    width: 18, height: 18,
-                    border: '2px solid var(--na-border-mid)', borderTopColor: 'var(--na-accent)',
-                    borderRadius: '50%', animation: 'spin 0.7s linear infinite',
-                  }} />
-                </div>
-              )}
-              {/* Absolutely-positioned wrapper so iframe width never escapes the card */}
-              <motion.div
-                whileHover={{ scale: 1.03 }}
-                transition={{ duration: 0.4, ease: 'easeOut' }}
-                style={{ position: 'absolute', inset: 0, overflow: 'hidden' }}
-              >
-                <iframe
-                  src={project.preview}
-                  title={project.name}
-                  style={{
-                    position: 'absolute',
-                    top: 0, left: 0,
-                    width: `${100 / SCALE}%`,
-                    height: `${100 / SCALE}%`,
-                    transform: `scale(${SCALE})`,
-                    transformOrigin: 'top left',
-                    border: 'none', pointerEvents: 'none',
-                    opacity: iframeLoaded ? 1 : 0,
-                    transition: 'opacity 0.4s ease',
-                  }}
-                  loading="lazy"
-                  sandbox="allow-scripts allow-same-origin"
-                  onLoad={() => setIframeLoaded(true)}
-                />
-              </motion.div>
-            </>
-          ) : (
+          {!iframeLoaded && (
             <div style={{
               position: 'absolute', inset: 0,
-              display: 'flex', flexDirection: 'column',
-              alignItems: 'center', justifyContent: 'center', gap: 12,
-              background: 'linear-gradient(135deg, var(--na-surface) 0%, var(--na-surface-2) 100%)',
+              display: 'flex', alignItems: 'center', justifyContent: 'center',
+              background: 'linear-gradient(135deg, var(--na-surface), var(--na-surface-2))',
+              zIndex: 1,
             }}>
-              <svg width="24" height="24" viewBox="0 0 22 22" fill="none" aria-hidden="true">
-                <polygon points="11,1.5 19.5,6.25 19.5,15.75 11,20.5 2.5,15.75 2.5,6.25" stroke="var(--na-inv-accent)" strokeWidth="1.3" strokeLinejoin="round"/>
-                <line x1="7" y1="7" x2="7"  y2="15" stroke="var(--na-inv-accent)" strokeWidth="1.7" strokeLinecap="round"/>
-                <line x1="7" y1="7" x2="15" y2="15" stroke="var(--na-inv-accent)" strokeWidth="1.7" strokeLinecap="round"/>
-                <line x1="15" y1="7" x2="15" y2="15" stroke="var(--na-inv-accent)" strokeWidth="1.7" strokeLinecap="round"/>
-                <circle cx="7"  cy="7"  r="1.2" fill="var(--na-inv-accent)"/>
-                <circle cx="15" cy="7"  r="1.2" fill="var(--na-inv-accent)"/>
-                <circle cx="7"  cy="15" r="1.2" fill="var(--na-inv-accent)"/>
-                <circle cx="15" cy="15" r="1.2" fill="var(--na-inv-accent)"/>
-              </svg>
-              <span style={{
-                fontSize: 10, fontWeight: 700, letterSpacing: '0.15em',
-                textTransform: 'uppercase', color: 'var(--na-muted)',
-              }}>
-                {project.label}
-              </span>
+              <div style={{
+                width: 18, height: 18,
+                border: '2px solid var(--na-border-mid)', borderTopColor: 'var(--na-accent)',
+                borderRadius: '50%', animation: 'spin 0.7s linear infinite',
+              }} />
             </div>
           )}
+          {/* Absolutely-positioned wrapper so iframe width never escapes the card */}
+          <motion.div
+            whileHover={{ scale: 1.03 }}
+            transition={{ duration: 0.4, ease: 'easeOut' }}
+            style={{ position: 'absolute', inset: 0, overflow: 'hidden' }}
+          >
+            <iframe
+              src={project.preview ?? `/demos/${project.slug}.html`}
+              title={project.name}
+              style={{
+                position: 'absolute',
+                top: 0, left: 0,
+                width: `${100 / SCALE}%`,
+                height: `${100 / SCALE}%`,
+                transform: `scale(${SCALE})`,
+                transformOrigin: 'top left',
+                border: 'none', pointerEvents: 'none',
+                opacity: iframeLoaded ? 1 : 0,
+                transition: 'opacity 0.4s ease',
+              }}
+              loading="lazy"
+              sandbox="allow-scripts allow-same-origin"
+              onLoad={() => setIframeLoaded(true)}
+            />
+          </motion.div>
         </div>
 
         {/* Card body */}
