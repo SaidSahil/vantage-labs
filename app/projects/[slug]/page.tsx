@@ -3,11 +3,15 @@ import { notFound, useParams } from 'next/navigation'
 import { motion } from 'framer-motion'
 import Link from 'next/link'
 import { ArrowLeft, ArrowUpRight, Check } from 'lucide-react'
-import { getProject } from '@/lib/projects'
+import { getProject, projects } from '@/lib/projects'
 import Navbar from '@/components/Navbar'
 import Footer from '@/components/Footer'
 
 const ease = [0.22, 1, 0.36, 1] as [number, number, number, number]
+
+export async function generateStaticParams() {
+  return projects.map((p) => ({ slug: p.slug }))
+}
 
 export default function ProjectPage() {
   const { slug } = useParams<{ slug: string }>()
@@ -17,6 +21,20 @@ export default function ProjectPage() {
 
   return (
     <main style={{ background: '#FAFAF8', minHeight: '100vh' }}>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify({
+            '@context': 'https://schema.org',
+            '@type': 'BreadcrumbList',
+            itemListElement: [
+              { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://nodeaxis.ca' },
+              { '@type': 'ListItem', position: 2, name: 'Work', item: 'https://nodeaxis.ca/work' },
+              { '@type': 'ListItem', position: 3, name: project.name, item: `https://nodeaxis.ca/projects/${project.slug}` },
+            ],
+          }),
+        }}
+      />
       <Navbar />
 
       {/* ── Hero ── */}

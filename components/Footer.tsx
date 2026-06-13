@@ -127,8 +127,26 @@ export default function Footer() {
           letterSpacing: '0.1em',
           textTransform: 'uppercase',
           color: 'var(--na-inv-muted)',
+          display: 'flex',
+          flexWrap: 'wrap',
+          gap: '0 12px',
+          alignItems: 'center',
         }}>
-          © 2026 NodeAxis — BC, Canada
+          <span>© 2026 NodeAxis — BC, Canada</span>
+          <a
+            href="tel:+17782408911"
+            style={{
+              color: 'var(--na-inv-muted)',
+              textDecoration: 'none',
+              fontWeight: 600,
+              letterSpacing: '0.05em',
+              transition: 'color 0.2s ease',
+            }}
+            onMouseEnter={e => (e.currentTarget.style.color = 'var(--na-inv-text)')}
+            onMouseLeave={e => (e.currentTarget.style.color = 'var(--na-inv-muted)')}
+          >
+            778-240-8911
+          </a>
         </span>
         <span style={{
           fontSize: 11,

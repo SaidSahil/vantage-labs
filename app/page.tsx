@@ -15,6 +15,53 @@ import FAQ      from '@/components/FAQ'
 import CTA      from '@/components/CTA'
 import Footer   from '@/components/Footer'
 
+const faqSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'FAQPage',
+  mainEntity: [
+    {
+      '@type': 'Question',
+      name: 'Do I own the website after it\'s built?',
+      acceptedAnswer: {
+        '@type': 'Answer',
+        text: 'Yes — full ownership is transferred on delivery. Your code, your domain, your hosting.',
+      },
+    },
+    {
+      '@type': 'Question',
+      name: 'How long does it take?',
+      acceptedAnswer: {
+        '@type': 'Answer',
+        text: 'Most projects ship in 2 weeks from kickoff. Complex builds may take 3–4 weeks.',
+      },
+    },
+    {
+      '@type': 'Question',
+      name: 'What if I need changes later?',
+      acceptedAnswer: {
+        '@type': 'Answer',
+        text: 'We offer maintenance packages and one-off updates at a flat rate. No surprises.',
+      },
+    },
+    {
+      '@type': 'Question',
+      name: 'Do you use templates or page builders?',
+      acceptedAnswer: {
+        '@type': 'Answer',
+        text: 'Never. Every site is hand-coded from scratch — no WordPress, no Webflow, no Squarespace.',
+      },
+    },
+    {
+      '@type': 'Question',
+      name: "What's the minimum budget?",
+      acceptedAnswer: {
+        '@type': 'Answer',
+        text: 'Projects start at $399 for a clean, fast landing page. Most small business sites fall in the $399–$999 range.',
+      },
+    },
+  ],
+}
+
 export default function Home() {
   // Both server and client start with the same state — no hydration mismatch
   const [loaderDone, setLoaderDone] = useState(false)
@@ -33,6 +80,10 @@ export default function Home() {
 
   return (
     <main>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }}
+      />
       <Cursor />
       {!loaderDone && <IntroLoader onComplete={handleIntroComplete} />}
       <Navbar />

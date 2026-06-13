@@ -721,6 +721,27 @@ export default function WorkPage() {
               Send a Message
             </motion.button>
           </Link>
+          <Link
+            href="/services"
+            style={{
+              display: 'inline-flex',
+              alignItems: 'center',
+              gap: 7,
+              fontSize: 12,
+              fontWeight: 600,
+              letterSpacing: '0.08em',
+              textTransform: 'uppercase',
+              color: 'var(--na-inv-muted)',
+              textDecoration: 'none',
+              padding: '13px 0',
+              transition: 'color 0.2s ease',
+            }}
+            onMouseEnter={e => (e.currentTarget.style.color = 'var(--na-inv-text)')}
+            onMouseLeave={e => (e.currentTarget.style.color = 'var(--na-inv-muted)')}
+          >
+            Interested? See our services
+            <ArrowUpRight size={13} strokeWidth={1.5} />
+          </Link>
         </motion.div>
       </section>
 

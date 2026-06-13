@@ -109,6 +109,25 @@ export default function ContactPage() {
 
   return (
     <main style={{ background: 'var(--na-bg)', minHeight: '100vh' }}>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify({
+            '@context': 'https://schema.org',
+            '@type': 'ContactPage',
+            name: 'Contact NodeAxis',
+            url: 'https://nodeaxis.ca/contact',
+            description: 'Get in touch with NodeAxis to start your custom website project.',
+            mainEntity: {
+              '@type': 'Organization',
+              name: 'NodeAxis',
+              telephone: '+17782408911',
+              email: 'sahil.sodais@gmail.com',
+              url: 'https://nodeaxis.ca',
+            },
+          }),
+        }}
+      />
 
       <Navbar />
 

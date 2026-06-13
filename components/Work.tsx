@@ -135,7 +135,7 @@ export default function Work() {
         }}
       >
         <div style={{ display: 'flex', alignItems: 'baseline', gap: 16 }}>
-          <span style={{ fontSize: 13, fontWeight: 600, letterSpacing: '0.1em', textTransform: 'uppercase', color: 'var(--na-text)' }}>Selected Work</span>
+          <h2 style={{ fontSize: 13, fontWeight: 600, letterSpacing: '0.1em', textTransform: 'uppercase', color: 'var(--na-text)', margin: 0 }}>Selected Work</h2>
         </div>
         <span style={{
           fontSize: 12,
@@ -249,6 +249,29 @@ export default function Work() {
             </Link>
         ))}
       </motion.div>
+
+      {/* View All CTA */}
+      <div style={{ padding: 'clamp(32px, 4vw, 48px) 0', textAlign: 'center', borderTop: '1px solid var(--na-border-mid)' }}>
+        <Link
+          href="/work"
+          style={{
+            fontSize: 13,
+            fontWeight: 600,
+            letterSpacing: '0.08em',
+            textTransform: 'uppercase',
+            color: 'var(--na-accent)',
+            textDecoration: 'none',
+            display: 'inline-flex',
+            alignItems: 'center',
+            gap: 8,
+            transition: 'opacity 0.2s ease',
+          }}
+          onMouseEnter={e => (e.currentTarget.style.opacity = '0.7')}
+          onMouseLeave={e => (e.currentTarget.style.opacity = '1')}
+        >
+          View All Projects →
+        </Link>
+      </div>
     </section>
   )
 }

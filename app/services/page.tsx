@@ -173,11 +173,86 @@ const addons = [
   { label: 'Monthly Maintenance', price: '+$75/mo' },
 ]
 
+const serviceSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'Service',
+  serviceType: 'Web Design and Development',
+  provider: {
+    '@type': 'Organization',
+    name: 'NodeAxis',
+    url: 'https://nodeaxis.ca',
+  },
+  areaServed: {
+    '@type': 'State',
+    name: 'British Columbia',
+    containedInPlace: { '@type': 'Country', name: 'Canada' },
+  },
+  description:
+    'Custom hand-coded websites and landing pages for small businesses in BC. No templates. Built to rank and convert. Starting at $399.',
+  offers: {
+    '@type': 'Offer',
+    priceCurrency: 'CAD',
+    priceSpecification: {
+      '@type': 'PriceSpecification',
+      price: '399',
+      priceCurrency: 'CAD',
+      description: 'Starting price for a custom website',
+    },
+  },
+}
+
+const faqSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'FAQPage',
+  mainEntity: [
+    {
+      '@type': 'Question',
+      name: 'How much does a custom website cost?',
+      acceptedAnswer: {
+        '@type': 'Answer',
+        text: 'Our custom websites start at $399 CAD. Pricing depends on the scope, features, and timeline of your project.',
+      },
+    },
+    {
+      '@type': 'Question',
+      name: 'How long does it take to build a website?',
+      acceptedAnswer: {
+        '@type': 'Answer',
+        text: 'Most projects are completed within 2–4 weeks depending on complexity and how quickly you provide content.',
+      },
+    },
+    {
+      '@type': 'Question',
+      name: 'Do you use templates or page builders?',
+      acceptedAnswer: {
+        '@type': 'Answer',
+        text: 'No. Every site we build is hand-coded from scratch — no Wix, Squarespace, or WordPress themes.',
+      },
+    },
+    {
+      '@type': 'Question',
+      name: 'Do you serve businesses outside of Vancouver?',
+      acceptedAnswer: {
+        '@type': 'Answer',
+        text: 'Yes, we work with businesses across all of British Columbia, including Vancouver, Surrey, Burnaby, Kelowna, Victoria, and beyond.',
+      },
+    },
+  ],
+}
+
 export default function ServicesPage() {
   const [open, setOpen] = useState<string | null>('01')
 
   return (
     <main style={{ background: 'var(--na-bg)', minHeight: '100vh' }}>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(serviceSchema) }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }}
+      />
 
       <Navbar />
 
@@ -985,6 +1060,27 @@ export default function ServicesPage() {
               </a>
               <Link href="/contact" className="btn-ghost">
                 Send a Message
+              </Link>
+              <Link
+                href="/work"
+                style={{
+                  display: 'inline-flex',
+                  alignItems: 'center',
+                  gap: 7,
+                  fontSize: 12,
+                  fontWeight: 600,
+                  letterSpacing: '0.08em',
+                  textTransform: 'uppercase',
+                  color: 'var(--na-inv-muted)',
+                  textDecoration: 'none',
+                  padding: '13px 0',
+                  transition: 'color 0.2s ease',
+                }}
+                onMouseEnter={e => (e.currentTarget.style.color = 'var(--na-inv-text)')}
+                onMouseLeave={e => (e.currentTarget.style.color = 'var(--na-inv-muted)')}
+              >
+                See our work
+                <ArrowUpRight size={13} strokeWidth={1.5} />
               </Link>
             </motion.div>
           </motion.div>

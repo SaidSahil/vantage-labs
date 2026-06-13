@@ -59,7 +59,7 @@ export default function Services() {
         }}
       >
         <div style={{ display: 'flex', alignItems: 'baseline', gap: 16 }}>
-          <span style={{ fontSize: 13, fontWeight: 600, letterSpacing: '0.1em', textTransform: 'uppercase', color: 'var(--na-inv-text)' }}>What We Build</span>
+          <h2 style={{ fontSize: 13, fontWeight: 600, letterSpacing: '0.1em', textTransform: 'uppercase', color: 'var(--na-inv-text)', margin: 0 }}>What We Build</h2>
         </div>
         <div style={{ display: 'flex', alignItems: 'center', gap: 24 }}>
           <Link
