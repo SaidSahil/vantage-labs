@@ -1,5 +1,5 @@
 'use client'
-import { useRef, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { motion, useInView } from 'framer-motion'
 import { Search, Palette, Code2, MessageSquare, Rocket } from 'lucide-react'
 
@@ -186,9 +186,11 @@ function StepCard({ step, index, active, onEnter, onLeave, inView }: {
 export default function Process() {
   const ref = useRef<HTMLDivElement>(null)
   const inView = useInView(ref, { once: true, amount: 0.2 })
-  const [activeIndex, setActiveIndex] = useState<number | null>(
-    typeof window !== 'undefined' && window.innerWidth < 1024 ? 0 : null
-  )
+  const [activeIndex, setActiveIndex] = useState<number | null>(null)
+
+  useEffect(() => {
+    if (window.innerWidth < 1024) setActiveIndex(0)
+  }, [])
 
   return (
     <section
