@@ -6,24 +6,28 @@ const ease = [0.22, 1, 0.36, 1] as [number, number, number, number]
 
 const faqs = [
   {
+    q: 'Do you work with small businesses across BC?',
+    a: 'Yes — we work with small businesses all across British Columbia, including the Lower Mainland, Fraser Valley, Vancouver Island, and the Interior. Everything is handled remotely, so location is never a barrier. If you\'re a BC-based business looking for a professional website, we\'re built for exactly that.',
+  },
+  {
+    q: 'How much does a website cost for a small business in BC?',
+    a: 'Our projects start at $399 for a clean, fast landing page. Most small business sites in BC fall in the $399–$999 range depending on the number of pages and features required. We\'ll give you a firm quote upfront — no hourly billing, no surprise invoices.',
+  },
+  {
     q: 'Do I own the website after it\'s built?',
-    a: 'Yes — full ownership is transferred on delivery. Your code, your domain, your hosting.',
+    a: 'Yes — full ownership is transferred on delivery. You get the source code, you control your own domain and hosting, and you\'re never locked into a platform or monthly fee with us. It\'s your website, period.',
   },
   {
-    q: 'How long does it take?',
-    a: 'Most projects ship in 2 weeks from kickoff. Complex builds may take 3–4 weeks.',
+    q: 'How long does it take to build my website?',
+    a: 'Most projects ship within 2 weeks from kickoff. More complex builds — multi-page sites, booking systems, or custom dashboards — may take 3–4 weeks. We work in tight sprints and keep you updated throughout so there are no delays.',
   },
   {
-    q: 'What if I need changes later?',
-    a: 'We offer maintenance packages and one-off updates at a flat rate. No surprises.',
+    q: 'Do you use templates or page builders like WordPress or Squarespace?',
+    a: 'Never. Every site is hand-coded from scratch. No WordPress, no Webflow, no Squarespace, no drag-and-drop builders. This means your site loads faster, ranks better in search, and is built exactly to your business — not constrained by someone else\'s template.',
   },
   {
-    q: 'Do you use templates or page builders?',
-    a: 'Never. Every site is hand-coded from scratch — no WordPress, no Webflow, no Squarespace.',
-  },
-  {
-    q: "What's the minimum budget?",
-    a: 'Projects start at $399 for a clean, fast landing page. Most small business sites fall in the $399–$999 range.',
+    q: 'What if I need updates or changes after launch?',
+    a: 'We offer a flat-rate maintenance package at $75/month that covers updates, edits, and monitoring. You can also request one-off changes at a fixed cost. Either way, you\'ll always know the price before any work begins — no surprises.',
   },
 ]
 

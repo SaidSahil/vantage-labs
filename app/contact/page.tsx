@@ -13,9 +13,10 @@ const trustPoints = [
 ]
 
 const contactDetails = [
-  { Icon: Mail,   label: 'Email',        value: 'info@nodeaxis.ca',         href: 'mailto:info@nodeaxis.ca' },
+  { Icon: Phone,  label: 'Phone',        value: '778-240-8911',              href: 'tel:+17782408911' },
+  { Icon: Mail,   label: 'Email',        value: 'info@nodeaxis.ca',          href: 'mailto:info@nodeaxis.ca' },
   { Icon: MapPin, label: 'Location',     value: 'BC, Canada',                href: null },
-  { Icon: Clock,  label: 'Availability', value: 'Mon — Fri, 9am — 6pm PST',  href: null },
+  { Icon: Clock,  label: 'Availability', value: 'Mon — Fri, 9am — 6pm PST', href: null },
 ]
 
 const serviceOptions = [

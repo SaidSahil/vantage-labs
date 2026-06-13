@@ -89,8 +89,10 @@ export default function Footer() {
           }}
           className="items-start md:items-end"
           >
+            <li><Link href="/" className="footer-link">Home</Link></li>
             <li><Link href="/work" className="footer-link">Work</Link></li>
             <li><Link href="/services" className="footer-link">Services</Link></li>
+            <li><Link href="/about" className="footer-link">About</Link></li>
             <li><Link href="/contact" className="footer-link">Contact</Link></li>
             <li>
               <a
@@ -105,8 +107,8 @@ export default function Footer() {
               </a>
             </li>
             <li>
-              <a href="mailto:info@nodeaxis.ca" className="footer-link">
-                info@nodeaxis.ca
+              <a href="mailto:sahil.sodais@gmail.com" className="footer-link">
+                sahil.sodais@gmail.com
               </a>
             </li>
           </ul>

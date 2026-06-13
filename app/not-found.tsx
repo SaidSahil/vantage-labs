@@ -3,7 +3,7 @@ import { Metadata } from 'next'
 
 export const metadata: Metadata = {
   title: '404 — Page Not Found | NodeAxis',
-  description: 'The page you are looking for does not exist.',
+  description: "This page doesn't exist on NodeAxis. Head back to our homepage or explore our hand-coded web design projects for small businesses in British Columbia.",
 }
 
 export default function NotFound() {

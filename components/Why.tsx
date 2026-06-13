@@ -129,13 +129,14 @@ export default function Why() {
                     marginBottom: 10,
                   }}>
                     <Icon size={20} strokeWidth={1.5} color="var(--na-accent)" />
-                    <span style={{
+                    <h3 style={{
                       fontSize: 22,
                       fontWeight: 700,
                       letterSpacing: '-0.02em',
+                      margin: 0,
                     }}>
                       {r.title}
-                    </span>
+                    </h3>
                   </div>
                   <p style={{ fontSize: 15, color: 'var(--na-muted)', lineHeight: 1.7 }}>
                     {r.desc}

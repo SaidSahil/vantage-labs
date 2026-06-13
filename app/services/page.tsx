@@ -4,6 +4,7 @@ import Link from 'next/link'
 import { motion, AnimatePresence } from 'framer-motion'
 import { ArrowLeft, ArrowRight, ArrowUpRight, Plus, Check } from 'lucide-react'
 import Navbar from '@/components/Navbar'
+import Footer from '@/components/Footer'
 
 const ease = [0.22, 1, 0.36, 1] as [number, number, number, number]
 const vp = { once: true, margin: '-72px' }
@@ -1087,50 +1088,7 @@ export default function ServicesPage() {
         </div>
       </section>
 
-      {/* ── Footer ─────────────────────────────────────────── */}
-      <footer
-        style={{
-          background: 'var(--na-inv-bg)',
-          borderTop: '1px solid var(--na-inv-border)',
-          padding: 'clamp(28px, 4vw, 44px) clamp(24px, 4vw, 56px)',
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'space-between',
-          flexWrap: 'wrap',
-          gap: 16,
-        }}
-      >
-        <Link href="/" style={{ display: 'flex', alignItems: 'center', gap: 9, textDecoration: 'none' }}>
-          <svg width="18" height="18" viewBox="0 0 22 22" fill="none" aria-hidden="true">
-            <polygon points="11,1.5 19.5,6.25 19.5,15.75 11,20.5 2.5,15.75 2.5,6.25" stroke="var(--na-inv-accent)" strokeWidth="1.3" strokeLinejoin="round"/>
-            <line x1="7" y1="7" x2="7"  y2="15" stroke="var(--na-inv-accent)" strokeWidth="1.7" strokeLinecap="round"/>
-            <line x1="7" y1="7" x2="15" y2="15" stroke="var(--na-inv-accent)" strokeWidth="1.7" strokeLinecap="round"/>
-            <line x1="15" y1="7" x2="15" y2="15" stroke="var(--na-inv-accent)" strokeWidth="1.7" strokeLinecap="round"/>
-            <circle cx="7"  cy="7"  r="1.2" fill="var(--na-inv-accent)"/>
-            <circle cx="15" cy="7"  r="1.2" fill="var(--na-inv-accent)"/>
-            <circle cx="7"  cy="15" r="1.2" fill="var(--na-inv-accent)"/>
-            <circle cx="15" cy="15" r="1.2" fill="var(--na-inv-accent)"/>
-          </svg>
-          <span style={{ fontSize: 12, fontWeight: 700, letterSpacing: '-0.01em', color: 'var(--na-inv-text)' }}>
-            NodeAxis
-          </span>
-        </Link>
-
-        <div style={{ display: 'flex', gap: 28, flexWrap: 'wrap' }}>
-          <Link href="/work" className="footer-link">Work</Link>
-          <Link href="/services" className="footer-link" style={{ color: 'rgba(255,255,255,0.55)' }}>Services</Link>
-          <Link href="/contact" className="footer-link">Contact</Link>
-        </div>
-
-        <span style={{
-          fontSize: 11,
-          color: 'var(--na-inv-muted)',
-          fontWeight: 500,
-          letterSpacing: '0.06em',
-        }}>
-          © 2026 NodeAxis · BC, Canada
-        </span>
-      </footer>
+      <Footer />
 
     </main>
   )

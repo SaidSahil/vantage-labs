@@ -18,6 +18,26 @@ A running record of every session: what was built, what broke, what was fixed, a
 
 ## Sessions
 
+### [2026-06-12] — Full project audit & cleanup
+
+**What was done:**
+- Deleted duplicate `lib/theme.ts` (identical to `lib/theme.tsx` except used `createElement`; kept the cleaner JSX version)
+- Deleted dead code `lib/sound.ts` — exported `warmSound()` but was never imported anywhere
+- Deleted 6 unused public SVGs: `file.svg`, `globe.svg`, `next.svg`, `vercel.svg`, `window.svg`, `nodeaxis-logo.svg` (all Next.js scaffold defaults, none referenced in code)
+- Deleted dev artifact logs: `claude-changes.log`, `dev.log`
+- Deleted `tsconfig.tsbuildinfo` (build artifact, already covered by `.gitignore`)
+- Deleted stale docs: `CRITIQUE.md`, `IMPROVEMENTS.md`, `NodeAxis_Website_Critique.md`, `SEO_CHECKLIST.md`
+- **Bug fix** `next.config.ts`: cache-control headers source was `/public/(.*)` which never matches in Next.js (public files serve from root). Corrected to `/_next/static/(.*)` which matches actual immutable build assets
+- Deleted from P root: `mobile-check.mjs`, `mobile-screenshot.png`, `claude-changes.log` (one-off test artifacts)
+- TypeScript check (`tsc --noEmit`) passes clean after all deletions
+
+**Open items:**
+- `Agency/VantageLab/` — empty folder, needs manual deletion (needs user confirmation)
+- `Agency/index.html` — 69KB old standalone HTML prototype of the site, needs manual deletion (needs user confirmation)
+- `P/package.json` + `P/package-lock.json` — root-level with only `playwright` dep, unrelated to project (needs user confirmation to delete)
+
+---
+
 ---
 
 ### [2026-06-11] — Design Revert (D1–D8)

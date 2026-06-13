@@ -1,12 +1,18 @@
 import type { Metadata } from 'next'
 
 export const metadata: Metadata = {
-  title: 'Our Work — NodeAxis',
-  description: 'Real projects built for real businesses across Canada. Custom websites, booking systems, and dashboards — every one hand-coded and built to perform.',
+  title: 'Portfolio: BC Web Design & Dev Projects — NodeAxis',
+  description: 'Browse NodeAxis portfolio — custom hand-coded websites for real BC businesses. Landing pages, booking systems, and dashboards built to rank and convert.',
+  alternates: {
+    canonical: '/work',
+  },
   openGraph: {
-    title: 'Our Work — NodeAxis',
-    description: 'Real projects built for real businesses across Canada. Custom websites, booking systems, and dashboards — every one hand-coded and built to perform.',
+    title: 'Portfolio: BC Web Design & Dev Projects — NodeAxis',
+    description: 'Browse NodeAxis portfolio — custom hand-coded websites for real BC businesses. Landing pages, booking systems, and dashboards built to rank and convert.',
     type: 'website',
+    locale: 'en_CA',
+    url: 'https://nodeaxis.ca/work',
+    siteName: 'NodeAxis',
   },
 }
 

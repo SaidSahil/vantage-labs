@@ -1,6 +1,7 @@
 'use client'
 import { motion } from 'framer-motion'
 import { ArrowRight } from 'lucide-react'
+import Link from 'next/link'
 import { fadeUp, viewport } from '@/lib/animations'
 
 export default function CTA() {
@@ -119,23 +120,27 @@ export default function CTA() {
           }}
           className="mr-0 md:ml-auto"
           >
-            Book a free 30-minute call. No pitch, no pressure — just a conversation about your project.
+            Based in BC, Canada. Book a free 30-minute call — no pitch, no pressure, just a conversation about your project.
           </p>
           <div style={{ display: 'flex', flexWrap: 'wrap', gap: 12 }}
             className="justify-start md:justify-end"
           >
+            <Link
+              href="/contact"
+              className="btn-primary"
+              style={{ textDecoration: 'none', display: 'inline-flex', alignItems: 'center', gap: 8 }}
+            >
+              Get in Touch
+              <ArrowRight size={14} strokeWidth={1.5} />
+            </Link>
             <a
               href="https://calendly.com/nodeaxis"
               target="_blank"
               rel="noopener noreferrer"
-              className="btn-primary"
+              className="btn-ghost"
               style={{ textDecoration: 'none' }}
             >
               Book a Call
-              <ArrowRight size={14} strokeWidth={1.5} />
-            </a>
-            <a href="mailto:info@nodeaxis.ca" className="btn-ghost">
-              Email Us
             </a>
           </div>
         </motion.div>

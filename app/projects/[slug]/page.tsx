@@ -181,16 +181,17 @@ export default function ProjectPage() {
               viewport={{ once: true, amount: 0.3 }}
               transition={{ duration: 0.6, ease }}
             >
-              <div style={{
+              <h2 style={{
                 fontSize: 11,
                 fontWeight: 600,
                 letterSpacing: '0.15em',
                 textTransform: 'uppercase',
                 color: '#3D5A80',
                 marginBottom: 20,
+                margin: '0 0 20px',
               }}>
                 Overview
-              </div>
+              </h2>
               <p style={{
                 fontSize: 'clamp(15px, 1.4vw, 17px)',
                 lineHeight: 1.8,
@@ -207,16 +208,17 @@ export default function ProjectPage() {
               viewport={{ once: true, amount: 0.3 }}
               transition={{ delay: 0.1, duration: 0.6, ease }}
             >
-              <div style={{
+              <h2 style={{
                 fontSize: 11,
                 fontWeight: 600,
                 letterSpacing: '0.15em',
                 textTransform: 'uppercase',
                 color: '#3D5A80',
                 marginBottom: 20,
+                margin: '0 0 20px',
               }}>
                 Tools & Stack
-              </div>
+              </h2>
               <div style={{ display: 'flex', flexWrap: 'wrap', gap: 10 }}>
                 {project.tools.map(tool => (
                   <span
@@ -246,16 +248,17 @@ export default function ProjectPage() {
             viewport={{ once: true, amount: 0.3 }}
             transition={{ delay: 0.15, duration: 0.6, ease }}
           >
-            <div style={{
+            <h2 style={{
               fontSize: 11,
               fontWeight: 600,
               letterSpacing: '0.15em',
               textTransform: 'uppercase',
               color: '#3D5A80',
               marginBottom: 20,
+              margin: '0 0 20px',
             }}>
               Features
-            </div>
+            </h2>
             <ul style={{ listStyle: 'none', display: 'flex', flexDirection: 'column', gap: 0 }}>
               {project.features.map((feature, i) => (
                 <motion.li
@@ -321,16 +324,17 @@ export default function ProjectPage() {
               background: '#3D5A80',
             }} />
 
-            <div style={{
+            <h2 style={{
               fontSize: 11,
               fontWeight: 600,
               letterSpacing: '0.15em',
               textTransform: 'uppercase',
               color: '#3D5A80',
               marginBottom: 20,
+              margin: '0 0 20px',
             }}>
               Results
-            </div>
+            </h2>
             <p style={{
               fontSize: 'clamp(15px, 1.4vw, 17px)',
               lineHeight: 1.8,

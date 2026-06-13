@@ -1,12 +1,18 @@
 import type { Metadata } from 'next'
 
 export const metadata: Metadata = {
-  title: 'Services & Pricing — NodeAxis',
-  description: 'Custom websites starting at $399. Landing pages, full sites, booking systems, and dashboards — hand-coded, no templates. Transparent pricing, 2-week delivery.',
+  title: 'Web Design Services for BC Small Businesses — NodeAxis',
+  description: 'Hand-coded custom websites for BC small businesses, starting at $399. No templates, no page builders — fast, clean sites built to rank and convert in Canada.',
+  alternates: {
+    canonical: '/services',
+  },
   openGraph: {
-    title: 'Services & Pricing — NodeAxis',
-    description: 'Custom websites starting at $399. Landing pages, full sites, booking systems, and dashboards — hand-coded, no templates. Transparent pricing, 2-week delivery.',
+    title: 'Web Design Services for BC Small Businesses — NodeAxis',
+    description: 'Hand-coded custom websites for BC small businesses, starting at $399. No templates, no page builders — fast, clean sites built to rank and convert in Canada.',
     type: 'website',
+    locale: 'en_CA',
+    url: 'https://nodeaxis.ca/services',
+    siteName: 'NodeAxis',
   },
 }
 

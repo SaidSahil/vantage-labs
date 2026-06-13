@@ -39,6 +39,7 @@ export default function Navbar() {
   const links = [
     { href: '/work',     label: 'Work' },
     { href: '/services', label: 'Services' },
+    { href: '/about',    label: 'About' },
     { href: '/contact',  label: 'Contact' },
   ]
 
@@ -94,7 +95,7 @@ export default function Navbar() {
     >
       {/* Logo */}
       <Link
-        href={isHome ? '#hero' : '/'}
+        href="/"
         aria-label="NodeAxis home"
         style={{ display: 'flex', alignItems: 'center', gap: 9, textDecoration: 'none' }}
       >

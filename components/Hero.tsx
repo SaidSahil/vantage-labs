@@ -12,8 +12,8 @@ const meta = [
   { label: 'Specialty', value: 'Web & Systems' },
 ]
 
-const line1 = ['We', 'build']
-const line2 = ['digital', 'that', 'works.']
+const line1 = ['Web', 'Design']
+const line2 = ['BC', 'Small', 'Business.']
 
 function WordReveal({
   words,

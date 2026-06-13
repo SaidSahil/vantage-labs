@@ -14,21 +14,22 @@ const inter = Inter({
 
 export const metadata: Metadata = {
   metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL ?? 'https://nodeaxis.ca'),
-  title: 'NodeAxis — Custom Websites Starting at $399',
-  description: 'Hand-coded websites and landing pages for small businesses. No templates, no page builders. Built to rank and convert. Starting at $399.',
+  title: 'NodeAxis — Custom Web Design in BC, Canada | From $399',
+  description: 'NodeAxis builds hand-coded websites for small businesses in British Columbia, Canada. No templates, no page builders — built to rank and convert. From $399.',
   alternates: {
-    canonical: '/',
+    canonical: 'https://nodeaxis.ca',
   },
   openGraph: {
-    title: 'NodeAxis — Custom Websites Starting at $399',
-    description: 'Hand-coded websites and landing pages for small businesses. No templates, no page builders. Built to rank and convert. Starting at $399.',
+    title: 'NodeAxis — Custom Web Design in BC, Canada | From $399',
+    description: 'NodeAxis builds hand-coded websites for small businesses in British Columbia, Canada. No templates, no page builders — built to rank and convert. From $399.',
     type: 'website',
     locale: 'en_CA',
+    url: 'https://nodeaxis.ca',
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'NodeAxis — Custom Websites Starting at $399',
-    description: 'Hand-coded websites and landing pages for small businesses. No templates, no page builders. Built to rank and convert. Starting at $399.',
+    title: 'NodeAxis — Custom Web Design in BC, Canada | From $399',
+    description: 'NodeAxis builds hand-coded websites for small businesses in British Columbia, Canada. No templates, no page builders — built to rank and convert. From $399.',
   },
   icons: {
     icon: [{ url: '/icon.svg', type: 'image/svg+xml' }],

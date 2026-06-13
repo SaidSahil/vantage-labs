@@ -1,7 +1,7 @@
 import type { Metadata } from 'next'
 
 export const metadata: Metadata = {
-  title: 'About | NodeAxis — Web Design Agency in BC, Canada',
+  title: 'About NodeAxis — Web Design Agency in BC, Canada',
   description: 'NodeAxis is a web design and development agency based in British Columbia, Canada. We build custom, hand-coded websites for small businesses starting at $399.',
   alternates: {
     canonical: '/about',
