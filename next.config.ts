@@ -15,6 +15,13 @@ const nextConfig: NextConfig = {
           { key: 'Permissions-Policy', value: 'camera=(), microphone=(), geolocation=()' },
         ],
       },
+      // Allow /demos/*.html to be embedded in same-origin iframes (overrides the DENY above)
+      {
+        source: '/demos/(.*)',
+        headers: [
+          { key: 'X-Frame-Options', value: 'SAMEORIGIN' },
+        ],
+      },
       {
         source: '/_next/static/(.*)',
         headers: [
