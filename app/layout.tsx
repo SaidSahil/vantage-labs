@@ -51,7 +51,7 @@ export default function RootLayout({
         name: 'NodeAxis',
         url: 'https://nodeaxis.ca',
         telephone: '+17782408911',
-        email: 'sahil.sodais@gmail.com',
+        email: 'info@nodeaxis.ca',
         logo: {
           '@type': 'ImageObject',
           url: 'https://nodeaxis.ca/icon.svg',
@@ -72,7 +72,7 @@ export default function RootLayout({
         name: 'NodeAxis',
         url: 'https://nodeaxis.ca',
         telephone: '+17782408911',
-        email: 'sahil.sodais@gmail.com',
+        email: 'info@nodeaxis.ca',
         description: 'Custom web design and development for small businesses in British Columbia, Canada.',
         priceRange: '$$',
         address: {

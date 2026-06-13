@@ -107,8 +107,8 @@ export default function Footer() {
               </a>
             </li>
             <li>
-              <a href="mailto:sahil.sodais@gmail.com" className="footer-link">
-                sahil.sodais@gmail.com
+              <a href="mailto:info@nodeaxis.ca" className="footer-link">
+                info@nodeaxis.ca
               </a>
             </li>
           </ul>

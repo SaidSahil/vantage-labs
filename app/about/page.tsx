@@ -12,7 +12,7 @@ const jsonLd = {
     '@type': 'LocalBusiness',
     name: 'NodeAxis',
     telephone: '+17782408911',
-    email: 'sahil.sodais@gmail.com',
+    email: 'info@nodeaxis.ca',
     address: {
       '@type': 'PostalAddress',
       addressLocality: 'British Columbia',
@@ -665,7 +665,7 @@ export default function AboutPage() {
             </a>
 
             <a
-              href="mailto:sahil.sodais@gmail.com"
+              href="mailto:info@nodeaxis.ca"
               style={{
                 display: 'inline-flex',
                 alignItems: 'center',
@@ -694,7 +694,7 @@ export default function AboutPage() {
               >
                 @
               </span>
-              sahil.sodais@gmail.com
+              info@nodeaxis.ca
             </a>
           </div>
 
