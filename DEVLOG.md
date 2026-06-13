@@ -29,7 +29,16 @@ A running record of every session: what was built, what broke, what was fixed, a
 **Bugs encountered:** None.
 
 **Still open:**
+- Favicon change not yet visible in browser address bar / Google search results — this is a caching issue, not a code issue (see note below)
+- Google search result favicon can take days–weeks for Google to re-crawl and update; nothing to fix on our end
+- If SVG favicon still shows blank/generic after hard refresh post-deploy, swap `app/icon.svg` to a solid-color (non-media-query) version for guaranteed rendering
 - Same mobile character fix may be needed on Services, Why, CTA, and individual page heroes if user wants them visible on mobile too
+
+**Note — favicon cache behaviour:**
+Browsers cache favicons separately from page content and hold them aggressively. After a Vercel deploy:
+1. Visit the live site and do `Ctrl+Shift+R` (hard refresh) to bust the favicon cache
+2. To force Chrome: navigate to `chrome://favicon/https://nodeaxis.ca/` and hard-refresh
+3. Google's search result icons are crawled independently — update can take days
 
 ---
 
