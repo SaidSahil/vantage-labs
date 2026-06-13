@@ -3,15 +3,11 @@ import { notFound, useParams } from 'next/navigation'
 import { motion } from 'framer-motion'
 import Link from 'next/link'
 import { ArrowLeft, ArrowUpRight, Check } from 'lucide-react'
-import { getProject, projects } from '@/lib/projects'
+import { getProject } from '@/lib/projects'
 import Navbar from '@/components/Navbar'
 import Footer from '@/components/Footer'
 
 const ease = [0.22, 1, 0.36, 1] as [number, number, number, number]
-
-export async function generateStaticParams() {
-  return projects.map((p) => ({ slug: p.slug }))
-}
 
 export default function ProjectPage() {
   const { slug } = useParams<{ slug: string }>()
