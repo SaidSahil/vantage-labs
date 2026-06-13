@@ -182,6 +182,8 @@ const serviceSchema = {
     '@type': 'Organization',
     name: 'NodeAxis',
     url: 'https://nodeaxis.ca',
+    email: 'info@nodeaxis.ca',
+    telephone: '+17782408911',
   },
   areaServed: {
     '@type': 'State',
@@ -192,12 +194,13 @@ const serviceSchema = {
     'Custom hand-coded websites and landing pages for small businesses in BC. No templates. Built to rank and convert. Starting at $399.',
   offers: {
     '@type': 'Offer',
+    price: '399',
     priceCurrency: 'CAD',
     priceSpecification: {
       '@type': 'PriceSpecification',
       price: '399',
       priceCurrency: 'CAD',
-      description: 'Starting price for a custom website',
+      description: 'Starting price for a custom website or landing page',
     },
   },
 }
@@ -211,7 +214,7 @@ const faqSchema = {
       name: 'How much does a custom website cost?',
       acceptedAnswer: {
         '@type': 'Answer',
-        text: 'Our custom websites start at $399 CAD. Pricing depends on the scope, features, and timeline of your project.',
+        text: 'Our custom websites start at $399 CAD for a clean, fast landing page or 1–3 page site. Most small business websites fall in the $399–$999 range depending on the number of pages, features, and level of custom design. More complex builds — booking systems, dashboards, or client portals — are quoted per project with a full breakdown before any work begins. You always know the price upfront with no surprise invoices.',
       },
     },
     {
@@ -219,7 +222,7 @@ const faqSchema = {
       name: 'How long does it take to build a website?',
       acceptedAnswer: {
         '@type': 'Answer',
-        text: 'Most projects are completed within 2–4 weeks depending on complexity and how quickly you provide content.',
+        text: 'Most standard websites and landing pages are completed within 2 weeks from kickoff. More complex multi-page builds typically take 3–4 weeks. The timeline also depends on how quickly you can provide copy, images, and feedback. We give you a realistic estimate at the start and keep you updated throughout the process — no surprise delays.',
       },
     },
     {
@@ -227,7 +230,7 @@ const faqSchema = {
       name: 'Do you use templates or page builders?',
       acceptedAnswer: {
         '@type': 'Answer',
-        text: 'No. Every site we build is hand-coded from scratch — no Wix, Squarespace, or WordPress themes.',
+        text: 'Never. Every site we build is hand-coded from scratch — no Wix, Squarespace, WordPress themes, or Webflow templates. This approach means your site loads significantly faster, has cleaner code for search engines to crawl, and is built exactly to your brand rather than constrained by a template layout. You receive the full source files outright on delivery.',
       },
     },
     {
@@ -235,7 +238,15 @@ const faqSchema = {
       name: 'Do you serve businesses outside of Vancouver?',
       acceptedAnswer: {
         '@type': 'Answer',
-        text: 'Yes, we work with businesses across all of British Columbia, including Vancouver, Surrey, Burnaby, Kelowna, Victoria, and beyond.',
+        text: 'Yes — we work with businesses across all of British Columbia, not just Vancouver. Our clients include businesses in Surrey, Burnaby, Richmond, Kelowna, Victoria, Langley, Abbotsford, Kamloops, Nanaimo, and throughout the rest of BC. Everything is handled remotely, so location within the province is never a barrier to getting started.',
+      },
+    },
+    {
+      '@type': 'Question',
+      name: 'What is included in the ongoing maintenance plan?',
+      acceptedAnswer: {
+        '@type': 'Answer',
+        text: 'Our flat-rate maintenance plan is $75 per month and covers content and copy updates on request, security patches and dependency updates, a monthly performance check, priority email support, and minor layout tweaks. One-off changes outside the plan are also available at a fixed cost — you will always know what you are paying before we touch anything.',
       },
     },
   ],
@@ -350,9 +361,9 @@ export default function ServicesPage() {
               marginBottom: 32,
             }}
           >
-            <WordReveal words={['We', 'build']} baseDelay={0.15} />
+            <WordReveal words={['Web', 'Design']} baseDelay={0.15} />
             <WordReveal
-              words={['what', 'works.']}
+              words={['Services,', 'BC.']}
               baseDelay={0.35}
               style={{ fontStyle: 'italic', fontWeight: 300, color: 'var(--na-heading)' }}
             />

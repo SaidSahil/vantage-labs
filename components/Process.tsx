@@ -215,7 +215,7 @@ export default function Process() {
         }}
       >
         <div style={{ display: 'flex', alignItems: 'baseline', gap: 16 }}>
-          <span style={{ fontSize: 13, fontWeight: 600, letterSpacing: '0.1em', textTransform: 'uppercase', color: 'var(--na-text)' }}>How We Build</span>
+          <h2 style={{ fontSize: 13, fontWeight: 600, letterSpacing: '0.1em', textTransform: 'uppercase', color: 'var(--na-text)', margin: 0 }}>How We Build</h2>
         </div>
         <div style={{
           fontSize: 12,

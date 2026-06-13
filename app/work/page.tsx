@@ -456,9 +456,9 @@ export default function WorkPage() {
             maxWidth: 800,
           }}
         >
-          Work that earns{' '}
+          BC Web Design{' '}
           <em style={{ fontStyle: 'italic', fontWeight: 300, color: 'var(--na-inv-muted)' }}>
-            its keep.
+            that delivers.
           </em>
         </motion.h1>
 

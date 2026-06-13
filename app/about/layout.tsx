@@ -1,16 +1,18 @@
 import type { Metadata } from 'next'
 
 export const metadata: Metadata = {
-  title: 'About NodeAxis — Web Design Agency in BC, Canada',
+  title: 'About NodeAxis — Custom Web Design Agency in BC, Canada',
   description: 'NodeAxis is a web design and development agency based in British Columbia, Canada. We build custom, hand-coded websites for small businesses starting at $399.',
   alternates: {
-    canonical: '/about',
+    canonical: 'https://nodeaxis.ca/about',
   },
   openGraph: {
-    title: 'About NodeAxis — Web Design Agency in BC, Canada',
-    description: 'Custom websites for small businesses in British Columbia. No templates. No page builders. Built to rank and convert.',
+    title: 'About NodeAxis — Custom Web Design Agency in BC, Canada',
+    description: 'NodeAxis is a web design and development agency based in British Columbia, Canada. We build custom, hand-coded websites for small businesses starting at $399.',
     type: 'website',
     locale: 'en_CA',
+    url: 'https://nodeaxis.ca/about',
+    siteName: 'NodeAxis',
   },
 }
 

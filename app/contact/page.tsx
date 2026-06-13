@@ -226,10 +226,10 @@ export default function ContactPage() {
               marginBottom: 32,
             }}
           >
-            <WordReveal words={["Let's", 'build']} baseDelay={0.15} />
+            <WordReveal words={['Get', 'Your']} baseDelay={0.15} />
             <WordReveal
-              words={['something.']}
-              baseDelay={0.4}
+              words={['Website', 'Built.']}
+              baseDelay={0.35}
               style={{ fontStyle: 'italic', fontWeight: 300, color: 'var(--na-heading)' }}
             />
           </h1>

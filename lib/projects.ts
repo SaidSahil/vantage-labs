@@ -64,15 +64,15 @@ export const projects: Project[] = [
   {
     slug: 'vantage-labs',
     num: '03',
-    name: 'Vantage Labs',
-    externalUrl: 'https://vantagelabs.ca',
+    name: 'NodeAxis',
+    externalUrl: 'https://nodeaxis.ca',
     tags: ['Agency Site', 'Branding'],
-    label: 'vantagelabs.ca',
+    label: 'nodeaxis.ca',
     preview: null,
     tagline: 'Our own site — built to the same standard we hold every client project to.',
     outcome: 'Our live proof of concept — every technique here is available for your project.',
     description:
-      'The Vantage Labs website is a full showcase of what we bring to every engagement: precise engineering, thoughtful motion design, and a clear conversion strategy. Every animation, interaction, and section was designed with a specific psychological purpose in mind.',
+      'The NodeAxis website is a full showcase of what we bring to every engagement: precise engineering, thoughtful motion design, and a clear conversion strategy. Every animation, interaction, and section was designed with a specific psychological purpose in mind.',
     features: [
       'Cinematic intro loader with char-by-char reveal',
       'Word-split headline animation on load',
