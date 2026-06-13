@@ -1,6 +1,12 @@
-<svg width="180" height="180" viewBox="0 0 180 180" fill="none" xmlns="http://www.w3.org/2000/svg">
-  <rect width="180" height="180" fill="#0A0A0A"/>
-  <rect x="32" y="32" width="52" height="52" rx="7" fill="#3D5A80"/>
-  <rect x="96" y="96" width="52" height="52" rx="7" fill="#3D5A80"/>
-  <rect x="96" y="32" width="52" height="52" rx="7" fill="#3D5A80" opacity="0.35"/>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 180 180" width="180" height="180">
+  <rect width="180" height="180" rx="32" fill="#0D0F1A"/>
+  <polygon points="90,17 151,56 151,124 90,163 29,124 29,56"
+           fill="none" stroke="rgba(255,255,255,0.85)" stroke-width="7" stroke-linejoin="round"/>
+  <line x1="54" y1="51"  x2="54"  y2="129"  stroke="rgba(255,255,255,0.85)" stroke-width="11"  stroke-linecap="round"/>
+  <line x1="54" y1="51"  x2="126" y2="129"  stroke="rgba(255,255,255,0.85)" stroke-width="11"  stroke-linecap="round"/>
+  <line x1="126" y1="51" x2="126" y2="129"  stroke="rgba(255,255,255,0.85)" stroke-width="11"  stroke-linecap="round"/>
+  <circle cx="54"  cy="51"  r="9" fill="rgba(255,255,255,0.85)"/>
+  <circle cx="126" cy="51"  r="9" fill="rgba(255,255,255,0.85)"/>
+  <circle cx="54"  cy="129" r="9" fill="rgba(255,255,255,0.85)"/>
+  <circle cx="126" cy="129" r="9" fill="rgba(255,255,255,0.85)"/>
 </svg>

@@ -18,6 +18,21 @@ A running record of every session: what was built, what broke, what was fixed, a
 
 ## Sessions
 
+### [2026-06-13] — Logo on tab favicon + OG image for search results
+
+**What was done:**
+- `app/icon.svg` — Replaced old Vantage Labs three-squares mark with NodeAxis hexagon+N mark (matches `public/icon.svg`). Next.js App Router auto-detects this file as the favicon so the browser tab now shows the correct logo.
+- `app/apple-icon.svg` — Rebuilt as 180×180 NodeAxis hexagon+N mark for Apple touch icon.
+- `app/opengraph-image.tsx` — Created dynamic OG image via `next/og` `ImageResponse` (1200×630, dark background, hexagon mark + "NodeAxis" wordmark + tagline + nodeaxis.ca URL). This renders as the preview image when the site is shared on social media or appears in Google search previews.
+- `app/layout.tsx` — Removed manual `metadata.icons` block (was pointing to `/icon.svg` from public/). Next.js auto-generates those link tags from `app/icon.svg` and `app/apple-icon.svg`; having both caused duplicate `<link rel="icon">` tags.
+
+**Bugs encountered:** None.
+
+**Still open:**
+- Same mobile character fix may be needed on Services, Why, CTA, and individual page heroes if user wants them visible on mobile too
+
+---
+
 ### [2026-06-13] — Fix: coder character not visible on mobile
 
 **What was done:**

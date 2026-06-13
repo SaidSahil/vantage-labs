@@ -32,10 +32,6 @@ export const metadata: Metadata = {
     title: 'NodeAxis — Web Design, Apps & Systems in BC, Canada | From $399',
     description: 'NodeAxis builds hand-coded websites, web apps, dashboards, and software for businesses in British Columbia, Canada. No templates, no shortcuts — built to perform. From $399.',
   },
-  icons: {
-    icon: [{ url: '/icon.svg', type: 'image/svg+xml' }],
-    apple: [{ url: '/apple-icon.svg', type: 'image/svg+xml' }],
-  },
 }
 
 export default function RootLayout({
