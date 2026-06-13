@@ -10,7 +10,6 @@ import Testimonials from '@/components/Testimonials'
 import Services from '@/components/Services'
 import Process  from '@/components/Process'
 import Why      from '@/components/Why'
-import About    from '@/components/About'
 import FAQ      from '@/components/FAQ'
 import CTA      from '@/components/CTA'
 import Footer   from '@/components/Footer'
@@ -102,7 +101,6 @@ export default function Home() {
       <Services />
       <Process />
       <Why />
-      <About />
       <FAQ />
       <CTA />
       <Footer />
