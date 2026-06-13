@@ -1,5 +1,6 @@
 import type { Metadata } from 'next'
 import { Inter } from 'next/font/google'
+import Script from 'next/script'
 import { ThemeProvider } from '@/lib/theme'
 import './globals.css'
 
@@ -91,15 +92,13 @@ export default function RootLayout({
   }
 
   return (
-    <html lang="en-CA" className={`${inter.variable} dark`}>
+    <html lang="en-CA" className={`${inter.variable} dark`} suppressHydrationWarning>
       <head>
-        {/* Anti-flash: apply saved theme before React hydrates */}
-        <script dangerouslySetInnerHTML={{ __html: `
-          (function(){try{var t=localStorage.getItem('nodeaxis-theme');if(t==='light'){document.documentElement.classList.remove('dark')}else{document.documentElement.classList.add('dark')}}catch(e){document.documentElement.classList.add('dark')}})();
-        ` }} />
         {/* Organization + LocalBusiness structured data */}
         <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
       </head>
+      {/* Anti-flash: runs before React hydrates, prevents theme flicker */}
+      <Script id="theme-init" strategy="beforeInteractive">{`(function(){try{var t=localStorage.getItem('nodeaxis-theme');if(t==='light'){document.documentElement.classList.remove('dark')}else{document.documentElement.classList.add('dark')}}catch(e){document.documentElement.classList.add('dark')}})();`}</Script>
       <body>
         <a href="#main-content" className="skip-link">Skip to content</a>
         <ThemeProvider>
