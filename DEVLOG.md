@@ -53,6 +53,20 @@ Browsers cache favicons separately from page content and hold them aggressively.
 
 ---
 
+### [2026-06-13] — Fix: ghost characters visible on mobile across pages
+
+**What was done:**
+- `components/CTA.tsx` — Ghost "Ready?" background text: added `className="hidden sm:block"` so it's hidden on phones (was visible at opacity 0.025 on all screen sizes)
+- `app/about/page.tsx` — Ghost "N" in CTA section: added `className="hidden sm:block"` (opacity 0.018 still visible on mobile)
+- `app/about/page.tsx` — `CharacterIllustration` wrapper: added `className="hidden md:flex"` — illustration now hidden on mobile (was taking up large space stacked below founder card)
+- `app/services/page.tsx` — Ghost "?" in CTA section: added `className="hidden sm:block"` (opacity 0.02)
+
+**Root cause:** Ghost decorative characters in dark CTA sections had no `hidden` responsive class — unlike hero illustration characters which all had `hidden lg:block`. On mobile, even very low opacity (1.8–2.5%) large white text on dark backgrounds was visible. `CharacterIllustration` in About also had no mobile-hide class.
+
+**Still open:** Same as before
+
+---
+
 ### [2026-06-13] — Fix: coder character not visible on mobile
 
 **What was done:**

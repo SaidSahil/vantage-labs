@@ -1093,6 +1093,7 @@ export default function ServicesPage() {
         {/* Ghost char */}
         <div
           aria-hidden="true"
+          className="hidden sm:block"
           style={{
             position: 'absolute',
             top: '50%',
