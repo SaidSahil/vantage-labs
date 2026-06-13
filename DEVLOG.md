@@ -18,6 +18,41 @@ A running record of every session: what was built, what broke, what was fixed, a
 
 ## Sessions
 
+### [2026-06-12] — About page complete redesign (editorial/JUUN.J inspired)
+
+**What was done:**
+- Completely rewrote `components/About.tsx` — 5-section editorial redesign
+- **Section 1 — Editorial Hero Banner**: Full-width massive headline "SENIOR CRAFT. / LOCAL ROOTS." with clamp(56px–160px) font, word-by-word clip reveal animation, blueprint grid overlay (matching Hero), accent glow blob
+- **Section 2 — Founder Identity + Character**: Two-column layout with founder card ("NODEAXIS IS ADAM SAHIL."), accent left-bar card, and a full inline SVG line-art character illustration (two figures — clipboard holder + ponytail/pointer — with floating UI elements: checkbox, trend graph, diamond sparkle)
+- **Section 3 — Manifesto Pillars**: Editorial row layout (not cards), hover accent-dim background per row, three-column grid on desktop (number / title / body), border-separated rows
+- **Section 4 — Milestone Timeline**: Horizontal on desktop (dot + connector line), vertical stacked on mobile; milestones: 2026 Founded / 2026 First Build / Now Growing
+- **Section 5 — Stats Row**: Dramatic large numbers (clamp 48–96px), centered per cell, animated count-up for $399 and 100%, bottom-bordered cells
+- Removed unused `fadeRight` import; changed `React.CSSProperties` → `CSSProperties` (imported from react)
+- TypeScript check (`tsc --noEmit`) passes clean
+
+**Bugs found/fixed:**
+- None
+
+**Still open:**
+- SVG character illustration uses geometric approximation — could be refined with a proper illustration file later
+- Stats row bottom border creates a double border with next section — adjust if needed
+
+---
+
+### [2026-06-12] — Second audit: dead code, duplication, bug fixes
+
+**What was done:**
+- Removed ~50-line inline footer from `app/services/page.tsx` → replaced with `<Footer />` (code duplication with `app/contact/page.tsx` — both had identical hand-rolled footers)
+- Removed ~50-line inline footer from `app/contact/page.tsx` → replaced with `<Footer />` component
+- Added `import Footer from '@/components/Footer'` to both pages
+- Confirmed `Phone` icon IS used in `contact/page.tsx` (contactDetails array) — import correctly kept
+- TypeScript check (`tsc --noEmit`) passes clean
+
+**Bugs found/fixed:**
+- None beyond duplication cleanup (first audit bug fixes still apply)
+
+---
+
 ### [2026-06-12] — Full project audit & cleanup
 
 **What was done:**
@@ -31,12 +66,10 @@ A running record of every session: what was built, what broke, what was fixed, a
 - Deleted from P root: `mobile-check.mjs`, `mobile-screenshot.png`, `claude-changes.log` (one-off test artifacts)
 - TypeScript check (`tsc --noEmit`) passes clean after all deletions
 
-**Open items:**
-- `Agency/VantageLab/` — empty folder, needs manual deletion (needs user confirmation)
-- `Agency/index.html` — 69KB old standalone HTML prototype of the site, needs manual deletion (needs user confirmation)
-- `P/package.json` + `P/package-lock.json` — root-level with only `playwright` dep, unrelated to project (needs user confirmation to delete)
-
----
+**Open items resolved:**
+- `Agency/VantageLab/` — deleted ✓
+- `Agency/index.html` — deleted ✓
+- `P/package.json` + `P/package-lock.json` — deleted ✓
 
 ---
 
