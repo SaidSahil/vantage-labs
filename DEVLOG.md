@@ -18,6 +18,39 @@ A running record of every session: what was built, what broke, what was fixed, a
 
 ## Sessions
 
+### [2026-06-12] — Full site editorial redesign + character illustrations on every page
+
+**What was done:**
+
+**ui-ux-pro-max + frontend-design skills invoked** for coordinated design direction. Three parallel agents built simultaneously.
+
+**Home page components rewritten:**
+- `components/Hero.tsx` — Added large inline SVG line-art coder character (developer hunched at dual-monitor desk with keyboard, coffee cup, chair, floating code tags). Positioned absolute right side, partially clipped, entrance animation. All existing word-reveal + blueprint grid preserved.
+- `components/Services.tsx` — Replaced 2-column card grid with editorial numbered rows. `ServiceRow` component with per-row hover state (accent-dim background, title goes accent, arrow rotates 45°). Added inline SVG designer character (standing person with tablet + stylus, floating mockup frames, bezier handles, color swatches). Inverted dark panel kept.
+- `components/Why.tsx` — Massive editorial headline "WHY / NODEAXIS?" at clamp(64px–120px). Removed Lucide icons, editorial number-only rows with hover accent-dim (mirrors About.tsx pillars). Added inline SVG checkmark approval character.
+- `components/Testimonials.tsx` — Full carousel rewrite. AnimatePresence directional slide (right on next, left on prev). Large decorative quotation mark (opacity 0.12). Quote at clamp(20–36px) italic weight-300. Bottom progress pills + 44×44px prev/next buttons. Keeps all 3 testimonials.
+- `components/CTA.tsx` — Added inline SVG rocket/launch character (elongated rocket body, nose cone, porthole, fins, flame exhaust, astronaut figure). Positioned absolute bottom-right, entrance whileInView animation.
+- `components/FAQ.tsx` — Editorial numbered labels (01–06) added to each question. Answer indentation aligned with number + question layout.
+
+**Standalone pages — unique characters per page:**
+- `app/services/page.tsx` hero — Designer with floating UI mockup frames, bezier handles, color swatches, stylus
+- `app/work/page.tsx` hero — Person reviewing large pinboard with pinned cards, magnifying glass, star icons (uses --na-inv-text for dark hero)
+- `app/contact/page.tsx` hero — Person at desk with phone, speech bubble, envelope, location pin, send arrow
+
+**All characters:** inline SVG, monochromatic, stroke="currentColor", className="hidden lg:block", aria-hidden="true", motion.div entrance animation
+
+**TypeScript:** `npx tsc --noEmit` clean — zero errors across entire project after all changes.
+
+**Still open / TODO:**
+- Contact form backend (Formspree connected but needs end-to-end test)
+- Calendly embed on contact page
+- Custom domain not yet connected
+- Real project images/media (placeholders only)
+- Analytics not set up
+- layout.tsx html className suppressHydrationWarning (minor hydration warning in light mode)
+
+---
+
 ### [2026-06-12] — About page complete redesign (editorial/JUUN.J inspired)
 
 **What was done:**

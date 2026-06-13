@@ -385,6 +385,112 @@ export default function ServicesPage() {
             Every project starts from scratch. No templates, no shortcuts.
             Just custom-built digital that your business actually needs.
           </motion.p>
+
+          {/* Designer character illustration */}
+          <motion.div
+            aria-hidden="true"
+            className="hidden lg:block"
+            style={{ position: 'absolute', right: 0, top: '50%', transform: 'translateY(-50%)', zIndex: 0, pointerEvents: 'none' }}
+            initial={{ opacity: 0, x: 48 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ duration: 1, delay: 0.5, ease: [0.22, 1, 0.36, 1] as [number,number,number,number] }}
+          >
+            <svg
+              width="300" height="340"
+              viewBox="0 0 300 340"
+              fill="none"
+              stroke="currentColor"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              style={{ color: 'var(--na-text)', opacity: 0.22 }}
+            >
+              {/* Floating mockup frame 1 — large, slight rotation */}
+              <g transform="rotate(-8, 200, 80)">
+                <rect x="160" y="30" width="110" height="80" rx="4" strokeWidth="1.4" />
+                {/* Nav bar sim */}
+                <line x1="168" y1="42" x2="262" y2="42" strokeWidth="1.2" />
+                <line x1="168" y1="50" x2="230" y2="50" strokeWidth="1.2" />
+                {/* Content lines */}
+                <line x1="168" y1="64" x2="262" y2="64" strokeWidth="1.2" />
+                <line x1="168" y1="73" x2="250" y2="73" strokeWidth="1.2" />
+                <line x1="168" y1="82" x2="256" y2="82" strokeWidth="1.2" />
+                <line x1="168" y1="91" x2="240" y2="91" strokeWidth="1.2" />
+              </g>
+
+              {/* Floating mockup frame 2 — small image grid, rotated */}
+              <g transform="rotate(12, 230, 200)">
+                <rect x="195" y="170" width="78" height="68" rx="3" strokeWidth="1.4" />
+                {/* 2x2 grid sim */}
+                <line x1="234" y1="170" x2="234" y2="238" strokeWidth="1.2" />
+                <line x1="195" y1="204" x2="273" y2="204" strokeWidth="1.2" />
+                {/* Small circles in grid cells */}
+                <circle cx="214" cy="187" r="5" strokeWidth="1.2" />
+                <circle cx="253" cy="187" r="5" strokeWidth="1.2" />
+                <circle cx="214" cy="221" r="5" strokeWidth="1.2" />
+                <circle cx="253" cy="221" r="5" strokeWidth="1.2" />
+              </g>
+
+              {/* Floating mockup frame 3 — wireframe with nav top, slight tilt */}
+              <g transform="rotate(-5, 170, 240)">
+                <rect x="130" y="215" width="90" height="64" rx="3" strokeWidth="1.4" />
+                {/* Nav bar top */}
+                <line x1="130" y1="226" x2="220" y2="226" strokeWidth="1.6" />
+                {/* Content blocks */}
+                <rect x="138" y="234" width="28" height="16" rx="2" strokeWidth="1.1" />
+                <line x1="172" y1="237" x2="212" y2="237" strokeWidth="1.1" />
+                <line x1="172" y1="244" x2="206" y2="244" strokeWidth="1.1" />
+                <line x1="138" y1="258" x2="212" y2="258" strokeWidth="1.1" />
+                <line x1="138" y1="265" x2="198" y2="265" strokeWidth="1.1" />
+              </g>
+
+              {/* Person — standing, angled slightly */}
+              {/* Head */}
+              <circle cx="100" cy="108" r="24" strokeWidth="1.6" />
+              {/* Hair arc */}
+              <path d="M78,100 Q100,82 122,100" strokeWidth="1.5" fill="none" />
+              {/* Eyes */}
+              <circle cx="93" cy="108" r="2.2" strokeWidth="1.3" />
+              <circle cx="107" cy="108" r="2.2" strokeWidth="1.3" />
+              {/* Smile */}
+              <path d="M93,118 Q100,124 107,118" strokeWidth="1.4" fill="none" />
+              {/* Neck */}
+              <line x1="100" y1="132" x2="100" y2="146" strokeWidth="1.5" />
+              {/* Torso */}
+              <path d="M76,146 Q100,142 124,146 L120,210 Q100,214 80,210 Z" strokeWidth="1.5" />
+              {/* Left arm — raised toward frame, holding stylus */}
+              <path d="M76,158 Q52,148 44,132" strokeWidth="1.5" fill="none" />
+              {/* Stylus in hand */}
+              <line x1="44" y1="132" x2="30" y2="118" strokeWidth="1.6" />
+              <circle cx="30" cy="118" r="3" strokeWidth="1.3" />
+              <line x1="44" y1="132" x2="50" y2="138" strokeWidth="1.6" />
+              {/* Right arm — at side */}
+              <path d="M124,158 Q140,170 138,192" strokeWidth="1.5" fill="none" />
+              {/* Right hand resting */}
+              <circle cx="138" cy="196" r="5" strokeWidth="1.3" />
+              {/* Legs */}
+              <line x1="88" y1="210" x2="84" y2="280" strokeWidth="1.6" />
+              <line x1="112" y1="210" x2="116" y2="280" strokeWidth="1.6" />
+              {/* Feet */}
+              <path d="M84,280 Q78,282 70,280" strokeWidth="1.5" fill="none" />
+              <path d="M116,280 Q122,282 130,280" strokeWidth="1.5" fill="none" />
+
+              {/* Floating design elements */}
+              {/* Color swatch circles */}
+              <circle cx="52" cy="60" r="8" strokeWidth="1.3" />
+              <circle cx="68" cy="60" r="8" strokeWidth="1.3" />
+              <circle cx="60" cy="74" r="8" strokeWidth="1.3" />
+              {/* Bezier curve handles */}
+              <circle cx="42" cy="200" r="4" strokeWidth="1.3" />
+              <line x1="42" y1="200" x2="58" y2="188" strokeWidth="1.2" />
+              <circle cx="58" cy="188" r="3" strokeWidth="1.1" />
+              <line x1="42" y1="200" x2="26" y2="212" strokeWidth="1.2" />
+              <circle cx="26" cy="212" r="3" strokeWidth="1.1" />
+              {/* Corner radius indicator */}
+              <path d="M158,300 L158,290 Q158,284 164,284 L174,284" strokeWidth="1.3" fill="none" />
+              {/* Pen tool node */}
+              <rect x="88" y="290" width="8" height="8" rx="1" transform="rotate(45, 92, 294)" strokeWidth="1.3" />
+            </svg>
+          </motion.div>
       </section>
 
       {/* ── Services Accordion ─────────────────────────────── */}

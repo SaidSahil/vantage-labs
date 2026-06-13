@@ -140,18 +140,33 @@ export default function FAQ() {
                     gap: 20,
                   }}
                 >
-                  <span
-                    style={{
-                      fontSize: 'clamp(15px, 1.5vw, 18px)',
-                      fontWeight: 600,
-                      letterSpacing: '-0.01em',
-                      color: isOpen ? 'var(--na-inv-text)' : 'var(--na-inv-muted)',
-                      lineHeight: 1.4,
+                  <div style={{ display: 'flex', alignItems: 'flex-start', gap: 20, flex: 1 }}>
+                    <span style={{
+                      fontSize: 11,
+                      fontWeight: 700,
+                      letterSpacing: '0.14em',
+                      textTransform: 'uppercase',
+                      color: isOpen ? 'var(--na-inv-accent)' : 'rgba(255,255,255,0.2)',
+                      flexShrink: 0,
+                      paddingTop: 3,
+                      minWidth: 24,
                       transition: 'color 0.2s ease',
-                    }}
-                  >
-                    {faq.q}
-                  </span>
+                    }}>
+                      {String(i + 1).padStart(2, '0')}
+                    </span>
+                    <span
+                      style={{
+                        fontSize: 'clamp(15px, 1.5vw, 18px)',
+                        fontWeight: 600,
+                        letterSpacing: '-0.01em',
+                        color: isOpen ? 'var(--na-inv-text)' : 'var(--na-inv-muted)',
+                        lineHeight: 1.4,
+                        transition: 'color 0.2s ease',
+                      }}
+                    >
+                      {faq.q}
+                    </span>
+                  </div>
 
                   {/* +/- toggle */}
                   <span
@@ -186,18 +201,20 @@ export default function FAQ() {
                       transition={{ duration: 0.35, ease }}
                       style={{ overflow: 'hidden' }}
                     >
-                      <p
-                        style={{
-                          fontSize: 'clamp(14px, 1.3vw, 16px)',
-                          color: 'var(--na-inv-muted)',
-                          lineHeight: 1.75,
-                          paddingBottom: 'clamp(20px, 2.5vw, 28px)',
-                          margin: 0,
-                          maxWidth: 600,
-                        }}
-                      >
-                        {faq.a}
-                      </p>
+                      <div style={{ paddingLeft: 44 }}>
+                        <p
+                          style={{
+                            fontSize: 'clamp(14px, 1.3vw, 16px)',
+                            color: 'var(--na-inv-muted)',
+                            lineHeight: 1.75,
+                            paddingBottom: 'clamp(20px, 2.5vw, 28px)',
+                            margin: 0,
+                            maxWidth: 580,
+                          }}
+                        >
+                          {faq.a}
+                        </p>
+                      </div>
                     </motion.div>
                   )}
                 </AnimatePresence>

@@ -495,6 +495,116 @@ export default function WorkPage() {
             </motion.div>
           ))}
         </motion.div>
+
+        {/* Pinboard reviewer character illustration */}
+        <motion.div
+          aria-hidden="true"
+          className="hidden lg:block"
+          style={{ position: 'absolute', right: 0, top: '50%', transform: 'translateY(-50%)', zIndex: 0, pointerEvents: 'none' }}
+          initial={{ opacity: 0, x: 48 }}
+          animate={{ opacity: 1, x: 0 }}
+          transition={{ duration: 1, delay: 0.5, ease: [0.22, 1, 0.36, 1] as [number,number,number,number] }}
+        >
+          <svg
+            width="300" height="340"
+            viewBox="0 0 300 340"
+            fill="none"
+            stroke="currentColor"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            style={{ color: 'var(--na-inv-text)', opacity: 0.18 }}
+          >
+            {/* Pinboard — large rectangle */}
+            <rect x="148" y="40" width="136" height="200" rx="5" strokeWidth="1.6" />
+            {/* Push-pins at corners */}
+            <circle cx="156" cy="48" r="4" strokeWidth="1.4" />
+            <circle cx="276" cy="48" r="4" strokeWidth="1.4" />
+            <circle cx="156" cy="232" r="4" strokeWidth="1.4" />
+            <circle cx="276" cy="232" r="4" strokeWidth="1.4" />
+
+            {/* Pinned item 1 — slightly rotated rect */}
+            <g transform="rotate(-6, 185, 90)">
+              <rect x="158" y="62" width="54" height="42" rx="2" strokeWidth="1.3" />
+              <circle cx="185" cy="62" r="3.5" strokeWidth="1.3" />
+              {/* Folded corner */}
+              <path d="M200,62 L212,74 L200,74 Z" strokeWidth="1.1" />
+              <line x1="165" y1="74" x2="198" y2="74" strokeWidth="1.1" />
+              <line x1="165" y1="81" x2="195" y2="81" strokeWidth="1.1" />
+              <line x1="165" y1="88" x2="190" y2="88" strokeWidth="1.1" />
+            </g>
+
+            {/* Pinned item 2 — medium rect, other angle */}
+            <g transform="rotate(5, 245, 95)">
+              <rect x="218" y="60" width="48" height="56" rx="2" strokeWidth="1.3" />
+              <circle cx="242" cy="60" r="3.5" strokeWidth="1.3" />
+              {/* Small image placeholder */}
+              <rect x="224" y="68" width="36" height="24" rx="1" strokeWidth="1.1" />
+              <line x1="224" y1="100" x2="260" y2="100" strokeWidth="1.1" />
+              <line x1="224" y1="108" x2="252" y2="108" strokeWidth="1.1" />
+            </g>
+
+            {/* Pinned item 3 — small, more rotated */}
+            <g transform="rotate(-10, 178, 170)">
+              <rect x="156" y="148" width="44" height="38" rx="2" strokeWidth="1.3" />
+              <circle cx="178" cy="148" r="3.5" strokeWidth="1.3" />
+              <line x1="162" y1="158" x2="194" y2="158" strokeWidth="1.1" />
+              <line x1="162" y1="165" x2="190" y2="165" strokeWidth="1.1" />
+              <line x1="162" y1="172" x2="186" y2="172" strokeWidth="1.1" />
+            </g>
+
+            {/* Pinned item 4 — tall narrow */}
+            <g transform="rotate(8, 248, 180)">
+              <rect x="224" y="148" width="40" height="58" rx="2" strokeWidth="1.3" />
+              <circle cx="244" cy="148" r="3.5" strokeWidth="1.3" />
+              {/* Star rating */}
+              <path d="M234,162 L236,156 L238,162 L244,162 L239,166 L241,172 L236,168 L231,172 L233,166 L228,162 Z" strokeWidth="1.1" />
+              <line x1="228" y1="176" x2="260" y2="176" strokeWidth="1.1" />
+              <line x1="228" y1="182" x2="254" y2="182" strokeWidth="1.1" />
+              <line x1="228" y1="188" x2="256" y2="188" strokeWidth="1.1" />
+            </g>
+
+            {/* Person — standing, one hand touching board */}
+            {/* Head */}
+            <circle cx="100" cy="110" r="24" strokeWidth="1.6" />
+            {/* Hair */}
+            <path d="M78,102 Q100,84 122,102" strokeWidth="1.5" fill="none" />
+            {/* Eyes */}
+            <circle cx="93" cy="110" r="2.2" strokeWidth="1.3" />
+            <circle cx="107" cy="110" r="2.2" strokeWidth="1.3" />
+            {/* Thoughtful expression — slight frown/focused line */}
+            <path d="M94,120 Q100,123 106,120" strokeWidth="1.4" fill="none" />
+            {/* Neck */}
+            <line x1="100" y1="134" x2="100" y2="148" strokeWidth="1.5" />
+            {/* Torso */}
+            <path d="M76,148 Q100,144 124,148 L120,215 Q100,219 80,215 Z" strokeWidth="1.5" />
+            {/* Extended arm — reaching toward board */}
+            <path d="M124,162 Q136,155 148,148" strokeWidth="1.5" fill="none" />
+            {/* Hand on board */}
+            <circle cx="148" cy="148" r="5.5" strokeWidth="1.3" />
+            {/* Other arm — hanging at side */}
+            <path d="M76,162 Q62,175 60,198" strokeWidth="1.5" fill="none" />
+            <circle cx="60" cy="202" r="5" strokeWidth="1.3" />
+            {/* Legs */}
+            <line x1="88" y1="215" x2="84" y2="285" strokeWidth="1.6" />
+            <line x1="112" y1="215" x2="116" y2="285" strokeWidth="1.6" />
+            {/* Feet */}
+            <path d="M84,285 Q78,287 70,285" strokeWidth="1.5" fill="none" />
+            <path d="M116,285 Q122,287 130,285" strokeWidth="1.5" fill="none" />
+
+            {/* Floating elements */}
+            {/* Magnifying glass */}
+            <circle cx="50" cy="68" r="16" strokeWidth="1.5" />
+            <line x1="61" y1="79" x2="72" y2="90" strokeWidth="1.8" />
+            {/* Cross-hair inside lens */}
+            <line x1="50" y1="58" x2="50" y2="78" strokeWidth="1.1" />
+            <line x1="40" y1="68" x2="60" y2="68" strokeWidth="1.1" />
+
+            {/* Star rating floating */}
+            <path d="M42,240 L44,234 L46,240 L52,240 L47,244 L49,250 L44,246 L39,250 L41,244 L36,240 Z" strokeWidth="1.2" />
+            <path d="M56,240 L58,234 L60,240 L66,240 L61,244 L63,250 L58,246 L53,250 L55,244 L50,240 Z" strokeWidth="1.2" />
+            <path d="M70,240 L72,234 L74,240 L80,240 L75,244 L77,250 L72,246 L67,250 L69,244 L64,240 Z" strokeWidth="1.2" />
+          </svg>
+        </motion.div>
       </section>
 
       {/* ── How We Work ──────────────────────────────── */}

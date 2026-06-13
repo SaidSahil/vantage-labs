@@ -250,6 +250,106 @@ export default function ContactPage() {
             Tell us what you&apos;re building. We&apos;ll scope it, price it honestly,
             and get back to you within a day.
           </motion.p>
+
+          {/* Person at desk character illustration */}
+          <motion.div
+            aria-hidden="true"
+            className="hidden lg:block"
+            style={{ position: 'absolute', right: 0, top: '50%', transform: 'translateY(-50%)', zIndex: 0, pointerEvents: 'none' }}
+            initial={{ opacity: 0, x: 48 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ duration: 1, delay: 0.5, ease: [0.22, 1, 0.36, 1] as [number,number,number,number] }}
+          >
+            <svg
+              width="280" height="320"
+              viewBox="0 0 280 320"
+              fill="none"
+              stroke="currentColor"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              style={{ color: 'var(--na-text)', opacity: 0.22 }}
+            >
+              {/* Desk surface */}
+              <rect x="40" y="210" width="220" height="14" rx="3" strokeWidth="1.6" />
+              {/* Desk leg left */}
+              <line x1="60" y1="224" x2="56" y2="290" strokeWidth="1.5" />
+              {/* Desk leg right */}
+              <line x1="240" y1="224" x2="244" y2="290" strokeWidth="1.5" />
+
+              {/* Monitor on desk */}
+              <rect x="48" y="160" width="64" height="48" rx="4" strokeWidth="1.5" />
+              {/* Monitor stand */}
+              <line x1="80" y1="208" x2="80" y2="214" strokeWidth="1.5" />
+              <line x1="70" y1="212" x2="90" y2="212" strokeWidth="1.5" />
+              {/* Screen content lines */}
+              <line x1="56" y1="172" x2="104" y2="172" strokeWidth="1.2" />
+              <line x1="56" y1="180" x2="96" y2="180" strokeWidth="1.2" />
+              <line x1="56" y1="188" x2="100" y2="188" strokeWidth="1.2" />
+              <line x1="56" y1="196" x2="88" y2="196" strokeWidth="1.2" />
+
+              {/* Coffee cup on desk */}
+              <path d="M210,196 Q206,196 206,202 L206,212 Q206,214 210,214 L222,214 Q226,214 226,212 L226,202 Q226,196 222,196 Z" strokeWidth="1.4" />
+              {/* Cup handle */}
+              <path d="M226,202 Q234,202 234,207 Q234,212 226,212" strokeWidth="1.3" fill="none" />
+              {/* Steam */}
+              <path d="M212,194 Q214,188 212,182" strokeWidth="1.2" fill="none" />
+              <path d="M218,194 Q220,187 218,180" strokeWidth="1.2" fill="none" />
+
+              {/* Person sitting — head */}
+              <circle cx="160" cy="98" r="22" strokeWidth="1.6" />
+              {/* Hair */}
+              <path d="M140,91 Q160,75 180,91" strokeWidth="1.5" fill="none" />
+              {/* Eyes — relaxed/engaged */}
+              <circle cx="154" cy="98" r="2" strokeWidth="1.3" />
+              <circle cx="166" cy="98" r="2" strokeWidth="1.3" />
+              {/* Smile */}
+              <path d="M154,108 Q160,114 166,108" strokeWidth="1.4" fill="none" />
+              {/* Neck */}
+              <line x1="160" y1="120" x2="160" y2="132" strokeWidth="1.5" />
+              {/* Torso — seated, slightly leaning back */}
+              <path d="M138,132 Q160,128 182,132 L180,200 Q160,205 140,200 Z" strokeWidth="1.5" />
+              {/* Left arm — raised, holding phone to ear */}
+              <path d="M138,144 Q122,136 116,120" strokeWidth="1.5" fill="none" />
+              {/* Phone rect near ear */}
+              <rect x="108" y="104" width="14" height="24" rx="3" strokeWidth="1.5" />
+              {/* Right arm — resting on desk */}
+              <path d="M182,150 Q200,160 210,170" strokeWidth="1.5" fill="none" />
+              <circle cx="212" cy="173" r="5" strokeWidth="1.3" />
+              {/* Seated legs suggestion */}
+              <path d="M140,200 Q130,210 128,220" strokeWidth="1.4" fill="none" />
+              <path d="M180,200 Q190,210 192,220" strokeWidth="1.4" fill="none" />
+
+              {/* Speech bubble with "..." */}
+              <rect x="58" y="64" width="64" height="36" rx="8" strokeWidth="1.5" />
+              {/* Bubble tail */}
+              <path d="M100,100 L108,110 L88,100" strokeWidth="1.3" fill="none" />
+              {/* Dots inside bubble */}
+              <circle cx="76" cy="82" r="3.5" strokeWidth="1.3" />
+              <circle cx="90" cy="82" r="3.5" strokeWidth="1.3" />
+              <circle cx="104" cy="82" r="3.5" strokeWidth="1.3" />
+
+              {/* Envelope shape floating */}
+              <rect x="196" y="52" width="52" height="38" rx="3" strokeWidth="1.5" />
+              {/* Envelope flap */}
+              <path d="M196,52 L222,74 L248,52" strokeWidth="1.3" fill="none" />
+              {/* Envelope bottom fold lines */}
+              <line x1="196" y1="90" x2="212" y2="72" strokeWidth="1.1" />
+              <line x1="248" y1="90" x2="232" y2="72" strokeWidth="1.1" />
+
+              {/* Location pin (BC) */}
+              <path d="M230,280 Q230,265 242,265 Q254,265 254,277 Q254,290 242,298 Q230,290 230,280 Z" strokeWidth="1.5" />
+              <circle cx="242" cy="277" r="5" strokeWidth="1.3" />
+
+              {/* Send arrow */}
+              <path d="M44,120 L68,132 L44,144 L50,132 Z" strokeWidth="1.4" />
+              <line x1="50" y1="132" x2="68" y2="132" strokeWidth="1.2" />
+
+              {/* Message lines floating */}
+              <line x1="196" y1="114" x2="248" y2="114" strokeWidth="1.3" />
+              <line x1="196" y1="122" x2="240" y2="122" strokeWidth="1.3" />
+              <line x1="196" y1="130" x2="244" y2="130" strokeWidth="1.3" />
+            </svg>
+          </motion.div>
       </section>
 
       {/* ── Content ─────────────────────────────────────────── */}
