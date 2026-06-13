@@ -1,0 +1,1615 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Saffron Kitchen — Authentic Persian Cuisine in Surrey, BC</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Inter:wght@300;400;500;600&display=swap');
+
+    *, *::before, *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    :root {
+      --burgundy: #2D0A1E;
+      --burgundy-mid: #3E1029;
+      --burgundy-light: #5C1A3E;
+      --gold: #E8A020;
+      --gold-light: #F0B84A;
+      --gold-dark: #C8880A;
+      --cream: #FDF6EC;
+      --warm-white: #FEFCF7;
+      --text-dark: #1A0510;
+      --text-muted: #7A5060;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      background-color: var(--warm-white);
+      color: var(--text-dark);
+      overflow-x: hidden;
+    }
+
+    /* ── DEMO BANNER ── */
+    .demo-banner {
+      background: #E8A020;
+      color: #2D0A1E;
+      text-align: center;
+      padding: 8px 16px;
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      font-family: 'Inter', sans-serif;
+      position: relative;
+      z-index: 9999;
+    }
+
+    .demo-banner a {
+      color: #2D0A1E;
+      text-decoration: underline;
+      text-decoration-color: rgba(45, 10, 30, 0.4);
+    }
+
+    /* ── STICKY NAV ── */
+    nav {
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+      background: rgba(45, 10, 30, 0.97);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border-bottom: 1px solid rgba(232, 160, 32, 0.2);
+    }
+
+    .nav-inner {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 32px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      height: 70px;
+    }
+
+    .nav-logo {
+      font-family: 'Playfair Display', serif;
+      font-size: 20px;
+      font-weight: 700;
+      color: var(--gold);
+      letter-spacing: 0.08em;
+      text-decoration: none;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .nav-logo .logo-icon {
+      width: 32px;
+      height: 32px;
+      background: linear-gradient(135deg, #E8A020 0%, #C8880A 100%);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 14px;
+      color: var(--burgundy);
+      flex-shrink: 0;
+    }
+
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 36px;
+      list-style: none;
+    }
+
+    .nav-links a {
+      font-size: 13px;
+      font-weight: 500;
+      letter-spacing: 0.06em;
+      color: rgba(253, 246, 236, 0.8);
+      text-decoration: none;
+      text-transform: uppercase;
+      transition: color 0.2s ease;
+    }
+
+    .nav-links a:hover {
+      color: var(--gold);
+    }
+
+    .nav-cta {
+      background: linear-gradient(135deg, #E8A020 0%, #C8880A 100%);
+      color: var(--burgundy) !important;
+      padding: 10px 22px;
+      border-radius: 3px;
+      font-weight: 600 !important;
+      font-size: 12px !important;
+      letter-spacing: 0.08em !important;
+      text-transform: uppercase !important;
+      transition: transform 0.2s ease, box-shadow 0.2s ease !important;
+      box-shadow: 0 2px 12px rgba(232, 160, 32, 0.3);
+    }
+
+    .nav-cta:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 4px 20px rgba(232, 160, 32, 0.45) !important;
+      color: var(--burgundy) !important;
+    }
+
+    /* ── HERO ── */
+    .hero {
+      min-height: 100vh;
+      background:
+        radial-gradient(ellipse at 30% 60%, rgba(232, 160, 32, 0.18) 0%, transparent 55%),
+        radial-gradient(ellipse at 75% 30%, rgba(200, 80, 40, 0.12) 0%, transparent 50%),
+        radial-gradient(ellipse at 50% 80%, rgba(120, 20, 60, 0.25) 0%, transparent 60%),
+        linear-gradient(160deg, #1A0510 0%, #2D0A1E 30%, #1E0818 60%, #0F040C 100%);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .hero::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background:
+        radial-gradient(circle at 20% 50%, rgba(232, 160, 32, 0.06) 0%, transparent 40%),
+        radial-gradient(circle at 80% 70%, rgba(180, 60, 30, 0.08) 0%, transparent 45%);
+      pointer-events: none;
+    }
+
+    /* Decorative spice particles */
+    .hero::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background-image:
+        radial-gradient(1.5px 1.5px at 15% 25%, rgba(232, 160, 32, 0.5) 0%, transparent 100%),
+        radial-gradient(1px 1px at 85% 15%, rgba(232, 160, 32, 0.4) 0%, transparent 100%),
+        radial-gradient(1.5px 1.5px at 65% 80%, rgba(232, 160, 32, 0.3) 0%, transparent 100%),
+        radial-gradient(1px 1px at 40% 65%, rgba(232, 160, 32, 0.35) 0%, transparent 100%),
+        radial-gradient(2px 2px at 92% 45%, rgba(232, 160, 32, 0.25) 0%, transparent 100%),
+        radial-gradient(1px 1px at 10% 80%, rgba(232, 160, 32, 0.3) 0%, transparent 100%);
+      pointer-events: none;
+    }
+
+    .hero-content {
+      position: relative;
+      z-index: 1;
+      text-align: center;
+      max-width: 800px;
+      padding: 0 32px;
+    }
+
+    .hero-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: rgba(232, 160, 32, 0.12);
+      border: 1px solid rgba(232, 160, 32, 0.3);
+      color: var(--gold);
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      padding: 7px 16px;
+      border-radius: 20px;
+      margin-bottom: 32px;
+    }
+
+    .hero-badge::before {
+      content: '✦';
+      font-size: 8px;
+    }
+
+    .hero h1 {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(38px, 6vw, 72px);
+      font-weight: 700;
+      color: var(--cream);
+      line-height: 1.15;
+      margin-bottom: 24px;
+      letter-spacing: -0.01em;
+    }
+
+    .hero h1 em {
+      font-style: italic;
+      color: var(--gold);
+    }
+
+    .hero-sub {
+      font-size: 18px;
+      font-weight: 300;
+      color: rgba(253, 246, 236, 0.65);
+      line-height: 1.7;
+      margin-bottom: 48px;
+      letter-spacing: 0.02em;
+    }
+
+    .hero-ctas {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 16px;
+      flex-wrap: wrap;
+    }
+
+    .btn-primary {
+      background: linear-gradient(135deg, #E8A020 0%, #C8880A 100%);
+      color: var(--burgundy);
+      padding: 15px 32px;
+      border: none;
+      border-radius: 3px;
+      font-family: 'Inter', sans-serif;
+      font-size: 13px;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      cursor: pointer;
+      text-decoration: none;
+      display: inline-block;
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+      box-shadow: 0 4px 20px rgba(232, 160, 32, 0.35);
+    }
+
+    .btn-primary:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 30px rgba(232, 160, 32, 0.5);
+    }
+
+    .btn-secondary {
+      background: transparent;
+      color: var(--cream);
+      padding: 14px 32px;
+      border: 1px solid rgba(253, 246, 236, 0.3);
+      border-radius: 3px;
+      font-family: 'Inter', sans-serif;
+      font-size: 13px;
+      font-weight: 500;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      cursor: pointer;
+      text-decoration: none;
+      display: inline-block;
+      transition: border-color 0.2s ease, color 0.2s ease, background 0.2s ease;
+    }
+
+    .btn-secondary:hover {
+      border-color: var(--gold);
+      color: var(--gold);
+      background: rgba(232, 160, 32, 0.05);
+    }
+
+    .hero-scroll {
+      position: absolute;
+      bottom: 36px;
+      left: 50%;
+      transform: translateX(-50%);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 8px;
+      color: rgba(253, 246, 236, 0.35);
+      font-size: 10px;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+    }
+
+    .hero-scroll-line {
+      width: 1px;
+      height: 40px;
+      background: linear-gradient(to bottom, rgba(232, 160, 32, 0.5), transparent);
+    }
+
+    /* ── DIVIDER ── */
+    .section-divider {
+      width: 60px;
+      height: 2px;
+      background: linear-gradient(90deg, transparent, var(--gold), transparent);
+      margin: 0 auto 16px;
+    }
+
+    /* ── SECTION HEADER ── */
+    .section-header {
+      text-align: center;
+      margin-bottom: 64px;
+    }
+
+    .section-eyebrow {
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 12px;
+      display: block;
+    }
+
+    .section-title {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(28px, 4vw, 44px);
+      font-weight: 700;
+      color: var(--burgundy);
+      line-height: 1.2;
+    }
+
+    .section-subtitle {
+      font-size: 16px;
+      font-weight: 300;
+      color: var(--text-muted);
+      line-height: 1.7;
+      margin-top: 14px;
+      max-width: 500px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    /* ── FEATURED DISHES ── */
+    .dishes-section {
+      background: var(--cream);
+      padding: 100px 32px;
+    }
+
+    .dishes-grid {
+      max-width: 1200px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 32px;
+    }
+
+    .dish-card {
+      background: var(--warm-white);
+      border-radius: 6px;
+      overflow: hidden;
+      box-shadow: 0 4px 24px rgba(45, 10, 30, 0.08);
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    .dish-card:hover {
+      transform: translateY(-6px);
+      box-shadow: 0 12px 40px rgba(45, 10, 30, 0.15);
+    }
+
+    .dish-image {
+      height: 220px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .dish-image-1 {
+      background:
+        radial-gradient(ellipse at 40% 60%, rgba(200, 140, 30, 0.9) 0%, rgba(160, 80, 20, 0.8) 40%, rgba(80, 20, 10, 0.9) 100%),
+        linear-gradient(135deg, #C88028 0%, #8B4010 50%, #4A1A08 100%);
+    }
+
+    .dish-image-2 {
+      background:
+        radial-gradient(ellipse at 60% 40%, rgba(220, 160, 40, 0.9) 0%, rgba(180, 100, 20, 0.8) 45%, rgba(100, 40, 10, 0.9) 100%),
+        linear-gradient(135deg, #D4A030 0%, #A06018 50%, #5A2008 100%);
+    }
+
+    .dish-image-3 {
+      background:
+        radial-gradient(ellipse at 50% 50%, rgba(100, 140, 40, 0.7) 0%, rgba(80, 100, 20, 0.6) 40%, rgba(40, 60, 10, 0.8) 100%),
+        radial-gradient(ellipse at 70% 30%, rgba(180, 120, 30, 0.6) 0%, transparent 60%),
+        linear-gradient(135deg, #6A8020 0%, #4A5A10 40%, #2A3008 100%);
+    }
+
+    .dish-image-overlay {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(to top, rgba(45, 10, 30, 0.4) 0%, transparent 60%);
+    }
+
+    /* Simulated food art inside dish images */
+    .dish-art {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .dish-art-plate {
+      width: 120px;
+      height: 120px;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.12);
+      border: 2px solid rgba(255, 255, 255, 0.18);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+    }
+
+    .dish-art-plate::before {
+      content: '';
+      position: absolute;
+      width: 80px;
+      height: 80px;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.08);
+      border: 1px solid rgba(255, 255, 255, 0.12);
+    }
+
+    .dish-tag {
+      position: absolute;
+      top: 16px;
+      right: 16px;
+      background: var(--gold);
+      color: var(--burgundy);
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      padding: 4px 10px;
+      border-radius: 2px;
+    }
+
+    .dish-body {
+      padding: 28px 28px 32px;
+    }
+
+    .dish-name {
+      font-family: 'Playfair Display', serif;
+      font-size: 22px;
+      font-weight: 700;
+      color: var(--burgundy);
+      margin-bottom: 10px;
+      line-height: 1.25;
+    }
+
+    .dish-desc {
+      font-size: 14px;
+      font-weight: 400;
+      color: var(--text-muted);
+      line-height: 1.65;
+      margin-bottom: 20px;
+    }
+
+    .dish-footer {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      border-top: 1px solid rgba(45, 10, 30, 0.07);
+      padding-top: 16px;
+    }
+
+    .dish-price {
+      font-family: 'Playfair Display', serif;
+      font-size: 26px;
+      font-weight: 700;
+      color: var(--gold-dark);
+    }
+
+    .dish-order-btn {
+      background: transparent;
+      border: 1px solid var(--burgundy);
+      color: var(--burgundy);
+      padding: 8px 18px;
+      border-radius: 3px;
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      cursor: pointer;
+      transition: background 0.2s ease, color 0.2s ease;
+    }
+
+    .dish-order-btn:hover {
+      background: var(--burgundy);
+      color: var(--cream);
+    }
+
+    /* ── MENU HINT STRIP ── */
+    .menu-strip {
+      background: var(--burgundy);
+      padding: 28px 32px;
+      text-align: center;
+    }
+
+    .menu-strip p {
+      font-size: 15px;
+      color: rgba(253, 246, 236, 0.75);
+      font-weight: 300;
+    }
+
+    .menu-strip a {
+      color: var(--gold);
+      font-weight: 600;
+      text-decoration: underline;
+      text-decoration-color: rgba(232, 160, 32, 0.4);
+      cursor: pointer;
+    }
+
+    /* ── RESERVATION SECTION ── */
+    .reservation-section {
+      background:
+        radial-gradient(ellipse at 80% 50%, rgba(232, 160, 32, 0.06) 0%, transparent 55%),
+        linear-gradient(160deg, #2D0A1E 0%, #3E1029 50%, #2D0A1E 100%);
+      padding: 110px 32px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .reservation-section::before {
+      content: '';
+      position: absolute;
+      top: -100px;
+      right: -100px;
+      width: 400px;
+      height: 400px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(232, 160, 32, 0.05) 0%, transparent 70%);
+      pointer-events: none;
+    }
+
+    .reservation-section .section-title {
+      color: var(--cream);
+    }
+
+    .reservation-section .section-subtitle {
+      color: rgba(253, 246, 236, 0.55);
+    }
+
+    .reservation-section .section-divider {
+      background: linear-gradient(90deg, transparent, rgba(232, 160, 32, 0.6), transparent);
+    }
+
+    .reservation-form-wrap {
+      max-width: 700px;
+      margin: 0 auto;
+      background: rgba(253, 246, 236, 0.04);
+      border: 1px solid rgba(232, 160, 32, 0.15);
+      border-radius: 8px;
+      padding: 52px 52px 48px;
+      backdrop-filter: blur(4px);
+    }
+
+    .form-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 20px;
+      margin-bottom: 20px;
+    }
+
+    .form-group {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .form-group.full-width {
+      grid-column: 1 / -1;
+    }
+
+    .form-group label {
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: rgba(253, 246, 236, 0.6);
+    }
+
+    .form-group input,
+    .form-group select,
+    .form-group textarea {
+      background: rgba(253, 246, 236, 0.05);
+      border: 1px solid rgba(232, 160, 32, 0.2);
+      border-radius: 4px;
+      padding: 13px 16px;
+      font-family: 'Inter', sans-serif;
+      font-size: 14px;
+      font-weight: 400;
+      color: var(--cream);
+      outline: none;
+      transition: border-color 0.2s ease, background 0.2s ease;
+      -webkit-appearance: none;
+      appearance: none;
+    }
+
+    .form-group select {
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%23E8A020' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");
+      background-repeat: no-repeat;
+      background-position: right 14px center;
+      padding-right: 40px;
+      cursor: pointer;
+    }
+
+    .form-group select option {
+      background: #2D0A1E;
+      color: var(--cream);
+    }
+
+    .form-group input::placeholder,
+    .form-group textarea::placeholder {
+      color: rgba(253, 246, 236, 0.25);
+    }
+
+    .form-group input:focus,
+    .form-group select:focus,
+    .form-group textarea:focus {
+      border-color: rgba(232, 160, 32, 0.6);
+      background: rgba(253, 246, 236, 0.08);
+    }
+
+    .form-group textarea {
+      resize: vertical;
+      min-height: 100px;
+    }
+
+    .form-submit-wrap {
+      margin-top: 32px;
+      text-align: center;
+    }
+
+    .btn-form-submit {
+      background: linear-gradient(135deg, #E8A020 0%, #C8880A 100%);
+      color: var(--burgundy);
+      border: none;
+      padding: 16px 48px;
+      border-radius: 3px;
+      font-family: 'Inter', sans-serif;
+      font-size: 13px;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      cursor: pointer;
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+      box-shadow: 0 4px 20px rgba(232, 160, 32, 0.3);
+      width: 100%;
+    }
+
+    .btn-form-submit:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 30px rgba(232, 160, 32, 0.45);
+    }
+
+    .form-note {
+      margin-top: 16px;
+      font-size: 12px;
+      color: rgba(253, 246, 236, 0.4);
+      text-align: center;
+      letter-spacing: 0.03em;
+    }
+
+    .form-note span {
+      color: rgba(232, 160, 32, 0.7);
+    }
+
+    /* ── ABOUT SECTION ── */
+    .about-section {
+      background: var(--warm-white);
+      padding: 110px 32px;
+    }
+
+    .about-inner {
+      max-width: 1100px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 80px;
+      align-items: center;
+    }
+
+    .about-text .section-header {
+      text-align: left;
+      margin-bottom: 32px;
+    }
+
+    .about-text .section-divider {
+      margin: 0 0 16px;
+    }
+
+    .about-text .section-eyebrow {
+      display: block;
+    }
+
+    .about-text p {
+      font-size: 15.5px;
+      font-weight: 400;
+      color: var(--text-muted);
+      line-height: 1.8;
+      margin-bottom: 18px;
+    }
+
+    .about-text p:last-child {
+      margin-bottom: 0;
+    }
+
+    .about-stats {
+      display: flex;
+      gap: 36px;
+      margin-top: 40px;
+      padding-top: 32px;
+      border-top: 1px solid rgba(45, 10, 30, 0.08);
+    }
+
+    .about-stat {
+      text-align: left;
+    }
+
+    .about-stat-num {
+      font-family: 'Playfair Display', serif;
+      font-size: 36px;
+      font-weight: 700;
+      color: var(--gold-dark);
+      line-height: 1;
+    }
+
+    .about-stat-label {
+      font-size: 12px;
+      font-weight: 500;
+      letter-spacing: 0.05em;
+      color: var(--text-muted);
+      margin-top: 4px;
+    }
+
+    /* CSS Art Photo Frame */
+    .about-photo {
+      position: relative;
+    }
+
+    .photo-frame {
+      width: 100%;
+      padding-bottom: 115%;
+      position: relative;
+      border-radius: 4px;
+      overflow: hidden;
+    }
+
+    .photo-frame-inner {
+      position: absolute;
+      inset: 0;
+      background:
+        radial-gradient(ellipse at 30% 40%, rgba(220, 140, 30, 0.75) 0%, rgba(180, 80, 20, 0.65) 35%, transparent 65%),
+        radial-gradient(ellipse at 70% 60%, rgba(200, 120, 40, 0.55) 0%, rgba(140, 60, 15, 0.5) 40%, transparent 65%),
+        radial-gradient(ellipse at 50% 20%, rgba(240, 180, 50, 0.4) 0%, transparent 50%),
+        linear-gradient(160deg, #3A1A08 0%, #6A3010 25%, #A05818 50%, #7A3A14 75%, #2A0C08 100%);
+    }
+
+    .photo-frame-inner::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background:
+        radial-gradient(ellipse at 45% 55%, rgba(255, 220, 100, 0.25) 0%, transparent 45%),
+        radial-gradient(ellipse at 65% 35%, rgba(200, 100, 30, 0.3) 0%, transparent 40%);
+    }
+
+    /* Stylized table setting art */
+    .photo-frame-art {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .plate-art {
+      position: relative;
+      width: 160px;
+      height: 160px;
+    }
+
+    .plate-ring-outer {
+      position: absolute;
+      inset: 0;
+      border-radius: 50%;
+      border: 2px solid rgba(255, 255, 255, 0.15);
+      background: rgba(255, 255, 255, 0.05);
+    }
+
+    .plate-ring-inner {
+      position: absolute;
+      inset: 20px;
+      border-radius: 50%;
+      border: 1.5px solid rgba(255, 255, 255, 0.1);
+      background: rgba(255, 255, 255, 0.04);
+    }
+
+    .plate-center {
+      position: absolute;
+      inset: 44px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, rgba(200, 120, 30, 0.6) 0%, rgba(140, 70, 15, 0.5) 100%);
+      border: 1px solid rgba(255, 200, 80, 0.2);
+    }
+
+    .photo-frame-caption {
+      position: absolute;
+      bottom: 24px;
+      left: 24px;
+      right: 24px;
+      background: rgba(45, 10, 30, 0.7);
+      backdrop-filter: blur(8px);
+      border: 1px solid rgba(232, 160, 32, 0.2);
+      border-radius: 4px;
+      padding: 14px 18px;
+    }
+
+    .photo-frame-caption p {
+      font-family: 'Playfair Display', serif;
+      font-size: 14px;
+      font-style: italic;
+      color: var(--gold);
+      line-height: 1.5;
+      margin: 0;
+    }
+
+    .photo-frame-caption span {
+      display: block;
+      font-family: 'Inter', sans-serif;
+      font-size: 11px;
+      font-style: normal;
+      font-weight: 500;
+      color: rgba(253, 246, 236, 0.5);
+      margin-top: 4px;
+      letter-spacing: 0.05em;
+    }
+
+    .photo-frame-border {
+      position: absolute;
+      inset: -6px;
+      border: 1px solid rgba(232, 160, 32, 0.2);
+      border-radius: 6px;
+      pointer-events: none;
+    }
+
+    /* ── LOCATION SECTION ── */
+    .location-section {
+      background: var(--cream);
+      padding: 110px 32px;
+    }
+
+    .location-inner {
+      max-width: 1000px;
+      margin: 0 auto;
+    }
+
+    .location-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 64px;
+      margin-top: 64px;
+    }
+
+    .location-block h3 {
+      font-family: 'Playfair Display', serif;
+      font-size: 22px;
+      font-weight: 700;
+      color: var(--burgundy);
+      margin-bottom: 20px;
+    }
+
+    .location-detail {
+      display: flex;
+      align-items: flex-start;
+      gap: 14px;
+      margin-bottom: 18px;
+    }
+
+    .location-icon {
+      width: 38px;
+      height: 38px;
+      background: rgba(45, 10, 30, 0.07);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 15px;
+      flex-shrink: 0;
+    }
+
+    .location-detail-text strong {
+      display: block;
+      font-size: 14px;
+      font-weight: 600;
+      color: var(--burgundy);
+      margin-bottom: 2px;
+    }
+
+    .location-detail-text p {
+      font-size: 14px;
+      font-weight: 400;
+      color: var(--text-muted);
+      line-height: 1.5;
+    }
+
+    .hours-table {
+      width: 100%;
+      border-collapse: collapse;
+    }
+
+    .hours-table tr {
+      border-bottom: 1px solid rgba(45, 10, 30, 0.06);
+    }
+
+    .hours-table tr:last-child {
+      border-bottom: none;
+    }
+
+    .hours-table td {
+      padding: 11px 0;
+      font-size: 14px;
+      color: var(--text-muted);
+    }
+
+    .hours-table td:first-child {
+      font-weight: 500;
+      color: var(--burgundy);
+      width: 130px;
+    }
+
+    .hours-table td:last-child {
+      text-align: right;
+      font-weight: 400;
+    }
+
+    .hours-open {
+      color: #2D7A3A !important;
+      font-weight: 600 !important;
+    }
+
+    .map-placeholder {
+      height: 200px;
+      margin-top: 32px;
+      border-radius: 6px;
+      overflow: hidden;
+      position: relative;
+      background:
+        linear-gradient(135deg, #D4C8A8 0%, #C8BC9A 100%);
+      border: 2px solid rgba(45, 10, 30, 0.08);
+    }
+
+    /* Stylized map art */
+    .map-placeholder::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background:
+        linear-gradient(90deg, rgba(180, 170, 140, 0.6) 0%, transparent 4%, transparent 96%, rgba(180, 170, 140, 0.6) 100%),
+        linear-gradient(0deg, rgba(180, 170, 140, 0.6) 0%, transparent 4%, transparent 96%, rgba(180, 170, 140, 0.6) 100%);
+      background-size: 60px 60px;
+    }
+
+    .map-road-h {
+      position: absolute;
+      left: 0;
+      right: 0;
+      height: 12px;
+      background: rgba(255, 255, 255, 0.7);
+      top: 50%;
+      transform: translateY(-50%);
+    }
+
+    .map-road-v {
+      position: absolute;
+      top: 0;
+      bottom: 0;
+      width: 10px;
+      background: rgba(255, 255, 255, 0.65);
+      left: 40%;
+    }
+
+    .map-road-h2 {
+      position: absolute;
+      left: 0;
+      right: 0;
+      height: 8px;
+      background: rgba(255, 255, 255, 0.5);
+      top: 25%;
+    }
+
+    .map-road-v2 {
+      position: absolute;
+      top: 0;
+      bottom: 0;
+      width: 7px;
+      background: rgba(255, 255, 255, 0.45);
+      left: 70%;
+    }
+
+    .map-pin {
+      position: absolute;
+      top: 50%;
+      left: 40%;
+      transform: translate(-50%, -100%);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      z-index: 1;
+    }
+
+    .map-pin-head {
+      width: 28px;
+      height: 28px;
+      background: linear-gradient(135deg, #E8A020 0%, #C8880A 100%);
+      border-radius: 50% 50% 50% 0;
+      transform: rotate(-45deg);
+      box-shadow: 0 4px 12px rgba(232, 160, 32, 0.5);
+      border: 2px solid white;
+    }
+
+    .map-pin-shadow {
+      width: 12px;
+      height: 5px;
+      background: rgba(0,0,0,0.2);
+      border-radius: 50%;
+      margin-top: -2px;
+    }
+
+    .map-label {
+      position: absolute;
+      bottom: 12px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: var(--burgundy);
+      color: var(--cream);
+      font-size: 11px;
+      font-weight: 600;
+      padding: 5px 12px;
+      border-radius: 3px;
+      white-space: nowrap;
+      letter-spacing: 0.04em;
+    }
+
+    /* ── FOOTER ── */
+    footer {
+      background: linear-gradient(160deg, #1A0510 0%, #2D0A1E 60%, #1A0510 100%);
+      padding: 70px 32px 40px;
+      border-top: 1px solid rgba(232, 160, 32, 0.1);
+    }
+
+    .footer-top {
+      max-width: 1100px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: 2fr 1fr 1fr 1fr;
+      gap: 48px;
+      padding-bottom: 48px;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+    }
+
+    .footer-brand .footer-logo {
+      font-family: 'Playfair Display', serif;
+      font-size: 22px;
+      font-weight: 700;
+      color: var(--gold);
+      letter-spacing: 0.08em;
+      display: block;
+      margin-bottom: 14px;
+    }
+
+    .footer-brand .tagline {
+      font-size: 14px;
+      font-style: italic;
+      font-family: 'Playfair Display', serif;
+      color: rgba(253, 246, 236, 0.45);
+      line-height: 1.5;
+    }
+
+    .footer-col h4 {
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: rgba(253, 246, 236, 0.4);
+      margin-bottom: 18px;
+    }
+
+    .footer-col ul {
+      list-style: none;
+    }
+
+    .footer-col ul li {
+      margin-bottom: 10px;
+    }
+
+    .footer-col ul li a {
+      font-size: 14px;
+      font-weight: 400;
+      color: rgba(253, 246, 236, 0.6);
+      text-decoration: none;
+      transition: color 0.2s ease;
+    }
+
+    .footer-col ul li a:hover {
+      color: var(--gold);
+    }
+
+    .footer-bottom {
+      max-width: 1100px;
+      margin: 32px auto 0;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 12px;
+    }
+
+    .footer-copy {
+      font-size: 12.5px;
+      color: rgba(253, 246, 236, 0.3);
+      letter-spacing: 0.02em;
+    }
+
+    .footer-copy a {
+      color: rgba(232, 160, 32, 0.6);
+      text-decoration: none;
+      transition: color 0.2s ease;
+    }
+
+    .footer-copy a:hover {
+      color: var(--gold);
+    }
+
+    .footer-legal {
+      display: flex;
+      gap: 20px;
+    }
+
+    .footer-legal a {
+      font-size: 12px;
+      color: rgba(253, 246, 236, 0.25);
+      text-decoration: none;
+      letter-spacing: 0.03em;
+    }
+
+    .footer-legal a:hover {
+      color: rgba(253, 246, 236, 0.5);
+    }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 900px) {
+      .dishes-grid {
+        grid-template-columns: 1fr;
+        max-width: 480px;
+      }
+
+      .about-inner {
+        grid-template-columns: 1fr;
+        gap: 48px;
+      }
+
+      .about-photo {
+        order: -1;
+        max-width: 440px;
+        margin: 0 auto;
+        width: 100%;
+      }
+
+      .location-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .footer-top {
+        grid-template-columns: 1fr 1fr;
+        gap: 36px;
+      }
+
+      .reservation-form-wrap {
+        padding: 36px 28px;
+      }
+
+      .form-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .nav-links {
+        display: none;
+      }
+    }
+
+    @media (max-width: 600px) {
+      .footer-top {
+        grid-template-columns: 1fr;
+      }
+
+      .footer-bottom {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+
+      .about-stats {
+        flex-wrap: wrap;
+        gap: 24px;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- DEMO BANNER -->
+  <div class="demo-banner">
+    DEMO PREVIEW &mdash; Built by NodeAxis &middot; <a href="https://nodeaxis.ca" target="_blank">nodeaxis.ca</a>
+  </div>
+
+  <!-- NAVIGATION -->
+  <nav>
+    <div class="nav-inner">
+      <a href="#" class="nav-logo">
+        <div class="logo-icon">S</div>
+        SAFFRON KITCHEN
+      </a>
+      <ul class="nav-links">
+        <li><a href="#menu">Menu</a></li>
+        <li><a href="#reservations">Reservations</a></li>
+        <li><a href="#about">About</a></li>
+        <li><a href="#location">Location</a></li>
+        <li><a href="#reservations" class="nav-cta">Reserve a Table</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <!-- HERO -->
+  <section class="hero" id="home">
+    <div class="hero-content">
+      <div class="hero-badge">Surrey, BC &mdash; Est. 2008</div>
+      <h1>Authentic<br /><em>Persian Cuisine</em><br />in Surrey</h1>
+      <p class="hero-sub">Family recipes. Fresh ingredients. Unforgettable evenings.</p>
+      <div class="hero-ctas">
+        <a href="#reservations" class="btn-primary">Reserve Tonight</a>
+        <a href="#menu" class="btn-secondary">View Menu</a>
+      </div>
+    </div>
+    <div class="hero-scroll">
+      <div class="hero-scroll-line"></div>
+      <span>Scroll</span>
+    </div>
+  </section>
+
+  <!-- FEATURED DISHES -->
+  <section class="dishes-section" id="menu">
+    <div style="max-width: 1200px; margin: 0 auto;">
+      <div class="section-header">
+        <span class="section-eyebrow">Signature Plates</span>
+        <div class="section-divider"></div>
+        <h2 class="section-title">The Heart of Our Kitchen</h2>
+        <p class="section-subtitle">Each dish carries generations of tradition &mdash; cooked slowly, seasoned generously, served with pride.</p>
+      </div>
+    </div>
+
+    <div class="dishes-grid">
+
+      <!-- Dish 1 -->
+      <div class="dish-card">
+        <div class="dish-image dish-image-1">
+          <div class="dish-art">
+            <div class="dish-art-plate"></div>
+          </div>
+          <div class="dish-image-overlay"></div>
+          <span class="dish-tag">Chef's Choice</span>
+        </div>
+        <div class="dish-body">
+          <h3 class="dish-name">Lamb Chelo Kabab</h3>
+          <p class="dish-desc">Tender marinated lamb skewers grilled over open flame, served over saffron-infused basmati rice with grilled tomatoes and a side of butter-melted rice crust.</p>
+          <div class="dish-footer">
+            <span class="dish-price">$28</span>
+            <button class="dish-order-btn">Add to Order</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Dish 2 -->
+      <div class="dish-card">
+        <div class="dish-image dish-image-2">
+          <div class="dish-art">
+            <div class="dish-art-plate"></div>
+          </div>
+          <div class="dish-image-overlay"></div>
+          <span class="dish-tag">Most Loved</span>
+        </div>
+        <div class="dish-body">
+          <h3 class="dish-name">Saffron Chicken</h3>
+          <p class="dish-desc">Free-range chicken slow-braised with real Persian saffron, sour cherries, and aromatic herbs. A dish that fills the room with warmth before it reaches your table.</p>
+          <div class="dish-footer">
+            <span class="dish-price">$24</span>
+            <button class="dish-order-btn">Add to Order</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Dish 3 -->
+      <div class="dish-card">
+        <div class="dish-image dish-image-3">
+          <div class="dish-art">
+            <div class="dish-art-plate"></div>
+          </div>
+          <div class="dish-image-overlay"></div>
+          <span class="dish-tag">Traditional</span>
+        </div>
+        <div class="dish-body">
+          <h3 class="dish-name">Ghormeh Sabzi</h3>
+          <p class="dish-desc">Iran's most beloved stew &mdash; slow-cooked lamb with seven fresh herbs, dried limes, and red kidney beans. Served with steamed saffron rice and warm flatbread.</p>
+          <div class="dish-footer">
+            <span class="dish-price">$22</span>
+            <button class="dish-order-btn">Add to Order</button>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <div class="menu-strip">
+    <p>Explore our full menu of over 40 traditional Persian dishes. <a href="#">View the complete menu &rarr;</a></p>
+  </div>
+
+  <!-- RESERVATION FORM -->
+  <section class="reservation-section" id="reservations">
+    <div class="section-header">
+      <span class="section-eyebrow" style="color: rgba(232,160,32,0.8);">Book Your Seat</span>
+      <div class="section-divider"></div>
+      <h2 class="section-title">Reserve a Table</h2>
+      <p class="section-subtitle">Join us for an evening you won't forget. Parties of all sizes welcome.</p>
+    </div>
+
+    <div class="reservation-form-wrap">
+      <form>
+        <div class="form-grid">
+          <div class="form-group">
+            <label for="name">Full Name</label>
+            <input type="text" id="name" placeholder="Your name" />
+          </div>
+          <div class="form-group">
+            <label for="email">Email Address</label>
+            <input type="email" id="email" placeholder="your@email.com" />
+          </div>
+          <div class="form-group">
+            <label for="phone">Phone Number</label>
+            <input type="tel" id="phone" placeholder="(604) 000-0000" />
+          </div>
+          <div class="form-group">
+            <label for="date">Reservation Date</label>
+            <input type="date" id="date" />
+          </div>
+          <div class="form-group">
+            <label for="time">Preferred Time</label>
+            <select id="time">
+              <option value="" disabled selected>Select a time</option>
+              <option>5:00 PM</option>
+              <option>5:30 PM</option>
+              <option>6:00 PM</option>
+              <option>6:30 PM</option>
+              <option>7:00 PM</option>
+              <option>7:30 PM</option>
+              <option>8:00 PM</option>
+              <option>8:30 PM</option>
+              <option>9:00 PM</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label for="party">Party Size</label>
+            <select id="party">
+              <option value="" disabled selected>Number of guests</option>
+              <option>1 Guest</option>
+              <option>2 Guests</option>
+              <option>3 Guests</option>
+              <option>4 Guests</option>
+              <option>5 Guests</option>
+              <option>6 Guests</option>
+              <option>7&ndash;10 Guests</option>
+              <option>10+ Guests (Private Dining)</option>
+            </select>
+          </div>
+          <div class="form-group full-width">
+            <label for="notes">Special Requests</label>
+            <textarea id="notes" placeholder="Dietary restrictions, celebrations, seating preferences..."></textarea>
+          </div>
+        </div>
+        <div class="form-submit-wrap">
+          <button type="submit" class="btn-form-submit">Reserve My Table</button>
+          <p class="form-note"><span>✦</span> We'll confirm your reservation within 2 hours via email or phone.</p>
+        </div>
+      </form>
+    </div>
+  </section>
+
+  <!-- ABOUT -->
+  <section class="about-section" id="about">
+    <div class="about-inner">
+      <div class="about-text">
+        <div class="section-header">
+          <span class="section-eyebrow">Our Story</span>
+          <div class="section-divider"></div>
+          <h2 class="section-title">A Family Story<br />Since 2008</h2>
+        </div>
+        <p>Saffron Kitchen began in a small Surrey kitchen where our founder, Maryam Tehrani, cooked her mother's recipes for neighbours and friends. What started as Sunday dinners shared with the community grew, over the years, into something we never expected &mdash; a place people call their second home.</p>
+        <p>Every dish on our menu follows a recipe passed down through at least two generations. We source our saffron directly from Khorasan, our herbs from a local organic farm, and our lamb from a family ranch just outside the Fraser Valley. There are no shortcuts here &mdash; only honest, slow-cooked love on a plate.</p>
+        <div class="about-stats">
+          <div class="about-stat">
+            <div class="about-stat-num">16+</div>
+            <div class="about-stat-label">Years Serving Surrey</div>
+          </div>
+          <div class="about-stat">
+            <div class="about-stat-num">40+</div>
+            <div class="about-stat-label">Traditional Dishes</div>
+          </div>
+          <div class="about-stat">
+            <div class="about-stat-num">98%</div>
+            <div class="about-stat-label">Guest Satisfaction</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="about-photo">
+        <div class="photo-frame">
+          <div class="photo-frame-inner"></div>
+          <div class="photo-frame-art">
+            <div class="plate-art">
+              <div class="plate-ring-outer"></div>
+              <div class="plate-ring-inner"></div>
+              <div class="plate-center"></div>
+            </div>
+          </div>
+          <div class="photo-frame-caption">
+            <p>"Every meal begins with memory and ends with belonging."</p>
+            <span>&mdash; Maryam Tehrani, Founder</span>
+          </div>
+        </div>
+        <div class="photo-frame-border"></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- LOCATION -->
+  <section class="location-section" id="location">
+    <div class="location-inner">
+      <div class="section-header">
+        <span class="section-eyebrow">Find Us</span>
+        <div class="section-divider"></div>
+        <h2 class="section-title">Come Find Us in Surrey</h2>
+        <p class="section-subtitle">We're easy to reach from across the Lower Mainland &mdash; come hungry and leave happy.</p>
+      </div>
+
+      <div class="location-grid">
+        <div class="location-block">
+          <h3>Address &amp; Contact</h3>
+
+          <div class="location-detail">
+            <div class="location-icon">📍</div>
+            <div class="location-detail-text">
+              <strong>Address</strong>
+              <p>123 King George Blvd<br />Surrey, BC &nbsp;V3T 2W1</p>
+            </div>
+          </div>
+
+          <div class="location-detail">
+            <div class="location-icon">📞</div>
+            <div class="location-detail-text">
+              <strong>Reservations &amp; Takeout</strong>
+              <p>(604) 555-0172</p>
+            </div>
+          </div>
+
+          <div class="location-detail">
+            <div class="location-icon">✉️</div>
+            <div class="location-detail-text">
+              <strong>Email</strong>
+              <p>hello@saffronkitchen.ca</p>
+            </div>
+          </div>
+
+          <!-- Map Placeholder -->
+          <div class="map-placeholder">
+            <div class="map-road-h"></div>
+            <div class="map-road-v"></div>
+            <div class="map-road-h2"></div>
+            <div class="map-road-v2"></div>
+            <div class="map-pin">
+              <div class="map-pin-head"></div>
+              <div class="map-pin-shadow"></div>
+            </div>
+            <div class="map-label">Saffron Kitchen</div>
+          </div>
+        </div>
+
+        <div class="location-block">
+          <h3>Hours of Operation</h3>
+          <table class="hours-table">
+            <tr>
+              <td>Monday</td>
+              <td>11:00 AM &ndash; 10:00 PM</td>
+            </tr>
+            <tr>
+              <td>Tuesday</td>
+              <td>11:00 AM &ndash; 10:00 PM</td>
+            </tr>
+            <tr>
+              <td>Wednesday</td>
+              <td>11:00 AM &ndash; 10:00 PM</td>
+            </tr>
+            <tr>
+              <td>Thursday</td>
+              <td>11:00 AM &ndash; 10:00 PM</td>
+            </tr>
+            <tr>
+              <td>Friday</td>
+              <td>11:00 AM &ndash; 10:00 PM</td>
+            </tr>
+            <tr>
+              <td>Saturday</td>
+              <td class="hours-open">10:00 AM &ndash; 11:00 PM</td>
+            </tr>
+            <tr>
+              <td>Sunday</td>
+              <td class="hours-open">10:00 AM &ndash; 11:00 PM</td>
+            </tr>
+          </table>
+
+          <div style="margin-top: 32px; padding: 20px; background: rgba(45,10,30,0.06); border-left: 3px solid var(--gold); border-radius: 0 4px 4px 0;">
+            <p style="font-size: 13.5px; font-weight: 500; color: var(--burgundy); margin-bottom: 4px;">Parking Available</p>
+            <p style="font-size: 13px; color: var(--text-muted); line-height: 1.6;">Free parking available in the adjacent lot. Accessible entrance on the south side of the building. Wheelchair accessible throughout.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer>
+    <div class="footer-top">
+      <div class="footer-brand">
+        <span class="footer-logo">SAFFRON KITCHEN</span>
+        <p class="tagline">Where every meal is a memory.</p>
+      </div>
+
+      <div class="footer-col">
+        <h4>Explore</h4>
+        <ul>
+          <li><a href="#">Full Menu</a></li>
+          <li><a href="#">Private Dining</a></li>
+          <li><a href="#">Catering</a></li>
+          <li><a href="#">Gift Cards</a></li>
+        </ul>
+      </div>
+
+      <div class="footer-col">
+        <h4>Company</h4>
+        <ul>
+          <li><a href="#">Our Story</a></li>
+          <li><a href="#">Press</a></li>
+          <li><a href="#">Careers</a></li>
+          <li><a href="#">Contact</a></li>
+        </ul>
+      </div>
+
+      <div class="footer-col">
+        <h4>Follow</h4>
+        <ul>
+          <li><a href="#">Instagram</a></li>
+          <li><a href="#">Facebook</a></li>
+          <li><a href="#">Google Reviews</a></li>
+          <li><a href="#">Yelp</a></li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="footer-bottom">
+      <p class="footer-copy">
+        &copy; 2024 Saffron Kitchen. All rights reserved. Built by <a href="https://nodeaxis.ca" target="_blank">NodeAxis</a>.
+      </p>
+      <div class="footer-legal">
+        <a href="#">Privacy Policy</a>
+        <a href="#">Terms of Use</a>
+        <a href="#">Accessibility</a>
+      </div>
+    </div>
+  </footer>
+
+</body>
+</html>

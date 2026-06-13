@@ -18,6 +18,26 @@ A running record of every session: what was built, what broke, what was fixed, a
 
 ## Sessions
 
+### [2026-06-13] — Feature: HTML demo previews + download for all 8 portfolio projects
+
+**What was done:**
+- `public/demos/` — Created 8 fully self-contained HTML demo files, one per portfolio project:
+  - `team4security.html` — Dark navy/gold security company site with services, stats, testimonial, contact form
+  - `operations-dashboard.html` — Dark internal ops dashboard with sidebar, stat cards, bookings table, animated bar chart
+  - `saffron-kitchen.html` — Warm burgundy/gold restaurant site with menu, reservation form, about, location
+  - `clearview-dental.html` — Clean teal/white dental landing page with Calendly-style booking widget, before/after gallery
+  - `iron-form-fitness.html` — Dark red gym site with live class schedule, trainer profiles, membership tiers
+  - `apex-realty.html` — Luxury real estate site (Cormorant Garamond) with property listings, agent profiles, neighbourhood guides
+  - `studio-noor.html` — Boutique beauty salon (rose/gold) with service menu, stylist profiles, interactive booking widget, Instagram grid
+  - `vantage-labs.html` — NodeAxis agency site with JS typing hero animation, work showcase, services, process timeline
+- `app/projects/[slug]/page.tsx` — Added "Live Preview" section between hero and body: 520px iframe rendering `/demos/${slug}.html`, glassmorphism "Download Preview" button (absolute top-right, backdrop-filter blur), scroll-triggered fade-up animation. Added `Download` to lucide-react imports.
+
+**Bugs encountered:** None.
+
+**Still open:** Contact form backend, Calendly embed, custom domain, analytics, real project images/media, iOS Safari + Android Chrome device testing.
+
+---
+
 ### [2026-06-13] — Fix: About page hero heading blank/invisible
 
 **What was done:**

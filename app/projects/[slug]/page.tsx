@@ -2,7 +2,7 @@
 import { notFound, useParams } from 'next/navigation'
 import { motion } from 'framer-motion'
 import Link from 'next/link'
-import { ArrowLeft, ArrowUpRight, Check } from 'lucide-react'
+import { ArrowLeft, ArrowUpRight, Check, Download } from 'lucide-react'
 import { getProject } from '@/lib/projects'
 import Navbar from '@/components/Navbar'
 import Footer from '@/components/Footer'
@@ -162,6 +162,88 @@ export default function ProjectPage() {
           ))}
         </svg>
       </section>
+
+      {/* ── Live Preview ── */}
+      <motion.section
+        initial={{ opacity: 0, y: 20 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true, amount: 0.2 }}
+        transition={{ duration: 0.6, ease }}
+        style={{
+          background: '#0E0E10',
+          padding: 'clamp(48px, 6vw, 64px) clamp(24px, 4vw, 56px)',
+        }}
+      >
+        {/* Label */}
+        <div style={{
+          fontSize: 11,
+          fontWeight: 600,
+          letterSpacing: '0.18em',
+          textTransform: 'uppercase',
+          color: '#3D5A80',
+          marginBottom: 10,
+        }}>
+          Live Preview
+        </div>
+
+        {/* Project name */}
+        <div style={{
+          fontSize: 'clamp(15px, 1.4vw, 17px)',
+          fontWeight: 400,
+          color: 'rgba(255,255,255,0.45)',
+          marginBottom: 28,
+        }}>
+          {project.name}
+        </div>
+
+        {/* iframe wrapper */}
+        <div style={{ position: 'relative', width: '100%' }}>
+          <iframe
+            src={`/demos/${project.slug}.html`}
+            style={{
+              width: '100%',
+              height: 520,
+              border: 'none',
+              borderRadius: 10,
+              outline: '1px solid rgba(255,255,255,0.08)',
+              boxShadow: '0 20px 60px rgba(0,0,0,0.5)',
+              display: 'block',
+            }}
+            sandbox="allow-scripts allow-same-origin"
+          />
+
+          {/* Download button */}
+          <a
+            href={`/demos/${project.slug}.html`}
+            download
+            style={{
+              position: 'absolute',
+              top: 16,
+              right: 16,
+              zIndex: 10,
+              display: 'inline-flex',
+              alignItems: 'center',
+              gap: 8,
+              background: 'rgba(255,255,255,0.1)',
+              backdropFilter: 'blur(12px)',
+              color: '#FFFFFF',
+              padding: '10px 18px',
+              borderRadius: 100,
+              fontSize: 12,
+              fontWeight: 600,
+              letterSpacing: '0.08em',
+              textTransform: 'uppercase',
+              textDecoration: 'none',
+              border: '1px solid rgba(255,255,255,0.15)',
+            }}
+            onMouseEnter={e => (e.currentTarget.style.background = 'rgba(255,255,255,0.18)')}
+            onMouseLeave={e => (e.currentTarget.style.background = 'rgba(255,255,255,0.1)')}
+          >
+            <Download size={13} strokeWidth={2} />
+            Download Preview
+          </a>
+        </div>
+      </motion.section>
 
       {/* ── Body ── */}
       <section style={{ padding: 'clamp(60px, 8vw, 100px) clamp(24px, 4vw, 56px)' }}>

@@ -1,0 +1,1213 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Clearview Dental — Modern Dentistry in BC, Canada</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --white:   #FFFFFF;
+      --ice:     #EBF4FF;
+      --navy:    #1A3A5C;
+      --teal:    #0D9488;
+      --teal-d:  #0B7A70;
+      --teal-l:  #CCFBF1;
+      --mid:     #64748B;
+      --light:   #F8FAFC;
+      --border:  #E2EAF0;
+      --star:    #F59E0B;
+      --shadow:  rgba(26,58,92,.08);
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      color: var(--navy);
+      background: var(--white);
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* ── DEMO BANNER ─────────────────────────────── */
+    .demo-banner {
+      background: var(--teal);
+      color: #fff;
+      text-align: center;
+      padding: 8px 16px;
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+    }
+    .demo-banner a { color: #fff; text-decoration: underline; text-underline-offset: 2px; }
+
+    /* ── NAV ──────────────────────────────────────── */
+    nav {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      background: rgba(255,255,255,.96);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border);
+    }
+    .nav-inner {
+      max-width: 1120px;
+      margin: 0 auto;
+      padding: 0 24px;
+      height: 68px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+    }
+    .nav-logo {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      text-decoration: none;
+    }
+    .nav-logo-icon {
+      width: 36px;
+      height: 36px;
+      background: var(--teal);
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+    .nav-logo-icon svg { width: 20px; height: 20px; fill: #fff; }
+    .nav-logo-text {
+      font-size: 13px;
+      font-weight: 800;
+      letter-spacing: 0.12em;
+      color: var(--navy);
+      text-transform: uppercase;
+      line-height: 1.2;
+    }
+    .nav-logo-sub {
+      font-size: 9px;
+      font-weight: 500;
+      letter-spacing: 0.08em;
+      color: var(--teal);
+      text-transform: uppercase;
+    }
+    .nav-right {
+      display: flex;
+      align-items: center;
+      gap: 20px;
+    }
+    .nav-phone {
+      font-size: 14px;
+      font-weight: 600;
+      color: var(--navy);
+      text-decoration: none;
+      letter-spacing: 0.02em;
+    }
+    .nav-phone:hover { color: var(--teal); }
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      padding: 10px 22px;
+      border-radius: 8px;
+      font-size: 14px;
+      font-weight: 600;
+      cursor: pointer;
+      text-decoration: none;
+      transition: background .18s, transform .12s, box-shadow .18s;
+      border: none;
+      letter-spacing: 0.01em;
+    }
+    .btn-teal {
+      background: var(--teal);
+      color: #fff;
+      box-shadow: 0 2px 8px rgba(13,148,136,.28);
+    }
+    .btn-teal:hover {
+      background: var(--teal-d);
+      box-shadow: 0 4px 16px rgba(13,148,136,.38);
+      transform: translateY(-1px);
+    }
+    .btn-teal:active { transform: translateY(0); }
+    .btn-lg {
+      padding: 15px 36px;
+      font-size: 16px;
+      border-radius: 10px;
+    }
+    .btn-xl {
+      padding: 18px 44px;
+      font-size: 17px;
+      border-radius: 10px;
+    }
+
+    /* ── HERO ─────────────────────────────────────── */
+    .hero {
+      background: linear-gradient(135deg, var(--ice) 0%, #DBEAFE 40%, #EFF6FF 100%);
+      padding: 72px 24px 80px;
+      position: relative;
+      overflow: hidden;
+    }
+    .hero::before {
+      content: '';
+      position: absolute;
+      top: -80px; right: -80px;
+      width: 400px; height: 400px;
+      background: radial-gradient(circle, rgba(13,148,136,.08) 0%, transparent 70%);
+      border-radius: 50%;
+    }
+    .hero-inner {
+      max-width: 1120px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: 1fr 420px;
+      gap: 56px;
+      align-items: center;
+    }
+    .hero-eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: var(--teal-l);
+      color: var(--teal);
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      padding: 5px 12px;
+      border-radius: 100px;
+      margin-bottom: 20px;
+    }
+    .hero-eyebrow::before { content: '●'; font-size: 8px; }
+    .hero-h1 {
+      font-size: clamp(28px, 4vw, 46px);
+      font-weight: 800;
+      line-height: 1.15;
+      color: var(--navy);
+      margin-bottom: 18px;
+      letter-spacing: -0.02em;
+    }
+    .hero-h1 em {
+      font-style: normal;
+      color: var(--teal);
+    }
+    .hero-sub {
+      font-size: 17px;
+      font-weight: 400;
+      color: var(--mid);
+      line-height: 1.6;
+      margin-bottom: 32px;
+      max-width: 480px;
+    }
+    .hero-cta-row {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      flex-wrap: wrap;
+    }
+    .hero-note {
+      font-size: 12px;
+      color: var(--mid);
+      font-weight: 500;
+    }
+    .hero-note strong { color: var(--navy); }
+
+    /* ── BOOKING WIDGET ───────────────────────────── */
+    .booking-widget {
+      background: var(--white);
+      border-radius: 16px;
+      box-shadow: 0 8px 40px rgba(26,58,92,.14), 0 1px 4px rgba(26,58,92,.06);
+      overflow: hidden;
+      border: 1px solid var(--border);
+    }
+    .bw-header {
+      background: var(--navy);
+      color: #fff;
+      padding: 18px 24px;
+    }
+    .bw-header-title {
+      font-size: 15px;
+      font-weight: 700;
+      margin-bottom: 2px;
+    }
+    .bw-header-sub {
+      font-size: 12px;
+      color: rgba(255,255,255,.65);
+      font-weight: 400;
+    }
+    .bw-body { padding: 20px 24px 24px; }
+    .bw-label {
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--mid);
+      margin-bottom: 10px;
+    }
+    .bw-calendar {
+      display: grid;
+      grid-template-columns: repeat(7, 1fr);
+      gap: 4px;
+      margin-bottom: 20px;
+    }
+    .bw-day-header {
+      text-align: center;
+      font-size: 10px;
+      font-weight: 700;
+      color: var(--mid);
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      padding-bottom: 6px;
+    }
+    .bw-day {
+      aspect-ratio: 1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 8px;
+      font-size: 13px;
+      font-weight: 500;
+      color: var(--navy);
+      cursor: pointer;
+      transition: background .14s, color .14s;
+      border: 1.5px solid transparent;
+    }
+    .bw-day:hover {
+      background: var(--ice);
+      border-color: var(--teal);
+    }
+    .bw-day.active {
+      background: var(--teal);
+      color: #fff;
+      font-weight: 700;
+      box-shadow: 0 2px 8px rgba(13,148,136,.3);
+    }
+    .bw-day.dim { color: #CBD5E1; cursor: default; }
+    .bw-day.dim:hover { background: transparent; border-color: transparent; }
+    .bw-slots {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      margin-bottom: 18px;
+    }
+    .bw-slot {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 10px 14px;
+      border-radius: 8px;
+      border: 1.5px solid var(--border);
+      cursor: pointer;
+      transition: border-color .14s, background .14s;
+    }
+    .bw-slot:hover {
+      border-color: var(--teal);
+      background: var(--teal-l);
+    }
+    .bw-slot.selected {
+      border-color: var(--teal);
+      background: var(--teal-l);
+    }
+    .bw-slot-time {
+      font-size: 14px;
+      font-weight: 600;
+      color: var(--navy);
+    }
+    .bw-slot-badge {
+      font-size: 10px;
+      font-weight: 700;
+      background: #FEF9C3;
+      color: #92400E;
+      padding: 2px 7px;
+      border-radius: 100px;
+      letter-spacing: 0.04em;
+    }
+    .bw-slot-badge.avail {
+      background: var(--teal-l);
+      color: var(--teal-d);
+    }
+    .bw-confirm { width: 100%; padding: 13px; font-size: 15px; }
+
+    /* ── TRUST ROW ────────────────────────────────── */
+    .trust {
+      background: var(--white);
+      border-bottom: 1px solid var(--border);
+      padding: 0 24px;
+    }
+    .trust-inner {
+      max-width: 1120px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      divide: var(--border);
+    }
+    .trust-item {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 22px 20px;
+      border-right: 1px solid var(--border);
+    }
+    .trust-item:last-child { border-right: none; }
+    .trust-icon {
+      font-size: 26px;
+      line-height: 1;
+      flex-shrink: 0;
+    }
+    .trust-label {
+      font-size: 13px;
+      font-weight: 700;
+      color: var(--navy);
+      line-height: 1.3;
+    }
+    .trust-sub {
+      font-size: 11px;
+      color: var(--mid);
+      font-weight: 400;
+      margin-top: 2px;
+    }
+
+    /* ── SECTION WRAPPER ──────────────────────────── */
+    .section { padding: 80px 24px; }
+    .section-alt { background: var(--light); }
+    .section-ice { background: var(--ice); }
+    .inner { max-width: 1120px; margin: 0 auto; }
+    .section-label {
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--teal);
+      margin-bottom: 10px;
+    }
+    .section-title {
+      font-size: clamp(24px, 3vw, 36px);
+      font-weight: 800;
+      color: var(--navy);
+      letter-spacing: -0.02em;
+      line-height: 1.2;
+      margin-bottom: 14px;
+    }
+    .section-sub {
+      font-size: 16px;
+      color: var(--mid);
+      line-height: 1.6;
+      max-width: 520px;
+      margin-bottom: 48px;
+    }
+    .section-header-center {
+      text-align: center;
+    }
+    .section-header-center .section-sub {
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    /* ── SERVICES ─────────────────────────────────── */
+    .services-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 24px;
+    }
+    .service-card {
+      background: var(--white);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 32px 28px;
+      transition: box-shadow .2s, transform .2s, border-color .2s;
+      position: relative;
+      overflow: hidden;
+    }
+    .service-card:hover {
+      box-shadow: 0 12px 40px var(--shadow);
+      transform: translateY(-3px);
+      border-color: rgba(13,148,136,.3);
+    }
+    .service-card::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 4px;
+      background: var(--teal);
+      opacity: 0;
+      transition: opacity .2s;
+    }
+    .service-card:hover::before { opacity: 1; }
+    .service-icon {
+      width: 52px;
+      height: 52px;
+      background: var(--ice);
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 24px;
+      margin-bottom: 20px;
+    }
+    .service-name {
+      font-size: 18px;
+      font-weight: 700;
+      color: var(--navy);
+      margin-bottom: 8px;
+    }
+    .service-desc {
+      font-size: 14px;
+      color: var(--mid);
+      line-height: 1.6;
+      margin-bottom: 20px;
+    }
+    .service-price {
+      display: inline-flex;
+      align-items: baseline;
+      gap: 4px;
+    }
+    .service-price-amount {
+      font-size: 22px;
+      font-weight: 800;
+      color: var(--teal);
+    }
+    .service-price-note {
+      font-size: 13px;
+      color: var(--mid);
+      font-weight: 500;
+    }
+    .service-tag {
+      display: inline-block;
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      background: var(--teal-l);
+      color: var(--teal-d);
+      padding: 3px 8px;
+      border-radius: 100px;
+      margin-bottom: 16px;
+    }
+
+    /* ── REVIEWS ──────────────────────────────────── */
+    .reviews-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 24px;
+    }
+    .review-card {
+      background: var(--white);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 28px;
+      position: relative;
+    }
+    .review-stars {
+      display: flex;
+      gap: 3px;
+      margin-bottom: 14px;
+    }
+    .review-stars span { color: var(--star); font-size: 16px; }
+    .review-text {
+      font-size: 15px;
+      color: var(--navy);
+      line-height: 1.65;
+      margin-bottom: 20px;
+      font-style: italic;
+    }
+    .review-text::before { content: '\201C'; }
+    .review-text::after  { content: '\201D'; }
+    .review-author {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+    .review-avatar {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 15px;
+      font-weight: 700;
+      color: #fff;
+      flex-shrink: 0;
+    }
+    .review-name {
+      font-size: 14px;
+      font-weight: 700;
+      color: var(--navy);
+    }
+    .review-meta {
+      font-size: 12px;
+      color: var(--mid);
+      display: flex;
+      align-items: center;
+      gap: 4px;
+    }
+    .review-meta img {
+      width: 14px;
+      height: 14px;
+    }
+    .google-g {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 16px;
+      height: 16px;
+      background: #fff;
+      border-radius: 3px;
+      font-size: 11px;
+      font-weight: 900;
+      color: #4285F4;
+      border: 1px solid #E2EAF0;
+    }
+
+    /* ── WHY US ───────────────────────────────────── */
+    .why-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 32px;
+    }
+    .why-item {
+      text-align: center;
+      padding: 40px 28px;
+      border-radius: 16px;
+      background: var(--white);
+      border: 1px solid var(--border);
+      transition: box-shadow .2s, transform .2s;
+    }
+    .why-item:hover {
+      box-shadow: 0 8px 32px var(--shadow);
+      transform: translateY(-2px);
+    }
+    .why-icon {
+      width: 64px;
+      height: 64px;
+      background: var(--ice);
+      border-radius: 16px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 28px;
+      margin: 0 auto 20px;
+      transition: background .2s;
+    }
+    .why-item:hover .why-icon { background: var(--teal-l); }
+    .why-title {
+      font-size: 17px;
+      font-weight: 700;
+      color: var(--navy);
+      margin-bottom: 10px;
+    }
+    .why-desc {
+      font-size: 14px;
+      color: var(--mid);
+      line-height: 1.65;
+    }
+
+    /* ── BEFORE/AFTER ─────────────────────────────── */
+    .ba-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 24px;
+    }
+    .ba-card {
+      border-radius: 16px;
+      overflow: hidden;
+      border: 1px solid var(--border);
+      box-shadow: 0 4px 16px var(--shadow);
+    }
+    .ba-image {
+      position: relative;
+      height: 200px;
+      display: flex;
+    }
+    .ba-before, .ba-after {
+      flex: 1;
+      display: flex;
+      align-items: flex-end;
+      padding: 10px 12px;
+    }
+    .ba-before {
+      background: linear-gradient(135deg, #94A3B8 0%, #CBD5E1 100%);
+    }
+    .ba-after {
+      background: linear-gradient(135deg, #F0FDF4 0%, #DCFCE7 100%);
+    }
+    .ba-divider {
+      position: absolute;
+      left: 50%;
+      top: 0;
+      bottom: 0;
+      width: 3px;
+      background: #fff;
+      z-index: 2;
+      transform: translateX(-50%);
+    }
+    .ba-divider::before {
+      content: '';
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 22px;
+      height: 22px;
+      background: #fff;
+      border-radius: 50%;
+      box-shadow: 0 2px 8px rgba(0,0,0,.15);
+    }
+    .ba-label {
+      font-size: 10px;
+      font-weight: 800;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: #fff;
+      background: rgba(0,0,0,.45);
+      padding: 3px 8px;
+      border-radius: 100px;
+    }
+    .ba-footer {
+      background: var(--white);
+      padding: 16px 20px;
+    }
+    .ba-procedure {
+      font-size: 14px;
+      font-weight: 700;
+      color: var(--navy);
+    }
+    .ba-detail {
+      font-size: 12px;
+      color: var(--mid);
+      margin-top: 2px;
+    }
+
+    /* ── FINAL CTA ────────────────────────────────── */
+    .cta-section {
+      background: linear-gradient(135deg, var(--teal) 0%, #0F766E 100%);
+      padding: 96px 24px;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+    .cta-section::before {
+      content: '';
+      position: absolute;
+      top: -60px; left: -60px;
+      width: 300px; height: 300px;
+      background: rgba(255,255,255,.05);
+      border-radius: 50%;
+    }
+    .cta-section::after {
+      content: '';
+      position: absolute;
+      bottom: -80px; right: -40px;
+      width: 360px; height: 360px;
+      background: rgba(255,255,255,.04);
+      border-radius: 50%;
+    }
+    .cta-inner { position: relative; z-index: 1; }
+    .cta-eyebrow {
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: rgba(255,255,255,.75);
+      margin-bottom: 16px;
+    }
+    .cta-title {
+      font-size: clamp(28px, 4vw, 46px);
+      font-weight: 800;
+      color: #fff;
+      letter-spacing: -0.02em;
+      line-height: 1.15;
+      margin-bottom: 16px;
+    }
+    .cta-sub {
+      font-size: 17px;
+      color: rgba(255,255,255,.82);
+      margin-bottom: 36px;
+      max-width: 480px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+    .btn-white {
+      background: #fff;
+      color: var(--teal-d);
+      font-weight: 700;
+      box-shadow: 0 4px 20px rgba(0,0,0,.15);
+    }
+    .btn-white:hover {
+      background: #F0FDFA;
+      box-shadow: 0 6px 28px rgba(0,0,0,.2);
+      transform: translateY(-1px);
+    }
+    .cta-note {
+      margin-top: 16px;
+      font-size: 12px;
+      color: rgba(255,255,255,.65);
+      font-weight: 500;
+    }
+
+    /* ── FOOTER ───────────────────────────────────── */
+    footer {
+      background: var(--navy);
+      color: rgba(255,255,255,.7);
+      padding: 56px 24px 32px;
+    }
+    .footer-inner {
+      max-width: 1120px;
+      margin: 0 auto;
+    }
+    .footer-top {
+      display: grid;
+      grid-template-columns: 1.8fr 1fr 1fr 1fr;
+      gap: 48px;
+      padding-bottom: 40px;
+      border-bottom: 1px solid rgba(255,255,255,.1);
+      margin-bottom: 28px;
+    }
+    .footer-brand {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 16px;
+    }
+    .footer-brand-icon {
+      width: 34px;
+      height: 34px;
+      background: var(--teal);
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .footer-brand-icon svg { width: 18px; height: 18px; fill: #fff; }
+    .footer-brand-name {
+      font-size: 12px;
+      font-weight: 800;
+      letter-spacing: 0.12em;
+      color: #fff;
+      text-transform: uppercase;
+    }
+    .footer-tagline {
+      font-size: 13px;
+      line-height: 1.6;
+      max-width: 240px;
+    }
+    .footer-col-title {
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: #fff;
+      margin-bottom: 16px;
+    }
+    .footer-col p, .footer-col a {
+      font-size: 13px;
+      line-height: 1.8;
+      color: rgba(255,255,255,.65);
+      text-decoration: none;
+      display: block;
+    }
+    .footer-col a:hover { color: var(--teal); }
+    .footer-bottom {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+    .footer-copy {
+      font-size: 12px;
+      color: rgba(255,255,255,.4);
+    }
+    .footer-nodeaxis {
+      font-size: 12px;
+      color: rgba(255,255,255,.45);
+    }
+    .footer-nodeaxis a {
+      color: var(--teal);
+      text-decoration: none;
+      font-weight: 600;
+    }
+    .footer-nodeaxis a:hover { color: #2DD4BF; }
+
+    /* ── RESPONSIVE ───────────────────────────────── */
+    @media (max-width: 900px) {
+      .hero-inner { grid-template-columns: 1fr; gap: 40px; }
+      .booking-widget { max-width: 480px; }
+      .trust-inner { grid-template-columns: repeat(2, 1fr); }
+      .trust-item:nth-child(2) { border-right: none; }
+      .trust-item:nth-child(3) { border-top: 1px solid var(--border); }
+      .trust-item:nth-child(4) { border-top: 1px solid var(--border); border-right: none; }
+      .services-grid,
+      .reviews-grid,
+      .why-grid,
+      .ba-grid { grid-template-columns: 1fr; }
+      .footer-top { grid-template-columns: 1fr 1fr; }
+    }
+    @media (max-width: 600px) {
+      .nav-phone { display: none; }
+      .trust-inner { grid-template-columns: 1fr 1fr; }
+      .footer-top { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- DEMO BANNER -->
+<div class="demo-banner">
+  DEMO PREVIEW &mdash; Built by NodeAxis &middot; <a href="https://nodeaxis.ca" target="_blank">nodeaxis.ca</a>
+</div>
+
+<!-- NAV -->
+<nav>
+  <div class="nav-inner">
+    <a href="#" class="nav-logo">
+      <div class="nav-logo-icon">
+        <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+          <path d="M12 2C9.5 2 8 4 8 6c0 1.5.5 2.5 1 3.5C8 11 7 13 7 15c0 3.3 2.2 5.5 4.5 6.8.3.2.7.2 1 0C14.8 20.5 17 18.3 17 15c0-2-.8-4-2-5.5.6-1 1-2 1-3.5C16 4 14.5 2 12 2zm0 2c1.5 0 2 1.2 2 2s-.5 2-1 2.8c-.3.5-.3 1.1 0 1.6C14 11.6 15 13.2 15 15c0 2.4-1.6 4-3 4.8C10.6 19 9 17.4 9 15c0-1.8 1-3.4 2-4.6.3-.5.3-1.1 0-1.6C10.5 8 10 7 10 6c0-.8.5-2 2-2z"/>
+        </svg>
+      </div>
+      <div>
+        <div class="nav-logo-text">Clearview Dental</div>
+        <div class="nav-logo-sub">Abbotsford, BC</div>
+      </div>
+    </a>
+    <div class="nav-right">
+      <a href="tel:6045550183" class="nav-phone">📞 604-555-0183</a>
+      <a href="#book" class="btn btn-teal">Book Now</a>
+    </div>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section class="hero" id="book">
+  <div class="hero-inner">
+    <div class="hero-content">
+      <div class="hero-eyebrow">Now Accepting New Patients</div>
+      <h1 class="hero-h1">New Patients Welcome &mdash; <em>Book Your First Visit</em> Online</h1>
+      <p class="hero-sub">Modern dentistry in Abbotsford, BC. Same-week appointments available. No insurance? No problem &mdash; transparent flat-fee pricing on every service.</p>
+      <div class="hero-cta-row">
+        <a href="#book" class="btn btn-teal btn-lg">Book Your Free Consult</a>
+        <span class="hero-note"><strong>No credit card required.</strong> Cancel anytime.</span>
+      </div>
+    </div>
+
+    <!-- BOOKING WIDGET -->
+    <div class="booking-widget">
+      <div class="bw-header">
+        <div class="bw-header-title">Schedule Your Appointment</div>
+        <div class="bw-header-sub">30-min New Patient Consultation &mdash; Free</div>
+      </div>
+      <div class="bw-body">
+        <div class="bw-label">Select a Date &mdash; June 2026</div>
+        <div class="bw-calendar">
+          <!-- Day headers -->
+          <div class="bw-day-header">Mo</div>
+          <div class="bw-day-header">Tu</div>
+          <div class="bw-day-header">We</div>
+          <div class="bw-day-header">Th</div>
+          <div class="bw-day-header">Fr</div>
+          <div class="bw-day-header">Sa</div>
+          <div class="bw-day-header">Su</div>
+          <!-- Week row: Jun 9–15 -->
+          <div class="bw-day dim">9</div>
+          <div class="bw-day dim">10</div>
+          <div class="bw-day dim">11</div>
+          <div class="bw-day dim">12</div>
+          <div class="bw-day dim">13</div>
+          <div class="bw-day">14</div>
+          <div class="bw-day">15</div>
+          <!-- Week row: Jun 16–22 -->
+          <div class="bw-day">16</div>
+          <div class="bw-day active">17</div>
+          <div class="bw-day">18</div>
+          <div class="bw-day">19</div>
+          <div class="bw-day">20</div>
+          <div class="bw-day">21</div>
+          <div class="bw-day">22</div>
+        </div>
+
+        <div class="bw-label">Available Times &mdash; Tue, Jun 17</div>
+        <div class="bw-slots">
+          <div class="bw-slot" onclick="this.classList.toggle('selected')">
+            <span class="bw-slot-time">9:00 AM</span>
+            <span class="bw-slot-badge avail">Available</span>
+          </div>
+          <div class="bw-slot selected" onclick="this.classList.toggle('selected')">
+            <span class="bw-slot-time">10:30 AM</span>
+            <span class="bw-slot-badge avail">Available</span>
+          </div>
+          <div class="bw-slot" onclick="this.classList.toggle('selected')">
+            <span class="bw-slot-time">2:00 PM</span>
+            <span class="bw-slot-badge">Popular</span>
+          </div>
+        </div>
+
+        <button class="btn btn-teal bw-confirm">Confirm Appointment &rarr;</button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- TRUST SIGNALS -->
+<div class="trust">
+  <div class="trust-inner">
+    <div class="trust-item">
+      <div class="trust-icon">⭐</div>
+      <div>
+        <div class="trust-label">4.9 Google Rating</div>
+        <div class="trust-sub">Verified reviews</div>
+      </div>
+    </div>
+    <div class="trust-item">
+      <div class="trust-icon">✅</div>
+      <div>
+        <div class="trust-label">200+ 5-Star Reviews</div>
+        <div class="trust-sub">Real patients</div>
+      </div>
+    </div>
+    <div class="trust-item">
+      <div class="trust-icon">🏥</div>
+      <div>
+        <div class="trust-label">BCDA Certified</div>
+        <div class="trust-sub">BC Dental Association</div>
+      </div>
+    </div>
+    <div class="trust-item">
+      <div class="trust-icon">⚡</div>
+      <div>
+        <div class="trust-label">Same-Week Availability</div>
+        <div class="trust-sub">Urgent cases welcome</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- SERVICES -->
+<section class="section section-alt">
+  <div class="inner">
+    <div class="section-label">Our Services</div>
+    <h2 class="section-title">Everything Your Family Needs</h2>
+    <p class="section-sub">Straightforward pricing. No hidden fees. Whether it's your first checkup in years or a complete smile transformation, we've got you covered.</p>
+    <div class="services-grid">
+      <div class="service-card">
+        <div class="service-icon">🦷</div>
+        <div class="service-tag">Most Popular</div>
+        <div class="service-name">General Checkup &amp; Cleaning</div>
+        <div class="service-desc">Full oral exam, professional cleaning, digital X-rays, and a personalized care plan. Perfect for new patients getting started.</div>
+        <div class="service-price">
+          <span class="service-price-amount">$89</span>
+          <span class="service-price-note">new patient special</span>
+        </div>
+      </div>
+      <div class="service-card">
+        <div class="service-icon">✨</div>
+        <div class="service-tag">Fast Results</div>
+        <div class="service-name">Professional Teeth Whitening</div>
+        <div class="service-desc">In-office laser whitening treatment that delivers 6–8 shades brighter in a single visit. Includes custom take-home trays.</div>
+        <div class="service-price">
+          <span class="service-price-amount">$299</span>
+          <span class="service-price-note">from / complete package</span>
+        </div>
+      </div>
+      <div class="service-card">
+        <div class="service-icon">🔩</div>
+        <div class="service-tag">Free Consultation</div>
+        <div class="service-name">Dental Implants</div>
+        <div class="service-desc">Permanent, natural-looking tooth replacement using titanium implants. We walk you through every step with no pressure and full transparency.</div>
+        <div class="service-price">
+          <span class="service-price-amount">Free</span>
+          <span class="service-price-note">consultation &mdash; no obligation</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SOCIAL PROOF -->
+<section class="section">
+  <div class="inner">
+    <div class="section-header-center">
+      <div class="section-label">Patient Stories</div>
+      <h2 class="section-title">Why Abbotsford Trusts Clearview</h2>
+      <p class="section-sub">Real reviews from real patients. Verified on Google.</p>
+    </div>
+    <div class="reviews-grid">
+      <div class="review-card">
+        <div class="review-stars">
+          <span>★</span><span>★</span><span>★</span><span>★</span><span>★</span>
+        </div>
+        <p class="review-text">I hadn't been to a dentist in four years because of anxiety. Dr. Kwan was genuinely patient and explained every step before doing anything. My cleaning was painless and I booked a follow-up the same day.</p>
+        <div class="review-author">
+          <div class="review-avatar" style="background: #4F46E5;">S</div>
+          <div>
+            <div class="review-name">Sarah M.</div>
+            <div class="review-meta"><span class="google-g">G</span> &nbsp;Google Review &middot; 3 weeks ago</div>
+          </div>
+        </div>
+      </div>
+      <div class="review-card">
+        <div class="review-stars">
+          <span>★</span><span>★</span><span>★</span><span>★</span><span>★</span>
+        </div>
+        <p class="review-text">Brought my two kids (ages 6 and 9) for their first visit. The staff was amazing with them &mdash; patient, funny, and made it feel like an adventure rather than a chore. We'll be coming here as a family from now on.</p>
+        <div class="review-author">
+          <div class="review-avatar" style="background: #059669;">J</div>
+          <div>
+            <div class="review-name">James T.</div>
+            <div class="review-meta"><span class="google-g">G</span> &nbsp;Google Review &middot; 1 month ago</div>
+          </div>
+        </div>
+      </div>
+      <div class="review-card">
+        <div class="review-stars">
+          <span>★</span><span>★</span><span>★</span><span>★</span><span>★</span>
+        </div>
+        <p class="review-text">The whitening treatment here is the real deal. I've tried the strips, the trays, everything &mdash; nothing came close to what they did in one appointment. People at work noticed immediately. Worth every penny.</p>
+        <div class="review-author">
+          <div class="review-avatar" style="background: #DC2626;">P</div>
+          <div>
+            <div class="review-name">Priya K.</div>
+            <div class="review-meta"><span class="google-g">G</span> &nbsp;Google Review &middot; 2 months ago</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- WHY US -->
+<section class="section section-ice">
+  <div class="inner">
+    <div class="section-header-center">
+      <div class="section-label">Our Difference</div>
+      <h2 class="section-title">Why Patients Choose Clearview</h2>
+      <p class="section-sub">We built this practice around one idea: dentistry shouldn't feel scary or expensive.</p>
+    </div>
+    <div class="why-grid">
+      <div class="why-item">
+        <div class="why-icon">💉</div>
+        <div class="why-title">Pain-Free Technology</div>
+        <p class="why-desc">We use the latest numbing gels, ultra-thin needles, and digital X-rays to minimize discomfort at every stage. Dental anxiety? We've seen it all &mdash; you're in good hands.</p>
+      </div>
+      <div class="why-item">
+        <div class="why-icon">💲</div>
+        <div class="why-title">Transparent Pricing</div>
+        <p class="why-desc">Every quote is itemized before we begin. No surprise bills, no upselling. We accept most insurance plans and offer flexible payment options for everything else.</p>
+      </div>
+      <div class="why-item">
+        <div class="why-icon">👨‍👩‍👧</div>
+        <div class="why-title">Family-Friendly Office</div>
+        <p class="why-desc">From toddlers to grandparents, we see everyone. Our waiting room has a kids' corner, and we schedule family blocks so you can bring everyone in one trip.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- BEFORE / AFTER -->
+<section class="section section-alt">
+  <div class="inner">
+    <div class="section-label">Real Results</div>
+    <h2 class="section-title">Before &amp; After Gallery</h2>
+    <p class="section-sub">Actual patient outcomes. Photos taken at our Abbotsford clinic with consent.</p>
+    <div class="ba-grid">
+      <div class="ba-card">
+        <div class="ba-image">
+          <div class="ba-before"><span class="ba-label">Before</span></div>
+          <div class="ba-divider"></div>
+          <div class="ba-after"><span class="ba-label">After</span></div>
+        </div>
+        <div class="ba-footer">
+          <div class="ba-procedure">Teeth Whitening</div>
+          <div class="ba-detail">Single in-office session &mdash; 7 shades brighter</div>
+        </div>
+      </div>
+      <div class="ba-card">
+        <div class="ba-image">
+          <div class="ba-before" style="background: linear-gradient(135deg, #78716C 0%, #A8A29E 100%);"><span class="ba-label">Before</span></div>
+          <div class="ba-divider"></div>
+          <div class="ba-after" style="background: linear-gradient(135deg, #F1F5F9 0%, #E0F2FE 100%);"><span class="ba-label">After</span></div>
+        </div>
+        <div class="ba-footer">
+          <div class="ba-procedure">Dental Implant</div>
+          <div class="ba-detail">Full implant placement &mdash; natural appearance restored</div>
+        </div>
+      </div>
+      <div class="ba-card">
+        <div class="ba-image">
+          <div class="ba-before" style="background: linear-gradient(135deg, #9CA3AF 0%, #6B7280 100%);"><span class="ba-label">Before</span></div>
+          <div class="ba-divider"></div>
+          <div class="ba-after" style="background: linear-gradient(135deg, #ECFDF5 0%, #D1FAE5 100%);"><span class="ba-label">After</span></div>
+        </div>
+        <div class="ba-footer">
+          <div class="ba-procedure">Composite Bonding</div>
+          <div class="ba-detail">Chipped enamel repaired &mdash; two-visit treatment</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FINAL CTA -->
+<section class="cta-section">
+  <div class="inner cta-inner">
+    <div class="cta-eyebrow">New Patient Special</div>
+    <h2 class="cta-title">Ready for a Healthier Smile?</h2>
+    <p class="cta-sub">Join 200+ Abbotsford families who made the switch. Same-week appointments available right now.</p>
+    <a href="#book" class="btn btn-white btn-xl">Book Your First Visit &mdash; New Patient Special: $89</a>
+    <p class="cta-note">No insurance required &middot; No obligation &middot; Free cancellation up to 24 hours before</p>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-inner">
+    <div class="footer-top">
+      <div>
+        <div class="footer-brand">
+          <div class="footer-brand-icon">
+            <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+              <path d="M12 2C9.5 2 8 4 8 6c0 1.5.5 2.5 1 3.5C8 11 7 13 7 15c0 3.3 2.2 5.5 4.5 6.8.3.2.7.2 1 0C14.8 20.5 17 18.3 17 15c0-2-.8-4-2-5.5.6-1 1-2 1-3.5C16 4 14.5 2 12 2z"/>
+            </svg>
+          </div>
+          <div class="footer-brand-name">Clearview Dental</div>
+        </div>
+        <p class="footer-tagline">Modern, compassionate dentistry for families in Abbotsford &amp; the Fraser Valley, BC.</p>
+      </div>
+      <div class="footer-col">
+        <div class="footer-col-title">Contact</div>
+        <p>📍 2240 McCallum Rd<br>Abbotsford, BC V2S 3N9</p>
+        <a href="tel:6045550183">📞 604-555-0183</a>
+        <a href="mailto:hello@clearviewdental.ca">✉️ hello@clearviewdental.ca</a>
+      </div>
+      <div class="footer-col">
+        <div class="footer-col-title">Hours</div>
+        <p>Mon – Thu: 8am – 6pm</p>
+        <p>Friday: 8am – 4pm</p>
+        <p>Saturday: 9am – 2pm</p>
+        <p>Sunday: Closed</p>
+      </div>
+      <div class="footer-col">
+        <div class="footer-col-title">Services</div>
+        <a href="#">Checkup &amp; Cleaning</a>
+        <a href="#">Teeth Whitening</a>
+        <a href="#">Dental Implants</a>
+        <a href="#">Invisalign</a>
+        <a href="#">Emergency Dentistry</a>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <div class="footer-copy">&copy; 2026 Clearview Dental. All rights reserved. BCDA Member.</div>
+      <div class="footer-nodeaxis">Built by <a href="https://nodeaxis.ca" target="_blank">NodeAxis.</a></div>
+    </div>
+  </div>
+</footer>
+
+</body>
+</html>

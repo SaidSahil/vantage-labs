@@ -1,0 +1,1626 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Studio Noor — Surrey's Boutique Beauty Studio</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet" />
+  <style>
+    /* ─── RESET & BASE ─────────────────────────────────────────────────────── */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --rose:        #FDF0F0;
+      --blush:       #C06B6B;
+      --dusty:       #E8B4B8;
+      --cream:       #FEFCF9;
+      --gold:        #D4AF37;
+      --gold-light:  #F0E0A0;
+      --text-dark:   #2C1F1F;
+      --text-mid:    #6B4545;
+      --text-light:  #A07878;
+      --white:       #FFFFFF;
+      --border:      rgba(192, 107, 107, 0.18);
+      --shadow:      0 4px 32px rgba(192, 107, 107, 0.10);
+      --shadow-lg:   0 16px 64px rgba(192, 107, 107, 0.16);
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      font-weight: 400;
+      font-size: 15px;
+      line-height: 1.65;
+      color: var(--text-dark);
+      background: var(--cream);
+      -webkit-font-smoothing: antialiased;
+    }
+
+    h1, h2, h3, h4 {
+      font-family: 'Cormorant Garamond', serif;
+      font-weight: 600;
+      line-height: 1.2;
+    }
+
+    a { text-decoration: none; color: inherit; }
+
+    /* ─── TOP DEMO BANNER ──────────────────────────────────────────────────── */
+    .demo-banner {
+      background: #C06B6B;
+      color: #fff;
+      text-align: center;
+      padding: 8px 16px;
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      font-family: 'Inter', sans-serif;
+      position: relative;
+      z-index: 1000;
+    }
+
+    .demo-banner a {
+      color: #FFD9D9;
+      text-decoration: underline;
+      text-underline-offset: 2px;
+    }
+
+    /* ─── STICKY NAV ───────────────────────────────────────────────────────── */
+    .nav {
+      position: sticky;
+      top: 0;
+      z-index: 900;
+      background: rgba(254, 252, 249, 0.95);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border);
+      padding: 0 48px;
+      height: 68px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      transition: box-shadow 0.3s ease;
+    }
+
+    .nav:hover { box-shadow: var(--shadow); }
+
+    .nav-logo {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 22px;
+      font-weight: 600;
+      letter-spacing: 0.06em;
+      color: var(--blush);
+      white-space: nowrap;
+    }
+
+    .nav-logo span {
+      font-style: italic;
+      font-weight: 400;
+    }
+
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 36px;
+      list-style: none;
+    }
+
+    .nav-links a {
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--text-mid);
+      transition: color 0.2s;
+      position: relative;
+    }
+
+    .nav-links a::after {
+      content: '';
+      position: absolute;
+      bottom: -3px;
+      left: 0;
+      width: 0;
+      height: 1px;
+      background: var(--blush);
+      transition: width 0.3s ease;
+    }
+
+    .nav-links a:hover { color: var(--blush); }
+    .nav-links a:hover::after { width: 100%; }
+
+    .btn-nav {
+      background: var(--blush);
+      color: #fff;
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      padding: 10px 22px;
+      border-radius: 2px;
+      transition: background 0.2s, transform 0.15s;
+      white-space: nowrap;
+    }
+
+    .btn-nav:hover {
+      background: #A85858;
+      transform: translateY(-1px);
+    }
+
+    /* ─── HERO ─────────────────────────────────────────────────────────────── */
+    .hero {
+      background: var(--rose);
+      position: relative;
+      overflow: hidden;
+      padding: 100px 48px 80px;
+      text-align: center;
+    }
+
+    /* Decorative circles */
+    .hero::before {
+      content: '';
+      position: absolute;
+      top: -120px;
+      right: -120px;
+      width: 480px;
+      height: 480px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(232,180,184,0.35) 0%, transparent 70%);
+      pointer-events: none;
+    }
+
+    .hero::after {
+      content: '';
+      position: absolute;
+      bottom: -80px;
+      left: -80px;
+      width: 320px;
+      height: 320px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(212,175,55,0.12) 0%, transparent 70%);
+      pointer-events: none;
+    }
+
+    .hero-eyebrow {
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--blush);
+      margin-bottom: 20px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 12px;
+    }
+
+    .hero-eyebrow::before,
+    .hero-eyebrow::after {
+      content: '';
+      width: 40px;
+      height: 1px;
+      background: var(--dusty);
+    }
+
+    .hero h1 {
+      font-size: clamp(44px, 6vw, 80px);
+      font-weight: 600;
+      color: var(--text-dark);
+      max-width: 780px;
+      margin: 0 auto 24px;
+      line-height: 1.1;
+    }
+
+    .hero h1 em {
+      color: var(--blush);
+      font-style: italic;
+    }
+
+    .hero-sub {
+      font-size: 16px;
+      font-weight: 300;
+      color: var(--text-mid);
+      max-width: 500px;
+      margin: 0 auto 40px;
+      line-height: 1.7;
+    }
+
+    .hero-ctas {
+      display: flex;
+      gap: 16px;
+      justify-content: center;
+      flex-wrap: wrap;
+      margin-bottom: 48px;
+    }
+
+    .btn-primary {
+      background: var(--blush);
+      color: #fff;
+      font-size: 12px;
+      font-weight: 600;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      padding: 14px 32px;
+      border-radius: 2px;
+      transition: background 0.2s, transform 0.15s, box-shadow 0.2s;
+      cursor: pointer;
+      border: none;
+      display: inline-block;
+    }
+
+    .btn-primary:hover {
+      background: #A85858;
+      transform: translateY(-2px);
+      box-shadow: 0 8px 24px rgba(192,107,107,0.3);
+    }
+
+    .btn-ghost {
+      background: transparent;
+      color: var(--blush);
+      font-size: 12px;
+      font-weight: 600;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      padding: 13px 32px;
+      border-radius: 2px;
+      border: 1.5px solid var(--dusty);
+      transition: all 0.2s;
+      cursor: pointer;
+      display: inline-block;
+    }
+
+    .btn-ghost:hover {
+      border-color: var(--blush);
+      background: rgba(192,107,107,0.06);
+    }
+
+    .hero-booking-note {
+      display: inline-block;
+      background: linear-gradient(135deg, rgba(212,175,55,0.12), rgba(212,175,55,0.06));
+      border: 1px solid rgba(212,175,55,0.35);
+      color: #8B6914;
+      font-size: 11.5px;
+      font-weight: 500;
+      letter-spacing: 0.06em;
+      padding: 10px 24px;
+      border-radius: 100px;
+    }
+
+    /* ─── SECTION WRAPPERS ─────────────────────────────────────────────────── */
+    .section {
+      padding: 90px 48px;
+    }
+
+    .section-alt {
+      background: var(--rose);
+    }
+
+    .section-header {
+      text-align: center;
+      margin-bottom: 56px;
+    }
+
+    .section-header h2 {
+      font-size: clamp(34px, 4vw, 52px);
+      color: var(--text-dark);
+      margin-bottom: 14px;
+    }
+
+    .section-header p {
+      font-size: 15px;
+      font-weight: 300;
+      color: var(--text-light);
+      max-width: 460px;
+      margin: 0 auto;
+    }
+
+    .section-tag {
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--blush);
+      margin-bottom: 12px;
+    }
+
+    /* ─── SERVICES ─────────────────────────────────────────────────────────── */
+    .services-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 28px;
+      max-width: 1080px;
+      margin: 0 auto;
+    }
+
+    .services-col {
+      background: var(--white);
+      border: 1px solid var(--border);
+      border-radius: 4px;
+      overflow: hidden;
+      box-shadow: var(--shadow);
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    .services-col:hover {
+      transform: translateY(-4px);
+      box-shadow: var(--shadow-lg);
+    }
+
+    .services-col-header {
+      background: linear-gradient(135deg, var(--rose), rgba(232,180,184,0.3));
+      padding: 24px 28px 20px;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .services-col-icon {
+      font-size: 20px;
+      margin-bottom: 8px;
+    }
+
+    .services-col-header h3 {
+      font-size: 24px;
+      color: var(--blush);
+      font-style: italic;
+    }
+
+    .services-list {
+      padding: 8px 0;
+    }
+
+    .service-item {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 16px 28px;
+      border-bottom: 1px solid rgba(192,107,107,0.07);
+      transition: background 0.2s;
+    }
+
+    .service-item:last-child { border-bottom: none; }
+
+    .service-item:hover {
+      background: rgba(253,240,240,0.6);
+    }
+
+    .service-info { flex: 1; }
+
+    .service-name {
+      font-size: 14px;
+      font-weight: 500;
+      color: var(--text-dark);
+      margin-bottom: 2px;
+    }
+
+    .service-price {
+      font-size: 12px;
+      color: var(--blush);
+      font-weight: 600;
+      letter-spacing: 0.02em;
+    }
+
+    .service-book {
+      font-size: 10.5px;
+      font-weight: 600;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--blush);
+      border: 1px solid var(--dusty);
+      padding: 5px 12px;
+      border-radius: 2px;
+      transition: all 0.2s;
+      white-space: nowrap;
+    }
+
+    .service-book:hover {
+      background: var(--blush);
+      color: #fff;
+      border-color: var(--blush);
+    }
+
+    /* ─── TEAM ─────────────────────────────────────────────────────────────── */
+    .team-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 28px;
+      max-width: 1000px;
+      margin: 0 auto;
+    }
+
+    .team-card {
+      background: var(--white);
+      border-radius: 4px;
+      padding: 36px 28px 32px;
+      text-align: center;
+      border: 1px solid var(--border);
+      box-shadow: var(--shadow);
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .team-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 3px;
+      background: linear-gradient(90deg, var(--dusty), var(--blush), var(--gold));
+    }
+
+    .team-card:hover {
+      transform: translateY(-5px);
+      box-shadow: var(--shadow-lg);
+    }
+
+    .team-avatar {
+      width: 90px;
+      height: 90px;
+      border-radius: 50%;
+      margin: 0 auto 20px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 32px;
+      font-weight: 600;
+      font-style: italic;
+      color: #fff;
+      position: relative;
+    }
+
+    .team-avatar-1 {
+      background: linear-gradient(135deg, #C06B6B, #E8B4B8);
+    }
+
+    .team-avatar-2 {
+      background: linear-gradient(135deg, #B07890, #D4A0B0);
+    }
+
+    .team-avatar-3 {
+      background: linear-gradient(135deg, #C09060, #E0C090);
+    }
+
+    .team-name {
+      font-size: 22px;
+      color: var(--text-dark);
+      margin-bottom: 4px;
+    }
+
+    .team-title {
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--text-light);
+      margin-bottom: 18px;
+    }
+
+    .team-specialties {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      justify-content: center;
+      margin-bottom: 24px;
+    }
+
+    .specialty-pill {
+      background: rgba(232,180,184,0.25);
+      color: var(--blush);
+      font-size: 10.5px;
+      font-weight: 500;
+      padding: 4px 10px;
+      border-radius: 100px;
+      border: 1px solid rgba(192,107,107,0.2);
+    }
+
+    .team-book-link {
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--blush);
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      transition: gap 0.2s;
+    }
+
+    .team-book-link:hover { gap: 10px; }
+
+    .team-book-link::after {
+      content: '→';
+      font-family: 'Inter', sans-serif;
+    }
+
+    /* ─── BOOKING WIDGET ───────────────────────────────────────────────────── */
+    .booking-section {
+      background: var(--white);
+    }
+
+    .booking-widget {
+      max-width: 720px;
+      margin: 0 auto;
+      background: var(--rose);
+      border-radius: 6px;
+      border: 1px solid var(--border);
+      overflow: hidden;
+      box-shadow: var(--shadow-lg);
+    }
+
+    .booking-widget-header {
+      background: var(--blush);
+      padding: 20px 36px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .booking-widget-header span {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 20px;
+      font-style: italic;
+      color: rgba(255,255,255,0.9);
+    }
+
+    .booking-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: rgba(255,255,255,0.4);
+      display: inline-block;
+      margin-right: 4px;
+    }
+
+    .booking-dot.active { background: #FFD9D9; }
+
+    .booking-body {
+      padding: 36px;
+    }
+
+    .booking-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 18px;
+      margin-bottom: 18px;
+    }
+
+    .booking-field {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    .booking-field.full { grid-column: 1 / -1; }
+
+    .booking-label {
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--text-light);
+    }
+
+    .booking-select,
+    .booking-input {
+      appearance: none;
+      background: var(--white);
+      border: 1.5px solid var(--border);
+      border-radius: 3px;
+      padding: 11px 16px;
+      font-family: 'Inter', sans-serif;
+      font-size: 13.5px;
+      font-weight: 400;
+      color: var(--text-dark);
+      transition: border-color 0.2s, box-shadow 0.2s;
+      width: 100%;
+      cursor: pointer;
+    }
+
+    .booking-select:focus,
+    .booking-input:focus {
+      outline: none;
+      border-color: var(--blush);
+      box-shadow: 0 0 0 3px rgba(192,107,107,0.1);
+    }
+
+    .select-wrapper {
+      position: relative;
+    }
+
+    .select-wrapper::after {
+      content: '▾';
+      position: absolute;
+      right: 14px;
+      top: 50%;
+      transform: translateY(-50%);
+      font-size: 11px;
+      color: var(--text-light);
+      pointer-events: none;
+    }
+
+    /* Mini calendar row */
+    .calendar-strip {
+      display: flex;
+      gap: 8px;
+      overflow-x: auto;
+      padding-bottom: 4px;
+    }
+
+    .cal-day {
+      min-width: 56px;
+      background: var(--white);
+      border: 1.5px solid var(--border);
+      border-radius: 4px;
+      padding: 10px 8px;
+      text-align: center;
+      cursor: pointer;
+      transition: all 0.2s;
+      flex-shrink: 0;
+    }
+
+    .cal-day:hover {
+      border-color: var(--blush);
+      background: rgba(253,240,240,0.8);
+    }
+
+    .cal-day.selected {
+      background: var(--blush);
+      border-color: var(--blush);
+      color: #fff;
+    }
+
+    .cal-dow {
+      font-size: 9px;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      opacity: 0.6;
+      display: block;
+      margin-bottom: 4px;
+    }
+
+    .cal-date {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 22px;
+      font-weight: 600;
+      line-height: 1;
+    }
+
+    .time-slots {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-top: 14px;
+    }
+
+    .time-slot {
+      background: var(--white);
+      border: 1.5px solid var(--border);
+      border-radius: 3px;
+      padding: 7px 14px;
+      font-size: 12px;
+      font-weight: 500;
+      color: var(--text-mid);
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .time-slot:hover {
+      border-color: var(--blush);
+      color: var(--blush);
+    }
+
+    .time-slot.selected {
+      background: var(--blush);
+      border-color: var(--blush);
+      color: #fff;
+    }
+
+    .time-slot.unavailable {
+      opacity: 0.35;
+      cursor: not-allowed;
+      text-decoration: line-through;
+    }
+
+    .booking-confirm {
+      background: var(--blush);
+      color: #fff;
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      padding: 15px 36px;
+      border-radius: 3px;
+      border: none;
+      cursor: pointer;
+      width: 100%;
+      margin-top: 24px;
+      transition: background 0.2s, transform 0.15s;
+      font-family: 'Inter', sans-serif;
+    }
+
+    .booking-confirm:hover {
+      background: #A85858;
+      transform: translateY(-1px);
+    }
+
+    .booking-footer-note {
+      text-align: center;
+      font-size: 11px;
+      color: var(--text-light);
+      margin-top: 14px;
+    }
+
+    /* ─── GALLERY ──────────────────────────────────────────────────────────── */
+    .gallery-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 12px;
+      max-width: 900px;
+      margin: 0 auto 32px;
+    }
+
+    .gallery-item {
+      aspect-ratio: 1;
+      border-radius: 3px;
+      position: relative;
+      overflow: hidden;
+      cursor: pointer;
+    }
+
+    .gallery-item::after {
+      content: '+';
+      position: absolute;
+      inset: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 28px;
+      font-weight: 300;
+      color: rgba(255,255,255,0.8);
+      background: rgba(192,107,107,0.25);
+      opacity: 0;
+      transition: opacity 0.3s;
+    }
+
+    .gallery-item:hover::after { opacity: 1; }
+
+    .gallery-item-1 { background: linear-gradient(135deg, #F5C5C5, #E8A0A0); }
+    .gallery-item-2 { background: linear-gradient(160deg, #E8B4B8, #D4889A); }
+    .gallery-item-3 { background: linear-gradient(120deg, #F0D0C0, #E8B090); }
+    .gallery-item-4 { background: linear-gradient(150deg, #E0C0D0, #C890A8); }
+    .gallery-item-5 { background: linear-gradient(135deg, #F8E8C0, #EED090); }
+    .gallery-item-6 { background: linear-gradient(140deg, #E8D0E0, #D0A0C0); }
+
+    .gallery-inner {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      opacity: 0.4;
+    }
+
+    .gallery-inner svg {
+      width: 36px;
+      height: 36px;
+      fill: rgba(255,255,255,0.8);
+    }
+
+    .gallery-handle {
+      text-align: center;
+      font-size: 13px;
+      font-weight: 500;
+      color: var(--text-mid);
+      letter-spacing: 0.04em;
+    }
+
+    .gallery-handle a {
+      color: var(--blush);
+      font-weight: 600;
+    }
+
+    /* ─── REVIEWS ──────────────────────────────────────────────────────────── */
+    .reviews-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 20px;
+      max-width: 900px;
+      margin: 0 auto;
+    }
+
+    .review-card {
+      background: var(--white);
+      border: 1px solid var(--border);
+      border-radius: 4px;
+      padding: 28px;
+      box-shadow: var(--shadow);
+      transition: transform 0.25s ease;
+      position: relative;
+    }
+
+    .review-card:hover { transform: translateY(-3px); }
+
+    .review-card::before {
+      content: '"';
+      position: absolute;
+      top: 14px;
+      right: 20px;
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 72px;
+      color: rgba(232,180,184,0.35);
+      line-height: 1;
+    }
+
+    .review-stars {
+      color: var(--gold);
+      font-size: 14px;
+      letter-spacing: 2px;
+      margin-bottom: 12px;
+    }
+
+    .review-text {
+      font-size: 14px;
+      font-weight: 300;
+      color: var(--text-mid);
+      line-height: 1.7;
+      margin-bottom: 20px;
+    }
+
+    .review-author {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .review-avatar {
+      width: 38px;
+      height: 38px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 13px;
+      font-weight: 600;
+      color: #fff;
+      flex-shrink: 0;
+    }
+
+    .ra-1 { background: linear-gradient(135deg, #C06B6B, #E8B4B8); }
+    .ra-2 { background: linear-gradient(135deg, #B07890, #D4A0B0); }
+    .ra-3 { background: linear-gradient(135deg, #8090B0, #A0B0D0); }
+    .ra-4 { background: linear-gradient(135deg, #C09060, #E0C090); }
+
+    .review-name {
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--text-dark);
+    }
+
+    .review-date {
+      font-size: 11px;
+      color: var(--text-light);
+    }
+
+    .review-source {
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--text-light);
+      margin-top: 2px;
+    }
+
+    /* ─── GIFT CERTIFICATES ────────────────────────────────────────────────── */
+    .gift-section {
+      background: linear-gradient(135deg, #C06B6B, #A85858);
+      padding: 80px 48px;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .gift-section::before {
+      content: '';
+      position: absolute;
+      top: -100px;
+      right: -100px;
+      width: 400px;
+      height: 400px;
+      border-radius: 50%;
+      background: rgba(255,255,255,0.05);
+      pointer-events: none;
+    }
+
+    .gift-section::after {
+      content: '';
+      position: absolute;
+      bottom: -60px;
+      left: -60px;
+      width: 250px;
+      height: 250px;
+      border-radius: 50%;
+      background: rgba(255,255,255,0.04);
+      pointer-events: none;
+    }
+
+    .gift-eyebrow {
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.65);
+      margin-bottom: 16px;
+    }
+
+    .gift-section h2 {
+      font-size: clamp(36px, 5vw, 62px);
+      color: #fff;
+      margin-bottom: 16px;
+    }
+
+    .gift-section h2 em {
+      font-style: italic;
+      color: var(--gold-light);
+    }
+
+    .gift-sub {
+      font-size: 15px;
+      font-weight: 300;
+      color: rgba(255,255,255,0.78);
+      max-width: 440px;
+      margin: 0 auto 36px;
+    }
+
+    .btn-gift {
+      background: #fff;
+      color: var(--blush);
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      padding: 14px 36px;
+      border-radius: 2px;
+      display: inline-block;
+      transition: all 0.2s;
+    }
+
+    .btn-gift:hover {
+      background: var(--cream);
+      transform: translateY(-2px);
+      box-shadow: 0 8px 24px rgba(0,0,0,0.15);
+    }
+
+    /* ─── FOOTER ───────────────────────────────────────────────────────────── */
+    .footer {
+      background: var(--text-dark);
+      color: rgba(255,255,255,0.65);
+      padding: 64px 48px 36px;
+    }
+
+    .footer-top {
+      display: grid;
+      grid-template-columns: 1.4fr 1fr 1fr 1fr;
+      gap: 48px;
+      margin-bottom: 56px;
+    }
+
+    .footer-logo {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 26px;
+      font-weight: 600;
+      color: #fff;
+      margin-bottom: 14px;
+    }
+
+    .footer-logo span {
+      font-style: italic;
+      font-weight: 400;
+    }
+
+    .footer-tagline {
+      font-size: 13px;
+      font-weight: 300;
+      line-height: 1.6;
+      margin-bottom: 20px;
+    }
+
+    .footer-social {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 12px;
+      font-weight: 500;
+      color: var(--dusty);
+      transition: color 0.2s;
+    }
+
+    .footer-social:hover { color: #fff; }
+
+    .footer-col h4 {
+      font-family: 'Inter', sans-serif;
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.35);
+      margin-bottom: 18px;
+    }
+
+    .footer-col ul {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .footer-col ul li {
+      font-size: 13px;
+      font-weight: 300;
+      transition: color 0.2s;
+    }
+
+    .footer-col ul li a {
+      color: rgba(255,255,255,0.65);
+      transition: color 0.2s;
+    }
+
+    .footer-col ul li a:hover { color: #fff; }
+
+    .footer-hours { display: flex; flex-direction: column; gap: 8px; }
+
+    .footer-hour-row {
+      display: flex;
+      justify-content: space-between;
+      font-size: 12.5px;
+      font-weight: 300;
+    }
+
+    .footer-hour-row span:first-child {
+      color: rgba(255,255,255,0.4);
+    }
+
+    .footer-hour-row span:last-child {
+      color: rgba(255,255,255,0.8);
+    }
+
+    .footer-divider {
+      height: 1px;
+      background: rgba(255,255,255,0.08);
+      margin-bottom: 28px;
+    }
+
+    .footer-bottom {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      font-size: 11.5px;
+      font-weight: 300;
+    }
+
+    .footer-bottom a {
+      color: var(--dusty);
+      font-weight: 500;
+      transition: color 0.2s;
+    }
+
+    .footer-bottom a:hover { color: #fff; }
+
+    /* ─── ANIMATIONS ───────────────────────────────────────────────────────── */
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(24px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    .hero-eyebrow { animation: fadeUp 0.6s ease both; }
+    .hero h1      { animation: fadeUp 0.6s 0.12s ease both; }
+    .hero-sub     { animation: fadeUp 0.6s 0.22s ease both; }
+    .hero-ctas    { animation: fadeUp 0.6s 0.32s ease both; }
+    .hero-booking-note { animation: fadeUp 0.6s 0.42s ease both; }
+
+    /* ─── DIVIDER ORNAMENT ─────────────────────────────────────────────────── */
+    .ornament {
+      text-align: center;
+      color: var(--dusty);
+      font-size: 18px;
+      letter-spacing: 8px;
+      margin-bottom: 0;
+    }
+
+    /* ─── RESPONSIVE ───────────────────────────────────────────────────────── */
+    @media (max-width: 900px) {
+      .nav { padding: 0 24px; }
+      .nav-links { display: none; }
+      .hero { padding: 72px 24px 64px; }
+      .section { padding: 64px 24px; }
+      .services-grid,
+      .team-grid,
+      .reviews-grid { grid-template-columns: 1fr; }
+      .footer-top { grid-template-columns: 1fr 1fr; }
+      .booking-row { grid-template-columns: 1fr; }
+      .gallery-grid { grid-template-columns: repeat(2, 1fr); }
+      .gift-section { padding: 60px 24px; }
+      .footer { padding: 48px 24px 28px; }
+      .footer-bottom { flex-direction: column; gap: 12px; text-align: center; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- TOP DEMO BANNER -->
+  <div class="demo-banner">
+    DEMO PREVIEW — Built by NodeAxis &nbsp;·&nbsp; <a href="https://nodeaxis.ca" target="_blank">nodeaxis.ca</a>
+  </div>
+
+  <!-- ── STICKY NAV ──────────────────────────────────────────────────────── -->
+  <nav class="nav">
+    <div class="nav-logo">Studio&nbsp;<span>Noor</span></div>
+    <ul class="nav-links">
+      <li><a href="#services">Services</a></li>
+      <li><a href="#team">Our Team</a></li>
+      <li><a href="#gallery">Gallery</a></li>
+      <li><a href="#gift">Gift Cards</a></li>
+    </ul>
+    <a href="#booking" class="btn-nav">Book Now</a>
+  </nav>
+
+  <!-- ── HERO ───────────────────────────────────────────────────────────── -->
+  <section class="hero">
+    <div class="hero-eyebrow">Surrey's Boutique Beauty Studio</div>
+    <h1>Where <em>beauty</em> feels personal.</h1>
+    <p class="hero-sub">Full-service hair, skin, and nail treatments — crafted with intention, delivered with care.</p>
+    <div class="hero-ctas">
+      <a href="#booking" class="btn-primary">Book Your Visit</a>
+      <a href="#services" class="btn-ghost">View Services</a>
+    </div>
+    <div class="hero-booking-note">✦ Now booking 2 weeks out — reserve your spot today ✦</div>
+  </section>
+
+  <!-- ── SERVICES ───────────────────────────────────────────────────────── -->
+  <section class="section" id="services">
+    <div class="section-header">
+      <div class="section-tag">What We Offer</div>
+      <h2>Our Services</h2>
+      <p>Every treatment is tailored to you — no rushed appointments, no cookie-cutter results.</p>
+    </div>
+    <div class="services-grid">
+
+      <!-- Hair -->
+      <div class="services-col">
+        <div class="services-col-header">
+          <div class="services-col-icon">✂</div>
+          <h3>Hair</h3>
+        </div>
+        <div class="services-list">
+          <div class="service-item">
+            <div class="service-info">
+              <div class="service-name">Haircut &amp; Style</div>
+              <div class="service-price">From $65</div>
+            </div>
+            <a href="#booking" class="service-book">Book</a>
+          </div>
+          <div class="service-item">
+            <div class="service-info">
+              <div class="service-name">Colour &amp; Highlights</div>
+              <div class="service-price">From $120</div>
+            </div>
+            <a href="#booking" class="service-book">Book</a>
+          </div>
+          <div class="service-item">
+            <div class="service-info">
+              <div class="service-name">Keratin Treatment</div>
+              <div class="service-price">From $250</div>
+            </div>
+            <a href="#booking" class="service-book">Book</a>
+          </div>
+        </div>
+      </div>
+
+      <!-- Skin -->
+      <div class="services-col">
+        <div class="services-col-header">
+          <div class="services-col-icon">✦</div>
+          <h3>Skin</h3>
+        </div>
+        <div class="services-list">
+          <div class="service-item">
+            <div class="service-info">
+              <div class="service-name">HydraFacial</div>
+              <div class="service-price">$150</div>
+            </div>
+            <a href="#booking" class="service-book">Book</a>
+          </div>
+          <div class="service-item">
+            <div class="service-info">
+              <div class="service-name">Brow Shaping</div>
+              <div class="service-price">$35</div>
+            </div>
+            <a href="#booking" class="service-book">Book</a>
+          </div>
+          <div class="service-item">
+            <div class="service-info">
+              <div class="service-name">Lash Extensions</div>
+              <div class="service-price">From $120</div>
+            </div>
+            <a href="#booking" class="service-book">Book</a>
+          </div>
+        </div>
+      </div>
+
+      <!-- Nails -->
+      <div class="services-col">
+        <div class="services-col-header">
+          <div class="services-col-icon">◇</div>
+          <h3>Nails</h3>
+        </div>
+        <div class="services-list">
+          <div class="service-item">
+            <div class="service-info">
+              <div class="service-name">Gel Manicure</div>
+              <div class="service-price">$55</div>
+            </div>
+            <a href="#booking" class="service-book">Book</a>
+          </div>
+          <div class="service-item">
+            <div class="service-info">
+              <div class="service-name">Pedicure &amp; Polish</div>
+              <div class="service-price">$65</div>
+            </div>
+            <a href="#booking" class="service-book">Book</a>
+          </div>
+          <div class="service-item">
+            <div class="service-info">
+              <div class="service-name">Nail Art</div>
+              <div class="service-price">From $80</div>
+            </div>
+            <a href="#booking" class="service-book">Book</a>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ── TEAM ───────────────────────────────────────────────────────────── -->
+  <section class="section section-alt" id="team">
+    <div class="section-header">
+      <div class="section-tag">The Faces Behind the Studio</div>
+      <h2>Meet Our Team</h2>
+      <p>Small on purpose. Every stylist at Studio Noor is a specialist who genuinely loves their craft.</p>
+    </div>
+    <div class="team-grid">
+
+      <div class="team-card">
+        <div class="team-avatar team-avatar-1">N</div>
+        <h3 class="team-name">Noor A.</h3>
+        <div class="team-title">Owner &amp; Senior Stylist</div>
+        <div class="team-specialties">
+          <span class="specialty-pill">Colour</span>
+          <span class="specialty-pill">Cutting</span>
+          <span class="specialty-pill">Extensions</span>
+        </div>
+        <a href="#booking" class="team-book-link">Book with Noor</a>
+      </div>
+
+      <div class="team-card">
+        <div class="team-avatar team-avatar-2">L</div>
+        <h3 class="team-name">Lena M.</h3>
+        <div class="team-title">Skin Therapist</div>
+        <div class="team-specialties">
+          <span class="specialty-pill">HydraFacial</span>
+          <span class="specialty-pill">Brow</span>
+          <span class="specialty-pill">Lash</span>
+        </div>
+        <a href="#booking" class="team-book-link">Book with Lena</a>
+      </div>
+
+      <div class="team-card">
+        <div class="team-avatar team-avatar-3">Z</div>
+        <h3 class="team-name">Zara K.</h3>
+        <div class="team-title">Nail Artist</div>
+        <div class="team-specialties">
+          <span class="specialty-pill">Gel</span>
+          <span class="specialty-pill">Nail Art</span>
+          <span class="specialty-pill">Pedicures</span>
+        </div>
+        <a href="#booking" class="team-book-link">Book with Zara</a>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ── BOOKING WIDGET ──────────────────────────────────────────────────── -->
+  <section class="section booking-section" id="booking">
+    <div class="section-header">
+      <div class="section-tag">Reservations</div>
+      <h2>Book Your Appointment</h2>
+      <p>Select your service, pick your stylist, and choose a time that works for you.</p>
+    </div>
+
+    <div class="booking-widget">
+      <div class="booking-widget-header">
+        <span>Studio Noor — Online Booking</span>
+        <div>
+          <span class="booking-dot active"></span>
+          <span class="booking-dot active"></span>
+          <span class="booking-dot active"></span>
+          <span class="booking-dot"></span>
+        </div>
+      </div>
+      <div class="booking-body">
+
+        <div class="booking-row">
+          <div class="booking-field">
+            <label class="booking-label">Select Your Service</label>
+            <div class="select-wrapper">
+              <select class="booking-select">
+                <option value="">— Choose a service —</option>
+                <optgroup label="Hair">
+                  <option>Haircut &amp; Style ($65+)</option>
+                  <option>Colour &amp; Highlights ($120+)</option>
+                  <option>Keratin Treatment ($250+)</option>
+                </optgroup>
+                <optgroup label="Skin">
+                  <option>HydraFacial ($150)</option>
+                  <option>Brow Shaping ($35)</option>
+                  <option>Lash Extensions ($120+)</option>
+                </optgroup>
+                <optgroup label="Nails">
+                  <option>Gel Manicure ($55)</option>
+                  <option>Pedicure &amp; Polish ($65)</option>
+                  <option>Nail Art ($80+)</option>
+                </optgroup>
+              </select>
+            </div>
+          </div>
+          <div class="booking-field">
+            <label class="booking-label">Choose a Stylist</label>
+            <div class="select-wrapper">
+              <select class="booking-select">
+                <option value="">— Any available —</option>
+                <option>Noor A. — Senior Stylist</option>
+                <option>Lena M. — Skin Therapist</option>
+                <option>Zara K. — Nail Artist</option>
+              </select>
+            </div>
+          </div>
+        </div>
+
+        <div class="booking-field full" style="margin-bottom: 14px;">
+          <label class="booking-label">Pick a Date</label>
+          <div class="calendar-strip">
+            <div class="cal-day"><span class="cal-dow">Sat</span><span class="cal-date">14</span></div>
+            <div class="cal-day"><span class="cal-dow">Sun</span><span class="cal-date">15</span></div>
+            <div class="cal-day selected"><span class="cal-dow">Mon</span><span class="cal-date">16</span></div>
+            <div class="cal-day"><span class="cal-dow">Tue</span><span class="cal-date">17</span></div>
+            <div class="cal-day"><span class="cal-dow">Wed</span><span class="cal-date">18</span></div>
+            <div class="cal-day"><span class="cal-dow">Thu</span><span class="cal-date">19</span></div>
+            <div class="cal-day"><span class="cal-dow">Fri</span><span class="cal-date">20</span></div>
+          </div>
+        </div>
+
+        <div class="booking-field full">
+          <label class="booking-label">Available Times — Monday, June 16</label>
+          <div class="time-slots">
+            <div class="time-slot unavailable">9:00 AM</div>
+            <div class="time-slot">10:00 AM</div>
+            <div class="time-slot">10:30 AM</div>
+            <div class="time-slot selected">11:00 AM</div>
+            <div class="time-slot unavailable">12:00 PM</div>
+            <div class="time-slot">1:30 PM</div>
+            <div class="time-slot">2:00 PM</div>
+            <div class="time-slot">3:30 PM</div>
+            <div class="time-slot unavailable">4:00 PM</div>
+            <div class="time-slot">4:30 PM</div>
+          </div>
+        </div>
+
+        <button class="booking-confirm">Confirm Booking</button>
+        <p class="booking-footer-note">Free cancellation up to 24 hours before your appointment. No credit card required to reserve.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── GALLERY ─────────────────────────────────────────────────────────── -->
+  <section class="section section-alt" id="gallery">
+    <div class="section-header">
+      <div class="section-tag">Our Work</div>
+      <h2>Fresh From the Studio</h2>
+      <p>A glimpse of what walks out of our chairs every week.</p>
+    </div>
+    <div class="gallery-grid">
+      <div class="gallery-item gallery-item-1">
+        <div class="gallery-inner">
+          <svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8zm-1-13h2v4h4v2h-4v4h-2v-4H7v-2h4V7z"/></svg>
+        </div>
+      </div>
+      <div class="gallery-item gallery-item-2">
+        <div class="gallery-inner">
+          <svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8zm-1-13h2v4h4v2h-4v4h-2v-4H7v-2h4V7z"/></svg>
+        </div>
+      </div>
+      <div class="gallery-item gallery-item-3">
+        <div class="gallery-inner">
+          <svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8zm-1-13h2v4h4v2h-4v4h-2v-4H7v-2h4V7z"/></svg>
+        </div>
+      </div>
+      <div class="gallery-item gallery-item-4">
+        <div class="gallery-inner">
+          <svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8zm-1-13h2v4h4v2h-4v4h-2v-4H7v-2h4V7z"/></svg>
+        </div>
+      </div>
+      <div class="gallery-item gallery-item-5">
+        <div class="gallery-inner">
+          <svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8zm-1-13h2v4h4v2h-4v4h-2v-4H7v-2h4V7z"/></svg>
+        </div>
+      </div>
+      <div class="gallery-item gallery-item-6">
+        <div class="gallery-inner">
+          <svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8zm-1-13h2v4h4v2h-4v4h-2v-4H7v-2h4V7z"/></svg>
+        </div>
+      </div>
+    </div>
+    <p class="gallery-handle">Follow us on Instagram &nbsp;<a href="#" target="_blank">@studionoor.ca</a></p>
+  </section>
+
+  <!-- ── REVIEWS ─────────────────────────────────────────────────────────── -->
+  <section class="section" id="reviews">
+    <div class="section-header">
+      <div class="section-tag">Client Love</div>
+      <h2>What Our Clients Say</h2>
+      <p>Words from the people who trust us with their look.</p>
+    </div>
+    <div class="reviews-grid">
+
+      <div class="review-card">
+        <div class="review-stars">★★★★★</div>
+        <p class="review-text">I've tried so many salons in Surrey and none of them come close to what Noor does. My balayage looked like something out of a magazine — and she finished 10 minutes early. I will never go anywhere else.</p>
+        <div class="review-author">
+          <div class="review-avatar ra-1">SK</div>
+          <div>
+            <div class="review-name">Simran K.</div>
+            <div class="review-date">May 2026</div>
+            <div class="review-source">Google Review</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="review-card">
+        <div class="review-stars">★★★★★</div>
+        <p class="review-text">Lena is an absolute artist. I came in with overgrown, uneven brows and left feeling completely transformed. She took the time to actually talk through the shape that would suit my face. Highly recommend.</p>
+        <div class="review-author">
+          <div class="review-avatar ra-2">MT</div>
+          <div>
+            <div class="review-name">Meghan T.</div>
+            <div class="review-date">April 2026</div>
+            <div class="review-source">Google Review</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="review-card">
+        <div class="review-stars">★★★★★</div>
+        <p class="review-text">Zara's nail art is next level. I showed her a reference photo and she actually improved on it. My gel nails lasted over three weeks with zero chips. The studio itself is so calm and beautiful — I could stay all day.</p>
+        <div class="review-author">
+          <div class="review-avatar ra-3">AP</div>
+          <div>
+            <div class="review-name">Anika P.</div>
+            <div class="review-date">June 2026</div>
+            <div class="review-source">Google Review</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="review-card">
+        <div class="review-stars">★★★★★</div>
+        <p class="review-text">Booking was so easy and the reminders were a lifesaver. Came in for a HydraFacial before my wedding and my skin has genuinely never looked better. The whole team made me feel like a VIP. Cannot recommend enough.</p>
+        <div class="review-author">
+          <div class="review-avatar ra-4">RB</div>
+          <div>
+            <div class="review-name">Rachel B.</div>
+            <div class="review-date">March 2026</div>
+            <div class="review-source">Google Review</div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ── GIFT CERTIFICATES ───────────────────────────────────────────────── -->
+  <section class="gift-section" id="gift">
+    <div class="gift-eyebrow">A Thoughtful Gift</div>
+    <h2>Give the Gift of <em>Studio Noor</em></h2>
+    <p class="gift-sub">Treat someone you love to a little luxury. Gift certificates are available in any amount and never expire.</p>
+    <a href="#" class="btn-gift">Purchase a Gift Certificate</a>
+  </section>
+
+  <!-- ── FOOTER ──────────────────────────────────────────────────────────── -->
+  <footer class="footer">
+    <div class="footer-top">
+      <div>
+        <div class="footer-logo">Studio&nbsp;<span>Noor</span></div>
+        <p class="footer-tagline">Surrey's boutique beauty studio — where every appointment is designed around you.</p>
+        <a href="#" class="footer-social">
+          <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="0.5" fill="currentColor"/></svg>
+          @studionoor.ca
+        </a>
+      </div>
+
+      <div class="footer-col">
+        <h4>Navigate</h4>
+        <ul>
+          <li><a href="#services">Services</a></li>
+          <li><a href="#team">Our Team</a></li>
+          <li><a href="#gallery">Gallery</a></li>
+          <li><a href="#booking">Book Online</a></li>
+          <li><a href="#gift">Gift Cards</a></li>
+        </ul>
+      </div>
+
+      <div class="footer-col">
+        <h4>Hours</h4>
+        <div class="footer-hours">
+          <div class="footer-hour-row"><span>Mon – Wed</span><span>10am – 7pm</span></div>
+          <div class="footer-hour-row"><span>Thu – Fri</span><span>10am – 8pm</span></div>
+          <div class="footer-hour-row"><span>Saturday</span><span>9am – 6pm</span></div>
+          <div class="footer-hour-row"><span>Sunday</span><span>Closed</span></div>
+        </div>
+      </div>
+
+      <div class="footer-col">
+        <h4>Find Us</h4>
+        <ul>
+          <li>8475 King George Blvd</li>
+          <li>Surrey, BC  V3W 5B8</li>
+          <li style="margin-top: 8px;"><a href="tel:+16049001234">(604) 900-1234</a></li>
+          <li><a href="mailto:hello@studionoor.ca">hello@studionoor.ca</a></li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="footer-divider"></div>
+
+    <div class="footer-bottom">
+      <span>© 2026 Studio Noor. All rights reserved.</span>
+      <span>Built by <a href="https://nodeaxis.ca" target="_blank">NodeAxis</a> &nbsp;—&nbsp; Web Design &amp; Development, Surrey BC</span>
+    </div>
+  </footer>
+
+  <script>
+    // Interactive: calendar day selection
+    document.querySelectorAll('.cal-day').forEach(function(day) {
+      day.addEventListener('click', function() {
+        document.querySelectorAll('.cal-day').forEach(function(d) { d.classList.remove('selected'); });
+        day.classList.add('selected');
+      });
+    });
+
+    // Interactive: time slot selection
+    document.querySelectorAll('.time-slot:not(.unavailable)').forEach(function(slot) {
+      slot.addEventListener('click', function() {
+        document.querySelectorAll('.time-slot').forEach(function(s) { s.classList.remove('selected'); });
+        slot.classList.add('selected');
+      });
+    });
+
+    // Interactive: booking confirm button feedback
+    var confirmBtn = document.querySelector('.booking-confirm');
+    if (confirmBtn) {
+      confirmBtn.addEventListener('click', function() {
+        var original = confirmBtn.textContent;
+        confirmBtn.textContent = '✓ Request Sent — We\'ll confirm by email';
+        confirmBtn.style.background = '#6B9E6B';
+        setTimeout(function() {
+          confirmBtn.textContent = original;
+          confirmBtn.style.background = '';
+        }, 3000);
+      });
+    }
+  </script>
+
+</body>
+</html>
