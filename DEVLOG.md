@@ -18,6 +18,20 @@ A running record of every session: what was built, what broke, what was fixed, a
 
 ## Sessions
 
+### [2026-06-13] — Fix: coder character not visible on mobile
+
+**What was done:**
+- `components/Hero.tsx` — `CoderSVG` updated to accept optional `width` prop (defaults to `clamp(260px, 35vw, 420px)`)
+- Added a second `motion.div` wrapper with `className="block lg:hidden"` that renders `<CoderSVG width={220} />` at the bottom-right of the hero section, `opacity: 0.35`, slides in from bottom on mount
+- Desktop version unchanged (`hidden lg:block`, full size, right side partially clipped)
+
+**Root cause:** All characters were built with `hidden lg:block` which hides them below 1024px. The fix uses a separate smaller sibling for mobile instead of overloading one element with complex responsive inline styles.
+
+**Still open:**
+- Same mobile character fix may be needed on Services, Why, CTA, and individual page heroes if user wants them visible on mobile too
+
+---
+
 ### [2026-06-12] — Full site editorial redesign + character illustrations on every page
 
 **What was done:**
