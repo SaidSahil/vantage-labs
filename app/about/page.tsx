@@ -42,9 +42,9 @@ const statWrap: CSSProperties = {
   display: 'flex', flexDirection: 'column', alignItems: 'center',
 }
 const statNum: CSSProperties = {
-  fontSize: 'clamp(56px, 7.5vw, 104px)',
+  fontSize: 'clamp(48px, 7vw, 96px)',
   fontWeight: 800,
-  letterSpacing: '-0.055em',
+  letterSpacing: '-0.04em',
   lineHeight: 1,
   color: 'var(--na-inv-text)',
 }
@@ -111,7 +111,7 @@ const beliefs = [
   {
     n: '2',
     headline: 'Senior craft, accessible price.',
-    body: '20+ years of combined experience. Starting at $399. That gap shouldn\'t exist — so we closed it.',
+    body: '20+ years of combined experience across web, systems, and databases. Starting at $399. That gap shouldn\'t exist — so we closed it.',
   },
   {
     n: '3',
@@ -123,8 +123,8 @@ const beliefs = [
 const services = [
   { num: '01', title: 'Custom Web Design', desc: 'Hand-coded, mobile-first sites that reflect your brand and load fast.' },
   { num: '02', title: 'Landing Pages', desc: 'High-converting single pages built for paid traffic, campaigns, or local SEO.' },
-  { num: '03', title: 'Small Business Sites', desc: 'Multi-page sites for local service businesses — contractors, clinics, and more.' },
-  { num: '04', title: 'SEO-Optimized Builds', desc: 'Semantic HTML, clean URLs, structured data and meta baked in from day one.' },
+  { num: '03', title: 'Systems & Dashboards', desc: 'Booking systems, client portals, admin dashboards, and internal tools — built to how your business actually operates.' },
+  { num: '04', title: 'Database & Backend', desc: 'Custom databases, API integrations, and full-stack digital infrastructure — designed and built from scratch.' },
 ]
 
 const cities = [
@@ -235,10 +235,10 @@ export default function AboutPage() {
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.95, ease, delay: 0.08 }}
               style={{
-                fontSize: 'clamp(60px, 13vw, 172px)',
+                fontSize: 'clamp(52px, 11vw, 150px)',
                 fontWeight: 800,
-                letterSpacing: '-0.05em',
-                lineHeight: 0.87,
+                letterSpacing: '-0.04em',
+                lineHeight: 0.9,
                 color: 'var(--na-text)',
                 margin: 0,
               }}
@@ -272,8 +272,8 @@ export default function AboutPage() {
               lineHeight: 1.82,
               marginBottom: 28,
             }}>
-              Most small businesses get handed a WordPress template and told it's web design.
-              NodeAxis exists because that's not good enough — and your business deserves better.
+              Most businesses get handed a template and told it's web design. NodeAxis builds
+              websites, systems, databases, and digital infrastructure — from scratch, to senior standard.
             </p>
             <div style={{
               display: 'inline-flex', alignItems: 'center', gap: 8,
@@ -298,8 +298,8 @@ export default function AboutPage() {
             position: 'relative', zIndex: 1, maxWidth: 480,
           }}
         >
-          Most small businesses get handed a WordPress template and told it's web design.
-          NodeAxis exists because that's not good enough. Hand-coded · BC-based · From $399.
+          Most businesses get handed a template and told it's web design. NodeAxis builds
+          websites, systems, databases, and digital infrastructure — from scratch, senior standard. From $399.
         </motion.p>
 
         {/* Scroll cue */}
@@ -364,10 +364,10 @@ export default function AboutPage() {
               initial="hidden" whileInView="visible" viewport={viewport} variants={fadeLeft}
             >
               <blockquote style={{
-                fontSize: 'clamp(22px, 3.2vw, 38px)',
+                fontSize: 'clamp(20px, 2.8vw, 34px)',
                 fontWeight: 800,
                 letterSpacing: '-0.03em',
-                lineHeight: 1.18,
+                lineHeight: 1.2,
                 color: 'var(--na-text)',
                 margin: 0,
                 position: 'relative',
@@ -377,9 +377,9 @@ export default function AboutPage() {
                   position: 'absolute', left: 0, top: 0, bottom: 0,
                   width: 3, background: 'var(--na-accent)', borderRadius: 2,
                 }} />
-                "I started NodeAxis because I was tired of watching small businesses get handed
+                "I've built systems, databases, and digital products. NodeAxis exists because small businesses
                 {' '}<em style={{ fontStyle: 'italic', fontWeight: 300, color: 'var(--na-heading)' }}>
-                  templates and called it web design.
+                  deserve that same senior-level craft — without the agency price tag.
                 </em>"
               </blockquote>
               <p style={{
@@ -431,12 +431,14 @@ export default function AboutPage() {
               </div>
 
               <p style={{ fontSize: 14, color: 'var(--na-muted)', lineHeight: 1.88, marginBottom: 18 }}>
-                A deliberately boutique operation. Small roster. Handled personally.
-                No account managers passing messages — you work directly with the person building your site.
+                Background in web, systems, databases, and full-stack digital. NodeAxis channels that into
+                one thing — real, senior-level builds that small businesses can actually afford.
+                No account managers. No juniors. You work directly with the person writing the code.
               </p>
               <p style={{ fontSize: 14, color: 'var(--na-muted)', lineHeight: 1.88 }}>
                 Based in British Columbia. Metro Vancouver clients know us by name.
-                Coast to coast, every project gets the same senior-level attention.
+                Coast to coast, every project — whether it's a landing page or a custom system — gets the
+                same focused attention.
               </p>
             </motion.div>
           </div>
@@ -461,9 +463,9 @@ export default function AboutPage() {
             style={{ marginBottom: 'clamp(48px, 6vw, 72px)' }}
           >
             <h2 style={{
-              fontSize: 'clamp(36px, 6vw, 84px)',
-              fontWeight: 800, letterSpacing: '-0.045em',
-              lineHeight: 0.9, color: 'var(--na-text)',
+              fontSize: 'clamp(32px, 5vw, 72px)',
+              fontWeight: 800, letterSpacing: '-0.04em',
+              lineHeight: 0.92, color: 'var(--na-text)',
               maxWidth: 700,
             }}>
               Three things we'll{' '}
@@ -696,9 +698,9 @@ export default function AboutPage() {
             </div>
 
             <h2 style={{
-              fontSize: 'clamp(36px, 6vw, 84px)',
-              fontWeight: 800, letterSpacing: '-0.045em',
-              lineHeight: 0.9, color: 'var(--na-text)',
+              fontSize: 'clamp(32px, 5vw, 72px)',
+              fontWeight: 800, letterSpacing: '-0.04em',
+              lineHeight: 0.92, color: 'var(--na-text)',
               marginBottom: 'clamp(20px, 2.5vw, 32px)',
             }}>
               Local roots.{' '}
@@ -783,9 +785,9 @@ export default function AboutPage() {
               The Next Step
             </span>
             <h2 style={{
-              fontSize: 'clamp(56px, 12vw, 148px)',
-              fontWeight: 800, letterSpacing: '-0.055em',
-              color: 'var(--na-inv-text)', lineHeight: 0.88,
+              fontSize: 'clamp(48px, 10vw, 128px)',
+              fontWeight: 800, letterSpacing: '-0.04em',
+              color: 'var(--na-inv-text)', lineHeight: 0.9,
               marginBottom: 36,
             }}>
               LET'S BUILD
