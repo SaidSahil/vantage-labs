@@ -47,7 +47,7 @@ function WordReveal({
   )
 }
 
-function CoderSVG() {
+function CoderSVG({ width }: { width?: string | number } = {}) {
   return (
     <svg
       viewBox="0 0 340 320"
@@ -57,7 +57,7 @@ function CoderSVG() {
       strokeLinejoin="round"
       aria-hidden="true"
       style={{
-        width: 'clamp(260px, 35vw, 420px)',
+        width: width ?? 'clamp(260px, 35vw, 420px)',
         height: 'auto',
         color: 'var(--na-text)',
       }}
@@ -298,6 +298,25 @@ export default function Hero() {
         aria-hidden="true"
       >
         <CoderSVG />
+      </motion.div>
+
+      {/* Coder character SVG — mobile, bottom-right, smaller */}
+      <motion.div
+        initial={{ opacity: 0, y: 30 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 1.1, delay: 0.5, ease: [0.22, 1, 0.36, 1] }}
+        className="block lg:hidden"
+        style={{
+          position: 'absolute',
+          bottom: 60,
+          right: -20,
+          zIndex: 0,
+          opacity: 0.35,
+          pointerEvents: 'none',
+        }}
+        aria-hidden="true"
+      >
+        <CoderSVG width={220} />
       </motion.div>
 
       {/* Meta row — top left */}
