@@ -1,5 +1,5 @@
 # Vantage Labs — Project Status & Conversation Log
-Last updated: 2026-06-09 (Session 9 — Mobile blank screen fix)
+Last updated: 2026-06-12 (Session 10 — Full project audit & cleanup)
 
 ---
 
@@ -53,9 +53,9 @@ Stack: Next.js (App Router) · TypeScript · Tailwind CSS v4 · Framer Motion v1
 | File | Purpose |
 |------|---------|
 | `lib/projects.ts` | Single source of truth for all project data. `Project` interface + `getProject(slug)` helper. Now includes optional `results?: string` field on each project. |
-| `lib/sound.ts` | Web Audio API engine — dead code. No component imports it. Can be deleted. |
 | `lib/animations.ts` | Shared Framer Motion variants: `fadeUp`, `fadeLeft`, `fadeRight`, `stagger`, `viewport`. |
-| `lib/useCountUp.ts` | RAF count-up hook — no longer used (About stats are now static text). Can be deleted. |
+| `lib/theme.tsx` | ThemeProvider + useTheme hook. localStorage key `nodeaxis-theme`. (Duplicate `theme.ts` deleted in Session 10.) |
+| `lib/useCountUp.ts` | RAF count-up hook — used by `About.tsx` for animated `$399` and `100%` counters. |
 
 ---
 
@@ -72,7 +72,7 @@ A full standalone page. Uses shared `<Navbar />` and `<Footer />`. Not linked fr
 ---
 
 ## `/services` Page (`app/services/page.tsx`)
-Built as a fully standalone page — has its own always-visible frosted navbar (no transparent hero state) and its own footer.
+Built as a fully standalone page — has its own always-visible frosted navbar (no transparent hero state). Uses shared `<Footer />` component (inline footer removed Session 10).
 
 ### Sections
 1. **Hero** — label "What We Offer", large headline "Services built for real results.", subtext.
@@ -193,10 +193,10 @@ Root metadata: title "Vantage Labs — Custom Websites Starting at $399", full d
 ### Later (Separate Pass — Only When Asked)
 - [x] **SEO / meta optimization** — Page-level metadata + layout files done. Still TODO: `sitemap.ts`, `robots.ts`, JSON-LD schemas, Lighthouse audit. ← PARTIALLY DONE (Session 8)
 - [ ] **Responsive audit** — Full pass: 375px / 768px / 1440px.
-- [ ] **Shared navbar/footer** — Services page still has inline navbar/footer (not yet migrated to shared components).
-- [ ] **Delete dead code** — `lib/sound.ts` and `lib/useCountUp.ts` are unused and can be removed.
-- [ ] **sitemap.ts + robots.ts** — Not yet created. See SEO_CHECKLIST.md.
-- [ ] **JSON-LD structured data** — Organization, LocalBusiness, Service schemas not yet added.
+- [x] **Shared footer** — Services + Contact pages now use `<Footer />` component. Inline duplicates removed (Session 10).
+- [x] **Delete dead code** — `lib/sound.ts` deleted (Session 10). `lib/useCountUp.ts` kept — it IS used by `About.tsx`.
+- [x] **sitemap.ts + robots.ts** — Both created. `app/sitemap.ts` + `app/robots.ts` live.
+- [x] **JSON-LD structured data** — Organization + LocalBusiness in root layout. BreadcrumbList on project detail pages. ContactPage schema on `/contact`.
 
 ---
 
@@ -300,6 +300,38 @@ Site was completely blank on mobile. Root cause: `Hero` hid all content (`opacit
 
 ### Verified
 Playwright screenshot at iPhone 12 viewport (390×664) confirmed full render: navbar, hero headline, subtext, CTA, and scroll cue all visible. No loader overlay present.
+
+---
+
+## Session 10 — Full Audit & Cleanup (2026-06-12)
+
+### Files Deleted
+| File | Reason |
+|------|--------|
+| `lib/theme.ts` | Exact duplicate of `lib/theme.tsx` |
+| `lib/sound.ts` | Dead code — never imported anywhere |
+| `public/file.svg`, `globe.svg`, `next.svg`, `vercel.svg`, `window.svg` | Next.js scaffold defaults, zero code references |
+| `public/nodeaxis-logo.svg` | Not referenced in any code |
+| `claude-changes.log`, `dev.log` | Dev session artifacts |
+| `tsconfig.tsbuildinfo` | Build artifact (covered by `.gitignore`) |
+| `CRITIQUE.md`, `IMPROVEMENTS.md`, `NodeAxis_Website_Critique.md`, `SEO_CHECKLIST.md` | Stale planning/analysis docs |
+| `Agency/VantageLab/` | Empty folder |
+| `Agency/index.html` | Old 69KB standalone HTML prototype |
+| `P/package.json`, `P/package-lock.json` | Root-level Playwright-only dep, unrelated to project |
+
+### Bug Fixes
+| File | Fix |
+|------|-----|
+| `next.config.ts` | Cache-Control header source `'/public/(.*)'` → `'/_next/static/(.*)'` (old path never matched anything in Next.js) |
+
+### Code Duplication Removed
+| File | Change |
+|------|--------|
+| `app/services/page.tsx` | Replaced ~50-line inline `<footer>` with `<Footer />` component |
+| `app/contact/page.tsx` | Replaced ~50-line inline `<footer>` with `<Footer />` component |
+
+### Verified
+- `tsc --noEmit` passes clean after all changes
 
 ---
 

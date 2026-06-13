@@ -63,23 +63,20 @@ const jsonLd = {
   },
 }
 
-/* ── Word-by-word clip reveal ─────────────────────────────────── */
+/* ── Word-by-word fade-up reveal ──────────────────────────────── */
 function WordReveal({ words, baseDelay = 0, style }: { words: string[]; baseDelay?: number; style?: CSSProperties }) {
   return (
     <span style={{ display: 'block', ...style }}>
       {words.map((word, i) => (
         <Fragment key={i}>
-          <span style={{ display: 'inline-block', overflow: 'hidden', verticalAlign: 'bottom' }}>
-            <motion.span
-              initial={{ y: '110%' }}
-              whileInView={{ y: '0%' }}
-              viewport={viewport}
-              transition={{ delay: baseDelay + i * 0.1, duration: 0.72, ease: _ease }}
-              style={{ display: 'inline-block' }}
-            >
-              {word}
-            </motion.span>
-          </span>
+          <motion.span
+            initial={{ opacity: 0, y: 28 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: baseDelay + i * 0.1, duration: 0.72, ease: _ease }}
+            style={{ display: 'inline-block' }}
+          >
+            {word}
+          </motion.span>
           {i < words.length - 1 && <span style={{ display: 'inline-block', width: '0.28em' }} />}
         </Fragment>
       ))}
@@ -415,7 +412,8 @@ export default function AboutPage() {
             whileInView={{ opacity: 1, x: 0 }}
             viewport={viewport}
             transition={{ duration: 0.9, ease: _ease, delay: 0.12 }}
-            style={{ display: 'flex', justifyContent: 'center', transform: 'rotate(1.5deg)', transformOrigin: 'center 85%' }}
+            className="hidden md:flex"
+            style={{ justifyContent: 'center', transform: 'rotate(1.5deg)', transformOrigin: 'center 85%' }}
           >
             <CharacterIllustration />
           </motion.div>
@@ -690,7 +688,7 @@ export default function AboutPage() {
           <line x1="0" y1="70%" x2="70%" y2="0" stroke="#FFFFFF" strokeWidth="1" />
         </svg>
         {/* Ghost N */}
-        <div aria-hidden="true" style={{ position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%, -50%)', fontSize: 'clamp(200px, 40vw, 420px)', fontWeight: 800, color: '#FFFFFF', opacity: 0.018, lineHeight: 1, letterSpacing: '-0.05em', userSelect: 'none', pointerEvents: 'none' }}>
+        <div aria-hidden="true" className="hidden sm:block" style={{ position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%, -50%)', fontSize: 'clamp(200px, 40vw, 420px)', fontWeight: 800, color: '#FFFFFF', opacity: 0.018, lineHeight: 1, letterSpacing: '-0.05em', userSelect: 'none', pointerEvents: 'none' }}>
           N
         </div>
 

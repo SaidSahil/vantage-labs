@@ -18,6 +18,17 @@ A running record of every session: what was built, what broke, what was fixed, a
 
 ## Sessions
 
+### [2026-06-13] — Fix: About page hero heading blank/invisible
+
+**What was done:**
+- `app/about/page.tsx` — Fixed `WordReveal` component. The original used `initial={{ y: '110%' }}` with `overflow: hidden` clipping to create a clip-reveal effect. This left the h1 completely invisible at SSR/initial paint and depended on Framer Motion animating it into view. If animation timing or hydration was off, the heading stayed blank — a large empty space in the hero. Changed to `initial={{ opacity: 0, y: 28 }} → animate={{ opacity: 1, y: 0 }}` (standard fade-up). Removed the fragile `overflow: hidden` container wrapper.
+
+**Bugs fixed:** Hero heading "SENIOR CRAFT. / LOCAL ROOTS." was not visible, leaving a large blank area below the breadcrumb in the about page hero.
+
+**Still open:** Same items as previous sessions (contact form backend, Calendly, domain, analytics, real project images).
+
+---
+
 ### [2026-06-13] — Logo on tab favicon + OG image for search results
 
 **What was done:**

@@ -21,6 +21,7 @@ export default function CTA() {
       {/* Ghost background text */}
       <div
         aria-hidden="true"
+        className="hidden sm:block"
         style={{
           position: 'absolute',
           fontSize: 'clamp(100px, 20vw, 280px)',
