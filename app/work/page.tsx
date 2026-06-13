@@ -456,7 +456,7 @@ export default function WorkPage() {
             maxWidth: 800,
           }}
         >
-          BC Web Design{' '}
+          BC Web & Software{' '}
           <em style={{ fontStyle: 'italic', fontWeight: 300, color: 'var(--na-inv-muted)' }}>
             that delivers.
           </em>

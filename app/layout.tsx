@@ -15,22 +15,22 @@ const inter = Inter({
 
 export const metadata: Metadata = {
   metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL ?? 'https://nodeaxis.ca'),
-  title: 'NodeAxis — Custom Web Design in BC, Canada | From $399',
-  description: 'NodeAxis builds hand-coded websites for small businesses in British Columbia, Canada. No templates, no page builders — built to rank and convert. From $399.',
+  title: 'NodeAxis — Web Design, Apps & Systems in BC, Canada | From $399',
+  description: 'NodeAxis builds hand-coded websites, web apps, dashboards, and software for businesses in British Columbia, Canada. No templates, no shortcuts — built to perform. From $399.',
   alternates: {
     canonical: 'https://nodeaxis.ca',
   },
   openGraph: {
-    title: 'NodeAxis — Custom Web Design in BC, Canada | From $399',
-    description: 'NodeAxis builds hand-coded websites for small businesses in British Columbia, Canada. No templates, no page builders — built to rank and convert. From $399.',
+    title: 'NodeAxis — Web Design, Apps & Systems in BC, Canada | From $399',
+    description: 'NodeAxis builds hand-coded websites, web apps, dashboards, and software for businesses in British Columbia, Canada. No templates, no shortcuts — built to perform. From $399.',
     type: 'website',
     locale: 'en_CA',
     url: 'https://nodeaxis.ca',
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'NodeAxis — Custom Web Design in BC, Canada | From $399',
-    description: 'NodeAxis builds hand-coded websites for small businesses in British Columbia, Canada. No templates, no page builders — built to rank and convert. From $399.',
+    title: 'NodeAxis — Web Design, Apps & Systems in BC, Canada | From $399',
+    description: 'NodeAxis builds hand-coded websites, web apps, dashboards, and software for businesses in British Columbia, Canada. No templates, no shortcuts — built to perform. From $399.',
   },
   icons: {
     icon: [{ url: '/icon.svg', type: 'image/svg+xml' }],
@@ -74,7 +74,7 @@ export default function RootLayout({
         url: 'https://nodeaxis.ca',
         telephone: '+17782408911',
         email: 'info@nodeaxis.ca',
-        description: 'Custom web design and development for small businesses in British Columbia, Canada.',
+        description: 'Custom web design, web applications, dashboards, and software development for businesses in British Columbia, Canada.',
         priceRange: '$$',
         address: {
           '@type': 'PostalAddress',
@@ -86,7 +86,7 @@ export default function RootLayout({
           '@type': 'State',
           name: 'British Columbia',
         },
-        serviceType: 'Web Design and Development',
+        serviceType: 'Web Design, Web Applications, Dashboards, and Software Development',
       },
     ],
   }

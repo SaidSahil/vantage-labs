@@ -2,8 +2,8 @@ import Link from 'next/link'
 import { Metadata } from 'next'
 
 export const metadata: Metadata = {
-  title: 'Page Not Found — NodeAxis | Web Design in BC, Canada',
-  description: "This page doesn't exist on NodeAxis. Return home or explore our hand-coded web design projects for small businesses in British Columbia, Canada. From $399.",
+  title: 'Page Not Found — NodeAxis | Web Design, Apps & Systems in BC',
+  description: "This page doesn't exist on NodeAxis. Return home or explore our hand-coded websites, apps, and systems for businesses in British Columbia. From $399.",
 }
 
 export default function NotFound() {

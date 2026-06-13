@@ -191,7 +191,7 @@ const serviceSchema = {
     containedInPlace: { '@type': 'Country', name: 'Canada' },
   },
   description:
-    'Custom hand-coded websites and landing pages for small businesses in BC. No templates. Built to rank and convert. Starting at $399.',
+    'Custom hand-coded websites, web apps, dashboards, and software for businesses in BC. No templates. Built to perform. Starting at $399.',
   offers: {
     '@type': 'Offer',
     price: '399',
@@ -200,7 +200,7 @@ const serviceSchema = {
       '@type': 'PriceSpecification',
       price: '399',
       priceCurrency: 'CAD',
-      description: 'Starting price for a custom website or landing page',
+      description: 'Starting price for a custom website, web app, or landing page',
     },
   },
 }

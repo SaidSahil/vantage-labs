@@ -9,11 +9,11 @@ const ease = [0.22, 1, 0.36, 1] as [number, number, number, number]
 const meta = [
   { label: 'Location', value: 'BC, Canada' },
   { label: 'Est.',     value: '2026' },
-  { label: 'Specialty', value: 'Web & Systems' },
+  { label: 'Specialty', value: 'Web, Apps & Systems' },
 ]
 
-const line1 = ['Web', 'Design']
-const line2 = ['BC', 'Small', 'Business.']
+const line1 = ['Web', 'Design,']
+const line2 = ['Apps,', 'Systems.']
 
 function WordReveal({
   words,
@@ -397,7 +397,7 @@ export default function Hero() {
         <div style={{ display: 'flex', flexDirection: 'column', gap: 24 }} className="sm:max-w-[380px]">
           <div>
             <p style={{ fontSize: 16, color: 'var(--na-muted)', lineHeight: 1.65, marginBottom: 12 }}>
-              Custom websites starting at $399. No templates, no page builders — hand-coded for your business, built to rank and convert.
+              Custom websites, web apps, dashboards & software from $399. No templates, no shortcuts — hand-coded for your business.
             </p>
             <span style={{
               display: 'inline-flex',
