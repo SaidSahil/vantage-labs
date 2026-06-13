@@ -73,6 +73,30 @@ Browsers cache favicons separately from page content and hold them aggressively.
 
 ---
 
+### [2026-06-13] — Redesign: about page complete overhaul — storytelling-driven, chapter structure
+
+**What was done:**
+- `app/about/page.tsx` — Complete rewrite. Every section redesigned with a narrative arc across five named chapters (I–V):
+  - **Hero**: Two-column layout at lg+. Giant stacked headline "THE WEB / DESERVES / BETTER." with right context column. Blueprint grid + accent glow BG. Scroll cue.
+  - **Manifesto ticker**: Between hero and chapter I. Uses existing `.ticker-track` marquee class. Scrolling copy: HAND-CODED · NO TEMPLATES · BC-BASED · SENIOR CRAFT · STARTING AT $399 · CUSTOM CODE ONLY · 20+ YEARS COMBINED · CANADA-WIDE.
+  - **Chapter I — The Origin**: Pull quote from Adam Sahil with left accent bar. Founder card + two paragraphs of narrative copy. Two-column lg layout.
+  - **Chapter II — What We Believe**: Three beliefs with large ghost numbers (0.35 opacity accent). Full-width headline. Three-column row layout at md+.
+  - **Chapter III — The Proof** (dark panel): Inverted bg. Three count-up stats (StatWeeks, StatPrice, StatPercent — each its own component for hook scoping). Pull sentence below grid.
+  - **Chapter IV — What We Build**: Services list with chapter label header row + Full Pricing link.
+  - **Chapter V — The Territory**: City pills + ghost "BC" at lg+. Local roots copy.
+  - **Finale CTA**: "LET'S BUILD something real." Diagonal SVG lines, ghost N.
+- `Ghost` helper component: renders oversized ghost letter/numeral watermark (position, opacity, size all parameterised)
+- `ChapterLabel` component: renders roman numeral + dash + title in 10px uppercase
+- Removed `CharacterIllustration` SVG (no longer needed)
+- Removed old `WordReveal` animation component (was the source of the previous blank-hero bug)
+- Stat components restructured as three separate named components to keep `useCountUp` hook calls out of map loops
+
+**Design rationale:** Previous design was functional but felt like a list of sections. New design treats the page as a story: problem → origin → philosophy → proof → territory → CTA. Each chapter advances the narrative. Ghost roman numerals add editorial weight without visual clutter.
+
+**Still open:** Same pre-existing items (contact form backend, Calendly, domain, analytics, real images)
+
+---
+
 ### [2026-06-13] — Fix: ghost characters visible on mobile across pages
 
 **What was done:**

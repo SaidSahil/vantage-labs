@@ -1,30 +1,122 @@
 'use client'
-import { CSSProperties, Fragment } from 'react'
+import { CSSProperties } from 'react'
 import Link from 'next/link'
 import { motion } from 'framer-motion'
 import { ArrowRight } from 'lucide-react'
 import Navbar from '@/components/Navbar'
 import Footer from '@/components/Footer'
-import { fadeLeft, fadeUp, stagger, viewport } from '@/lib/animations'
+import { fadeUp, fadeLeft, stagger, viewport } from '@/lib/animations'
 import { useCountUp } from '@/lib/useCountUp'
 
-const _ease = [0.22, 1, 0.36, 1] as [number, number, number, number]
+const ease = [0.22, 1, 0.36, 1] as [number, number, number, number]
 
-const pillars = [
+/* ── Sub-components for count-up stats (hooks need their own component scope) ── */
+function StatPrice() {
+  const { count, ref } = useCountUp(399, 1400)
+  return (
+    <div style={statWrap}>
+      <span style={statNum}><span style={{ fontSize: '0.55em', fontWeight: 400, opacity: 0.6 }}>$</span><span ref={ref}>{count}</span></span>
+      <span style={statLabel}>Starting price</span>
+    </div>
+  )
+}
+function StatPercent() {
+  const { count, ref } = useCountUp(100, 1000)
+  return (
+    <div style={statWrap}>
+      <span style={statNum}><span ref={ref}>{count}</span><span style={{ fontSize: '0.55em', fontWeight: 400, opacity: 0.6 }}>%</span></span>
+      <span style={statLabel}>Custom code</span>
+    </div>
+  )
+}
+function StatWeeks() {
+  return (
+    <div style={statWrap}>
+      <span style={statNum}>~<span style={{ fontSize: '0.9em' }}>2</span><span style={{ fontSize: '0.38em', fontWeight: 400, opacity: 0.55, letterSpacing: '0.08em' }}> WK</span></span>
+      <span style={statLabel}>Avg. delivery</span>
+    </div>
+  )
+}
+
+const statWrap: CSSProperties = {
+  display: 'flex', flexDirection: 'column', alignItems: 'center',
+}
+const statNum: CSSProperties = {
+  fontSize: 'clamp(56px, 7.5vw, 104px)',
+  fontWeight: 800,
+  letterSpacing: '-0.055em',
+  lineHeight: 1,
+  color: 'var(--na-inv-text)',
+}
+const statLabel: CSSProperties = {
+  fontSize: 10,
+  fontWeight: 600,
+  letterSpacing: '0.18em',
+  textTransform: 'uppercase',
+  color: 'var(--na-inv-muted)',
+  marginTop: 16,
+}
+
+/* ── Chapter label ── */
+function ChapterLabel({ n, title }: { n: string; title: string }) {
+  return (
+    <motion.div
+      initial="hidden" whileInView="visible" viewport={viewport} variants={fadeUp}
+      style={{ marginBottom: 'clamp(40px, 5vw, 64px)' }}
+    >
+      <div style={{ display: 'flex', alignItems: 'center', gap: 14 }}>
+        <span style={{
+          fontSize: 10, fontWeight: 700, letterSpacing: '0.22em',
+          textTransform: 'uppercase', color: 'var(--na-accent)', opacity: 0.7,
+        }}>
+          {n}
+        </span>
+        <div style={{ width: 24, height: 1, background: 'var(--na-accent)', opacity: 0.4 }} />
+        <span style={{
+          fontSize: 10, fontWeight: 700, letterSpacing: '0.22em',
+          textTransform: 'uppercase', color: 'var(--na-accent)',
+        }}>
+          {title}
+        </span>
+      </div>
+    </motion.div>
+  )
+}
+
+/* ── Ghost letter watermark ── */
+function Ghost({ children, right, left, opacity = 0.025 }: { children: string; right?: string | number; left?: string | number; opacity?: number }) {
+  return (
+    <div aria-hidden style={{
+      position: 'absolute',
+      ...(right !== undefined ? { right } : {}),
+      ...(left !== undefined ? { left } : {}),
+      top: '50%', transform: 'translateY(-50%)',
+      fontSize: 'clamp(160px, 26vw, 360px)',
+      fontWeight: 800, letterSpacing: '-0.06em',
+      color: 'var(--na-text)', opacity,
+      lineHeight: 1, userSelect: 'none', pointerEvents: 'none',
+      zIndex: 0,
+    }}>
+      {children}
+    </div>
+  )
+}
+
+const beliefs = [
   {
-    num: '01',
-    title: 'Senior-level craft',
-    body: 'Not juniors learning on your budget — 20+ years of combined experience from day one.',
+    n: '1',
+    headline: 'No templates. Ever.',
+    body: 'Every line of code is written for your business specifically. Not dragged, dropped, or pulled from a theme marketplace.',
   },
   {
-    num: '02',
-    title: 'Lower Mainland first',
-    body: 'Based in BC. Same timezone, same community — Metro Vancouver knows us personally.',
+    n: '2',
+    headline: 'Senior craft, accessible price.',
+    body: '20+ years of combined experience. Starting at $399. That gap shouldn\'t exist — so we closed it.',
   },
   {
-    num: '03',
-    title: 'Canada-wide reach',
-    body: 'Coast to coast, every client gets the same focused senior-level attention.',
+    n: '3',
+    headline: 'Local first. Canada-wide.',
+    body: 'Rooted in BC — same timezone, same community. Clients from Vancouver to Halifax get the same focused senior-level attention.',
   },
 ]
 
@@ -39,6 +131,12 @@ const cities = [
   'Vancouver', 'Surrey', 'Burnaby', 'Richmond', 'Kelowna',
   'Victoria', 'Langley', 'Abbotsford', 'Coquitlam', 'Kamloops',
   'Nanaimo', '+ All of BC',
+]
+
+const tickerWords = [
+  'HAND-CODED', '·', 'NO TEMPLATES', '·', 'BC-BASED', '·',
+  'SENIOR CRAFT', '·', 'STARTING AT $399', '·', 'CUSTOM CODE ONLY', '·',
+  '20+ YEARS COMBINED', '·', 'CANADA-WIDE', '·',
 ]
 
 const jsonLd = {
@@ -63,586 +161,564 @@ const jsonLd = {
   },
 }
 
-/* ── Word-by-word fade-up reveal ──────────────────────────────── */
-function WordReveal({ words, baseDelay = 0, style }: { words: string[]; baseDelay?: number; style?: CSSProperties }) {
-  return (
-    <span style={{ display: 'block', ...style }}>
-      {words.map((word, i) => (
-        <Fragment key={i}>
-          <motion.span
-            initial={{ opacity: 0, y: 28 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: baseDelay + i * 0.1, duration: 0.72, ease: _ease }}
-            style={{ display: 'inline-block' }}
-          >
-            {word}
-          </motion.span>
-          {i < words.length - 1 && <span style={{ display: 'inline-block', width: '0.28em' }} />}
-        </Fragment>
-      ))}
-    </span>
-  )
-}
-
-/* ── Stat count-up components ─────────────────────────────────── */
-function PriceCountUp() {
-  const { count, ref } = useCountUp(399, 1200)
-  return (
-    <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
-      <span style={statNum}>$<span ref={ref}>{count}</span></span>
-      <span style={statLabel}>Starting price</span>
-    </div>
-  )
-}
-function PercentCountUp() {
-  const { count, ref } = useCountUp(100, 900)
-  return (
-    <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
-      <span style={statNum}><span ref={ref}>{count}</span>%</span>
-      <span style={statLabel}>Custom code</span>
-    </div>
-  )
-}
-
-const statNum: CSSProperties = {
-  fontSize: 'clamp(44px, 6.5vw, 88px)',
-  fontWeight: 800,
-  letterSpacing: '-0.04em',
-  lineHeight: 1,
-  color: 'var(--na-text)',
-}
-const statLabel: CSSProperties = {
-  fontSize: 10,
-  fontWeight: 600,
-  letterSpacing: '0.14em',
-  textTransform: 'uppercase',
-  color: 'var(--na-muted)',
-  marginTop: 12,
-}
-
-/* ── Inline SVG character illustration ───────────────────────── */
-function CharacterIllustration() {
-  return (
-    <svg
-      width="100%"
-      viewBox="0 0 360 280"
-      fill="none"
-      xmlns="http://www.w3.org/2000/svg"
-      style={{ color: 'var(--na-text)', maxWidth: 400 }}
-      aria-hidden="true"
-    >
-      {/* Floating: checkbox */}
-      <rect x="18" y="36" width="21" height="21" rx="3" stroke="currentColor" strokeWidth="1.5" opacity="0.6"/>
-      <path d="M23 47 L28 53 L37 41" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" opacity="0.6"/>
-      {/* Floating: trend graph */}
-      <path d="M244 52 L260 38 L276 56 L296 28 L318 42" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" opacity="0.55"/>
-      <circle cx="244" cy="52" r="3" fill="currentColor" opacity="0.5"/>
-      <circle cx="260" cy="38" r="3" fill="currentColor" opacity="0.5"/>
-      <circle cx="276" cy="56" r="3" fill="currentColor" opacity="0.5"/>
-      <circle cx="296" cy="28" r="3" fill="currentColor" opacity="0.5"/>
-      <circle cx="318" cy="42" r="3" fill="currentColor" opacity="0.5"/>
-      <path d="M238 65 L326 65" stroke="currentColor" strokeWidth="0.7" opacity="0.18"/>
-      {/* Floating: diamond */}
-      <path d="M340 122 L344 112 L348 122 L358 126 L348 130 L344 140 L340 130 L330 126 Z" stroke="currentColor" strokeWidth="1.2" fill="none" opacity="0.4"/>
-      {/* Ambient dots */}
-      <circle cx="7" cy="98" r="3" fill="currentColor" opacity="0.22"/>
-      <circle cx="234" cy="96" r="2" fill="currentColor" opacity="0.18"/>
-      <circle cx="354" cy="70" r="2.5" fill="currentColor" opacity="0.22"/>
-      {/* Person 1 */}
-      <circle cx="91" cy="74" r="25" stroke="currentColor" strokeWidth="1.5"/>
-      <path d="M66 68 C66 43 116 43 116 68" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" fill="none"/>
-      <circle cx="82" cy="74" r="3.5" fill="currentColor" opacity="0.85"/>
-      <circle cx="100" cy="74" r="3.5" fill="currentColor" opacity="0.85"/>
-      <circle cx="83.5" cy="72.5" r="1" fill="white" opacity="0.55"/>
-      <circle cx="101.5" cy="72.5" r="1" fill="white" opacity="0.55"/>
-      <path d="M83 87 C87 93 95 93 99 87" stroke="currentColor" strokeWidth="1.3" strokeLinecap="round" fill="none"/>
-      <path d="M85 99 L85 115 M97 99 L97 115" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round"/>
-      <path d="M85 115 L77 128 M97 115 L105 128" stroke="currentColor" strokeWidth="1.3" strokeLinecap="round"/>
-      <path d="M54 130 L54 196 L128 196 L128 130 C128 119 115 114 91 114 C67 114 54 119 54 130 Z" stroke="currentColor" strokeWidth="1.5" strokeLinejoin="round" fill="none"/>
-      <path d="M54 144 C41 152 29 162 25 177" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round"/>
-      <rect x="9" y="170" width="32" height="45" rx="3" stroke="currentColor" strokeWidth="1.5"/>
-      <path d="M22 164 L22 178" stroke="currentColor" strokeWidth="2" strokeLinecap="round"/>
-      <rect x="17" y="160" width="11" height="8" rx="2" stroke="currentColor" strokeWidth="1.2"/>
-      <path d="M15 184 L35 184 M15 191 L35 191 M15 198 L27 198" stroke="currentColor" strokeWidth="0.9" opacity="0.5"/>
-      <path d="M128 148 C141 151 152 160 156 170" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round"/>
-      <path d="M70 196 L67 255" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round"/>
-      <path d="M112 196 L115 255" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round"/>
-      <path d="M61 255 L76 255" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round"/>
-      <path d="M110 255 L126 255" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round"/>
-      {/* Person 2 */}
-      <circle cx="265" cy="70" r="23" stroke="currentColor" strokeWidth="1.5"/>
-      <path d="M242 64 C242 41 288 41 288 64" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" fill="none"/>
-      <path d="M287 60 C302 50 310 62 308 76 C306 86 296 84 290 74" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" fill="none"/>
-      <ellipse cx="290" cy="67" rx="5" ry="4" stroke="currentColor" strokeWidth="1.2"/>
-      <circle cx="257" cy="70" r="3.2" fill="currentColor" opacity="0.85"/>
-      <path d="M271 67 C275 65 279 67" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round"/>
-      <path d="M257 82 C261 88 272 88 276 82" stroke="currentColor" strokeWidth="1.3" strokeLinecap="round" fill="none"/>
-      <circle cx="272" cy="77" r="1.5" fill="currentColor" opacity="0.4"/>
-      <circle cx="257" cy="77" r="1.5" fill="currentColor" opacity="0.4"/>
-      <path d="M259 93 L259 108 M271 93 L271 108" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round"/>
-      <path d="M259 108 L251 121 M271 108 L279 121" stroke="currentColor" strokeWidth="1.3" strokeLinecap="round"/>
-      <path d="M228 123 L228 190 L302 190 L302 123 C302 112 290 107 265 107 C240 107 228 112 228 123 Z" stroke="currentColor" strokeWidth="1.5" strokeLinejoin="round" fill="none"/>
-      <path d="M302 132 C316 127 328 122 336 118" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round"/>
-      <path d="M334 116 C338 111 344 114 341 119 C339 122 334 120 334 116 Z" stroke="currentColor" strokeWidth="1.2" fill="none"/>
-      <path d="M228 137 C216 144 213 158 217 172" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round"/>
-      <path d="M242 190 L239 255" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round"/>
-      <path d="M288 190 L291 255" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round"/>
-      <path d="M233 255 L248 255" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round"/>
-      <path d="M286 255 L302 255" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round"/>
-      {/* Board */}
-      <path d="M344 110 L344 230" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round"/>
-      <path d="M336 230 L352 230" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round"/>
-      <rect x="316" y="78" width="56" height="72" rx="3" stroke="currentColor" strokeWidth="1.5"/>
-      <rect x="322" y="118" width="8" height="24" rx="1" stroke="currentColor" strokeWidth="1" opacity="0.5"/>
-      <rect x="334" y="104" width="8" height="38" rx="1" stroke="currentColor" strokeWidth="1" opacity="0.65"/>
-      <rect x="346" y="110" width="8" height="32" rx="1" stroke="currentColor" strokeWidth="1" opacity="0.55"/>
-      <rect x="358" y="96"  width="8" height="46" rx="1" stroke="currentColor" strokeWidth="1" opacity="0.75"/>
-      <path d="M320 142 L370 142" stroke="currentColor" strokeWidth="0.8" opacity="0.25"/>
-    </svg>
-  )
-}
-
 export default function AboutPage() {
   return (
     <main style={{ background: 'var(--na-bg)', minHeight: '100vh' }}>
       <Navbar />
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
 
-      {/* ═══════════════════════════════════════════
-          1 — EDITORIAL HERO
-      ════════════════════════════════════════════ */}
-      <section
-        style={{
-          position: 'relative',
-          padding: 'clamp(120px, 15vw, 180px) clamp(24px, 4vw, 56px) clamp(72px, 9vw, 112px)',
-          borderBottom: '1px solid var(--na-border-mid)',
-          overflow: 'hidden',
-        }}
-      >
+      {/* ═══════════════════════════════════════════════
+          HERO — The Statement
+      ════════════════════════════════════════════════ */}
+      <section style={{
+        position: 'relative',
+        padding: 'clamp(120px, 16vw, 200px) clamp(24px, 4vw, 56px) clamp(80px, 10vw, 120px)',
+        borderBottom: '1px solid var(--na-border-mid)',
+        overflow: 'hidden',
+      }}>
         {/* Blueprint grid */}
-        <div
-          aria-hidden="true"
-          style={{
-            position: 'absolute',
-            inset: 0,
-            backgroundImage:
-              'linear-gradient(var(--na-border) 1px, transparent 1px), linear-gradient(90deg, var(--na-border) 1px, transparent 1px)',
-            backgroundSize: '80px 80px',
-            maskImage: 'radial-gradient(ellipse 90% 80% at 45% 50%, black 0%, transparent 80%)',
-            WebkitMaskImage: 'radial-gradient(ellipse 90% 80% at 45% 50%, black 0%, transparent 80%)',
-            pointerEvents: 'none',
-          }}
-        />
+        <div aria-hidden style={{
+          position: 'absolute', inset: 0,
+          backgroundImage: 'linear-gradient(var(--na-border) 1px, transparent 1px), linear-gradient(90deg, var(--na-border) 1px, transparent 1px)',
+          backgroundSize: '72px 72px',
+          maskImage: 'radial-gradient(ellipse 90% 80% at 40% 55%, black 10%, transparent 78%)',
+          WebkitMaskImage: 'radial-gradient(ellipse 90% 80% at 40% 55%, black 10%, transparent 78%)',
+          pointerEvents: 'none',
+        }} />
         {/* Accent glow */}
-        <div
-          aria-hidden="true"
-          style={{
-            position: 'absolute',
-            top: '10%',
-            left: '20%',
-            width: 'clamp(280px, 45vw, 650px)',
-            height: 'clamp(180px, 28vw, 420px)',
-            background: 'radial-gradient(ellipse, var(--na-accent-dim) 0%, transparent 70%)',
-            pointerEvents: 'none',
-          }}
-        />
+        <div aria-hidden style={{
+          position: 'absolute', top: '5%', left: '10%',
+          width: 'clamp(320px, 55vw, 760px)',
+          height: 'clamp(200px, 32vw, 500px)',
+          background: 'radial-gradient(ellipse, var(--na-accent-dim) 0%, transparent 65%)',
+          pointerEvents: 'none',
+        }} />
+        {/* Vertical page label */}
+        <div aria-hidden style={{
+          position: 'absolute', right: 0, top: '50%',
+          transform: 'translateY(-50%) rotate(90deg)',
+          transformOrigin: 'center center',
+          fontSize: 9, fontWeight: 700, letterSpacing: '0.28em',
+          textTransform: 'uppercase', color: 'var(--na-text)',
+          opacity: 0.07, whiteSpace: 'nowrap', pointerEvents: 'none',
+        }}>
+          NodeAxis — Who We Are — About
+        </div>
 
         {/* Breadcrumb */}
         <motion.div
-          initial="hidden"
-          whileInView="visible"
-          viewport={viewport}
-          variants={fadeUp}
-          style={{ marginBottom: 'clamp(24px, 3vw, 40px)', position: 'relative', zIndex: 1 }}
+          initial={{ opacity: 0, y: 12 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.55, ease }}
+          style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: 'clamp(40px, 5vw, 64px)', position: 'relative', zIndex: 1 }}
         >
-          <Link
-            href="/"
-            style={{
-              display: 'inline-flex',
-              alignItems: 'center',
-              gap: 8,
-              fontSize: 11,
-              fontWeight: 600,
-              letterSpacing: '0.15em',
-              textTransform: 'uppercase',
-              color: 'var(--na-muted)',
-              marginBottom: 16,
-            }}
-          >
+          <Link href="/" style={{
+            fontSize: 11, fontWeight: 600, letterSpacing: '0.15em',
+            textTransform: 'uppercase', color: 'var(--na-muted)',
+          }}>
             ← Home
           </Link>
-          <div style={{
-            fontSize: 11,
-            fontWeight: 600,
-            letterSpacing: '0.15em',
-            textTransform: 'uppercase',
-            color: 'var(--na-accent)',
-          }}>
+          <span style={{ color: 'var(--na-border-mid)' }}>/</span>
+          <span style={{ fontSize: 11, fontWeight: 600, letterSpacing: '0.15em', textTransform: 'uppercase', color: 'var(--na-accent)' }}>
             Who We Are
-          </div>
+          </span>
         </motion.div>
 
-        {/* Massive headline */}
-        <h1
-          style={{
-            fontSize: 'clamp(52px, 11vw, 150px)',
-            fontWeight: 800,
-            letterSpacing: '-0.04em',
-            lineHeight: 0.9,
-            margin: 0,
-            position: 'relative',
-            zIndex: 1,
-          }}
+        {/* Hero layout: giant headline + right column */}
+        <div style={{ display: 'grid', gap: 'clamp(32px, 5vw, 64px)', position: 'relative', zIndex: 1, alignItems: 'end' }}
+          className="grid-cols-1 lg:grid-cols-[1fr_340px]"
         >
-          <WordReveal words={['SENIOR', 'CRAFT.']} baseDelay={0.05} style={{ color: 'var(--na-text)' }} />
-          <WordReveal
-            words={['LOCAL', 'ROOTS.']}
-            baseDelay={0.24}
-            style={{
-              fontStyle: 'italic',
-              fontWeight: 300,
-              color: 'var(--na-heading)',
-              marginTop: '0.06em',
-            }}
-          />
-        </h1>
+          {/* LEFT: Giant headline */}
+          <div>
+            <motion.h1
+              initial={{ opacity: 0, y: 48 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.95, ease, delay: 0.08 }}
+              style={{
+                fontSize: 'clamp(60px, 13vw, 172px)',
+                fontWeight: 800,
+                letterSpacing: '-0.05em',
+                lineHeight: 0.87,
+                color: 'var(--na-text)',
+                margin: 0,
+              }}
+            >
+              THE WEB
+              <br />
+              <em style={{
+                fontStyle: 'italic',
+                fontWeight: 300,
+                color: 'var(--na-heading)',
+              }}>
+                DESERVES
+              </em>
+              <br />
+              BETTER.
+            </motion.h1>
+          </div>
 
-        {/* Lead copy */}
+          {/* RIGHT: Context column — desktop only */}
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8, ease, delay: 0.38 }}
+            className="hidden lg:block"
+            style={{ paddingBottom: '0.15em' }}
+          >
+            <div style={{ width: 32, height: 2, background: 'var(--na-accent)', marginBottom: 22 }} />
+            <p style={{
+              fontSize: 'clamp(14px, 1.15vw, 16px)',
+              color: 'var(--na-muted)',
+              lineHeight: 1.82,
+              marginBottom: 28,
+            }}>
+              Most small businesses get handed a WordPress template and told it's web design.
+              NodeAxis exists because that's not good enough — and your business deserves better.
+            </p>
+            <div style={{
+              display: 'inline-flex', alignItems: 'center', gap: 8,
+              fontSize: 11, fontWeight: 700, letterSpacing: '0.1em',
+              textTransform: 'uppercase', color: 'var(--na-accent)',
+            }}>
+              <span style={{ width: 6, height: 6, borderRadius: '50%', background: 'var(--na-accent)', flexShrink: 0 }} />
+              Hand-coded · BC-based · From $399
+            </div>
+          </motion.div>
+        </div>
+
+        {/* Mobile sub-copy */}
         <motion.p
-          initial="hidden"
-          whileInView="visible"
-          viewport={viewport}
-          variants={fadeUp}
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ duration: 0.8, ease, delay: 0.5 }}
+          className="lg:hidden"
           style={{
-            fontSize: 'clamp(14px, 1.3vw, 17px)',
-            color: 'var(--na-muted)',
-            lineHeight: 1.78,
-            maxWidth: 480,
-            marginTop: 'clamp(32px, 4.5vw, 60px)',
-            position: 'relative',
-            zIndex: 1,
+            fontSize: 14, color: 'var(--na-muted)',
+            lineHeight: 1.82, marginTop: 'clamp(24px, 3vw, 40px)',
+            position: 'relative', zIndex: 1, maxWidth: 480,
           }}
         >
-          NodeAxis builds hand-coded, custom websites for small businesses across BC — no templates,
-          no page builders, no filler. Just clean, fast sites that actually rank and convert.{' '}
-          <strong style={{ color: 'var(--na-text)', fontWeight: 600 }}>Starting at $399.</strong>
+          Most small businesses get handed a WordPress template and told it's web design.
+          NodeAxis exists because that's not good enough. Hand-coded · BC-based · From $399.
         </motion.p>
+
+        {/* Scroll cue */}
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ delay: 1.3, duration: 0.6 }}
+          className="hidden sm:flex"
+          style={{
+            position: 'absolute', bottom: 'clamp(24px, 3vw, 40px)', right: 'clamp(24px, 4vw, 56px)',
+            alignItems: 'center', gap: 10, zIndex: 1,
+          }}
+        >
+          <span style={{ fontSize: 9, fontWeight: 700, letterSpacing: '0.2em', textTransform: 'uppercase', color: 'var(--na-muted)' }}>
+            Scroll
+          </span>
+          <div className="hero-scroll-line" />
+        </motion.div>
       </section>
 
-      {/* ═══════════════════════════════════════════
-          2 — FOUNDER IDENTITY + CHARACTER
-      ════════════════════════════════════════════ */}
-      <section
-        style={{
-          padding: 'clamp(72px, 9vw, 112px) clamp(24px, 4vw, 56px)',
-          borderBottom: '1px solid var(--na-border-mid)',
-        }}
-      >
-        <div
-          style={{ display: 'grid', gap: 'clamp(48px, 6vw, 80px)', alignItems: 'center' }}
-          className="grid-cols-1 md:grid-cols-[1fr_1.1fr]"
-        >
-          {/* Left */}
-          <motion.div
-            initial="hidden"
-            whileInView="visible"
-            viewport={viewport}
-            variants={fadeLeft}
+      {/* ═══════════════════════════════════════════════
+          MANIFESTO TICKER
+      ════════════════════════════════════════════════ */}
+      <div style={{
+        borderBottom: '1px solid var(--na-border-mid)',
+        overflow: 'hidden',
+        padding: '16px 0',
+        background: 'var(--na-surface)',
+      }}>
+        <div className="ticker-track" aria-hidden>
+          {[...tickerWords, ...tickerWords].map((word, i) => (
+            <span key={i} style={{
+              fontSize: 10, fontWeight: 700, letterSpacing: '0.22em',
+              textTransform: 'uppercase', padding: '0 18px',
+              color: word === '·' ? 'var(--na-accent)' : 'var(--na-muted)',
+              flexShrink: 0,
+            }}>
+              {word}
+            </span>
+          ))}
+        </div>
+      </div>
+
+      {/* ═══════════════════════════════════════════════
+          I — THE ORIGIN
+      ════════════════════════════════════════════════ */}
+      <section style={{
+        padding: 'clamp(80px, 10vw, 128px) clamp(24px, 4vw, 56px)',
+        borderBottom: '1px solid var(--na-border-mid)',
+        position: 'relative', overflow: 'hidden',
+      }}>
+        <Ghost right="-1%">I</Ghost>
+
+        <div style={{ position: 'relative', zIndex: 1 }}>
+          <ChapterLabel n="I" title="The Origin" />
+
+          <div style={{ display: 'grid', gap: 'clamp(48px, 7vw, 96px)', alignItems: 'start' }}
+            className="grid-cols-1 lg:grid-cols-2"
           >
-            <p style={{
-              fontSize: 'clamp(20px, 3.5vw, 42px)',
-              fontWeight: 800,
-              letterSpacing: '-0.03em',
-              lineHeight: 1.1,
-              color: 'var(--na-text)',
-              marginBottom: 'clamp(32px, 4vw, 48px)',
-            }}>
-              NODEAXIS IS
-              <br />
-              <em style={{ fontStyle: 'italic', fontWeight: 300, color: 'var(--na-accent)' }}>
-                ADAM SAHIL.
-              </em>
-            </p>
-
-            {/* Founder card */}
-            <div style={{
-              display: 'flex',
-              alignItems: 'center',
-              gap: 20,
-              padding: 'clamp(20px, 2.5vw, 28px)',
-              border: '1px solid var(--na-border-mid)',
-              borderRadius: 4,
-              background: 'var(--na-surface)',
-              position: 'relative',
-              overflow: 'hidden',
-            }}>
-              <div style={{
-                position: 'absolute', top: 0, left: 0,
-                width: 3, height: '100%',
-                background: 'var(--na-accent)',
-                borderRadius: '4px 0 0 4px',
-              }} />
-              <div style={{
-                width: 62, height: 62, borderRadius: '50%',
-                background: 'var(--na-accent)',
-                display: 'flex', alignItems: 'center', justifyContent: 'center',
-                flexShrink: 0, fontSize: 26, fontWeight: 800, color: '#FFFFFF',
+            {/* Pull quote */}
+            <motion.div
+              initial="hidden" whileInView="visible" viewport={viewport} variants={fadeLeft}
+            >
+              <blockquote style={{
+                fontSize: 'clamp(22px, 3.2vw, 38px)',
+                fontWeight: 800,
+                letterSpacing: '-0.03em',
+                lineHeight: 1.18,
+                color: 'var(--na-text)',
+                margin: 0,
+                position: 'relative',
+                paddingLeft: 'clamp(20px, 2.5vw, 32px)',
               }}>
-                A
-              </div>
-              <div>
-                <div style={{ fontSize: 18, fontWeight: 700, letterSpacing: '-0.02em', color: 'var(--na-text)', marginBottom: 4 }}>
-                  Adam Sahil
-                </div>
-                <div style={{ fontSize: 10, fontWeight: 600, letterSpacing: '0.14em', textTransform: 'uppercase', color: 'var(--na-muted)' }}>
-                  Founder & Developer — NodeAxis
-                </div>
-              </div>
-            </div>
+                <div style={{
+                  position: 'absolute', left: 0, top: 0, bottom: 0,
+                  width: 3, background: 'var(--na-accent)', borderRadius: 2,
+                }} />
+                "I started NodeAxis because I was tired of watching small businesses get handed
+                {' '}<em style={{ fontStyle: 'italic', fontWeight: 300, color: 'var(--na-heading)' }}>
+                  templates and called it web design.
+                </em>"
+              </blockquote>
+              <p style={{
+                fontSize: 12, fontWeight: 700, letterSpacing: '0.12em',
+                textTransform: 'uppercase', color: 'var(--na-muted)',
+                marginTop: 24, paddingLeft: 'clamp(20px, 2.5vw, 32px)',
+              }}>
+                — Adam Sahil, Founder
+              </p>
+            </motion.div>
 
-            <div style={{ width: 40, height: 2, background: 'var(--na-accent)', margin: 'clamp(28px, 3.5vw, 44px) 0 clamp(14px, 1.8vw, 20px)' }} />
-            <p style={{ fontSize: 14, color: 'var(--na-muted)', lineHeight: 1.78, maxWidth: 380 }}>
-              A deliberately boutique operation — small roster of clients, handled personally,
-              with a starting price that makes senior-level craft actually accessible.
-            </p>
+            {/* Narrative + founder card */}
+            <motion.div
+              initial={{ opacity: 0, y: 32 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={viewport}
+              transition={{ duration: 0.85, ease, delay: 0.15 }}
+            >
+              {/* Founder card */}
+              <div style={{
+                display: 'flex', alignItems: 'center', gap: 18,
+                padding: 'clamp(20px, 2.5vw, 28px)',
+                border: '1px solid var(--na-border-mid)',
+                borderRadius: 4,
+                background: 'var(--na-surface)',
+                marginBottom: 'clamp(24px, 3vw, 36px)',
+                position: 'relative', overflow: 'hidden',
+              }}>
+                <div style={{
+                  position: 'absolute', top: 0, left: 0,
+                  width: 3, height: '100%', background: 'var(--na-accent)',
+                }} />
+                <div style={{
+                  width: 54, height: 54, borderRadius: '50%',
+                  background: 'var(--na-accent)',
+                  display: 'flex', alignItems: 'center', justifyContent: 'center',
+                  flexShrink: 0, fontSize: 20, fontWeight: 800, color: '#fff',
+                }}>
+                  A
+                </div>
+                <div>
+                  <div style={{ fontSize: 17, fontWeight: 700, letterSpacing: '-0.02em', color: 'var(--na-text)', marginBottom: 4 }}>
+                    Adam Sahil
+                  </div>
+                  <div style={{ fontSize: 10, fontWeight: 600, letterSpacing: '0.14em', textTransform: 'uppercase', color: 'var(--na-muted)' }}>
+                    Founder & Developer — NodeAxis
+                  </div>
+                </div>
+              </div>
+
+              <p style={{ fontSize: 14, color: 'var(--na-muted)', lineHeight: 1.88, marginBottom: 18 }}>
+                A deliberately boutique operation. Small roster. Handled personally.
+                No account managers passing messages — you work directly with the person building your site.
+              </p>
+              <p style={{ fontSize: 14, color: 'var(--na-muted)', lineHeight: 1.88 }}>
+                Based in British Columbia. Metro Vancouver clients know us by name.
+                Coast to coast, every project gets the same senior-level attention.
+              </p>
+            </motion.div>
+          </div>
+        </div>
+      </section>
+
+      {/* ═══════════════════════════════════════════════
+          II — WHAT WE BELIEVE
+      ════════════════════════════════════════════════ */}
+      <section style={{
+        padding: 'clamp(80px, 10vw, 128px) clamp(24px, 4vw, 56px)',
+        borderBottom: '1px solid var(--na-border-mid)',
+        position: 'relative', overflow: 'hidden',
+      }}>
+        <Ghost left="-2%">II</Ghost>
+
+        <div style={{ position: 'relative', zIndex: 1 }}>
+          <ChapterLabel n="II" title="What We Believe" />
+
+          <motion.div
+            initial="hidden" whileInView="visible" viewport={viewport} variants={fadeUp}
+            style={{ marginBottom: 'clamp(48px, 6vw, 72px)' }}
+          >
+            <h2 style={{
+              fontSize: 'clamp(36px, 6vw, 84px)',
+              fontWeight: 800, letterSpacing: '-0.045em',
+              lineHeight: 0.9, color: 'var(--na-text)',
+              maxWidth: 700,
+            }}>
+              Three things we'll{' '}
+              <em style={{ fontStyle: 'italic', fontWeight: 300, color: 'var(--na-heading)' }}>
+                never&nbsp;compromise.
+              </em>
+            </h2>
           </motion.div>
 
-          {/* Right: character */}
           <motion.div
-            initial={{ opacity: 0, x: 40 }}
-            whileInView={{ opacity: 1, x: 0 }}
-            viewport={viewport}
-            transition={{ duration: 0.9, ease: _ease, delay: 0.12 }}
-            className="hidden md:flex"
-            style={{ justifyContent: 'center', transform: 'rotate(1.5deg)', transformOrigin: 'center 85%' }}
+            initial="hidden" whileInView="visible" viewport={viewport} variants={stagger(0.09)}
           >
-            <CharacterIllustration />
+            {beliefs.map((b) => (
+              <motion.div
+                key={b.n}
+                variants={fadeUp}
+                style={{
+                  display: 'grid',
+                  gap: 'clamp(16px, 3vw, 52px)',
+                  padding: 'clamp(28px, 3.5vw, 48px) 0',
+                  borderTop: '1px solid var(--na-border-mid)',
+                }}
+                className="grid-cols-[52px_1fr] md:grid-cols-[80px_1fr_1fr]"
+              >
+                <span style={{
+                  fontSize: 'clamp(36px, 4.5vw, 64px)',
+                  fontWeight: 800, letterSpacing: '-0.06em',
+                  color: 'var(--na-accent)', lineHeight: 1, opacity: 0.35,
+                }}>
+                  {b.n}
+                </span>
+                <div style={{
+                  fontSize: 'clamp(17px, 2.2vw, 28px)',
+                  fontWeight: 700, letterSpacing: '-0.025em',
+                  color: 'var(--na-text)', lineHeight: 1.2, alignSelf: 'center',
+                }}>
+                  {b.headline}
+                </div>
+                <p className="hidden md:block" style={{
+                  fontSize: 14, lineHeight: 1.85,
+                  color: 'var(--na-muted)', alignSelf: 'center',
+                }}>
+                  {b.body}
+                </p>
+              </motion.div>
+            ))}
+            <div style={{ borderTop: '1px solid var(--na-border-mid)' }} />
           </motion.div>
         </div>
       </section>
 
-      {/* ═══════════════════════════════════════════
-          3 — MANIFESTO PILLARS
-      ════════════════════════════════════════════ */}
+      {/* ═══════════════════════════════════════════════
+          III — THE PROOF (dark panel)
+      ════════════════════════════════════════════════ */}
       <section
+        data-cursor-dark
         style={{
-          padding: 'clamp(72px, 9vw, 112px) clamp(24px, 4vw, 56px)',
+          background: 'var(--na-inv-bg)',
+          padding: 'clamp(80px, 10vw, 128px) clamp(24px, 4vw, 56px)',
           borderBottom: '1px solid var(--na-border-mid)',
+          position: 'relative', overflow: 'hidden',
         }}
       >
-        <motion.div
-          initial="hidden"
-          whileInView="visible"
-          viewport={viewport}
-          variants={fadeUp}
-          style={{ display: 'flex', alignItems: 'center', gap: 20, marginBottom: 'clamp(32px, 4vw, 56px)' }}
-        >
-          <span style={{ fontSize: 11, fontWeight: 600, letterSpacing: '0.15em', textTransform: 'uppercase', color: 'var(--na-accent)', flexShrink: 0 }}>
-            The Standard
-          </span>
-          <div style={{ flex: 1, height: 1, background: 'var(--na-border-mid)' }} />
-        </motion.div>
+        {/* Ghost III */}
+        <div aria-hidden style={{
+          position: 'absolute', right: '-2%', top: '50%',
+          transform: 'translateY(-50%)',
+          fontSize: 'clamp(130px, 20vw, 280px)',
+          fontWeight: 800, letterSpacing: '-0.06em',
+          color: '#fff', opacity: 0.018,
+          lineHeight: 1, userSelect: 'none', pointerEvents: 'none',
+        }}>
+          III
+        </div>
 
-        <motion.div
-          initial="hidden"
-          whileInView="visible"
-          viewport={viewport}
-          variants={stagger(0.08)}
-        >
-          {pillars.map((p) => (
-            <motion.div
-              key={p.num}
-              variants={fadeUp}
-              style={{
-                display: 'grid',
-                gap: 'clamp(16px, 3vw, 40px)',
-                padding: 'clamp(24px, 3vw, 40px) clamp(12px, 2vw, 20px)',
-                borderTop: '1px solid var(--na-border-mid)',
-              }}
-              className="grid-cols-[40px_1fr] md:grid-cols-[56px_200px_1fr]"
-            >
-              <span style={{ fontSize: 11, fontWeight: 600, letterSpacing: '0.12em', textTransform: 'uppercase', color: 'var(--na-accent)', paddingTop: 3 }}>
-                {p.num}
-              </span>
-              <div style={{ fontSize: 'clamp(16px, 2vw, 22px)', fontWeight: 700, letterSpacing: '-0.02em', color: 'var(--na-text)' }}>
-                {p.title}
-              </div>
-              <p className="hidden md:block" style={{ fontSize: 14, lineHeight: 1.75, color: 'var(--na-muted)' }}>
-                {p.body}
-              </p>
-            </motion.div>
-          ))}
-          <div style={{ borderTop: '1px solid var(--na-border-mid)' }} />
-        </motion.div>
-      </section>
-
-      {/* ═══════════════════════════════════════════
-          4 — STATS
-      ════════════════════════════════════════════ */}
-      <motion.div
-        initial="hidden"
-        whileInView="visible"
-        viewport={viewport}
-        variants={stagger(0.1)}
-        style={{ display: 'grid', borderBottom: '1px solid var(--na-border-mid)' }}
-        className="grid-cols-1 sm:grid-cols-3"
-      >
-        {[
-          { content: <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}><span style={statNum}>~2</span><span style={statLabel}>Weeks avg delivery</span></div> },
-          { content: <PriceCountUp /> },
-          { content: <PercentCountUp /> },
-        ].map((item, i) => (
+        <div style={{ position: 'relative', zIndex: 1 }}>
           <motion.div
-            key={i}
-            variants={fadeUp}
-            className="stat-cell"
+            initial="hidden" whileInView="visible" viewport={viewport} variants={fadeUp}
+            style={{ marginBottom: 'clamp(48px, 6vw, 80px)' }}
+          >
+            <div style={{ display: 'flex', alignItems: 'center', gap: 14 }}>
+              <span style={{ fontSize: 10, fontWeight: 700, letterSpacing: '0.22em', textTransform: 'uppercase', color: 'var(--na-inv-muted)', opacity: 0.7 }}>III</span>
+              <div style={{ width: 24, height: 1, background: 'var(--na-inv-muted)', opacity: 0.3 }} />
+              <span style={{ fontSize: 10, fontWeight: 700, letterSpacing: '0.22em', textTransform: 'uppercase', color: 'var(--na-inv-muted)' }}>The Proof</span>
+            </div>
+          </motion.div>
+
+          {/* Stats grid */}
+          <motion.div
+            initial="hidden" whileInView="visible" viewport={viewport} variants={stagger(0.12)}
+            style={{ display: 'grid' }}
+            className="grid-cols-1 sm:grid-cols-3"
+          >
+            {[
+              { content: <StatWeeks /> },
+              { content: <StatPrice /> },
+              { content: <StatPercent /> },
+            ].map((item, i) => (
+              <motion.div
+                key={i}
+                variants={fadeUp}
+                className="stat-cell"
+                style={{
+                  display: 'flex', justifyContent: 'center',
+                  padding: 'clamp(40px, 5vw, 68px) clamp(16px, 2vw, 32px)',
+                  borderRight: i < 2 ? '1px solid var(--na-inv-border)' : 'none',
+                  borderBottom: '1px solid var(--na-inv-border)',
+                }}
+              >
+                {item.content}
+              </motion.div>
+            ))}
+          </motion.div>
+
+          {/* Pull sentence */}
+          <motion.p
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={viewport}
+            transition={{ duration: 0.75, ease, delay: 0.28 }}
             style={{
-              display: 'flex',
-              justifyContent: 'center',
-              padding: 'clamp(48px, 6vw, 80px) clamp(16px, 2vw, 32px)',
-              borderRight: i < 2 ? '1px solid var(--na-border-mid)' : 'none',
+              fontSize: 'clamp(16px, 2vw, 22px)',
+              fontWeight: 300, fontStyle: 'italic',
+              color: 'var(--na-inv-muted)',
+              lineHeight: 1.55, maxWidth: 620,
+              marginTop: 'clamp(40px, 5vw, 64px)',
             }}
           >
-            {item.content}
-          </motion.div>
-        ))}
-      </motion.div>
-
-      {/* ═══════════════════════════════════════════
-          5 — WHAT WE BUILD
-      ════════════════════════════════════════════ */}
-      <section
-        style={{
-          padding: 'clamp(72px, 9vw, 112px) clamp(24px, 4vw, 56px)',
-          borderBottom: '1px solid var(--na-border-mid)',
-        }}
-      >
-        <motion.div
-          initial="hidden"
-          whileInView="visible"
-          viewport={viewport}
-          variants={fadeUp}
-          style={{ display: 'flex', alignItems: 'center', gap: 20, marginBottom: 'clamp(32px, 4vw, 56px)' }}
-        >
-          <span style={{ fontSize: 11, fontWeight: 600, letterSpacing: '0.15em', textTransform: 'uppercase', color: 'var(--na-accent)', flexShrink: 0 }}>
-            Services
-          </span>
-          <div style={{ flex: 1, height: 1, background: 'var(--na-border-mid)' }} />
-          <Link href="/services" style={{
-            display: 'inline-flex', alignItems: 'center', gap: 8,
-            fontSize: 11, fontWeight: 600, letterSpacing: '0.12em', textTransform: 'uppercase',
-            color: 'var(--na-muted)', flexShrink: 0,
-          }}>
-            Full Pricing <ArrowRight size={12} />
-          </Link>
-        </motion.div>
-
-        <motion.div
-          initial="hidden"
-          whileInView="visible"
-          viewport={viewport}
-          variants={stagger(0.07)}
-        >
-          {services.map((s) => (
-            <motion.div
-              key={s.num}
-              variants={fadeUp}
-              style={{
-                display: 'grid',
-                gap: 'clamp(16px, 3vw, 40px)',
-                padding: 'clamp(24px, 3vw, 40px) clamp(12px, 2vw, 20px)',
-                borderTop: '1px solid var(--na-border-mid)',
-              }}
-              className="grid-cols-[40px_1fr] md:grid-cols-[56px_220px_1fr]"
-            >
-              <span style={{ fontSize: 11, fontWeight: 600, letterSpacing: '0.12em', textTransform: 'uppercase', color: 'var(--na-accent)', paddingTop: 3 }}>
-                {s.num}
-              </span>
-              <div style={{ fontSize: 'clamp(16px, 2vw, 21px)', fontWeight: 700, letterSpacing: '-0.02em', color: 'var(--na-text)' }}>
-                {s.title}
-              </div>
-              <p className="hidden md:block" style={{ fontSize: 14, lineHeight: 1.75, color: 'var(--na-muted)' }}>
-                {s.desc}
-              </p>
-            </motion.div>
-          ))}
-          <div style={{ borderTop: '1px solid var(--na-border-mid)' }} />
-        </motion.div>
+            Numbers that reflect a commitment:{' '}
+            <strong style={{ color: 'var(--na-inv-text)', fontWeight: 700, fontStyle: 'normal' }}>
+              affordable doesn't mean compromise.
+            </strong>
+          </motion.p>
+        </div>
       </section>
 
-      {/* ═══════════════════════════════════════════
-          6 — WHERE WE WORK
-      ════════════════════════════════════════════ */}
-      <section
-        style={{
-          padding: 'clamp(72px, 9vw, 112px) clamp(24px, 4vw, 56px)',
-          borderBottom: '1px solid var(--na-border-mid)',
-          position: 'relative',
-          overflow: 'hidden',
-        }}
-      >
-        {/* Ghost "BC" */}
-        <div
-          aria-hidden="true"
-          className="hidden lg:block"
-          style={{
-            position: 'absolute',
-            right: 'clamp(24px, 4vw, 56px)',
-            top: '50%',
-            transform: 'translateY(-50%)',
-            fontSize: 'clamp(120px, 20vw, 260px)',
-            fontWeight: 800,
-            letterSpacing: '-0.05em',
-            color: 'var(--na-text)',
-            opacity: 0.03,
-            lineHeight: 1,
-            userSelect: 'none',
-            pointerEvents: 'none',
-          }}
-        >
+      {/* ═══════════════════════════════════════════════
+          IV — WHAT WE BUILD
+      ════════════════════════════════════════════════ */}
+      <section style={{
+        padding: 'clamp(80px, 10vw, 128px) clamp(24px, 4vw, 56px)',
+        borderBottom: '1px solid var(--na-border-mid)',
+        position: 'relative', overflow: 'hidden',
+      }}>
+        <Ghost left="-2%">IV</Ghost>
+
+        <div style={{ position: 'relative', zIndex: 1 }}>
+          <motion.div
+            initial="hidden" whileInView="visible" viewport={viewport} variants={fadeUp}
+            style={{
+              display: 'flex', alignItems: 'center', gap: 20,
+              marginBottom: 'clamp(40px, 5vw, 64px)', flexWrap: 'wrap',
+            }}
+          >
+            <div style={{ display: 'flex', alignItems: 'center', gap: 14 }}>
+              <span style={{ fontSize: 10, fontWeight: 700, letterSpacing: '0.22em', textTransform: 'uppercase', color: 'var(--na-accent)', opacity: 0.7 }}>IV</span>
+              <div style={{ width: 24, height: 1, background: 'var(--na-accent)', opacity: 0.4 }} />
+              <span style={{ fontSize: 10, fontWeight: 700, letterSpacing: '0.22em', textTransform: 'uppercase', color: 'var(--na-accent)' }}>What We Build</span>
+            </div>
+            <div style={{ flex: 1, height: 1, background: 'var(--na-border-mid)', minWidth: 40 }} />
+            <Link href="/services" style={{
+              display: 'inline-flex', alignItems: 'center', gap: 8,
+              fontSize: 11, fontWeight: 600, letterSpacing: '0.12em',
+              textTransform: 'uppercase', color: 'var(--na-muted)', flexShrink: 0,
+            }}>
+              Full Pricing <ArrowRight size={12} />
+            </Link>
+          </motion.div>
+
+          <motion.div
+            initial="hidden" whileInView="visible" viewport={viewport} variants={stagger(0.07)}
+          >
+            {services.map((s) => (
+              <motion.div
+                key={s.num}
+                variants={fadeUp}
+                style={{
+                  display: 'grid',
+                  gap: 'clamp(16px, 3vw, 52px)',
+                  padding: 'clamp(24px, 3vw, 40px) 0',
+                  borderTop: '1px solid var(--na-border-mid)',
+                }}
+                className="grid-cols-[44px_1fr] md:grid-cols-[68px_240px_1fr]"
+              >
+                <span style={{ fontSize: 11, fontWeight: 700, letterSpacing: '0.12em', textTransform: 'uppercase', color: 'var(--na-accent)', paddingTop: 4, opacity: 0.6 }}>
+                  {s.num}
+                </span>
+                <div style={{ fontSize: 'clamp(16px, 2vw, 22px)', fontWeight: 700, letterSpacing: '-0.025em', color: 'var(--na-text)', alignSelf: 'center' }}>
+                  {s.title}
+                </div>
+                <p className="hidden md:block" style={{ fontSize: 14, lineHeight: 1.82, color: 'var(--na-muted)', alignSelf: 'center' }}>
+                  {s.desc}
+                </p>
+              </motion.div>
+            ))}
+            <div style={{ borderTop: '1px solid var(--na-border-mid)' }} />
+          </motion.div>
+        </div>
+      </section>
+
+      {/* ═══════════════════════════════════════════════
+          V — THE TERRITORY
+      ════════════════════════════════════════════════ */}
+      <section style={{
+        padding: 'clamp(80px, 10vw, 128px) clamp(24px, 4vw, 56px)',
+        borderBottom: '1px solid var(--na-border-mid)',
+        position: 'relative', overflow: 'hidden',
+      }}>
+        {/* Ghost BC */}
+        <div aria-hidden className="hidden lg:block" style={{
+          position: 'absolute', right: 'clamp(24px, 4vw, 56px)', top: '50%',
+          transform: 'translateY(-50%)',
+          fontSize: 'clamp(150px, 23vw, 320px)',
+          fontWeight: 800, letterSpacing: '-0.05em',
+          color: 'var(--na-text)', opacity: 0.028,
+          lineHeight: 1, userSelect: 'none', pointerEvents: 'none',
+        }}>
           BC
         </div>
 
-        <div style={{ position: 'relative', maxWidth: 680 }}>
+        <div style={{ position: 'relative', zIndex: 1, maxWidth: 720 }}>
           <motion.div
-            initial="hidden"
-            whileInView="visible"
-            viewport={viewport}
-            variants={fadeUp}
+            initial="hidden" whileInView="visible" viewport={viewport} variants={fadeUp}
+            style={{ marginBottom: 'clamp(24px, 3vw, 40px)' }}
           >
-            <span style={{ display: 'block', fontSize: 11, fontWeight: 600, letterSpacing: '0.15em', textTransform: 'uppercase', color: 'var(--na-accent)', marginBottom: 'clamp(24px, 3vw, 40px)' }}>
-              Where We Work
-            </span>
+            <div style={{ display: 'flex', alignItems: 'center', gap: 14, marginBottom: 'clamp(24px, 3vw, 36px)' }}>
+              <span style={{ fontSize: 10, fontWeight: 700, letterSpacing: '0.22em', textTransform: 'uppercase', color: 'var(--na-accent)', opacity: 0.7 }}>V</span>
+              <div style={{ width: 24, height: 1, background: 'var(--na-accent)', opacity: 0.4 }} />
+              <span style={{ fontSize: 10, fontWeight: 700, letterSpacing: '0.22em', textTransform: 'uppercase', color: 'var(--na-accent)' }}>The Territory</span>
+            </div>
 
             <h2 style={{
-              fontSize: 'clamp(32px, 5vw, 64px)',
-              fontWeight: 800,
-              letterSpacing: '-0.04em',
-              lineHeight: 0.95,
-              color: 'var(--na-text)',
+              fontSize: 'clamp(36px, 6vw, 84px)',
+              fontWeight: 800, letterSpacing: '-0.045em',
+              lineHeight: 0.9, color: 'var(--na-text)',
               marginBottom: 'clamp(20px, 2.5vw, 32px)',
             }}>
-              Serving businesses<br />
-              <em style={{ fontWeight: 300, fontStyle: 'italic', color: 'var(--na-heading)' }}>across BC.</em>
+              Local roots.{' '}
+              <em style={{ fontWeight: 300, fontStyle: 'italic', color: 'var(--na-heading)' }}>
+                Canada&#8209;wide reach.
+              </em>
             </h2>
 
             <p style={{
               fontSize: 'clamp(14px, 1.3vw, 16px)',
-              color: 'var(--na-muted)',
-              lineHeight: 1.8,
-              marginBottom: 'clamp(28px, 3.5vw, 44px)',
-              maxWidth: 520,
+              color: 'var(--na-muted)', lineHeight: 1.88,
+              marginBottom: 'clamp(32px, 4vw, 48px)', maxWidth: 520,
             }}>
-              Vancouver, Surrey, Burnaby, Richmond, Kelowna, Victoria, and beyond — we work
-              remotely with clients throughout BC and Canada.
+              Based in BC — same timezone, same community. Metro Vancouver clients know us personally.
+              Vancouver to Halifax, every project gets the same focused senior-level attention.
             </p>
           </motion.div>
 
-          {/* City pills */}
           <motion.div
-            initial="hidden"
-            whileInView="visible"
-            viewport={viewport}
-            variants={stagger(0.04)}
+            initial="hidden" whileInView="visible" viewport={viewport} variants={stagger(0.04)}
             style={{ display: 'flex', flexWrap: 'wrap', gap: 10 }}
           >
             {cities.map((city) => (
@@ -651,14 +727,11 @@ export default function AboutPage() {
                 variants={fadeUp}
                 style={{
                   display: 'inline-block',
-                  fontSize: 11,
-                  fontWeight: 600,
-                  letterSpacing: '0.1em',
-                  textTransform: 'uppercase',
+                  fontSize: 11, fontWeight: 600,
+                  letterSpacing: '0.1em', textTransform: 'uppercase',
                   color: 'var(--na-accent)',
                   background: 'var(--na-accent-dim)',
-                  padding: '7px 14px',
-                  borderRadius: 100,
+                  padding: '8px 16px', borderRadius: 100,
                   border: '1px solid rgba(var(--na-accent-rgb), 0.18)',
                 }}
               >
@@ -669,49 +742,71 @@ export default function AboutPage() {
         </div>
       </section>
 
-      {/* ═══════════════════════════════════════════
-          7 — CTA
-      ════════════════════════════════════════════ */}
+      {/* ═══════════════════════════════════════════════
+          FINALE — CTA
+      ════════════════════════════════════════════════ */}
       <section
         data-cursor-dark
         style={{
           background: 'var(--na-inv-bg)',
-          padding: 'clamp(100px, 14vw, 160px) clamp(24px, 4vw, 56px)',
+          padding: 'clamp(100px, 14vw, 168px) clamp(24px, 4vw, 56px)',
           textAlign: 'center',
-          position: 'relative',
-          overflow: 'hidden',
+          position: 'relative', overflow: 'hidden',
         }}
       >
         {/* Diagonal lines */}
-        <svg aria-hidden="true" style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', pointerEvents: 'none', opacity: 0.05 }}>
-          <line x1="0" y1="100%" x2="100%" y2="0" stroke="#FFFFFF" strokeWidth="1" />
-          <line x1="0" y1="70%" x2="70%" y2="0" stroke="#FFFFFF" strokeWidth="1" />
+        <svg aria-hidden style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', pointerEvents: 'none', opacity: 0.05 }}>
+          <line x1="0" y1="100%" x2="100%" y2="0" stroke="#fff" strokeWidth="1" />
+          <line x1="0" y1="70%" x2="70%" y2="0" stroke="#fff" strokeWidth="1" />
+          <line x1="30%" y1="100%" x2="100%" y2="30%" stroke="#fff" strokeWidth="1" />
         </svg>
         {/* Ghost N */}
-        <div aria-hidden="true" className="hidden sm:block" style={{ position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%, -50%)', fontSize: 'clamp(200px, 40vw, 420px)', fontWeight: 800, color: '#FFFFFF', opacity: 0.018, lineHeight: 1, letterSpacing: '-0.05em', userSelect: 'none', pointerEvents: 'none' }}>
+        <div aria-hidden className="hidden sm:block" style={{
+          position: 'absolute', top: '50%', left: '50%',
+          transform: 'translate(-50%, -50%)',
+          fontSize: 'clamp(200px, 42vw, 500px)', fontWeight: 800,
+          color: '#fff', opacity: 0.016, lineHeight: 1,
+          letterSpacing: '-0.06em', userSelect: 'none', pointerEvents: 'none',
+        }}>
           N
         </div>
 
         <div style={{ position: 'relative' }}>
           <motion.div
-            initial="hidden"
-            whileInView="visible"
-            viewport={viewport}
-            variants={fadeUp}
+            initial="hidden" whileInView="visible" viewport={viewport} variants={fadeUp}
           >
-            <span style={{ display: 'block', fontSize: 11, fontWeight: 600, letterSpacing: '0.15em', textTransform: 'uppercase', color: 'var(--na-inv-muted)', marginBottom: 24 }}>
-              Get in Touch
+            <span style={{
+              display: 'block', fontSize: 10, fontWeight: 700,
+              letterSpacing: '0.22em', textTransform: 'uppercase',
+              color: 'var(--na-inv-muted)', marginBottom: 28, opacity: 0.6,
+            }}>
+              The Next Step
             </span>
-            <h2 style={{ fontSize: 'clamp(48px, 10vw, 120px)', fontWeight: 800, letterSpacing: '-0.04em', color: 'var(--na-inv-text)', lineHeight: 0.92, marginBottom: 28 }}>
-              Let's talk.
+            <h2 style={{
+              fontSize: 'clamp(56px, 12vw, 148px)',
+              fontWeight: 800, letterSpacing: '-0.055em',
+              color: 'var(--na-inv-text)', lineHeight: 0.88,
+              marginBottom: 36,
+            }}>
+              LET'S BUILD
+              <br />
+              <em style={{ fontStyle: 'italic', fontWeight: 300, color: 'rgba(232,232,240,0.38)' }}>
+                something real.
+              </em>
             </h2>
-            <p style={{ fontSize: 'clamp(14px, 1.4vw, 17px)', color: 'var(--na-inv-muted)', maxWidth: 460, margin: '0 auto 48px', lineHeight: 1.75, fontWeight: 300 }}>
-              Ready to get your business online? Tell us what you need and we'll get back to you within one business day.
+            <p style={{
+              fontSize: 'clamp(14px, 1.4vw, 17px)',
+              color: 'var(--na-inv-muted)',
+              maxWidth: 440, margin: '0 auto 52px',
+              lineHeight: 1.82, fontWeight: 300,
+            }}>
+              Ready to get your business online with a site that actually works?
+              Tell us what you need — we'll respond within one business day.
             </p>
             <div style={{ display: 'flex', gap: 14, justifyContent: 'center', flexWrap: 'wrap' }}>
               <Link href="/contact" className="btn-primary">
                 Start a Project
-                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" aria-hidden>
                   <path d="M5 12h14M12 5l7 7-7 7" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
                 </svg>
               </Link>
@@ -722,8 +817,6 @@ export default function AboutPage() {
       </section>
 
       <Footer />
-
-      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
     </main>
   )
 }
