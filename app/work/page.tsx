@@ -8,7 +8,7 @@ import Navbar from '@/components/Navbar'
 import Footer from '@/components/Footer'
 
 const CARDS_PER_PAGE = 4
-const CYCLE_MS = 2800
+const CYCLE_MS = 3500
 
 const ease = [0.22, 1, 0.36, 1] as [number, number, number, number]
 const vp = { once: true, margin: '-72px' }
@@ -212,8 +212,8 @@ function ProjectGrid() {
         <div>
           <span className="section-label" style={{ display: 'block', marginBottom: 14 }}>All Projects</span>
           <h2 style={{ fontSize: 'clamp(28px, 4vw, 48px)', fontWeight: 700, letterSpacing: '-0.03em', color: 'var(--na-text)', lineHeight: 1.1, margin: 0 }}>
-            Eight clients.{' '}
-            <em style={{ fontStyle: 'italic', fontWeight: 300, color: 'var(--na-heading)' }}>Eight problems solved.</em>
+            Sixteen clients.{' '}
+            <em style={{ fontStyle: 'italic', fontWeight: 300, color: 'var(--na-heading)' }}>Sixteen problems solved.</em>
           </h2>
         </div>
         <span style={{ fontSize: 12, fontWeight: 600, letterSpacing: '0.1em', textTransform: 'uppercase', color: 'var(--na-muted)' }}>
@@ -452,8 +452,8 @@ export default function WorkPage() {
           style={{ display: 'flex', gap: 'clamp(32px, 6vw, 64px)', flexWrap: 'wrap' }}
         >
           {[
-            { num: '8', label: 'Projects Delivered' },
-            { num: '4', label: 'Industries Served' },
+            { num: '16', label: 'Projects Delivered' },
+            { num: '12', label: 'Industries Served' },
             { num: '100%', label: 'Custom Built' },
             { num: '$0', label: 'Spent on Templates' },
           ].map(stat => (
