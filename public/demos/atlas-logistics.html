@@ -1,0 +1,1322 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Atlas Logistics — Dispatch Control</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=IBM+Plex+Mono:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  /* ─── RESET & BASE ─────────────────────────────────────────────── */
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --bg:           #0A0A08;
+    --bg-2:         #111109;
+    --surface:      #1A1A16;
+    --border:       #2A2A24;
+    --amber:        #F59E0B;
+    --amber-dim:    rgba(245,158,11,0.10);
+    --amber-bright: #FCD34D;
+    --green:        #4ADE80;
+    --red:          #F87171;
+    --text:         #E8E8D8;
+    --text-muted:   #6B6B5A;
+    --font-data:    'IBM Plex Mono', monospace;
+    --font-head:    'Bebas Neue', sans-serif;
+  }
+
+  html, body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: var(--font-data);
+    font-size: 13px;
+    min-height: 100vh;
+    overflow-x: hidden;
+  }
+
+  /* Dot-grid background */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image: radial-gradient(circle, rgba(245,158,11,0.04) 1px, transparent 1px);
+    background-size: 28px 28px;
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  /* ─── KEYFRAMES ─────────────────────────────────────────────────── */
+  @keyframes blink {
+    0%, 100% { opacity: 1; }
+    50%       { opacity: 0.3; }
+  }
+
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(14px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  @keyframes pulse-ring {
+    0%   { transform: scale(1);   opacity: 0.8; }
+    70%  { transform: scale(1.6); opacity: 0; }
+    100% { transform: scale(1.6); opacity: 0; }
+  }
+
+  @keyframes move-truck-1 {
+    0%   { transform: translate(0px,    0px); }
+    25%  { transform: translate(22px,  -14px); }
+    50%  { transform: translate(38px,   6px); }
+    75%  { transform: translate(18px,  20px); }
+    100% { transform: translate(0px,    0px); }
+  }
+  @keyframes move-truck-2 {
+    0%   { transform: translate(0px,   0px); }
+    33%  { transform: translate(-18px, 12px); }
+    66%  { transform: translate(10px,  24px); }
+    100% { transform: translate(0px,   0px); }
+  }
+  @keyframes move-truck-3 {
+    0%   { transform: translate(0px,   0px); }
+    40%  { transform: translate(30px, -10px); }
+    80%  { transform: translate(-8px, -22px); }
+    100% { transform: translate(0px,   0px); }
+  }
+  @keyframes move-truck-4 {
+    0%   { transform: translate(0px,  0px); }
+    30%  { transform: translate(-24px, 8px); }
+    70%  { transform: translate(-10px, 28px); }
+    100% { transform: translate(0px,  0px); }
+  }
+  @keyframes move-truck-5 {
+    0%   { transform: translate(0px,   0px); }
+    20%  { transform: translate(16px, -20px); }
+    60%  { transform: translate(32px,   4px); }
+    100% { transform: translate(0px,   0px); }
+  }
+  @keyframes move-truck-idle {
+    0%, 100% { transform: translate(0px, 0px); }
+    50%      { transform: translate(0px, 2px); }
+  }
+
+  @keyframes scanline {
+    from { background-position: 0 0; }
+    to   { background-position: 0 100%; }
+  }
+
+  @keyframes alert-pulse {
+    0%, 100% { box-shadow: 0 0 0 0 rgba(248,113,113,0.4); }
+    50%      { box-shadow: 0 0 0 6px rgba(248,113,113,0); }
+  }
+
+  /* ─── DEMO BANNER ──────────────────────────────────────────────── */
+  .demo-banner {
+    background: var(--amber);
+    color: #0A0A08;
+    text-align: center;
+    padding: 7px 12px;
+    font-family: var(--font-data);
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    position: relative;
+    z-index: 10;
+  }
+
+  /* ─── HEADER ────────────────────────────────────────────────────── */
+  .header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 12px 24px;
+    background: var(--bg-2);
+    border-bottom: 1px solid var(--border);
+    position: sticky;
+    top: 0;
+    z-index: 9;
+    gap: 16px;
+    animation: fadeUp 0.4s ease both;
+  }
+
+  .header-brand {
+    display: flex;
+    flex-direction: column;
+    line-height: 1;
+  }
+
+  .header-brand .wordmark {
+    font-family: var(--font-head);
+    font-size: 48px;
+    color: var(--amber);
+    letter-spacing: 0.3em;
+    line-height: 0.85;
+  }
+
+  .header-brand .sub {
+    font-size: 10px;
+    color: var(--text-muted);
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    margin-top: 4px;
+  }
+
+  .header-clock {
+    font-size: 22px;
+    color: var(--amber);
+    letter-spacing: 0.08em;
+    font-weight: 500;
+    text-shadow: 0 0 18px rgba(245,158,11,0.35);
+  }
+
+  .header-right {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+  }
+
+  .status-badge {
+    display: flex;
+    align-items: center;
+    gap: 7px;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    padding: 6px 12px;
+    font-size: 11px;
+    letter-spacing: 0.1em;
+    font-weight: 600;
+  }
+
+  .dot {
+    width: 8px; height: 8px;
+    border-radius: 50%;
+    flex-shrink: 0;
+    position: relative;
+  }
+
+  .dot-green { background: var(--green); animation: blink 1.5s infinite; }
+  .dot-red   { background: var(--red);   animation: blink 1.2s infinite; }
+
+  .dot-green::after, .dot-red::after {
+    content: '';
+    position: absolute;
+    inset: -4px;
+    border-radius: 50%;
+    animation: pulse-ring 2s ease-out infinite;
+  }
+  .dot-green::after { background: var(--green); }
+  .dot-red::after   { background: var(--red); }
+
+  .badge-count {
+    background: var(--red);
+    color: #0A0A08;
+    font-size: 10px;
+    font-weight: 600;
+    padding: 1px 6px;
+    border-radius: 3px;
+    letter-spacing: 0.05em;
+  }
+
+  .dispatcher-name {
+    font-size: 11px;
+    color: var(--text-muted);
+    letter-spacing: 0.12em;
+  }
+  .dispatcher-name span { color: var(--text); font-weight: 500; }
+
+  /* ─── STATS BAR ─────────────────────────────────────────────────── */
+  .stats-bar {
+    display: flex;
+    align-items: stretch;
+    background: var(--amber-dim);
+    border-bottom: 1px solid var(--border);
+    overflow-x: auto;
+    animation: fadeUp 0.5s ease 0.1s both;
+    position: relative;
+    z-index: 1;
+  }
+
+  .stat-item {
+    flex: 1;
+    min-width: 120px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 12px 20px;
+    position: relative;
+  }
+
+  .stat-item + .stat-item::before {
+    content: '';
+    position: absolute;
+    left: 0; top: 20%; bottom: 20%;
+    width: 1px;
+    background: var(--border);
+  }
+
+  .stat-num {
+    font-family: var(--font-head);
+    font-size: 38px;
+    color: var(--amber);
+    line-height: 1;
+    letter-spacing: 0.04em;
+  }
+
+  .stat-num.green  { color: var(--green); }
+  .stat-num.red    { color: var(--red); }
+  .stat-num.muted  { color: var(--text-muted); }
+
+  .stat-label {
+    font-size: 9px;
+    color: var(--text-muted);
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    margin-top: 2px;
+    font-weight: 500;
+  }
+
+  /* ─── MAIN CONTENT ──────────────────────────────────────────────── */
+  .main-content {
+    position: relative;
+    z-index: 1;
+    padding: 20px 24px;
+    display: grid;
+    grid-template-columns: 55fr 45fr;
+    gap: 20px;
+    max-width: 1600px;
+    margin: 0 auto;
+  }
+
+  /* ─── PANEL BASE ─────────────────────────────────────────────────── */
+  .panel {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    overflow: hidden;
+    animation: fadeUp 0.55s ease 0.2s both;
+  }
+
+  .panel-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 11px 16px;
+    border-bottom: 1px solid var(--border);
+    background: var(--bg-2);
+    gap: 10px;
+  }
+
+  .panel-title {
+    font-family: var(--font-head);
+    font-size: 14px;
+    letter-spacing: 0.18em;
+    color: var(--text);
+  }
+
+  /* ─── MAP PANEL ─────────────────────────────────────────────────── */
+  .map-panel { animation-delay: 0.2s; }
+
+  .map-container {
+    position: relative;
+    height: 480px;
+    background: #0D0D0A;
+    background-image:
+      linear-gradient(rgba(245,158,11,0.06) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(245,158,11,0.06) 1px, transparent 1px);
+    background-size: 36px 36px;
+    overflow: hidden;
+  }
+
+  /* Scanline overlay */
+  .map-container::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: repeating-linear-gradient(
+      0deg,
+      transparent,
+      transparent 3px,
+      rgba(0,0,0,0.08) 3px,
+      rgba(0,0,0,0.08) 4px
+    );
+    pointer-events: none;
+    z-index: 5;
+  }
+
+  /* SVG roads map */
+  .map-svg {
+    position: absolute;
+    inset: 0;
+    width: 100%; height: 100%;
+  }
+
+  /* Truck markers */
+  .truck-marker {
+    position: absolute;
+    z-index: 4;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 3px;
+    cursor: default;
+  }
+
+  .truck-marker svg { filter: drop-shadow(0 0 6px rgba(245,158,11,0.7)); }
+  .truck-marker.idle svg { filter: drop-shadow(0 0 4px rgba(107,107,90,0.5)); }
+  .truck-marker.alert svg { filter: drop-shadow(0 0 8px rgba(248,113,113,0.8)); }
+
+  .truck-label {
+    font-size: 9px;
+    color: var(--amber-bright);
+    letter-spacing: 0.08em;
+    white-space: nowrap;
+    background: rgba(10,10,8,0.8);
+    padding: 1px 4px;
+    border: 1px solid rgba(245,158,11,0.3);
+    border-radius: 2px;
+  }
+
+  .truck-marker.idle .truck-label { color: var(--text-muted); border-color: rgba(107,107,90,0.3); }
+  .truck-marker.alert .truck-label { color: var(--red); border-color: rgba(248,113,113,0.4); }
+
+  .truck-1  { top: 26%; left: 24%; animation: move-truck-1 14s ease-in-out infinite; }
+  .truck-2  { top: 44%; left: 55%; animation: move-truck-2 18s ease-in-out infinite; }
+  .truck-3  { top: 15%; left: 68%; animation: move-truck-3 12s ease-in-out infinite; }
+  .truck-4  { top: 62%; left: 30%; animation: move-truck-4 16s ease-in-out infinite; }
+  .truck-5  { top: 72%; left: 70%; animation: move-truck-5 20s ease-in-out infinite; }
+  .truck-6  { top: 38%; left: 14%; animation: move-truck-idle 4s ease-in-out infinite; }
+  .truck-7  { top: 55%; left: 48%; animation: move-truck-idle 6s ease-in-out infinite 1s; }
+  .truck-8  { top: 82%; left: 20%; animation: alert-pulse 2s ease-in-out infinite; }
+  .truck-9  { top: 20%; left: 42%; animation: move-truck-3 22s ease-in-out infinite 2s; }
+  .truck-10 { top: 68%; left: 86%; animation: move-truck-2 15s ease-in-out infinite 4s; }
+
+  /* Map legend */
+  .map-legend {
+    position: absolute;
+    bottom: 14px;
+    left: 14px;
+    z-index: 6;
+    background: rgba(10,10,8,0.85);
+    border: 1px solid var(--border);
+    border-radius: 3px;
+    padding: 8px 12px;
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+  }
+
+  .legend-item {
+    display: flex;
+    align-items: center;
+    gap: 7px;
+    font-size: 10px;
+    color: var(--text-muted);
+    letter-spacing: 0.1em;
+  }
+
+  .legend-dot {
+    width: 8px; height: 8px;
+    border-radius: 50%;
+  }
+
+  .map-coords {
+    position: absolute;
+    bottom: 14px;
+    right: 14px;
+    z-index: 6;
+    font-size: 9px;
+    color: var(--text-muted);
+    letter-spacing: 0.1em;
+    background: rgba(10,10,8,0.7);
+    border: 1px solid var(--border);
+    border-radius: 2px;
+    padding: 4px 8px;
+    line-height: 1.6;
+  }
+
+  .map-coords span { color: var(--amber); }
+
+  /* District labels on map */
+  .map-label {
+    position: absolute;
+    font-size: 9px;
+    color: rgba(245,158,11,0.25);
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    pointer-events: none;
+    z-index: 3;
+  }
+
+  /* ─── DISPATCH PANEL ─────────────────────────────────────────────── */
+  .dispatch-panel { animation-delay: 0.3s; }
+
+  .dispatch-list {
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+    max-height: 480px;
+    overflow-y: auto;
+    scrollbar-width: thin;
+    scrollbar-color: var(--border) transparent;
+  }
+
+  .dispatch-list::-webkit-scrollbar { width: 4px; }
+  .dispatch-list::-webkit-scrollbar-track { background: transparent; }
+  .dispatch-list::-webkit-scrollbar-thumb { background: var(--border); border-radius: 2px; }
+
+  .job-card {
+    padding: 13px 16px;
+    border-bottom: 1px solid var(--border);
+    border-left: 3px solid transparent;
+    transition: background 0.15s ease, border-color 0.15s ease;
+    cursor: pointer;
+    animation: fadeUp 0.4s ease both;
+  }
+
+  .job-card:hover {
+    background: rgba(245,158,11,0.05);
+    border-left-color: var(--amber);
+  }
+
+  .job-card.urgent    { border-left-color: var(--amber); }
+  .job-card.alert-card { border-left-color: var(--red); animation: alert-pulse 2.5s ease infinite; }
+  .job-card.loading-card { border-left-color: rgba(245,158,11,0.4); }
+
+  .job-card:nth-child(1) { animation-delay: 0.25s; }
+  .job-card:nth-child(2) { animation-delay: 0.32s; }
+  .job-card:nth-child(3) { animation-delay: 0.39s; }
+  .job-card:nth-child(4) { animation-delay: 0.46s; }
+  .job-card:nth-child(5) { animation-delay: 0.53s; }
+  .job-card:nth-child(6) { animation-delay: 0.60s; }
+
+  .job-row-1 {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 5px;
+    gap: 8px;
+  }
+
+  .job-id {
+    font-size: 11px;
+    font-weight: 600;
+    color: var(--amber-bright);
+    letter-spacing: 0.1em;
+  }
+
+  .job-status {
+    font-size: 10px;
+    font-weight: 600;
+    letter-spacing: 0.12em;
+    padding: 2px 7px;
+    border-radius: 2px;
+  }
+
+  .status-transit  { color: var(--green);       background: rgba(74,222,128,0.1);  }
+  .status-loading  { color: var(--amber-bright); background: var(--amber-dim);     }
+  .status-delayed  { color: var(--red);          background: rgba(248,113,113,0.1); }
+  .status-pending  { color: var(--text-muted);   background: rgba(107,107,90,0.15); }
+  .status-idle     { color: var(--text-muted);   background: rgba(107,107,90,0.1);  }
+  .status-complete { color: var(--green);        background: rgba(74,222,128,0.08); }
+
+  .job-driver {
+    font-size: 10px;
+    color: var(--text-muted);
+    letter-spacing: 0.08em;
+    margin-bottom: 4px;
+  }
+
+  .job-driver span { color: var(--text); font-weight: 500; }
+
+  .job-route {
+    font-size: 10px;
+    color: var(--text-muted);
+    line-height: 1.5;
+    letter-spacing: 0.04em;
+    margin-bottom: 6px;
+  }
+
+  .job-route .route-arrow { color: var(--amber); margin: 0 5px; }
+  .job-route .addr { color: var(--text); }
+
+  .job-row-3 {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 8px;
+  }
+
+  .job-eta {
+    font-size: 10px;
+    color: var(--text-muted);
+    letter-spacing: 0.06em;
+  }
+  .job-eta span { color: var(--amber-bright); font-weight: 500; }
+
+  .job-btn {
+    font-family: var(--font-data);
+    font-size: 10px;
+    font-weight: 600;
+    letter-spacing: 0.14em;
+    padding: 6px 14px;
+    min-height: 30px;
+    border-radius: 3px;
+    border: 1px solid;
+    cursor: pointer;
+    transition: box-shadow 0.15s ease, background 0.15s ease;
+    text-transform: uppercase;
+    background: transparent;
+  }
+
+  .btn-track {
+    color: var(--amber);
+    border-color: rgba(245,158,11,0.4);
+  }
+  .btn-track:hover {
+    background: var(--amber-dim);
+    box-shadow: 0 0 16px rgba(245,158,11,0.35);
+  }
+
+  .btn-assign {
+    color: #0A0A08;
+    background: var(--amber);
+    border-color: var(--amber);
+  }
+  .btn-assign:hover {
+    background: var(--amber-bright);
+    box-shadow: 0 0 16px rgba(245,158,11,0.45);
+  }
+
+  .btn-alert {
+    color: var(--red);
+    border-color: rgba(248,113,113,0.4);
+  }
+  .btn-alert:hover {
+    background: rgba(248,113,113,0.1);
+    box-shadow: 0 0 16px rgba(248,113,113,0.3);
+  }
+
+  .new-job-btn {
+    font-family: var(--font-data);
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.14em;
+    padding: 7px 14px;
+    min-height: 34px;
+    border-radius: 3px;
+    border: 1px solid var(--amber);
+    background: var(--amber);
+    color: #0A0A08;
+    cursor: pointer;
+    transition: box-shadow 0.15s ease, background 0.15s ease;
+  }
+  .new-job-btn:hover {
+    background: var(--amber-bright);
+    box-shadow: 0 0 16px rgba(245,158,11,0.45);
+  }
+
+  .count-badge {
+    font-size: 10px;
+    background: var(--amber);
+    color: #0A0A08;
+    font-weight: 700;
+    padding: 2px 7px;
+    border-radius: 2px;
+    letter-spacing: 0.06em;
+  }
+
+  /* ─── LOWER SECTION ─────────────────────────────────────────────── */
+  .lower-section {
+    position: relative;
+    z-index: 1;
+    padding: 0 24px 24px;
+    display: grid;
+    grid-template-columns: 55fr 45fr;
+    gap: 20px;
+    max-width: 1600px;
+    margin: 0 auto;
+  }
+
+  /* ─── DRIVER TABLE ──────────────────────────────────────────────── */
+  .driver-panel { animation: fadeUp 0.55s ease 0.4s both; }
+
+  .data-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 11px;
+  }
+
+  .data-table thead tr {
+    background: var(--bg);
+    border-bottom: 1px solid var(--border);
+  }
+
+  .data-table th {
+    padding: 9px 14px;
+    text-align: left;
+    color: var(--text-muted);
+    font-size: 9px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    font-weight: 500;
+    border-right: 1px solid var(--border);
+    white-space: nowrap;
+  }
+  .data-table th:last-child { border-right: none; }
+
+  .data-table tbody tr {
+    border-bottom: 1px solid rgba(42,42,36,0.6);
+    transition: background 0.12s ease;
+  }
+
+  .data-table tbody tr:hover { background: rgba(245,158,11,0.03); }
+  .data-table tbody tr:last-child { border-bottom: none; }
+
+  .data-table td {
+    padding: 10px 14px;
+    color: var(--text);
+    border-right: 1px solid rgba(42,42,36,0.5);
+    letter-spacing: 0.04em;
+    white-space: nowrap;
+  }
+  .data-table td:last-child { border-right: none; }
+
+  .td-muted  { color: var(--text-muted) !important; font-size: 10px !important; }
+  .td-green  { color: var(--green) !important; font-weight: 500; }
+  .td-amber  { color: var(--amber) !important; font-weight: 500; }
+  .td-red    { color: var(--red)   !important; font-weight: 500; }
+
+  /* ─── LOG PANEL ─────────────────────────────────────────────────── */
+  .log-panel { animation: fadeUp 0.55s ease 0.45s both; }
+
+  .log-terminal {
+    padding: 14px 16px;
+    font-size: 11px;
+    line-height: 1.9;
+    letter-spacing: 0.04em;
+    max-height: 260px;
+    overflow-y: auto;
+    scrollbar-width: thin;
+    scrollbar-color: var(--border) transparent;
+  }
+
+  .log-terminal::-webkit-scrollbar { width: 3px; }
+  .log-terminal::-webkit-scrollbar-thumb { background: var(--border); }
+
+  .log-line {
+    display: flex;
+    align-items: baseline;
+    gap: 8px;
+    padding: 1px 0;
+    animation: fadeUp 0.3s ease both;
+  }
+
+  .log-ts {
+    color: var(--text-muted);
+    font-size: 10px;
+    white-space: nowrap;
+    flex-shrink: 0;
+    opacity: 0.7;
+  }
+
+  .log-text { flex: 1; font-size: 11px; }
+  .log-green  { color: var(--green); }
+  .log-amber  { color: var(--amber); }
+  .log-red    { color: var(--red); }
+  .log-muted  { color: var(--text-muted); }
+
+  .log-cursor {
+    display: inline-block;
+    width: 7px;
+    height: 13px;
+    background: var(--amber);
+    vertical-align: text-bottom;
+    animation: blink 1.1s step-start infinite;
+    margin-left: 2px;
+  }
+
+  /* ─── FOOTER ─────────────────────────────────────────────────────── */
+  footer {
+    position: relative;
+    z-index: 1;
+    text-align: center;
+    padding: 16px 24px;
+    border-top: 1px solid var(--border);
+    font-size: 10px;
+    color: var(--text-muted);
+    letter-spacing: 0.15em;
+    font-family: var(--font-data);
+    background: var(--bg-2);
+  }
+
+  /* ─── RESPONSIVE ─────────────────────────────────────────────────── */
+  @media (max-width: 900px) {
+    .main-content,
+    .lower-section {
+      grid-template-columns: 1fr;
+    }
+
+    .header {
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+
+    .header-clock { font-size: 18px; }
+
+    .header-brand .wordmark { font-size: 36px; }
+
+    .map-container { height: 360px; }
+
+    .dispatch-list { max-height: 400px; }
+
+    .stats-bar { flex-wrap: wrap; }
+    .stat-item { min-width: 50%; flex: 0 0 50%; }
+    .stat-item + .stat-item::before { display: none; }
+  }
+
+  @media (max-width: 520px) {
+    .header-right { flex-wrap: wrap; gap: 8px; }
+    .main-content, .lower-section { padding: 12px; gap: 12px; }
+    .stat-item { min-width: 100%; flex: 0 0 100%; }
+    .map-container { height: 300px; }
+    .data-table { font-size: 10px; }
+    .data-table th, .data-table td { padding: 7px 10px; }
+  }
+
+  /* ─── SCROLLBAR GLOBAL ────────────────────────────────────────────── */
+  * {
+    scrollbar-width: thin;
+    scrollbar-color: var(--border) transparent;
+  }
+</style>
+</head>
+<body>
+
+<!-- DEMO BANNER -->
+<div class="demo-banner">
+  DEMO PREVIEW — ATLAS LOGISTICS DISPATCH &nbsp;·&nbsp; BUILT BY NODEAXIS
+</div>
+
+<!-- HEADER -->
+<header class="header">
+  <div class="header-brand">
+    <span class="wordmark">ATLAS</span>
+    <span class="sub">Logistics Dispatch</span>
+  </div>
+
+  <div class="header-clock" id="live-clock">00:00:00</div>
+
+  <div class="header-right">
+    <div class="status-badge" aria-label="Fleet status: 12 active vehicles">
+      <span class="dot dot-green" aria-hidden="true"></span>
+      <span style="color:var(--text);letter-spacing:0.1em;font-size:11px;font-weight:600;">12 ACTIVE</span>
+    </div>
+    <div class="status-badge" aria-label="2 active alerts">
+      <span class="dot dot-red" aria-hidden="true"></span>
+      <span style="color:var(--text-muted);letter-spacing:0.1em;font-size:11px;">ALERTS</span>
+      <span class="badge-count">2</span>
+    </div>
+    <div class="dispatcher-name">DISPATCHER: <span>J. WALKER</span></div>
+  </div>
+</header>
+
+<!-- STATS BAR -->
+<div class="stats-bar" role="region" aria-label="Fleet statistics">
+  <div class="stat-item">
+    <span class="stat-num">47</span>
+    <span class="stat-label">Deliveries Today</span>
+  </div>
+  <div class="stat-item">
+    <span class="stat-num">12</span>
+    <span class="stat-label">In Transit</span>
+  </div>
+  <div class="stat-item">
+    <span class="stat-num green">31</span>
+    <span class="stat-label">Completed</span>
+  </div>
+  <div class="stat-item">
+    <span class="stat-num" style="color:var(--amber);">4</span>
+    <span class="stat-label">Delayed</span>
+  </div>
+  <div class="stat-item">
+    <span class="stat-num muted">0</span>
+    <span class="stat-label">Failed</span>
+  </div>
+</div>
+
+<!-- MAIN GRID -->
+<div class="main-content">
+
+  <!-- LEFT: FLEET MAP -->
+  <div class="panel map-panel" role="region" aria-label="Live fleet map">
+    <div class="panel-header">
+      <span class="panel-title">LIVE FLEET POSITION — METRO VANCOUVER</span>
+      <div style="display:flex;align-items:center;gap:8px;">
+        <span class="dot dot-green" aria-hidden="true"></span>
+        <span style="font-size:10px;color:var(--text-muted);letter-spacing:0.1em;">LIVE</span>
+      </div>
+    </div>
+
+    <div class="map-container">
+
+      <!-- SVG Roads Layer -->
+      <svg class="map-svg" viewBox="0 0 800 480" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
+        <!-- Major roads - horizontal arteries -->
+        <line x1="0"   y1="140" x2="800" y2="140" stroke="rgba(74,100,74,0.35)" stroke-width="4"/>
+        <line x1="0"   y1="240" x2="800" y2="240" stroke="rgba(74,100,74,0.35)" stroke-width="4"/>
+        <line x1="0"   y1="340" x2="800" y2="340" stroke="rgba(74,100,74,0.25)" stroke-width="2.5"/>
+        <line x1="0"   y1="400" x2="800" y2="400" stroke="rgba(74,100,74,0.18)" stroke-width="2"/>
+        <line x1="0"   y1="80"  x2="800" y2="80"  stroke="rgba(74,100,74,0.18)" stroke-width="2"/>
+
+        <!-- Major roads - vertical arteries -->
+        <line x1="120" y1="0" x2="120" y2="480" stroke="rgba(74,100,74,0.35)" stroke-width="3.5"/>
+        <line x1="280" y1="0" x2="280" y2="480" stroke="rgba(74,100,74,0.30)" stroke-width="3"/>
+        <line x1="460" y1="0" x2="460" y2="480" stroke="rgba(74,100,74,0.30)" stroke-width="3"/>
+        <line x1="640" y1="0" x2="640" y2="480" stroke="rgba(74,100,74,0.25)" stroke-width="2.5"/>
+        <line x1="760" y1="0" x2="760" y2="480" stroke="rgba(74,100,74,0.18)" stroke-width="2"/>
+
+        <!-- Secondary roads -->
+        <line x1="0"   y1="190" x2="460" y2="190" stroke="rgba(74,100,74,0.15)" stroke-width="1.5"/>
+        <line x1="280" y1="190" x2="800" y2="190" stroke="rgba(74,100,74,0.15)" stroke-width="1.5"/>
+        <line x1="0"   y1="290" x2="800" y2="290" stroke="rgba(74,100,74,0.15)" stroke-width="1.5"/>
+        <line x1="200" y1="0"   x2="200" y2="480" stroke="rgba(74,100,74,0.12)" stroke-width="1.5"/>
+        <line x1="370" y1="0"   x2="370" y2="480" stroke="rgba(74,100,74,0.12)" stroke-width="1.5"/>
+        <line x1="550" y1="0"   x2="550" y2="480" stroke="rgba(74,100,74,0.12)" stroke-width="1.5"/>
+
+        <!-- Diagonal highway / bridge -->
+        <line x1="0"  y1="300" x2="220"  y2="140" stroke="rgba(100,130,90,0.3)" stroke-width="3" stroke-dasharray="8,4"/>
+        <line x1="640" y1="0"  x2="800"  y2="140" stroke="rgba(100,130,90,0.2)" stroke-width="2" stroke-dasharray="6,4"/>
+
+        <!-- Intersection dots at major crossings -->
+        <circle cx="120" cy="140" r="5" fill="rgba(245,158,11,0.25)"/>
+        <circle cx="280" cy="140" r="5" fill="rgba(245,158,11,0.25)"/>
+        <circle cx="460" cy="140" r="5" fill="rgba(245,158,11,0.25)"/>
+        <circle cx="640" cy="140" r="5" fill="rgba(245,158,11,0.2)"/>
+        <circle cx="120" cy="240" r="5" fill="rgba(245,158,11,0.25)"/>
+        <circle cx="280" cy="240" r="5" fill="rgba(245,158,11,0.25)"/>
+        <circle cx="460" cy="240" r="5" fill="rgba(245,158,11,0.2)"/>
+        <circle cx="640" cy="240" r="4" fill="rgba(245,158,11,0.15)"/>
+        <circle cx="120" cy="340" r="4" fill="rgba(245,158,11,0.15)"/>
+        <circle cx="280" cy="340" r="4" fill="rgba(245,158,11,0.15)"/>
+        <circle cx="460" cy="340" r="4" fill="rgba(245,158,11,0.12)"/>
+        <circle cx="640" cy="340" r="3" fill="rgba(245,158,11,0.10)"/>
+
+        <!-- Water / False Creek shape -->
+        <path d="M 0 440 Q 100 420 200 445 Q 300 460 400 440 Q 480 420 560 445 Q 650 460 800 440 L 800 480 L 0 480 Z"
+              fill="rgba(20,40,60,0.5)" stroke="rgba(30,80,100,0.3)" stroke-width="1"/>
+
+        <!-- Block fills - suggestion of building density -->
+        <rect x="130" y="148" width="62" height="85" fill="rgba(30,32,26,0.6)" rx="1"/>
+        <rect x="200" y="148" width="70" height="35" fill="rgba(28,30,24,0.5)" rx="1"/>
+        <rect x="200" y="195" width="70" height="38" fill="rgba(28,30,24,0.4)" rx="1"/>
+        <rect x="290" y="148" width="62" height="85" fill="rgba(30,32,26,0.5)" rx="1"/>
+        <rect x="362" y="148" width="88" height="38" fill="rgba(28,30,24,0.4)" rx="1"/>
+        <rect x="362" y="195" width="88" height="38" fill="rgba(28,30,24,0.35)" rx="1"/>
+        <rect x="470" y="148" width="62" height="85" fill="rgba(30,32,26,0.45)" rx="1"/>
+        <rect x="130" y="248" width="62" height="82" fill="rgba(30,32,26,0.4)" rx="1"/>
+        <rect x="200" y="248" width="70" height="82" fill="rgba(28,30,24,0.35)" rx="1"/>
+        <rect x="290" y="248" width="62" height="82" fill="rgba(30,32,26,0.4)" rx="1"/>
+        <rect x="470" y="248" width="62" height="82" fill="rgba(30,32,26,0.35)" rx="1"/>
+        <rect x="650" y="148" width="100" height="82" fill="rgba(28,30,24,0.3)" rx="1"/>
+        <rect x="650" y="248" width="100" height="82" fill="rgba(28,30,24,0.25)" rx="1"/>
+
+        <!-- Road labels - street names -->
+        <text x="130" y="137" fill="rgba(245,158,11,0.30)" font-family="'IBM Plex Mono'" font-size="8" letter-spacing="2">SEYMOUR ST</text>
+        <text x="288" y="137" fill="rgba(245,158,11,0.30)" font-family="'IBM Plex Mono'" font-size="8" letter-spacing="2">GRANVILLE</text>
+        <text x="468" y="137" fill="rgba(245,158,11,0.30)" font-family="'IBM Plex Mono'" font-size="8" letter-spacing="2">CAMBIE ST</text>
+        <text x="8" y="236" fill="rgba(245,158,11,0.22)" font-family="'IBM Plex Mono'" font-size="8" letter-spacing="1">W GEORGIA</text>
+        <text x="8" y="138" fill="rgba(245,158,11,0.22)" font-family="'IBM Plex Mono'" font-size="8" letter-spacing="1">HASTINGS</text>
+        <text x="8" y="338" fill="rgba(245,158,11,0.18)" font-family="'IBM Plex Mono'" font-size="8" letter-spacing="1">BROADWAY</text>
+      </svg>
+
+      <!-- District labels -->
+      <div class="map-label" style="top:6%;left:3%;">DOWNTOWN</div>
+      <div class="map-label" style="top:6%;left:38%;">GASTOWN</div>
+      <div class="map-label" style="top:6%;left:66%;">EAST VAN</div>
+      <div class="map-label" style="top:52%;left:3%;">KITSILANO</div>
+      <div class="map-label" style="top:52%;left:38%;">MOUNT PLEASANT</div>
+      <div class="map-label" style="top:52%;left:70%;">KNIGHT</div>
+      <div class="map-label" style="top:80%;left:20%;">FALSE CREEK</div>
+
+      <!-- ACTIVE TRUCKS -->
+      <div class="truck-marker truck-1" title="VAN-01 — ATL-2847 IN TRANSIT">
+        <svg width="16" height="18" viewBox="0 0 16 18" aria-hidden="true">
+          <polygon points="8,0 16,18 0,18" fill="#F59E0B"/>
+          <polygon points="8,4 13,16 3,16"  fill="#0A0A08" opacity="0.5"/>
+        </svg>
+        <span class="truck-label">VAN-01</span>
+      </div>
+
+      <div class="truck-marker truck-2" title="VAN-02 — ATL-2848 LOADING">
+        <svg width="16" height="18" viewBox="0 0 16 18" aria-hidden="true">
+          <polygon points="8,0 16,18 0,18" fill="#F59E0B"/>
+          <polygon points="8,4 13,16 3,16"  fill="#0A0A08" opacity="0.5"/>
+        </svg>
+        <span class="truck-label">VAN-02</span>
+      </div>
+
+      <div class="truck-marker truck-3" title="VAN-03 IN TRANSIT">
+        <svg width="16" height="18" viewBox="0 0 16 18" aria-hidden="true">
+          <polygon points="8,0 16,18 0,18" fill="#F59E0B"/>
+          <polygon points="8,4 13,16 3,16"  fill="#0A0A08" opacity="0.5"/>
+        </svg>
+        <span class="truck-label">VAN-03</span>
+      </div>
+
+      <div class="truck-marker truck-4" title="VAN-05 IN TRANSIT">
+        <svg width="16" height="18" viewBox="0 0 16 18" aria-hidden="true">
+          <polygon points="8,0 16,18 0,18" fill="#F59E0B"/>
+          <polygon points="8,4 13,16 3,16"  fill="#0A0A08" opacity="0.5"/>
+        </svg>
+        <span class="truck-label">VAN-05</span>
+      </div>
+
+      <div class="truck-marker truck-5" title="VAN-09 IN TRANSIT">
+        <svg width="16" height="18" viewBox="0 0 16 18" aria-hidden="true">
+          <polygon points="8,0 16,18 0,18" fill="#F59E0B"/>
+          <polygon points="8,4 13,16 3,16"  fill="#0A0A08" opacity="0.5"/>
+        </svg>
+        <span class="truck-label">VAN-09</span>
+      </div>
+
+      <div class="truck-marker truck-9" title="VAN-10 IN TRANSIT">
+        <svg width="16" height="18" viewBox="0 0 16 18" aria-hidden="true">
+          <polygon points="8,0 16,18 0,18" fill="#F59E0B"/>
+          <polygon points="8,4 13,16 3,16"  fill="#0A0A08" opacity="0.5"/>
+        </svg>
+        <span class="truck-label">VAN-10</span>
+      </div>
+
+      <div class="truck-marker truck-10" title="VAN-11 IN TRANSIT">
+        <svg width="16" height="18" viewBox="0 0 16 18" aria-hidden="true">
+          <polygon points="8,0 16,18 0,18" fill="#F59E0B"/>
+          <polygon points="8,4 13,16 3,16"  fill="#0A0A08" opacity="0.5"/>
+        </svg>
+        <span class="truck-label">VAN-11</span>
+      </div>
+
+      <!-- IDLE TRUCKS -->
+      <div class="truck-marker idle truck-6" title="VAN-06 IDLE">
+        <svg width="14" height="16" viewBox="0 0 16 18" aria-hidden="true">
+          <polygon points="8,0 16,18 0,18" fill="#4B4B3E"/>
+          <polygon points="8,4 13,16 3,16"  fill="#0A0A08" opacity="0.5"/>
+        </svg>
+        <span class="truck-label">VAN-06</span>
+      </div>
+
+      <div class="truck-marker idle truck-7" title="VAN-07 IDLE">
+        <svg width="14" height="16" viewBox="0 0 16 18" aria-hidden="true">
+          <polygon points="8,0 16,18 0,18" fill="#4B4B3E"/>
+          <polygon points="8,4 13,16 3,16"  fill="#0A0A08" opacity="0.5"/>
+        </svg>
+        <span class="truck-label">VAN-07</span>
+      </div>
+
+      <!-- ALERT TRUCK -->
+      <div class="truck-marker alert truck-8" title="VAN-04 DELAYED — ALERT">
+        <svg width="16" height="18" viewBox="0 0 16 18" aria-hidden="true">
+          <polygon points="8,0 16,18 0,18" fill="#F87171"/>
+          <polygon points="8,4 13,16 3,16"  fill="#0A0A08" opacity="0.5"/>
+        </svg>
+        <span class="truck-label">VAN-04</span>
+      </div>
+
+      <!-- LEGEND -->
+      <div class="map-legend" role="note" aria-label="Map legend">
+        <div class="legend-item">
+          <span class="legend-dot" style="background:var(--amber);"></span>
+          ACTIVE
+        </div>
+        <div class="legend-item">
+          <span class="legend-dot" style="background:#4B4B3E;"></span>
+          IDLE
+        </div>
+        <div class="legend-item">
+          <span class="legend-dot" style="background:var(--red);"></span>
+          ALERT
+        </div>
+      </div>
+
+      <!-- Coordinates -->
+      <div class="map-coords" aria-label="Map coordinates">
+        LAT <span>49.2827°N</span><br>
+        LNG <span>123.1207°W</span><br>
+        ZOOM <span>12.4</span>
+      </div>
+
+    </div><!-- /map-container -->
+  </div><!-- /map-panel -->
+
+  <!-- RIGHT: DISPATCH QUEUE -->
+  <div class="panel dispatch-panel" role="region" aria-label="Active jobs dispatch queue">
+    <div class="panel-header">
+      <div style="display:flex;align-items:center;gap:10px;">
+        <span class="panel-title">ACTIVE JOBS</span>
+        <span class="count-badge">6</span>
+      </div>
+      <button class="new-job-btn" aria-label="Create new job">+ NEW JOB</button>
+    </div>
+
+    <div class="dispatch-list" role="list">
+
+      <!-- JOB 1 — IN TRANSIT URGENT -->
+      <div class="job-card urgent" role="listitem" tabindex="0">
+        <div class="job-row-1">
+          <span class="job-id">ATL-2847</span>
+          <span class="job-status status-transit">IN TRANSIT</span>
+        </div>
+        <div class="job-driver">DRIVER: <span>Mike Chen</span> &nbsp;·&nbsp; VAN-01</div>
+        <div class="job-route">
+          <span class="addr">1200 Seymour St</span>
+          <span class="route-arrow">&#8594;</span>
+          <span class="addr">4580 Knight St</span>
+        </div>
+        <div class="job-row-3">
+          <span class="job-eta">ETA <span>14 min</span></span>
+          <button class="job-btn btn-track" aria-label="Track job ATL-2847">TRACK</button>
+        </div>
+      </div>
+
+      <!-- JOB 2 — LOADING -->
+      <div class="job-card loading-card" role="listitem" tabindex="0">
+        <div class="job-row-1">
+          <span class="job-id">ATL-2848</span>
+          <span class="job-status status-loading">LOADING</span>
+        </div>
+        <div class="job-driver">DRIVER: <span>Sarah Okafor</span> &nbsp;·&nbsp; VAN-02</div>
+        <div class="job-route">
+          <span class="addr">YVR Cargo Terminal</span>
+          <span class="route-arrow">&#8594;</span>
+          <span class="addr">1055 W Georgia St</span>
+        </div>
+        <div class="job-row-3">
+          <span class="job-eta">ETA <span>32 min</span></span>
+          <button class="job-btn btn-assign" aria-label="Assign job ATL-2848">ASSIGN</button>
+        </div>
+      </div>
+
+      <!-- JOB 3 — DELAYED ALERT -->
+      <div class="job-card alert-card" role="listitem" tabindex="0">
+        <div class="job-row-1">
+          <span class="job-id">ATL-2849</span>
+          <span class="job-status status-delayed">DELAYED — TRAFFIC</span>
+        </div>
+        <div class="job-driver">DRIVER: <span>Derek Liu</span> &nbsp;·&nbsp; VAN-04</div>
+        <div class="job-route">
+          <span class="addr">3700 E Hastings St</span>
+          <span class="route-arrow">&#8594;</span>
+          <span class="addr">888 Pacific Blvd</span>
+        </div>
+        <div class="job-row-3">
+          <span class="job-eta" style="color:var(--red);">+28 MIN OVER</span>
+          <button class="job-btn btn-alert" aria-label="View alert for job ATL-2849">ALERT</button>
+        </div>
+      </div>
+
+      <!-- JOB 4 — IN TRANSIT -->
+      <div class="job-card urgent" role="listitem" tabindex="0">
+        <div class="job-row-1">
+          <span class="job-id">ATL-2850</span>
+          <span class="job-status status-transit">IN TRANSIT</span>
+        </div>
+        <div class="job-driver">DRIVER: <span>Priya Sharma</span> &nbsp;·&nbsp; VAN-03</div>
+        <div class="job-route">
+          <span class="addr">2288 Yukon St</span>
+          <span class="route-arrow">&#8594;</span>
+          <span class="addr">560 Robson St</span>
+        </div>
+        <div class="job-row-3">
+          <span class="job-eta">ETA <span>8 min</span></span>
+          <button class="job-btn btn-track" aria-label="Track job ATL-2850">TRACK</button>
+        </div>
+      </div>
+
+      <!-- JOB 5 — PENDING -->
+      <div class="job-card" role="listitem" tabindex="0">
+        <div class="job-row-1">
+          <span class="job-id">ATL-2851</span>
+          <span class="job-status status-pending">PENDING</span>
+        </div>
+        <div class="job-driver">DRIVER: <span>James Tran</span> &nbsp;·&nbsp; VAN-05</div>
+        <div class="job-route">
+          <span class="addr">Burnaby DC — Bay 4</span>
+          <span class="route-arrow">&#8594;</span>
+          <span class="addr">1166 Alberni St</span>
+        </div>
+        <div class="job-row-3">
+          <span class="job-eta">ETA <span>—</span></span>
+          <button class="job-btn btn-assign" aria-label="Assign job ATL-2851">ASSIGN</button>
+        </div>
+      </div>
+
+      <!-- JOB 6 — IN TRANSIT -->
+      <div class="job-card urgent" role="listitem" tabindex="0">
+        <div class="job-row-1">
+          <span class="job-id">ATL-2852</span>
+          <span class="job-status status-transit">IN TRANSIT</span>
+        </div>
+        <div class="job-driver">DRIVER: <span>Aisha Mensah</span> &nbsp;·&nbsp; VAN-09</div>
+        <div class="job-route">
+          <span class="addr">7080 River Rd, Richmond</span>
+          <span class="route-arrow">&#8594;</span>
+          <span class="addr">333 Seymour St</span>
+        </div>
+        <div class="job-row-3">
+          <span class="job-eta">ETA <span>22 min</span></span>
+          <button class="job-btn btn-track" aria-label="Track job ATL-2852">TRACK</button>
+        </div>
+      </div>
+
+    </div><!-- /dispatch-list -->
+  </div><!-- /dispatch-panel -->
+
+</div><!-- /main-content -->
+
+<!-- LOWER SECTION -->
+<div class="lower-section">
+
+  <!-- LEFT: DRIVER STATUS TABLE -->
+  <div class="panel driver-panel" role="region" aria-label="Driver status table">
+    <div class="panel-header">
+      <span class="panel-title">DRIVER STATUS</span>
+      <span style="font-size:10px;color:var(--text-muted);letter-spacing:0.12em;">UPDATED 14:31:08</span>
+    </div>
+    <div style="overflow-x:auto;">
+      <table class="data-table" aria-label="Driver status">
+        <thead>
+          <tr>
+            <th scope="col">Driver</th>
+            <th scope="col">Vehicle</th>
+            <th scope="col">Status</th>
+            <th scope="col">Current Job</th>
+            <th scope="col">Last Update</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Mike Chen</td>
+            <td class="td-muted">VAN-01</td>
+            <td class="td-green">IN TRANSIT</td>
+            <td class="td-muted">ATL-2847</td>
+            <td class="td-muted">14:31:02</td>
+          </tr>
+          <tr>
+            <td>Sarah Okafor</td>
+            <td class="td-muted">VAN-02</td>
+            <td class="td-amber">LOADING</td>
+            <td class="td-muted">ATL-2848</td>
+            <td class="td-muted">14:29:44</td>
+          </tr>
+          <tr>
+            <td>Derek Liu</td>
+            <td class="td-muted">VAN-04</td>
+            <td class="td-red">DELAYED</td>
+            <td class="td-muted">ATL-2849</td>
+            <td class="td-muted">14:30:51</td>
+          </tr>
+          <tr>
+            <td>Priya Sharma</td>
+            <td class="td-muted">VAN-03</td>
+            <td class="td-green">IN TRANSIT</td>
+            <td class="td-muted">ATL-2850</td>
+            <td class="td-muted">14:31:07</td>
+          </tr>
+          <tr>
+            <td>James Tran</td>
+            <td class="td-muted">VAN-05</td>
+            <td style="color:var(--text-muted);font-weight:500;">IDLE</td>
+            <td class="td-muted">ATL-2851</td>
+            <td class="td-muted">14:27:19</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- RIGHT: DELIVERY LOG -->
+  <div class="panel log-panel" role="region" aria-label="Recent deliveries log">
+    <div class="panel-header">
+      <span class="panel-title">DELIVERY LOG</span>
+      <span style="font-size:10px;color:var(--green);letter-spacing:0.12em;animation:blink 2s infinite;">&#9679; LIVE</span>
+    </div>
+
+    <div class="log-terminal" aria-live="polite" aria-label="Live delivery log">
+      <div class="log-line">
+        <span class="log-ts">[14:31:04]</span>
+        <span class="log-text log-green">JOB-2841 &#8212; DELIVERED &#8212; 99 Smithe St &#8212; Chen M.</span>
+      </div>
+      <div class="log-line">
+        <span class="log-ts">[14:29:18]</span>
+        <span class="log-text log-amber">JOB-2848 &#8212; LOADING &#8212; YVR Cargo Terminal &#8212; Okafor S.</span>
+      </div>
+      <div class="log-line">
+        <span class="log-ts">[14:28:55]</span>
+        <span class="log-text log-green">JOB-2840 &#8212; DELIVERED &#8212; 1200 Burrard St &#8212; Sharma P.</span>
+      </div>
+      <div class="log-line">
+        <span class="log-ts">[14:26:33]</span>
+        <span class="log-text log-red">JOB-2849 &#8212; DELAYED &#8212; E Hastings / Nanaimo &#8212; Liu D.</span>
+      </div>
+      <div class="log-line">
+        <span class="log-ts">[14:24:47]</span>
+        <span class="log-text log-green">JOB-2838 &#8212; DELIVERED &#8212; 777 Hornby St &#8212; Mensah A.</span>
+      </div>
+      <div class="log-line">
+        <span class="log-ts">[14:23:07]</span>
+        <span class="log-text log-green">JOB-2836 &#8212; DELIVERED &#8212; 4580 Knight St &#8212; Tran J.</span>
+      </div>
+      <div class="log-line">
+        <span class="log-ts">[14:20:52]</span>
+        <span class="log-text log-amber">JOB-2850 &#8212; IN TRANSIT &#8212; Yukon St &#8594; Robson &#8212; Sharma P.</span>
+      </div>
+      <div class="log-line">
+        <span class="log-ts">[14:18:11]</span>
+        <span class="log-text log-green">JOB-2835 &#8212; DELIVERED &#8212; 1055 W Georgia St &#8212; Chen M.</span>
+      </div>
+      <div class="log-line">
+        <span class="log-ts">[14:15:39]</span>
+        <span class="log-text log-green">JOB-2833 &#8212; DELIVERED &#8212; 2288 Yukon St &#8212; Liu D.</span>
+      </div>
+      <div class="log-line">
+        <span class="log-ts">[14:12:04]</span>
+        <span class="log-text log-muted">JOB-2831 &#8212; PICKED UP &#8212; Burnaby DC Bay 4 &#8212; Tran J.</span>
+      </div>
+      <div class="log-line">
+        <span class="log-ts">[14:09:28]</span>
+        <span class="log-text log-green">JOB-2829 &#8212; DELIVERED &#8212; 888 Pacific Blvd &#8212; Okafor S.</span>
+      </div>
+      <div class="log-line" aria-label="Log active">
+        <span class="log-ts">[14:31:08]</span>
+        <span class="log-text log-muted">SYSTEM &#8212; DISPATCH ACTIVE &#8212; 12 UNITS ONLINE<span class="log-cursor" aria-hidden="true"></span></span>
+      </div>
+    </div>
+  </div>
+
+</div><!-- /lower-section -->
+
+<!-- FOOTER -->
+<footer aria-label="Site footer">
+  &copy; 2024 ATLAS LOGISTICS &nbsp;&#183;&nbsp; BUILT BY NODEAXIS &nbsp;&#183;&nbsp; NODEAXIS.CA
+</footer>
+
+<!-- LIVE CLOCK SCRIPT -->
+<script>
+  (function () {
+    var clockEl = document.getElementById('live-clock');
+
+    function updateClock() {
+      var now = new Date();
+      clockEl.textContent = now.toLocaleTimeString('en-CA', { hour12: false });
+    }
+
+    updateClock();
+    setInterval(updateClock, 1000);
+  })();
+</script>
+
+</body>
+</html>

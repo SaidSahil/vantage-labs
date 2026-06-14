@@ -1,0 +1,985 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Prism Architecture — Vancouver</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;1,400&family=Barlow:wght@300;400;500;600&display=swap');
+
+:root {
+  --white: #FFFFFF;
+  --bg: #FAFAF8;
+  --surface: #FFFFFF;
+  --stone: #C4B5A0;
+  --stone-light: #EDE5D8;
+  --stone-dim: rgba(196,181,160,0.15);
+  --charcoal: #1C1C1E;
+  --charcoal-2: #2C2C2E;
+  --text: #1C1C1E;
+  --text-muted: #8A8A8E;
+  --text-light: #B0B0B5;
+  --border: #E8E4DF;
+  --border-2: #C4B5A0;
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+html { scroll-behavior: smooth; }
+
+body {
+  font-family: 'Barlow', sans-serif;
+  font-weight: 300;
+  background: var(--bg);
+  color: var(--text);
+  font-size: 15px;
+  line-height: 1.7;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* Demo Banner */
+.demo-banner {
+  background: var(--charcoal);
+  color: rgba(255,255,255,0.55);
+  text-align: center;
+  padding: 9px 24px;
+  font-family: 'Barlow', sans-serif;
+  font-size: 10px;
+  font-weight: 500;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  position: sticky;
+  top: 0;
+  z-index: 200;
+}
+
+/* Nav */
+nav {
+  position: sticky;
+  top: 35px;
+  z-index: 100;
+  background: var(--white);
+  border-bottom: 1px solid var(--border);
+  padding: 0 clamp(24px, 5vw, 80px);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 64px;
+}
+
+.nav-logo {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  text-decoration: none;
+}
+
+.nav-logo-text {
+  font-family: 'EB Garamond', serif;
+  font-size: 20px;
+  font-weight: 500;
+  color: var(--charcoal);
+  letter-spacing: 0.04em;
+}
+
+.nav-links {
+  display: flex;
+  align-items: center;
+  gap: 40px;
+  list-style: none;
+}
+
+.nav-links a {
+  font-family: 'Barlow', sans-serif;
+  font-size: 12px;
+  font-weight: 400;
+  letter-spacing: 0.08em;
+  color: var(--text-muted);
+  text-decoration: none;
+  transition: color 0.2s ease;
+}
+
+.nav-links a:hover { color: var(--charcoal); }
+
+.nav-cta {
+  font-family: 'Barlow', sans-serif;
+  font-size: 12px;
+  font-weight: 400;
+  letter-spacing: 0.08em;
+  color: var(--charcoal);
+  text-decoration: none;
+  border: 1px solid var(--charcoal);
+  padding: 10px 22px;
+  transition: all 0.2s ease;
+}
+
+.nav-cta:hover {
+  background: var(--charcoal);
+  color: var(--white);
+}
+
+/* Hero */
+.hero {
+  min-height: 100vh;
+  background: var(--white);
+  padding: clamp(80px, 10vw, 140px) clamp(24px, 5vw, 80px);
+  position: relative;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  align-items: end;
+  gap: 80px;
+  overflow: hidden;
+}
+
+.hero-bg-grid {
+  position: absolute;
+  inset: 0;
+  background-image:
+    linear-gradient(rgba(196,181,160,0.06) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(196,181,160,0.06) 1px, transparent 1px);
+  background-size: 60px 60px;
+  pointer-events: none;
+}
+
+.hero-label {
+  font-size: 10px;
+  font-weight: 500;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+  margin-bottom: 40px;
+}
+
+.hero-headline {
+  font-family: 'EB Garamond', serif;
+  font-size: clamp(64px, 8vw, 108px);
+  font-weight: 500;
+  line-height: 0.95;
+  color: var(--charcoal);
+  margin-bottom: 32px;
+}
+
+.hero-rule {
+  width: 72px;
+  height: 1px;
+  background: var(--stone);
+  margin-bottom: 28px;
+}
+
+.hero-body {
+  font-size: 15px;
+  font-weight: 300;
+  color: var(--text-muted);
+  line-height: 1.75;
+  max-width: 420px;
+  margin-bottom: 40px;
+}
+
+.hero-link {
+  font-size: 13px;
+  font-weight: 400;
+  letter-spacing: 0.06em;
+  color: var(--charcoal);
+  text-decoration: underline;
+  text-underline-offset: 4px;
+  transition: color 0.2s ease;
+}
+
+.hero-link:hover { color: var(--stone); }
+
+/* Blueprint SVG panel */
+.hero-blueprint {
+  display: flex;
+  align-items: flex-start;
+  justify-content: flex-end;
+  padding-top: 60px;
+}
+
+/* Sections */
+section {
+  padding: clamp(80px, 10vw, 120px) clamp(24px, 5vw, 80px);
+}
+
+.section-label {
+  font-size: 10px;
+  font-weight: 500;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+  margin-bottom: 16px;
+}
+
+.section-heading {
+  font-family: 'EB Garamond', serif;
+  font-size: clamp(32px, 4vw, 52px);
+  font-weight: 400;
+  color: var(--charcoal);
+  line-height: 1.1;
+  margin-bottom: 12px;
+}
+
+.section-sub {
+  font-size: 14px;
+  font-weight: 300;
+  color: var(--text-muted);
+  max-width: 500px;
+  line-height: 1.7;
+}
+
+/* Projects */
+.projects-section {
+  background: var(--bg);
+}
+
+.projects-header {
+  margin-bottom: 64px;
+  text-align: center;
+}
+
+.project-entry {
+  margin-bottom: 0;
+  border-top: 1px solid var(--border);
+  opacity: 0;
+  transform: translateY(24px);
+  transition: opacity 0.7s ease, transform 0.7s ease;
+}
+
+.project-entry.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.project-photo {
+  width: 100%;
+  height: clamp(280px, 35vw, 440px);
+  position: relative;
+  overflow: hidden;
+}
+
+.project-photo-inner {
+  width: 100%;
+  height: 100%;
+  transition: transform 0.6s ease;
+}
+
+.project-entry:hover .project-photo-inner {
+  transform: scale(1.02);
+}
+
+.project-meta {
+  padding: 32px 0 48px;
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 24px;
+  align-items: start;
+  border-top: 1px solid var(--border);
+}
+
+.project-num {
+  font-size: 11px;
+  font-weight: 400;
+  letter-spacing: 0.15em;
+  color: var(--text-light);
+  font-family: 'Barlow', sans-serif;
+}
+
+.project-name {
+  font-family: 'EB Garamond', serif;
+  font-size: clamp(22px, 2.5vw, 32px);
+  font-weight: 400;
+  color: var(--charcoal);
+  margin-bottom: 8px;
+}
+
+.project-info {
+  font-size: 13px;
+  font-weight: 300;
+  color: var(--text-muted);
+  line-height: 1.6;
+  margin-bottom: 16px;
+}
+
+.project-tags {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.project-tag {
+  font-size: 10px;
+  font-weight: 400;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+  border: 1px solid var(--border);
+  padding: 4px 10px;
+}
+
+.project-link {
+  font-size: 12px;
+  font-weight: 400;
+  letter-spacing: 0.06em;
+  color: var(--charcoal);
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  transition: color 0.2s ease;
+  margin-top: 20px;
+  justify-self: end;
+  align-self: end;
+}
+
+.project-link:hover { color: var(--stone); }
+
+/* Practice */
+.practice-section {
+  background: var(--white);
+}
+
+.practice-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: clamp(40px, 6vw, 100px);
+  align-items: start;
+}
+
+.practice-text .section-heading {
+  margin-bottom: 24px;
+}
+
+.practice-body {
+  font-size: 15px;
+  font-weight: 300;
+  color: var(--text-muted);
+  line-height: 1.8;
+  margin-bottom: 32px;
+}
+
+/* Blueprint elevation SVG */
+.elevation-wrap {
+  padding-top: 20px;
+  opacity: 0;
+  transform: translateY(16px);
+  transition: opacity 0.7s ease 0.2s, transform 0.7s ease 0.2s;
+}
+
+.elevation-wrap.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* People */
+.people-section {
+  background: var(--stone-light);
+}
+
+.people-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1px;
+  margin-top: 56px;
+  border: 1px solid var(--border-2);
+}
+
+.person-card {
+  background: var(--white);
+  padding: 36px 32px;
+  opacity: 0;
+  transform: translateY(16px);
+  transition: opacity 0.6s ease, transform 0.6s ease;
+}
+
+.person-card.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.person-name {
+  font-family: 'EB Garamond', serif;
+  font-size: 22px;
+  font-weight: 400;
+  color: var(--charcoal);
+  margin-bottom: 4px;
+}
+
+.person-title {
+  font-size: 11px;
+  font-weight: 400;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+  margin-bottom: 16px;
+}
+
+.person-bio {
+  font-size: 13px;
+  font-weight: 300;
+  color: var(--text-muted);
+  line-height: 1.7;
+  margin-bottom: 20px;
+}
+
+.person-spec {
+  font-size: 11px;
+  font-weight: 400;
+  letter-spacing: 0.08em;
+  color: var(--stone);
+  text-transform: uppercase;
+}
+
+/* Recognition */
+.recognition-section {
+  background: var(--white);
+}
+
+.recognition-list {
+  margin-top: 56px;
+  border-top: 1px solid var(--border);
+}
+
+.recognition-item {
+  display: grid;
+  grid-template-columns: 80px 1fr auto;
+  gap: 32px;
+  align-items: baseline;
+  padding: 24px 0;
+  border-bottom: 1px solid var(--border);
+  border-left: 2px solid transparent;
+  padding-left: 16px;
+  margin-left: -18px;
+  transition: border-color 0.2s ease;
+  opacity: 0;
+  transform: translateX(-8px);
+  transition: opacity 0.5s ease, transform 0.5s ease, border-color 0.2s ease;
+}
+
+.recognition-item.visible {
+  opacity: 1;
+  transform: translateX(0);
+}
+
+.recognition-item:hover {
+  border-left-color: var(--stone);
+}
+
+.recognition-year {
+  font-size: 12px;
+  font-weight: 400;
+  color: var(--stone);
+  letter-spacing: 0.08em;
+  font-family: 'Barlow', sans-serif;
+}
+
+.recognition-name {
+  font-size: 15px;
+  font-weight: 300;
+  color: var(--charcoal);
+  line-height: 1.4;
+}
+
+.recognition-award {
+  font-size: 12px;
+  font-weight: 300;
+  color: var(--text-muted);
+  margin-top: 2px;
+}
+
+.recognition-source {
+  font-size: 11px;
+  font-weight: 400;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--text-light);
+  white-space: nowrap;
+}
+
+/* Contact */
+.contact-section {
+  background: var(--charcoal);
+  color: var(--white);
+}
+
+.contact-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: clamp(40px, 6vw, 100px);
+  align-items: start;
+}
+
+.contact-heading {
+  font-family: 'EB Garamond', serif;
+  font-size: clamp(40px, 5vw, 68px);
+  font-weight: 400;
+  color: var(--white);
+  line-height: 1.05;
+  margin-bottom: 24px;
+}
+
+.contact-body {
+  font-size: 14px;
+  font-weight: 300;
+  color: rgba(255,255,255,0.45);
+  line-height: 1.75;
+}
+
+.contact-form {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+}
+
+.form-field {
+  border-bottom: 1px solid rgba(255,255,255,0.15);
+  padding: 20px 0;
+}
+
+.form-label {
+  font-size: 10px;
+  font-weight: 500;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: rgba(255,255,255,0.35);
+  display: block;
+  margin-bottom: 10px;
+}
+
+.form-input,
+.form-select,
+.form-textarea {
+  width: 100%;
+  background: transparent;
+  border: none;
+  outline: none;
+  font-family: 'Barlow', sans-serif;
+  font-size: 15px;
+  font-weight: 300;
+  color: var(--white);
+  padding: 0;
+  line-height: 1.5;
+  border-bottom: 2px solid transparent;
+  transition: border-color 0.2s ease;
+}
+
+.form-input:focus,
+.form-select:focus,
+.form-textarea:focus {
+  border-bottom-color: var(--stone);
+}
+
+.form-select option {
+  background: var(--charcoal);
+  color: var(--white);
+}
+
+.form-textarea {
+  resize: none;
+  height: 80px;
+}
+
+.form-submit {
+  margin-top: 36px;
+  background: transparent;
+  border: 1px solid rgba(255,255,255,0.3);
+  color: var(--white);
+  font-family: 'Barlow', sans-serif;
+  font-size: 12px;
+  font-weight: 400;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  padding: 16px 32px;
+  cursor: pointer;
+  align-self: flex-start;
+  transition: all 0.2s ease;
+  min-height: 50px;
+}
+
+.form-submit:hover {
+  background: var(--white);
+  color: var(--charcoal);
+  border-color: var(--white);
+}
+
+/* Footer */
+footer {
+  background: var(--white);
+  border-top: 1px solid var(--border);
+  padding: 28px clamp(24px, 5vw, 80px);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+.footer-text {
+  font-size: 11px;
+  font-weight: 300;
+  letter-spacing: 0.1em;
+  color: var(--text-muted);
+}
+
+/* Scroll reveal */
+.reveal {
+  opacity: 0;
+  transform: translateY(20px);
+  transition: opacity 0.7s ease, transform 0.7s ease;
+}
+
+.reveal.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Responsive */
+@media (max-width: 900px) {
+  .hero { grid-template-columns: 1fr; }
+  .hero-blueprint { display: none; }
+  .practice-grid { grid-template-columns: 1fr; }
+  .people-grid { grid-template-columns: 1fr; }
+  .contact-grid { grid-template-columns: 1fr; }
+  .project-meta { grid-template-columns: 1fr 1fr; }
+  .nav-links { display: none; }
+  .recognition-item { grid-template-columns: 60px 1fr; }
+  .recognition-source { display: none; }
+}
+</style>
+</head>
+<body>
+
+<!-- Demo Banner -->
+<div class="demo-banner">DEMO PREVIEW — PRISM ARCHITECTURE — BUILT BY NODEAXIS · NODEAXIS.CA</div>
+
+<!-- Navigation -->
+<nav>
+  <a href="#" class="nav-logo">
+    <svg width="16" height="18" viewBox="0 0 16 18" fill="none" aria-hidden="true">
+      <polygon points="8,1 15,5 15,13 8,17 1,13 1,5" stroke="#C4B5A0" stroke-width="1" fill="none"/>
+      <line x1="8" y1="1" x2="8" y2="17" stroke="#C4B5A0" stroke-width="0.5"/>
+      <line x1="1" y1="9" x2="15" y2="9" stroke="#C4B5A0" stroke-width="0.5"/>
+    </svg>
+    <span class="nav-logo-text">Prism</span>
+  </a>
+  <ul class="nav-links">
+    <li><a href="#">Work</a></li>
+    <li><a href="#">Practice</a></li>
+    <li><a href="#">People</a></li>
+    <li><a href="#">Press</a></li>
+    <li><a href="#">Contact</a></li>
+  </ul>
+  <a href="#contact" class="nav-cta">Enquire</a>
+</nav>
+
+<!-- Hero -->
+<section class="hero">
+  <div class="hero-bg-grid" aria-hidden="true"></div>
+
+  <div class="hero-content">
+    <div class="hero-label">Architecture · Vancouver, BC · Est. 2009</div>
+    <h1 class="hero-headline">Architecture<br><em>as Argument.</em></h1>
+    <div class="hero-rule"></div>
+    <p class="hero-body">Prism designs residential and commercial buildings across Metro Vancouver. Each project is a response to its site, program, and the people who will inhabit it.</p>
+    <a href="#work" class="hero-link">View Selected Work →</a>
+  </div>
+
+  <div class="hero-blueprint" aria-hidden="true">
+    <!-- Blueprint floor plan fragment -->
+    <svg width="340" height="320" viewBox="0 0 340 320" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <!-- Outer walls -->
+      <rect x="40" y="40" width="260" height="200" stroke="#1C1C1E" stroke-width="0.6" fill="none" opacity="0.2"/>
+      <!-- Inner rooms -->
+      <line x1="40" y1="140" x2="180" y2="140" stroke="#1C1C1E" stroke-width="0.4" opacity="0.18"/>
+      <line x1="180" y1="40" x2="180" y2="240" stroke="#1C1C1E" stroke-width="0.4" opacity="0.18"/>
+      <line x1="40" y1="190" x2="180" y2="190" stroke="#1C1C1E" stroke-width="0.4" opacity="0.18"/>
+      <!-- Door swings (arcs) -->
+      <path d="M 80 140 Q 80 110 110 110" stroke="#C4B5A0" stroke-width="0.5" fill="none" opacity="0.5" stroke-dasharray="3,2"/>
+      <path d="M 180 80 Q 210 80 210 110" stroke="#C4B5A0" stroke-width="0.5" fill="none" opacity="0.5" stroke-dasharray="3,2"/>
+      <!-- Dimensions -->
+      <line x1="40" y1="260" x2="300" y2="260" stroke="#1C1C1E" stroke-width="0.3" opacity="0.15"/>
+      <line x1="40" y1="255" x2="40" y2="265" stroke="#1C1C1E" stroke-width="0.3" opacity="0.15"/>
+      <line x1="300" y1="255" x2="300" y2="265" stroke="#1C1C1E" stroke-width="0.3" opacity="0.15"/>
+      <text x="170" y="275" font-family="Barlow, sans-serif" font-size="9" fill="#8A8A8E" text-anchor="middle" font-weight="300" opacity="0.6">18.4 m</text>
+      <line x1="320" y1="40" x2="320" y2="240" stroke="#1C1C1E" stroke-width="0.3" opacity="0.15"/>
+      <line x1="315" y1="40" x2="325" y2="40" stroke="#1C1C1E" stroke-width="0.3" opacity="0.15"/>
+      <line x1="315" y1="240" x2="325" y2="240" stroke="#1C1C1E" stroke-width="0.3" opacity="0.15"/>
+      <text x="332" y="144" font-family="Barlow, sans-serif" font-size="9" fill="#8A8A8E" text-anchor="middle" font-weight="300" opacity="0.6" transform="rotate(90, 332, 144)">12.4 m</text>
+      <!-- Labels -->
+      <text x="100" y="98" font-family="Barlow, sans-serif" font-size="8" fill="#8A8A8E" text-anchor="middle" font-weight="300" opacity="0.5">LIVING</text>
+      <text x="100" y="168" font-family="Barlow, sans-serif" font-size="8" fill="#8A8A8E" text-anchor="middle" font-weight="300" opacity="0.5">DINING</text>
+      <text x="100" y="218" font-family="Barlow, sans-serif" font-size="8" fill="#8A8A8E" text-anchor="middle" font-weight="300" opacity="0.5">ENTRY</text>
+      <text x="240" y="130" font-family="Barlow, sans-serif" font-size="8" fill="#8A8A8E" text-anchor="middle" font-weight="300" opacity="0.5">STUDY</text>
+      <text x="240" y="200" font-family="Barlow, sans-serif" font-size="8" fill="#8A8A8E" text-anchor="middle" font-weight="300" opacity="0.5">KITCHEN</text>
+      <!-- North arrow -->
+      <g transform="translate(20, 20)">
+        <line x1="8" y1="18" x2="8" y2="2" stroke="#C4B5A0" stroke-width="0.8" opacity="0.6"/>
+        <polygon points="8,0 5,6 11,6" fill="#C4B5A0" opacity="0.5"/>
+        <text x="8" y="28" font-family="Barlow, sans-serif" font-size="8" fill="#8A8A8E" text-anchor="middle" font-weight="400" opacity="0.5">N</text>
+      </g>
+      <!-- Scale -->
+      <text x="40" y="305" font-family="Barlow, sans-serif" font-size="8" fill="#8A8A8E" font-weight="300" opacity="0.5">1 : 100 · Ground Floor Plan · Heather House, West Vancouver</text>
+    </svg>
+  </div>
+</section>
+
+<!-- Selected Work -->
+<section class="projects-section" id="work">
+  <div class="projects-header reveal">
+    <div class="section-label">Selected Work — 2019–2024</div>
+    <h2 class="section-heading">Three projects.<br><em>Three different arguments.</em></h2>
+    <p class="section-sub" style="margin: 0 auto; text-align: center;">A selection of residential and commercial work across British Columbia.</p>
+  </div>
+
+  <!-- Project 01 -->
+  <div class="project-entry">
+    <div class="project-photo">
+      <div class="project-photo-inner" style="background: linear-gradient(160deg, #C4B5A0 0%, #8A7A6A 30%, #3A2E26 70%, #1C1C1E 100%);"></div>
+    </div>
+    <div class="project-meta">
+      <div class="project-num">01</div>
+      <div>
+        <div class="project-name">The Heather House</div>
+        <div class="project-info">Single-family residence. West Vancouver. 4,200 sq ft.<br>Passive house certified. Completed 2023.</div>
+        <div class="project-tags">
+          <span class="project-tag">Residential</span>
+          <span class="project-tag">West Vancouver</span>
+          <span class="project-tag">Completed</span>
+        </div>
+      </div>
+      <div style="text-align: right;">
+        <a href="#" class="project-link">View Project →</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- Project 02 -->
+  <div class="project-entry" style="transition-delay: 0.1s;">
+    <div class="project-photo">
+      <div class="project-photo-inner" style="background: linear-gradient(200deg, #A0A090 0%, #6A6A60 30%, #2C2C28 70%, #1A1A18 100%);"></div>
+    </div>
+    <div class="project-meta">
+      <div class="project-num">02</div>
+      <div>
+        <div class="project-name">Pacific Commerce Building</div>
+        <div class="project-info">Mixed-use commercial. Yaletown, Vancouver. 12,400 sq ft.<br>LEED Gold. Completed 2022.</div>
+        <div class="project-tags">
+          <span class="project-tag">Commercial</span>
+          <span class="project-tag">Yaletown</span>
+          <span class="project-tag">Completed</span>
+        </div>
+      </div>
+      <div style="text-align: right;">
+        <a href="#" class="project-link">View Project →</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- Project 03 -->
+  <div class="project-entry" style="transition-delay: 0.2s;">
+    <div class="project-photo">
+      <div class="project-photo-inner" style="background: linear-gradient(135deg, #D4C8B8 0%, #B0A090 25%, #5A4A3A 60%, #2A1E16 100%);"></div>
+    </div>
+    <div class="project-meta">
+      <div class="project-num">03</div>
+      <div>
+        <div class="project-name">Granville Ridge Residence</div>
+        <div class="project-info">Single-family residence. South Granville, Vancouver. 3,800 sq ft.<br>Heritage zone. Completed 2021.</div>
+        <div class="project-tags">
+          <span class="project-tag">Residential</span>
+          <span class="project-tag">South Granville</span>
+          <span class="project-tag">Completed</span>
+        </div>
+      </div>
+      <div style="text-align: right;">
+        <a href="#" class="project-link">View Project →</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Practice -->
+<section class="practice-section">
+  <div class="practice-grid">
+    <div class="reveal">
+      <div class="section-label">The Practice</div>
+      <h2 class="section-heading">Architecture as<br><em>civic responsibility.</em></h2>
+      <p class="practice-body">We believe buildings are arguments. Arguments about how we inhabit land, how we relate to one another, how we mark time. Every project begins with a question about what the building needs to say — and ends only when that argument is resolved, in material, in light, in space.</p>
+      <p class="practice-body">Our practice is intentionally small. We take on fewer projects so that each one receives our full attention. We work with clients who understand that good architecture takes time, and that the result is worth it.</p>
+      <a href="#" class="hero-link">Our Approach →</a>
+    </div>
+
+    <div class="elevation-wrap">
+      <!-- Building elevation drawing -->
+      <svg width="100%" viewBox="0 0 400 280" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <!-- Ground line -->
+        <line x1="20" y1="230" x2="380" y2="230" stroke="#1C1C1E" stroke-width="0.8" opacity="0.2"/>
+        <!-- Main building volume -->
+        <rect x="60" y="80" width="200" height="150" stroke="#1C1C1E" stroke-width="0.5" fill="none" opacity="0.2"/>
+        <!-- Canopy / overhang -->
+        <rect x="40" y="75" width="240" height="10" stroke="#1C1C1E" stroke-width="0.4" fill="none" opacity="0.18"/>
+        <!-- Windows -->
+        <rect x="80" y="100" width="36" height="50" stroke="#C4B5A0" stroke-width="0.5" fill="none" opacity="0.4"/>
+        <rect x="130" y="100" width="36" height="50" stroke="#C4B5A0" stroke-width="0.5" fill="none" opacity="0.4"/>
+        <rect x="180" y="100" width="36" height="50" stroke="#C4B5A0" stroke-width="0.5" fill="none" opacity="0.4"/>
+        <!-- Second floor windows -->
+        <rect x="80" y="165" width="36" height="35" stroke="#C4B5A0" stroke-width="0.5" fill="none" opacity="0.35"/>
+        <rect x="130" y="165" width="36" height="35" stroke="#C4B5A0" stroke-width="0.5" fill="none" opacity="0.35"/>
+        <rect x="180" y="165" width="36" height="35" stroke="#C4B5A0" stroke-width="0.5" fill="none" opacity="0.35"/>
+        <!-- Garage / secondary volume -->
+        <rect x="260" y="140" width="80" height="90" stroke="#1C1C1E" stroke-width="0.4" fill="none" opacity="0.15"/>
+        <!-- Level lines -->
+        <line x1="40" y1="80" x2="58" y2="80" stroke="#1C1C1E" stroke-width="0.3" stroke-dasharray="2,2" opacity="0.12"/>
+        <line x1="40" y1="155" x2="58" y2="155" stroke="#1C1C1E" stroke-width="0.3" stroke-dasharray="2,2" opacity="0.12"/>
+        <!-- Level labels -->
+        <text x="35" y="83" font-family="Barlow, sans-serif" font-size="7" fill="#8A8A8E" text-anchor="end" opacity="0.5">FL+2</text>
+        <text x="35" y="158" font-family="Barlow, sans-serif" font-size="7" fill="#8A8A8E" text-anchor="end" opacity="0.5">FL+1</text>
+        <text x="35" y="233" font-family="Barlow, sans-serif" font-size="7" fill="#8A8A8E" text-anchor="end" opacity="0.5">GL±0</text>
+        <!-- Caption -->
+        <text x="200" y="265" font-family="Barlow, sans-serif" font-size="8" fill="#8A8A8E" text-anchor="middle" font-weight="300" opacity="0.5">West Elevation · Heather House · 1:100</text>
+      </svg>
+    </div>
+  </div>
+</section>
+
+<!-- People -->
+<section class="people-section">
+  <div class="reveal">
+    <div class="section-label">The Team</div>
+    <h2 class="section-heading">Three architects.<br><em>One shared conviction.</em></h2>
+  </div>
+
+  <div class="people-grid">
+    <div class="person-card" style="transition-delay: 0.05s;">
+      <div class="person-name">Adam Chen</div>
+      <div class="person-title">Principal Architect — AIBC Registered</div>
+      <p class="person-bio">Adam founded Prism in 2009 after working with practices in Vancouver and Zürich. His work focuses on the relationship between building and landscape, particularly in the complex terrain of the North Shore.</p>
+      <div class="person-spec">Residential · Adaptive Reuse</div>
+    </div>
+    <div class="person-card" style="transition-delay: 0.12s;">
+      <div class="person-name">Mia Hartfeld</div>
+      <div class="person-title">Project Architect — AIBC Registered</div>
+      <p class="person-bio">Mia leads Prism's commercial and heritage projects. Before joining the practice, she spent four years working on adaptive reuse projects in Montreal's Mile End neighbourhood.</p>
+      <div class="person-spec">Commercial · Heritage</div>
+    </div>
+    <div class="person-card" style="transition-delay: 0.19s;">
+      <div class="person-name">Lucas Tran</div>
+      <div class="person-title">Designer</div>
+      <p class="person-bio">Lucas joined Prism after completing his M.Arch at UBC. He brings expertise in parametric design methods and computational visualization, and leads the firm's digital representation work.</p>
+      <div class="person-spec">Parametric · Visualization</div>
+    </div>
+  </div>
+</section>
+
+<!-- Recognition -->
+<section class="recognition-section">
+  <div class="reveal">
+    <div class="section-label">Recognition</div>
+    <h2 class="section-heading">Press &amp; awards.</h2>
+  </div>
+
+  <div class="recognition-list">
+    <div class="recognition-item">
+      <span class="recognition-year">2023</span>
+      <div>
+        <div class="recognition-name">AIBC Awards — Lieutenant Governor's Award for Excellence</div>
+        <div class="recognition-award">The Heather House — Residential Category</div>
+      </div>
+      <span class="recognition-source">AIBC</span>
+    </div>
+    <div class="recognition-item" style="transition-delay: 0.06s;">
+      <span class="recognition-year">2022</span>
+      <div>
+        <div class="recognition-name">Vancouver Magazine — Best New Architecture</div>
+        <div class="recognition-award">Pacific Commerce Building, Yaletown</div>
+      </div>
+      <span class="recognition-source">Vancouver Mag</span>
+    </div>
+    <div class="recognition-item" style="transition-delay: 0.12s;">
+      <span class="recognition-year">2021</span>
+      <div>
+        <div class="recognition-name">Azure Magazine — Day in Review Feature</div>
+        <div class="recognition-award">Granville Ridge Residence — residential category</div>
+      </div>
+      <span class="recognition-source">Azure</span>
+    </div>
+    <div class="recognition-item" style="transition-delay: 0.18s;">
+      <span class="recognition-year">2020</span>
+      <div>
+        <div class="recognition-name">Dezeen — "10 Vancouver houses that redefine residential design"</div>
+        <div class="recognition-award">Heather House featured</div>
+      </div>
+      <span class="recognition-source">Dezeen</span>
+    </div>
+    <div class="recognition-item" style="transition-delay: 0.24s;">
+      <span class="recognition-year">2019</span>
+      <div>
+        <div class="recognition-name">Canadian Architect — Emerging Firm to Watch</div>
+        <div class="recognition-award">Annual emerging practices feature</div>
+      </div>
+      <span class="recognition-source">Canadian Architect</span>
+    </div>
+  </div>
+</section>
+
+<!-- Contact -->
+<section class="contact-section" id="contact">
+  <div class="contact-grid">
+    <div class="reveal">
+      <h2 class="contact-heading">Begin a<br>Conversation.</h2>
+      <p class="contact-body">New project enquiries and press. We respond within 48 hours.<br><br>For general enquiries: info@prismarch.ca<br>Vancouver, BC · Canada</p>
+    </div>
+    <div class="reveal" style="transition-delay: 0.15s;">
+      <form class="contact-form" onsubmit="return false;">
+        <div class="form-field">
+          <label class="form-label" for="project-type">Project Type</label>
+          <select class="form-select" id="project-type">
+            <option value="">Select a type</option>
+            <option>Residential — New Build</option>
+            <option>Residential — Renovation</option>
+            <option>Commercial</option>
+            <option>Mixed-Use</option>
+            <option>Other</option>
+          </select>
+        </div>
+        <div class="form-field">
+          <label class="form-label" for="contact-name">Name</label>
+          <input class="form-input" id="contact-name" type="text" placeholder="Your full name">
+        </div>
+        <div class="form-field">
+          <label class="form-label" for="contact-email">Email</label>
+          <input class="form-input" id="contact-email" type="email" placeholder="your@email.com">
+        </div>
+        <div class="form-field">
+          <label class="form-label" for="contact-message">Brief description</label>
+          <textarea class="form-textarea" id="contact-message" placeholder="Tell us about the project — site, program, timeline"></textarea>
+        </div>
+        <button type="submit" class="form-submit">Send Enquiry</button>
+      </form>
+    </div>
+  </div>
+</section>
+
+<!-- Footer -->
+<footer>
+  <span class="footer-text">PRISM ARCHITECTURE</span>
+  <span class="footer-text">info@prismarch.ca · Vancouver, BC</span>
+  <span class="footer-text">© 2024 · Built by NodeAxis · nodeaxis.ca</span>
+</footer>
+
+<script>
+// Intersection Observer for scroll reveals
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      entry.target.classList.add('visible');
+    }
+  });
+}, { threshold: 0.12 });
+
+document.querySelectorAll('.reveal, .project-entry, .person-card, .recognition-item, .elevation-wrap').forEach(el => {
+  observer.observe(el);
+});
+</script>
+</body>
+</html>

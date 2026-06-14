@@ -1,0 +1,1611 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Meridian Property Management — Dashboard</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Mono:wght@300;400;500&display=swap" rel="stylesheet" />
+
+  <style>
+    /* ─── RESET ─────────────────────────────────────────────── */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { font-size: 15px; scroll-behavior: smooth; }
+
+    /* ─── DESIGN TOKENS ─────────────────────────────────────── */
+    :root {
+      --bg:           #060D1A;
+      --bg-2:         #0B1628;
+      --glass:        rgba(255,255,255,0.04);
+      --glass-hover:  rgba(255,255,255,0.07);
+      --glass-border: rgba(255,255,255,0.08);
+      --accent:       #3B6EE8;
+      --accent-dim:   rgba(59,110,232,0.15);
+      --accent-glow:  rgba(59,110,232,0.40);
+      --purple:       rgba(139,92,246,0.18);
+      --text:         #F0F4FF;
+      --text-muted:   rgba(240,244,255,0.45);
+      --text-subtle:  rgba(240,244,255,0.25);
+      --green:        #22C55E;
+      --green-dim:    rgba(34,197,94,0.15);
+      --amber:        #F59E0B;
+      --amber-dim:    rgba(245,158,11,0.15);
+      --red:          #EF4444;
+      --red-dim:      rgba(239,68,68,0.15);
+      --radius:       16px;
+      --radius-sm:    10px;
+      --sidebar-w:    240px;
+      --banner-h:     34px;
+      --topbar-h:     64px;
+      --transition:   all 0.2s ease;
+    }
+
+    /* ─── BODY / BACKGROUND ─────────────────────────────────── */
+    body {
+      font-family: 'Syne', sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      min-height: 100vh;
+      overflow-x: hidden;
+      line-height: 1.55;
+    }
+
+    /* Gradient mesh background */
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background:
+        radial-gradient(ellipse at 20% 0%,   rgba(59,110,232,0.18) 0%, transparent 60%),
+        radial-gradient(ellipse at 80% 100%, rgba(139,92,246,0.12) 0%, transparent 50%),
+        radial-gradient(ellipse at 60% 40%,  rgba(59,110,232,0.06) 0%, transparent 45%);
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    /* ─── ANIMATED ORBS ─────────────────────────────────────── */
+    .orb {
+      position: fixed;
+      border-radius: 50%;
+      filter: blur(80px);
+      pointer-events: none;
+      z-index: 0;
+      opacity: 0.55;
+    }
+    .orb-1 {
+      width: 420px; height: 420px;
+      background: radial-gradient(circle, rgba(59,110,232,0.22), transparent 70%);
+      top: -120px; left: -100px;
+      animation: orbDrift1 20s ease-in-out infinite alternate;
+    }
+    .orb-2 {
+      width: 340px; height: 340px;
+      background: radial-gradient(circle, rgba(139,92,246,0.18), transparent 70%);
+      bottom: -80px; right: -80px;
+      animation: orbDrift2 17s ease-in-out infinite alternate;
+    }
+    .orb-3 {
+      width: 260px; height: 260px;
+      background: radial-gradient(circle, rgba(59,110,232,0.10), transparent 70%);
+      top: 50%; right: 25%;
+      animation: orbDrift3 23s ease-in-out infinite alternate;
+    }
+
+    @keyframes orbDrift1 {
+      from { transform: translate(0, 0) scale(1); }
+      to   { transform: translate(60px, 80px) scale(1.12); }
+    }
+    @keyframes orbDrift2 {
+      from { transform: translate(0, 0) scale(1); }
+      to   { transform: translate(-50px, -60px) scale(1.08); }
+    }
+    @keyframes orbDrift3 {
+      from { transform: translate(0, 0) scale(1); }
+      to   { transform: translate(40px, -50px) scale(0.92); }
+    }
+
+    /* ─── ANIMATIONS ────────────────────────────────────────── */
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(18px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to   { opacity: 1; }
+    }
+    @keyframes shimmer {
+      0%   { background-position: -600px 0; }
+      100% { background-position: 600px 0; }
+    }
+    @keyframes barGrow {
+      from { transform: scaleY(0); }
+      to   { transform: scaleY(1); }
+    }
+    @keyframes pulse {
+      0%, 100% { opacity: 1; }
+      50%       { opacity: 0.5; }
+    }
+    @keyframes dotPulse {
+      0%, 100% { transform: scale(1); opacity: 1; }
+      50%       { transform: scale(1.6); opacity: 0.6; }
+    }
+
+    /* ─── DEMO BANNER ───────────────────────────────────────── */
+    .demo-banner {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      height: var(--banner-h);
+      background: linear-gradient(90deg, #3B6EE8, #7C3AED);
+      color: #fff;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: 'Syne', sans-serif;
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      z-index: 1000;
+    }
+
+    /* ─── APP SHELL ─────────────────────────────────────────── */
+    .app-shell {
+      position: relative;
+      z-index: 1;
+      display: flex;
+      min-height: 100vh;
+      padding-top: var(--banner-h);
+    }
+
+    /* ─── SIDEBAR ───────────────────────────────────────────── */
+    .sidebar {
+      width: var(--sidebar-w);
+      min-height: calc(100vh - var(--banner-h));
+      background: rgba(11,22,40,0.85);
+      backdrop-filter: blur(24px);
+      border-right: 1px solid var(--glass-border);
+      display: flex;
+      flex-direction: column;
+      position: fixed;
+      top: var(--banner-h);
+      left: 0;
+      bottom: 0;
+      z-index: 100;
+      animation: fadeIn 0.4s ease both;
+    }
+
+    .sidebar-logo {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 22px 20px 18px;
+      border-bottom: 1px solid var(--glass-border);
+    }
+    .sidebar-logo .logo-icon {
+      width: 32px; height: 32px;
+      background: linear-gradient(135deg, var(--accent), #7C3AED);
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+    .sidebar-logo .logo-text {
+      font-size: 14px;
+      font-weight: 800;
+      letter-spacing: 0.14em;
+      color: var(--text);
+    }
+    .sidebar-logo .logo-sub {
+      font-family: 'DM Mono', monospace;
+      font-size: 9px;
+      font-weight: 400;
+      color: var(--text-muted);
+      letter-spacing: 0.08em;
+      display: block;
+      margin-top: 1px;
+    }
+
+    .sidebar-nav {
+      flex: 1;
+      padding: 12px 12px;
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+      overflow-y: auto;
+    }
+    .sidebar-nav::-webkit-scrollbar { width: 4px; }
+    .sidebar-nav::-webkit-scrollbar-track { background: transparent; }
+    .sidebar-nav::-webkit-scrollbar-thumb { background: var(--glass-border); border-radius: 4px; }
+
+    .nav-section-label {
+      font-family: 'DM Mono', monospace;
+      font-size: 9px;
+      font-weight: 500;
+      color: var(--text-subtle);
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      padding: 14px 8px 6px;
+    }
+
+    .nav-item {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 10px 12px;
+      border-radius: var(--radius-sm);
+      cursor: pointer;
+      transition: var(--transition);
+      font-size: 13.5px;
+      font-weight: 600;
+      color: var(--text-muted);
+      border-left: 2px solid transparent;
+      text-decoration: none;
+      position: relative;
+    }
+    .nav-item:hover {
+      background: var(--glass);
+      color: var(--text);
+    }
+    .nav-item.active {
+      background: var(--accent-dim);
+      border-left-color: var(--accent);
+      color: var(--text);
+    }
+    .nav-item svg {
+      flex-shrink: 0;
+      opacity: 0.7;
+    }
+    .nav-item.active svg { opacity: 1; }
+
+    .nav-badge {
+      margin-left: auto;
+      background: var(--red);
+      color: #fff;
+      font-family: 'DM Mono', monospace;
+      font-size: 10px;
+      font-weight: 500;
+      border-radius: 20px;
+      padding: 1px 7px;
+      line-height: 1.6;
+    }
+
+    .sidebar-footer {
+      padding: 16px 14px;
+      border-top: 1px solid var(--glass-border);
+    }
+    .sidebar-user {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 10px 10px;
+      border-radius: var(--radius-sm);
+      cursor: pointer;
+      transition: var(--transition);
+    }
+    .sidebar-user:hover { background: var(--glass); }
+    .user-avatar {
+      width: 34px; height: 34px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, var(--accent), #7C3AED);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 12px;
+      font-weight: 700;
+      color: #fff;
+      flex-shrink: 0;
+    }
+    .user-info { flex: 1; min-width: 0; }
+    .user-name {
+      font-size: 13px;
+      font-weight: 700;
+      color: var(--text);
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+    .user-role {
+      font-family: 'DM Mono', monospace;
+      font-size: 10px;
+      color: var(--text-muted);
+    }
+
+    /* ─── MAIN CONTENT ──────────────────────────────────────── */
+    .main {
+      flex: 1;
+      margin-left: var(--sidebar-w);
+      display: flex;
+      flex-direction: column;
+      min-height: calc(100vh - var(--banner-h));
+    }
+
+    /* ─── TOPBAR ────────────────────────────────────────────── */
+    .topbar {
+      height: var(--topbar-h);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 32px;
+      background: rgba(6,13,26,0.70);
+      backdrop-filter: blur(16px);
+      border-bottom: 1px solid var(--glass-border);
+      position: sticky;
+      top: var(--banner-h);
+      z-index: 50;
+      animation: fadeIn 0.4s ease 0.05s both;
+    }
+    .topbar-left { display: flex; flex-direction: column; gap: 2px; }
+    .topbar-greeting {
+      font-size: 16px;
+      font-weight: 700;
+      color: var(--text);
+    }
+    .topbar-date {
+      font-family: 'DM Mono', monospace;
+      font-size: 11px;
+      color: var(--text-muted);
+    }
+    .topbar-right {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+    .date-pill {
+      background: var(--glass);
+      border: 1px solid var(--glass-border);
+      border-radius: 20px;
+      padding: 6px 14px;
+      font-family: 'DM Mono', monospace;
+      font-size: 11px;
+      color: var(--text-muted);
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .bell-btn {
+      position: relative;
+      width: 40px; height: 40px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: var(--glass);
+      border: 1px solid var(--glass-border);
+      border-radius: 10px;
+      cursor: pointer;
+      transition: var(--transition);
+    }
+    .bell-btn:hover { background: var(--glass-hover); transform: translateY(-1px); }
+    .bell-dot {
+      position: absolute;
+      top: 8px; right: 8px;
+      width: 7px; height: 7px;
+      background: var(--red);
+      border-radius: 50%;
+      border: 1.5px solid var(--bg);
+      animation: dotPulse 2s ease-in-out infinite;
+    }
+    .add-btn {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 0 18px;
+      height: 40px;
+      background: var(--accent);
+      color: #fff;
+      font-family: 'Syne', sans-serif;
+      font-size: 13px;
+      font-weight: 700;
+      border: none;
+      border-radius: 10px;
+      cursor: pointer;
+      transition: var(--transition);
+      white-space: nowrap;
+    }
+    .add-btn:hover {
+      background: #4d7ff0;
+      box-shadow: 0 0 20px var(--accent-glow);
+      transform: translateY(-1px);
+    }
+
+    /* ─── PAGE BODY ─────────────────────────────────────────── */
+    .page-body {
+      flex: 1;
+      padding: 28px 32px 48px;
+      display: flex;
+      flex-direction: column;
+      gap: 28px;
+    }
+
+    /* ─── GLASS CARD BASE ───────────────────────────────────── */
+    .glass-card {
+      background: var(--glass);
+      backdrop-filter: blur(20px);
+      border: 1px solid var(--glass-border);
+      border-radius: var(--radius);
+      padding: 24px;
+    }
+    .card-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 20px;
+    }
+    .card-title {
+      font-size: 14px;
+      font-weight: 700;
+      color: var(--text);
+      letter-spacing: 0.01em;
+    }
+    .card-link {
+      font-family: 'DM Mono', monospace;
+      font-size: 11px;
+      color: var(--accent);
+      cursor: pointer;
+      transition: var(--transition);
+      text-decoration: none;
+    }
+    .card-link:hover { color: #7eb3ff; }
+
+    /* ─── STAT CARDS GRID ───────────────────────────────────── */
+    .stats-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 16px;
+    }
+
+    .stat-card {
+      background: var(--glass);
+      backdrop-filter: blur(20px);
+      border: 1px solid var(--glass-border);
+      border-radius: var(--radius);
+      padding: 22px 22px 18px;
+      display: flex;
+      flex-direction: column;
+      gap: 0;
+      cursor: default;
+      transition: var(--transition);
+      position: relative;
+      overflow: hidden;
+    }
+    .stat-card::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 2px;
+      background: linear-gradient(90deg, transparent, var(--accent), transparent);
+      opacity: 0;
+      transition: opacity 0.3s ease;
+    }
+    .stat-card:hover {
+      background: var(--glass-hover);
+      transform: translateY(-2px);
+      border-color: rgba(255,255,255,0.12);
+    }
+    .stat-card:hover::before { opacity: 1; }
+
+    .stat-top {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      margin-bottom: 10px;
+    }
+    .stat-icon-wrap {
+      width: 36px; height: 36px;
+      border-radius: 9px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .stat-icon-wrap.blue  { background: var(--accent-dim); }
+    .stat-icon-wrap.green { background: var(--green-dim); }
+    .stat-icon-wrap.amber { background: var(--amber-dim); }
+    .stat-icon-wrap.red   { background: var(--red-dim); }
+
+    .stat-number {
+      font-family: 'DM Mono', monospace;
+      font-size: 36px;
+      font-weight: 500;
+      color: var(--text);
+      line-height: 1;
+      letter-spacing: -0.02em;
+    }
+    .stat-number.sm { font-size: 26px; }
+
+    .stat-label {
+      font-family: 'DM Mono', monospace;
+      font-size: 10px;
+      font-weight: 500;
+      color: var(--text-muted);
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      margin-bottom: 12px;
+    }
+
+    .stat-bottom {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-top: auto;
+    }
+    .stat-trend {
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      font-family: 'DM Mono', monospace;
+      font-size: 11px;
+      font-weight: 500;
+    }
+    .stat-trend.up   { color: var(--green); }
+    .stat-trend.down { color: var(--red); }
+    .stat-trend.neutral { color: var(--amber); }
+
+    .sparkline { display: flex; align-items: flex-end; gap: 3px; height: 24px; }
+    .sparkline-bar {
+      width: 5px;
+      border-radius: 2px 2px 0 0;
+      background: var(--accent-dim);
+      transition: var(--transition);
+    }
+    .sparkline-bar.active { background: var(--accent); }
+
+    /* ─── STATUS BADGE ──────────────────────────────────────── */
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      padding: 3px 10px;
+      border-radius: 20px;
+      font-family: 'DM Mono', monospace;
+      font-size: 10px;
+      font-weight: 500;
+      letter-spacing: 0.05em;
+      white-space: nowrap;
+    }
+    .badge.green  { background: var(--green-dim);  color: var(--green);  }
+    .badge.amber  { background: var(--amber-dim);  color: var(--amber);  }
+    .badge.red    { background: var(--red-dim);    color: var(--red);    }
+    .badge.blue   { background: var(--accent-dim); color: #7eb3ff;       }
+    .badge-dot {
+      width: 5px; height: 5px;
+      border-radius: 50%;
+      flex-shrink: 0;
+    }
+    .badge.green  .badge-dot { background: var(--green); }
+    .badge.amber  .badge-dot { background: var(--amber); }
+    .badge.red    .badge-dot { background: var(--red);   }
+    .badge.blue   .badge-dot { background: var(--accent);}
+
+    /* ─── TABLE ─────────────────────────────────────────────── */
+    .table-wrap {
+      overflow-x: auto;
+      margin: 0 -24px;
+      padding: 0 24px;
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 13.5px;
+    }
+    thead th {
+      font-family: 'DM Mono', monospace;
+      font-size: 10px;
+      font-weight: 500;
+      color: var(--text-muted);
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      padding: 10px 14px;
+      text-align: left;
+      border-bottom: 1px solid var(--glass-border);
+      white-space: nowrap;
+    }
+    tbody tr {
+      transition: var(--transition);
+      border-bottom: 1px solid rgba(255,255,255,0.04);
+    }
+    tbody tr:last-child { border-bottom: none; }
+    tbody tr:nth-child(even) td { background: rgba(255,255,255,0.015); }
+    tbody tr:hover td {
+      background: rgba(59,110,232,0.06) !important;
+    }
+    tbody td {
+      padding: 13px 14px;
+      color: var(--text);
+      vertical-align: middle;
+      white-space: nowrap;
+    }
+    .td-mono {
+      font-family: 'DM Mono', monospace;
+      font-size: 13px;
+    }
+    .td-muted {
+      font-family: 'DM Mono', monospace;
+      font-size: 12px;
+      color: var(--text-muted);
+    }
+    .prop-name {
+      font-weight: 700;
+      color: var(--text);
+    }
+    .prop-addr {
+      font-family: 'DM Mono', monospace;
+      font-size: 11px;
+      color: var(--text-muted);
+      margin-top: 1px;
+    }
+
+    /* occupancy bar */
+    .occ-wrap { display: flex; align-items: center; gap: 10px; }
+    .occ-bar-bg {
+      width: 80px; height: 5px;
+      background: rgba(255,255,255,0.07);
+      border-radius: 4px;
+      overflow: hidden;
+    }
+    .occ-bar-fill {
+      height: 100%;
+      border-radius: 4px;
+      background: var(--accent);
+      transition: width 0.8s ease;
+    }
+    .occ-bar-fill.full   { background: var(--green); }
+    .occ-bar-fill.high   { background: var(--accent); }
+    .occ-bar-fill.medium { background: var(--amber); }
+    .occ-bar-fill.low    { background: var(--red); }
+
+    /* ─── TWO-COLUMN ROW ────────────────────────────────────── */
+    .two-col {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 20px;
+    }
+
+    /* ─── MAINTENANCE LIST ──────────────────────────────────── */
+    .maint-list { display: flex; flex-direction: column; gap: 1px; }
+    .maint-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 14px;
+      padding: 14px 0;
+      border-bottom: 1px solid rgba(255,255,255,0.04);
+      transition: var(--transition);
+      cursor: pointer;
+    }
+    .maint-item:last-child { border-bottom: none; }
+    .maint-item:hover { background: rgba(255,255,255,0.025); border-radius: 10px; padding-left: 8px; padding-right: 8px; margin: 0 -8px; }
+    .priority-dot {
+      width: 10px; height: 10px;
+      border-radius: 50%;
+      flex-shrink: 0;
+      margin-top: 4px;
+    }
+    .priority-dot.urgent { background: var(--red);   box-shadow: 0 0 6px var(--red); }
+    .priority-dot.medium { background: var(--amber); box-shadow: 0 0 6px var(--amber); }
+    .priority-dot.low    { background: var(--green); box-shadow: 0 0 6px var(--green);}
+    .maint-info { flex: 1; min-width: 0; }
+    .maint-unit {
+      font-family: 'DM Mono', monospace;
+      font-size: 10px;
+      color: var(--accent);
+      letter-spacing: 0.06em;
+      margin-bottom: 2px;
+    }
+    .maint-desc {
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--text);
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+    .maint-date {
+      font-family: 'DM Mono', monospace;
+      font-size: 10px;
+      color: var(--text-muted);
+      margin-top: 3px;
+    }
+    .maint-meta {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-end;
+      gap: 6px;
+      flex-shrink: 0;
+    }
+    .assign-btn {
+      padding: 5px 12px;
+      background: var(--glass);
+      border: 1px solid var(--glass-border);
+      border-radius: 7px;
+      color: var(--text-muted);
+      font-family: 'DM Mono', monospace;
+      font-size: 10px;
+      font-weight: 500;
+      cursor: pointer;
+      transition: var(--transition);
+      white-space: nowrap;
+    }
+    .assign-btn:hover {
+      background: var(--accent-dim);
+      border-color: var(--accent);
+      color: #7eb3ff;
+    }
+
+    /* ─── PAYMENTS LIST ─────────────────────────────────────── */
+    .payment-list { display: flex; flex-direction: column; gap: 1px; }
+    .payment-item {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 12px 0;
+      border-bottom: 1px solid rgba(255,255,255,0.04);
+      transition: var(--transition);
+      cursor: pointer;
+    }
+    .payment-item:last-child { border-bottom: none; }
+    .payment-item:hover { background: rgba(255,255,255,0.025); border-radius: 10px; padding-left: 8px; padding-right: 8px; margin: 0 -8px; }
+    .tenant-avatar-sm {
+      width: 34px; height: 34px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: 'DM Mono', monospace;
+      font-size: 11px;
+      font-weight: 500;
+      color: var(--text);
+      flex-shrink: 0;
+    }
+    .payment-info { flex: 1; min-width: 0; }
+    .payment-name {
+      font-size: 13px;
+      font-weight: 700;
+      color: var(--text);
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+    .payment-unit {
+      font-family: 'DM Mono', monospace;
+      font-size: 10px;
+      color: var(--text-muted);
+    }
+    .payment-right {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-end;
+      gap: 4px;
+    }
+    .payment-amount {
+      font-family: 'DM Mono', monospace;
+      font-size: 14px;
+      font-weight: 500;
+      color: var(--text);
+    }
+    .payment-date {
+      font-family: 'DM Mono', monospace;
+      font-size: 10px;
+      color: var(--text-muted);
+    }
+
+    /* ─── BAR CHART ─────────────────────────────────────────── */
+    .chart-wrap {
+      display: flex;
+      align-items: flex-end;
+      justify-content: space-between;
+      gap: 10px;
+      height: 160px;
+      padding: 0 4px;
+    }
+    .bar-group {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 6px;
+      height: 100%;
+      justify-content: flex-end;
+    }
+    .bar-val {
+      font-family: 'DM Mono', monospace;
+      font-size: 9px;
+      color: var(--text-muted);
+      white-space: nowrap;
+    }
+    .bar-col-bg {
+      width: 100%;
+      max-width: 44px;
+      border-radius: 6px 6px 0 0;
+      position: relative;
+      overflow: hidden;
+      cursor: pointer;
+      transition: var(--transition);
+    }
+    .bar-col-bg:hover { filter: brightness(1.2); }
+    .bar-inner {
+      width: 100%;
+      border-radius: 6px 6px 0 0;
+      transform-origin: bottom center;
+      animation: barGrow 0.7s cubic-bezier(0.34,1.56,0.64,1) both;
+    }
+    .bar-col-bg.current .bar-inner {
+      background: linear-gradient(180deg, var(--accent), rgba(59,110,232,0.5));
+      box-shadow: 0 -4px 16px rgba(59,110,232,0.35);
+    }
+    .bar-col-bg.other .bar-inner {
+      background: var(--glass);
+      border: 1px solid var(--glass-border);
+    }
+    .bar-label {
+      font-family: 'DM Mono', monospace;
+      font-size: 10px;
+      color: var(--text-muted);
+      letter-spacing: 0.04em;
+    }
+    .bar-label.current-day { color: var(--accent); font-weight: 500; }
+
+    .chart-summary {
+      display: flex;
+      align-items: center;
+      gap: 24px;
+      padding-top: 18px;
+      border-top: 1px solid var(--glass-border);
+      margin-top: 20px;
+    }
+    .chart-summary-item { display: flex; flex-direction: column; gap: 3px; }
+    .cs-label {
+      font-family: 'DM Mono', monospace;
+      font-size: 10px;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+    }
+    .cs-val {
+      font-family: 'DM Mono', monospace;
+      font-size: 18px;
+      font-weight: 500;
+      color: var(--text);
+    }
+    .cs-val.green { color: var(--green); }
+    .cs-sep {
+      width: 1px;
+      height: 36px;
+      background: var(--glass-border);
+    }
+
+    /* ─── STAGGER ANIMATIONS ────────────────────────────────── */
+    .stat-card:nth-child(1) { animation: fadeUp 0.45s ease 0.10s both; }
+    .stat-card:nth-child(2) { animation: fadeUp 0.45s ease 0.17s both; }
+    .stat-card:nth-child(3) { animation: fadeUp 0.45s ease 0.24s both; }
+    .stat-card:nth-child(4) { animation: fadeUp 0.45s ease 0.31s both; }
+    .glass-card:nth-child(1) { animation: fadeUp 0.45s ease 0.18s both; }
+    .glass-card:nth-child(2) { animation: fadeUp 0.45s ease 0.24s both; }
+    .glass-card:nth-child(3) { animation: fadeUp 0.45s ease 0.30s both; }
+    .glass-card:nth-child(4) { animation: fadeUp 0.45s ease 0.36s both; }
+
+    /* ─── FOOTER ────────────────────────────────────────────── */
+    .footer {
+      text-align: center;
+      padding: 24px 32px;
+      border-top: 1px solid var(--glass-border);
+      font-family: 'DM Mono', monospace;
+      font-size: 11px;
+      color: var(--text-subtle);
+      letter-spacing: 0.04em;
+    }
+    .footer a { color: var(--accent); text-decoration: none; }
+    .footer a:hover { color: #7eb3ff; }
+
+    /* ─── MOBILE / RESPONSIVE ───────────────────────────────── */
+    @media (max-width: 768px) {
+      :root { --sidebar-w: 0px; }
+
+      .sidebar {
+        width: 100%;
+        height: auto;
+        min-height: unset;
+        position: relative;
+        top: unset; left: unset; bottom: unset;
+        flex-direction: row;
+        flex-wrap: wrap;
+        border-right: none;
+        border-bottom: 1px solid var(--glass-border);
+      }
+      .sidebar-logo { padding: 14px 16px; border-bottom: none; flex: 1; }
+      .sidebar-nav {
+        flex-direction: row;
+        flex-wrap: nowrap;
+        overflow-x: auto;
+        padding: 8px 12px;
+        gap: 4px;
+        width: 100%;
+        border-top: 1px solid var(--glass-border);
+      }
+      .nav-section-label { display: none; }
+      .nav-item { padding: 8px 12px; font-size: 12px; white-space: nowrap; border-left: none; border-bottom: 2px solid transparent; }
+      .nav-item.active { border-left-color: transparent; border-bottom-color: var(--accent); }
+      .sidebar-footer { display: none; }
+
+      .main { margin-left: 0; }
+      .app-shell { flex-direction: column; }
+
+      .page-body { padding: 16px; gap: 16px; }
+      .stats-grid { grid-template-columns: 1fr 1fr; gap: 12px; }
+      .two-col { grid-template-columns: 1fr; }
+      .topbar { padding: 0 16px; }
+
+      .stat-number { font-size: 26px; }
+      .stat-number.sm { font-size: 20px; }
+    }
+    @media (max-width: 480px) {
+      .stats-grid { grid-template-columns: 1fr; }
+      .date-pill, .bell-btn { display: none; }
+    }
+
+    /* ─── REDUCED MOTION ────────────────────────────────────── */
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after { animation-duration: 0.01ms !important; transition-duration: 0.01ms !important; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- Ambient orbs -->
+<div class="orb orb-1" aria-hidden="true"></div>
+<div class="orb orb-2" aria-hidden="true"></div>
+<div class="orb orb-3" aria-hidden="true"></div>
+
+<!-- Demo banner -->
+<div class="demo-banner" role="banner">
+  DEMO PREVIEW &nbsp;—&nbsp; Meridian Property Management &nbsp;·&nbsp; Built by NodeAxis
+</div>
+
+<div class="app-shell">
+
+  <!-- ─── SIDEBAR ─────────────────────────────────────────── -->
+  <aside class="sidebar" role="navigation" aria-label="Main navigation">
+
+    <div class="sidebar-logo">
+      <div class="logo-icon" aria-hidden="true">
+        <!-- Building icon -->
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/>
+          <rect x="14" y="14" width="7" height="7"/>
+          <path d="M3 14h7v7H3z"/>
+        </svg>
+      </div>
+      <div>
+        <div class="logo-text">MERIDIAN</div>
+        <span class="logo-sub">Property Management</span>
+      </div>
+    </div>
+
+    <nav class="sidebar-nav">
+      <span class="nav-section-label">Main</span>
+
+      <a class="nav-item active" href="#" aria-current="page">
+        <!-- Dashboard icon -->
+        <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/>
+          <rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/>
+        </svg>
+        Dashboard
+      </a>
+
+      <a class="nav-item" href="#">
+        <!-- Building/Properties icon -->
+        <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/>
+          <polyline points="9 22 9 12 15 12 15 22"/>
+        </svg>
+        Properties
+      </a>
+
+      <a class="nav-item" href="#">
+        <!-- Tenants (users) icon -->
+        <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/>
+          <circle cx="9" cy="7" r="4"/>
+          <path d="M23 21v-2a4 4 0 0 0-3-3.87"/>
+          <path d="M16 3.13a4 4 0 0 1 0 7.75"/>
+        </svg>
+        Tenants
+      </a>
+
+      <a class="nav-item" href="#">
+        <!-- Wrench icon -->
+        <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/>
+        </svg>
+        Maintenance
+        <span class="nav-badge">7</span>
+      </a>
+
+      <span class="nav-section-label">Finance</span>
+
+      <a class="nav-item" href="#">
+        <!-- Dollar icon -->
+        <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <line x1="12" y1="1" x2="12" y2="23"/>
+          <path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/>
+        </svg>
+        Payments
+      </a>
+
+      <a class="nav-item" href="#">
+        <!-- Bar chart icon -->
+        <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <line x1="18" y1="20" x2="18" y2="10"/>
+          <line x1="12" y1="20" x2="12" y2="4"/>
+          <line x1="6"  y1="20" x2="6"  y2="14"/>
+        </svg>
+        Reports
+      </a>
+
+      <span class="nav-section-label">System</span>
+
+      <a class="nav-item" href="#">
+        <!-- Settings icon -->
+        <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="12" cy="12" r="3"/>
+          <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/>
+        </svg>
+        Settings
+      </a>
+    </nav>
+
+    <div class="sidebar-footer">
+      <div class="sidebar-user" role="button" aria-label="Admin user menu" tabindex="0">
+        <div class="user-avatar" aria-hidden="true">AD</div>
+        <div class="user-info">
+          <div class="user-name">Alex Dawson</div>
+          <div class="user-role">Administrator</div>
+        </div>
+        <!-- Logout icon -->
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="rgba(240,244,255,0.35)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/>
+          <polyline points="16 17 21 12 16 7"/>
+          <line x1="21" y1="12" x2="9" y2="12"/>
+        </svg>
+      </div>
+    </div>
+  </aside>
+
+  <!-- ─── MAIN CONTENT ───────────────────────────────────── -->
+  <main class="main" role="main">
+
+    <!-- TOPBAR -->
+    <header class="topbar">
+      <div class="topbar-left">
+        <div class="topbar-greeting">Good morning, Alex</div>
+        <div class="topbar-date">Friday, June 13, 2025</div>
+      </div>
+      <div class="topbar-right">
+        <div class="date-pill" aria-label="Current date">
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <rect x="3" y="4" width="18" height="18" rx="2" ry="2"/>
+            <line x1="16" y1="2" x2="16" y2="6"/>
+            <line x1="8"  y1="2" x2="8"  y2="6"/>
+            <line x1="3"  y1="10" x2="21" y2="10"/>
+          </svg>
+          Jun 2025 · Q2
+        </div>
+        <div class="bell-btn" role="button" aria-label="Notifications — 3 unread" tabindex="0">
+          <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="rgba(240,244,255,0.7)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/>
+            <path d="M13.73 21a2 2 0 0 1-3.46 0"/>
+          </svg>
+          <span class="bell-dot" aria-hidden="true"></span>
+        </div>
+        <button class="add-btn" type="button">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" aria-hidden="true">
+            <line x1="12" y1="5" x2="12" y2="19"/>
+            <line x1="5"  y1="12" x2="19" y2="12"/>
+          </svg>
+          Add Property
+        </button>
+      </div>
+    </header>
+
+    <div class="page-body">
+
+      <!-- ─── STAT CARDS ──────────────────────────────────── -->
+      <div class="stats-grid" role="region" aria-label="Key metrics">
+
+        <!-- Total Units -->
+        <div class="stat-card">
+          <div class="stat-top">
+            <div class="stat-icon-wrap blue" aria-hidden="true">
+              <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="#7eb3ff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/>
+                <polyline points="9 22 9 12 15 12 15 22"/>
+              </svg>
+            </div>
+            <span class="badge blue"><span class="badge-dot" aria-hidden="true"></span>+2 this month</span>
+          </div>
+          <div class="stat-number" aria-label="Total units: 47">47</div>
+          <div class="stat-label">Total Units</div>
+          <div class="stat-bottom">
+            <div class="stat-trend up" aria-label="Trend: up 4.3%">
+              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="18 15 12 9 6 15"/></svg>
+              4.3%
+            </div>
+            <div class="sparkline" aria-hidden="true">
+              <div class="sparkline-bar" style="height:40%"></div>
+              <div class="sparkline-bar" style="height:55%"></div>
+              <div class="sparkline-bar" style="height:48%"></div>
+              <div class="sparkline-bar" style="height:72%"></div>
+              <div class="sparkline-bar active" style="height:100%"></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Occupied -->
+        <div class="stat-card">
+          <div class="stat-top">
+            <div class="stat-icon-wrap green" aria-hidden="true">
+              <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="#22C55E" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/>
+                <circle cx="9" cy="7" r="4"/>
+                <polyline points="17 11 19 13 23 9"/>
+              </svg>
+            </div>
+            <span class="badge green"><span class="badge-dot" aria-hidden="true"></span>93.6% rate</span>
+          </div>
+          <div class="stat-number" aria-label="Occupied units: 44">44</div>
+          <div class="stat-label">Occupied Units</div>
+          <div class="stat-bottom">
+            <div class="stat-trend up" aria-label="Up 2.1%">
+              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="18 15 12 9 6 15"/></svg>
+              2.1%
+            </div>
+            <div class="sparkline" aria-hidden="true">
+              <div class="sparkline-bar" style="height:60%"></div>
+              <div class="sparkline-bar" style="height:78%"></div>
+              <div class="sparkline-bar" style="height:82%"></div>
+              <div class="sparkline-bar" style="height:76%"></div>
+              <div class="sparkline-bar active" style="height:94%"></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Maintenance -->
+        <div class="stat-card">
+          <div class="stat-top">
+            <div class="stat-icon-wrap amber" aria-hidden="true">
+              <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="#F59E0B" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/>
+              </svg>
+            </div>
+            <span class="badge amber"><span class="badge-dot" aria-hidden="true"></span>2 urgent</span>
+          </div>
+          <div class="stat-number" aria-label="Pending maintenance: 7">7</div>
+          <div class="stat-label">Pending Maintenance</div>
+          <div class="stat-bottom">
+            <div class="stat-trend down" aria-label="Down — 1 since last week">
+              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="6 9 12 15 18 9"/></svg>
+              −1 from last wk
+            </div>
+            <div class="sparkline" aria-hidden="true">
+              <div class="sparkline-bar" style="height:90%"></div>
+              <div class="sparkline-bar" style="height:65%"></div>
+              <div class="sparkline-bar" style="height:80%"></div>
+              <div class="sparkline-bar" style="height:55%"></div>
+              <div class="sparkline-bar active" style="height:40%"></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Revenue -->
+        <div class="stat-card">
+          <div class="stat-top">
+            <div class="stat-icon-wrap blue" aria-hidden="true">
+              <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="#7eb3ff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <line x1="12" y1="1" x2="12" y2="23"/>
+                <path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/>
+              </svg>
+            </div>
+            <span class="badge green"><span class="badge-dot" aria-hidden="true"></span>+4.2%</span>
+          </div>
+          <div class="stat-number sm" aria-label="Monthly revenue: $68,400">$68,400</div>
+          <div class="stat-label">Monthly Revenue</div>
+          <div class="stat-bottom">
+            <div class="stat-trend up" aria-label="Up 4.2% vs last month">
+              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="18 15 12 9 6 15"/></svg>
+              vs last month
+            </div>
+            <div class="sparkline" aria-hidden="true">
+              <div class="sparkline-bar" style="height:50%"></div>
+              <div class="sparkline-bar" style="height:62%"></div>
+              <div class="sparkline-bar" style="height:70%"></div>
+              <div class="sparkline-bar" style="height:80%"></div>
+              <div class="sparkline-bar active" style="height:100%"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ─── PROPERTIES TABLE ────────────────────────────── -->
+      <div class="glass-card" role="region" aria-label="Properties">
+        <div class="card-header">
+          <h2 class="card-title">Properties</h2>
+          <a class="card-link" href="#" aria-label="View all properties">View All →</a>
+        </div>
+        <div class="table-wrap">
+          <table role="table" aria-label="Properties list">
+            <thead>
+              <tr>
+                <th scope="col">Property</th>
+                <th scope="col">Units</th>
+                <th scope="col">Occupancy</th>
+                <th scope="col">Rent Collected</th>
+                <th scope="col">NOI</th>
+                <th scope="col">Status</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>
+                  <div class="prop-name">1205 Oak Street</div>
+                  <div class="prop-addr">Midtown · Commercial District</div>
+                </td>
+                <td class="td-mono">12</td>
+                <td>
+                  <div class="occ-wrap">
+                    <div class="occ-bar-bg" aria-hidden="true"><div class="occ-bar-fill full" style="width:100%"></div></div>
+                    <span class="td-mono">100%</span>
+                  </div>
+                </td>
+                <td class="td-mono">$18,200</td>
+                <td class="td-mono">$14,650</td>
+                <td><span class="badge green"><span class="badge-dot" aria-hidden="true"></span>All Current</span></td>
+              </tr>
+              <tr>
+                <td>
+                  <div class="prop-name">Riverdale Commons</div>
+                  <div class="prop-addr">Eastside · Unit Blk C</div>
+                </td>
+                <td class="td-mono">16</td>
+                <td>
+                  <div class="occ-wrap">
+                    <div class="occ-bar-bg" aria-hidden="true"><div class="occ-bar-fill high" style="width:93.75%"></div></div>
+                    <span class="td-mono">93.8%</span>
+                  </div>
+                </td>
+                <td class="td-mono">$22,400</td>
+                <td class="td-mono">$18,020</td>
+                <td><span class="badge green"><span class="badge-dot" aria-hidden="true"></span>All Current</span></td>
+              </tr>
+              <tr>
+                <td>
+                  <div class="prop-name">Westport Gardens</div>
+                  <div class="prop-addr">Westside · Suburb Zone</div>
+                </td>
+                <td class="td-mono">8</td>
+                <td>
+                  <div class="occ-wrap">
+                    <div class="occ-bar-bg" aria-hidden="true"><div class="occ-bar-fill medium" style="width:87.5%"></div></div>
+                    <span class="td-mono">87.5%</span>
+                  </div>
+                </td>
+                <td class="td-mono">$11,600</td>
+                <td class="td-mono">$9,280</td>
+                <td><span class="badge amber"><span class="badge-dot" aria-hidden="true"></span>1 Pending</span></td>
+              </tr>
+              <tr>
+                <td>
+                  <div class="prop-name">The Meridian Lofts</div>
+                  <div class="prop-addr">Downtown Core · Heritage Blvd</div>
+                </td>
+                <td class="td-mono">7</td>
+                <td>
+                  <div class="occ-wrap">
+                    <div class="occ-bar-bg" aria-hidden="true"><div class="occ-bar-fill medium" style="width:85.7%"></div></div>
+                    <span class="td-mono">85.7%</span>
+                  </div>
+                </td>
+                <td class="td-mono">$9,800</td>
+                <td class="td-mono">$7,840</td>
+                <td><span class="badge amber"><span class="badge-dot" aria-hidden="true"></span>2 Review</span></td>
+              </tr>
+              <tr>
+                <td>
+                  <div class="prop-name">Northgate Residences</div>
+                  <div class="prop-addr">North District · Phase II</div>
+                </td>
+                <td class="td-mono">4</td>
+                <td>
+                  <div class="occ-wrap">
+                    <div class="occ-bar-bg" aria-hidden="true"><div class="occ-bar-fill low" style="width:75%"></div></div>
+                    <span class="td-mono">75.0%</span>
+                  </div>
+                </td>
+                <td class="td-mono">$6,400</td>
+                <td class="td-mono">$4,992</td>
+                <td><span class="badge red"><span class="badge-dot" aria-hidden="true"></span>1 Late</span></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- ─── TWO-COLUMN: MAINTENANCE + PAYMENTS ────────── -->
+      <div class="two-col">
+
+        <!-- Maintenance Requests -->
+        <div class="glass-card" role="region" aria-label="Maintenance requests">
+          <div class="card-header">
+            <h2 class="card-title">Maintenance Requests</h2>
+            <a class="card-link" href="#" aria-label="View all maintenance requests">7 Open →</a>
+          </div>
+          <div class="maint-list" role="list">
+
+            <div class="maint-item" role="listitem" tabindex="0">
+              <div class="priority-dot urgent" aria-label="Priority: Urgent"></div>
+              <div class="maint-info">
+                <div class="maint-unit">UNIT 304 · OAK ST</div>
+                <div class="maint-desc">Burst pipe — bathroom ceiling leak</div>
+                <div class="maint-date">Submitted Jun 12, 2025 · 9:14 AM</div>
+              </div>
+              <div class="maint-meta">
+                <span class="badge red"><span class="badge-dot" aria-hidden="true"></span>Urgent</span>
+                <button class="assign-btn" type="button" aria-label="Assign maintenance request">Assign</button>
+              </div>
+            </div>
+
+            <div class="maint-item" role="listitem" tabindex="0">
+              <div class="priority-dot urgent" aria-label="Priority: Urgent"></div>
+              <div class="maint-info">
+                <div class="maint-unit">UNIT 112 · RIVERDALE</div>
+                <div class="maint-desc">HVAC unit not cooling properly</div>
+                <div class="maint-date">Submitted Jun 11, 2025 · 2:30 PM</div>
+              </div>
+              <div class="maint-meta">
+                <span class="badge red"><span class="badge-dot" aria-hidden="true"></span>Urgent</span>
+                <button class="assign-btn" type="button" aria-label="Assign maintenance request">Assign</button>
+              </div>
+            </div>
+
+            <div class="maint-item" role="listitem" tabindex="0">
+              <div class="priority-dot medium" aria-label="Priority: Medium"></div>
+              <div class="maint-info">
+                <div class="maint-unit">UNIT 08 · WESTPORT</div>
+                <div class="maint-desc">Dryer vent needs cleaning</div>
+                <div class="maint-date">Submitted Jun 10, 2025 · 11:00 AM</div>
+              </div>
+              <div class="maint-meta">
+                <span class="badge amber"><span class="badge-dot" aria-hidden="true"></span>Medium</span>
+                <button class="assign-btn" type="button" aria-label="Assign maintenance request">Assign</button>
+              </div>
+            </div>
+
+            <div class="maint-item" role="listitem" tabindex="0">
+              <div class="priority-dot medium" aria-label="Priority: Medium"></div>
+              <div class="maint-info">
+                <div class="maint-unit">UNIT 501 · LOFTS</div>
+                <div class="maint-desc">Exterior door lock sticking</div>
+                <div class="maint-date">Submitted Jun 9, 2025 · 4:55 PM</div>
+              </div>
+              <div class="maint-meta">
+                <span class="badge amber"><span class="badge-dot" aria-hidden="true"></span>Medium</span>
+                <button class="assign-btn" type="button" aria-label="Assign maintenance request">Assign</button>
+              </div>
+            </div>
+
+            <div class="maint-item" role="listitem" tabindex="0">
+              <div class="priority-dot low" aria-label="Priority: Low"></div>
+              <div class="maint-info">
+                <div class="maint-unit">UNIT 202 · OAK ST</div>
+                <div class="maint-desc">Replace kitchen cabinet handle</div>
+                <div class="maint-date">Submitted Jun 8, 2025 · 8:22 AM</div>
+              </div>
+              <div class="maint-meta">
+                <span class="badge green"><span class="badge-dot" aria-hidden="true"></span>Low</span>
+                <button class="assign-btn" type="button" aria-label="Assign maintenance request">Assign</button>
+              </div>
+            </div>
+
+          </div>
+        </div>
+
+        <!-- Recent Payments -->
+        <div class="glass-card" role="region" aria-label="Recent payments">
+          <div class="card-header">
+            <h2 class="card-title">Recent Payments</h2>
+            <a class="card-link" href="#" aria-label="View all payments">View All →</a>
+          </div>
+          <div class="payment-list" role="list">
+
+            <div class="payment-item" role="listitem" tabindex="0">
+              <div class="tenant-avatar-sm" style="background:rgba(59,110,232,0.2)" aria-hidden="true">JM</div>
+              <div class="payment-info">
+                <div class="payment-name">James Mercer</div>
+                <div class="payment-unit">Unit 101 · Oak Street</div>
+              </div>
+              <div class="payment-right">
+                <div class="payment-amount">$1,850</div>
+                <span class="badge green"><span class="badge-dot" aria-hidden="true"></span>Paid</span>
+                <div class="payment-date">Jun 1, 2025</div>
+              </div>
+            </div>
+
+            <div class="payment-item" role="listitem" tabindex="0">
+              <div class="tenant-avatar-sm" style="background:rgba(139,92,246,0.2)" aria-hidden="true">SL</div>
+              <div class="payment-info">
+                <div class="payment-name">Sofia Lindqvist</div>
+                <div class="payment-unit">Unit 214 · Riverdale Commons</div>
+              </div>
+              <div class="payment-right">
+                <div class="payment-amount">$1,600</div>
+                <span class="badge green"><span class="badge-dot" aria-hidden="true"></span>Paid</span>
+                <div class="payment-date">Jun 1, 2025</div>
+              </div>
+            </div>
+
+            <div class="payment-item" role="listitem" tabindex="0">
+              <div class="tenant-avatar-sm" style="background:rgba(245,158,11,0.2)" aria-hidden="true">DK</div>
+              <div class="payment-info">
+                <div class="payment-name">David Kowalski</div>
+                <div class="payment-unit">Unit 06 · Westport Gardens</div>
+              </div>
+              <div class="payment-right">
+                <div class="payment-amount">$1,450</div>
+                <span class="badge amber"><span class="badge-dot" aria-hidden="true"></span>Pending</span>
+                <div class="payment-date">Due Jun 5, 2025</div>
+              </div>
+            </div>
+
+            <div class="payment-item" role="listitem" tabindex="0">
+              <div class="tenant-avatar-sm" style="background:rgba(34,197,94,0.2)" aria-hidden="true">AT</div>
+              <div class="payment-info">
+                <div class="payment-name">Amara Thompson</div>
+                <div class="payment-unit">Unit 503 · Meridian Lofts</div>
+              </div>
+              <div class="payment-right">
+                <div class="payment-amount">$2,100</div>
+                <span class="badge green"><span class="badge-dot" aria-hidden="true"></span>Paid</span>
+                <div class="payment-date">Jun 1, 2025</div>
+              </div>
+            </div>
+
+            <div class="payment-item" role="listitem" tabindex="0">
+              <div class="tenant-avatar-sm" style="background:rgba(239,68,68,0.2)" aria-hidden="true">RB</div>
+              <div class="payment-info">
+                <div class="payment-name">Ryan Blackwell</div>
+                <div class="payment-unit">Unit 04 · Northgate Residences</div>
+              </div>
+              <div class="payment-right">
+                <div class="payment-amount">$1,600</div>
+                <span class="badge red"><span class="badge-dot" aria-hidden="true"></span>Late</span>
+                <div class="payment-date">Due May 31, 2025</div>
+              </div>
+            </div>
+
+            <div class="payment-item" role="listitem" tabindex="0">
+              <div class="tenant-avatar-sm" style="background:rgba(59,110,232,0.2)" aria-hidden="true">NP</div>
+              <div class="payment-info">
+                <div class="payment-name">Nina Patel</div>
+                <div class="payment-unit">Unit 308 · Riverdale Commons</div>
+              </div>
+              <div class="payment-right">
+                <div class="payment-amount">$1,750</div>
+                <span class="badge green"><span class="badge-dot" aria-hidden="true"></span>Paid</span>
+                <div class="payment-date">Jun 2, 2025</div>
+              </div>
+            </div>
+
+          </div>
+        </div>
+      </div>
+
+      <!-- ─── WEEKLY REVENUE CHART ─────────────────────────── -->
+      <div class="glass-card" role="region" aria-label="Weekly revenue chart" style="animation: fadeUp 0.45s ease 0.42s both;">
+        <div class="card-header">
+          <h2 class="card-title">Weekly Revenue</h2>
+          <div style="display:flex;align-items:center;gap:12px;">
+            <span class="badge blue"><span class="badge-dot" aria-hidden="true"></span>Current Week</span>
+            <a class="card-link" href="#" aria-label="Download revenue report">Export →</a>
+          </div>
+        </div>
+
+        <!-- Bar chart -->
+        <div class="chart-wrap" role="img" aria-label="Bar chart showing weekly revenue from Monday to Sunday">
+          <!-- Mon -->
+          <div class="bar-group">
+            <div class="bar-val">$8.4k</div>
+            <div class="bar-col-bg other" style="height:53%;" title="Monday: $8,400">
+              <div class="bar-inner" style="height:100%;animation-delay:0.05s"></div>
+            </div>
+            <div class="bar-label">Mon</div>
+          </div>
+          <!-- Tue -->
+          <div class="bar-group">
+            <div class="bar-val">$11.2k</div>
+            <div class="bar-col-bg other" style="height:70%;" title="Tuesday: $11,200">
+              <div class="bar-inner" style="height:100%;animation-delay:0.12s"></div>
+            </div>
+            <div class="bar-label">Tue</div>
+          </div>
+          <!-- Wed -->
+          <div class="bar-group">
+            <div class="bar-val">$9.6k</div>
+            <div class="bar-col-bg other" style="height:60%;" title="Wednesday: $9,600">
+              <div class="bar-inner" style="height:100%;animation-delay:0.19s"></div>
+            </div>
+            <div class="bar-label">Wed</div>
+          </div>
+          <!-- Thu -->
+          <div class="bar-group">
+            <div class="bar-val">$14.8k</div>
+            <div class="bar-col-bg other" style="height:92%;" title="Thursday: $14,800">
+              <div class="bar-inner" style="height:100%;animation-delay:0.26s"></div>
+            </div>
+            <div class="bar-label">Thu</div>
+          </div>
+          <!-- Fri — current -->
+          <div class="bar-group">
+            <div class="bar-val" style="color:var(--accent)">$16.0k</div>
+            <div class="bar-col-bg current" style="height:100%;" title="Friday: $16,000 (today)">
+              <div class="bar-inner" style="height:100%;animation-delay:0.33s"></div>
+            </div>
+            <div class="bar-label current-day">Fri ·</div>
+          </div>
+          <!-- Sat -->
+          <div class="bar-group">
+            <div class="bar-val" style="color:var(--text-subtle)">—</div>
+            <div class="bar-col-bg other" style="height:14%;opacity:0.3;" title="Saturday: Projected">
+              <div class="bar-inner" style="height:100%;animation-delay:0.40s"></div>
+            </div>
+            <div class="bar-label" style="color:var(--text-subtle)">Sat</div>
+          </div>
+          <!-- Sun -->
+          <div class="bar-group">
+            <div class="bar-val" style="color:var(--text-subtle)">—</div>
+            <div class="bar-col-bg other" style="height:10%;opacity:0.3;" title="Sunday: Projected">
+              <div class="bar-inner" style="height:100%;animation-delay:0.47s"></div>
+            </div>
+            <div class="bar-label" style="color:var(--text-subtle)">Sun</div>
+          </div>
+        </div>
+
+        <!-- Chart summary row -->
+        <div class="chart-summary">
+          <div class="chart-summary-item">
+            <span class="cs-label">Week Total (so far)</span>
+            <span class="cs-val">$60,000</span>
+          </div>
+          <div class="cs-sep" aria-hidden="true"></div>
+          <div class="chart-summary-item">
+            <span class="cs-label">Projected Week</span>
+            <span class="cs-val">$68,400</span>
+          </div>
+          <div class="cs-sep" aria-hidden="true"></div>
+          <div class="chart-summary-item">
+            <span class="cs-label">vs Last Week</span>
+            <span class="cs-val green">+4.2%</span>
+          </div>
+          <div class="cs-sep" aria-hidden="true"></div>
+          <div class="chart-summary-item">
+            <span class="cs-label">Best Day</span>
+            <span class="cs-val">Friday</span>
+          </div>
+          <div class="cs-sep" aria-hidden="true"></div>
+          <div class="chart-summary-item">
+            <span class="cs-label">Collected Today</span>
+            <span class="cs-val green">$16,000</span>
+          </div>
+        </div>
+      </div>
+
+    </div><!-- /page-body -->
+
+    <!-- FOOTER -->
+    <footer class="footer">
+      &copy; 2024 Meridian Property Management &nbsp;·&nbsp; Built by <a href="https://nodeaxis.ca" target="_blank" rel="noopener noreferrer">NodeAxis</a> &nbsp;·&nbsp; nodeaxis.ca
+    </footer>
+
+  </main>
+</div>
+
+</body>
+</html>

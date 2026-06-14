@@ -1,0 +1,1620 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Cascade Analytics — Meridian Group</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&family=JetBrains+Mono:wght@300;400;500&display=swap" rel="stylesheet" />
+  <style>
+    /* ─── RESET ─── */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { font-size: 16px; }
+
+    /* ─── TOKENS ─── */
+    :root {
+      --bg:              #0C0E1A;
+      --bg-2:            #12162A;
+      --surface:         rgba(255,255,255,0.04);
+      --surface-hover:   rgba(255,255,255,0.07);
+      --border:          rgba(255,255,255,0.07);
+      --border-hover:    rgba(255,255,255,0.14);
+      --purple:          #7C3AED;
+      --purple-light:    rgba(124,58,237,0.15);
+      --purple-glow:     rgba(124,58,237,0.35);
+      --cyan:            #06B6D4;
+      --cyan-light:      rgba(6,182,212,0.12);
+      --green:           #10B981;
+      --green-light:     rgba(16,185,129,0.15);
+      --amber:           #F59E0B;
+      --amber-light:     rgba(245,158,11,0.15);
+      --red:             #EF4444;
+      --red-light:       rgba(239,68,68,0.15);
+      --slate:           #64748B;
+      --text:            #E2E8F0;
+      --text-muted:      rgba(226,232,240,0.45);
+      --text-faint:      rgba(226,232,240,0.25);
+      --sidebar-w:       220px;
+      --topbar-h:        60px;
+      --radius:          12px;
+      --radius-sm:       8px;
+      --transition:      all 0.2s ease;
+      --font-ui:         'Outfit', sans-serif;
+      --font-mono:       'JetBrains Mono', monospace;
+    }
+
+    /* ─── BASE ─── */
+    body {
+      font-family: var(--font-ui);
+      background: radial-gradient(ellipse at 10% 10%, rgba(124,58,237,0.2) 0%, transparent 50%),
+                  radial-gradient(ellipse at 90% 90%, rgba(6,182,212,0.15) 0%, transparent 50%),
+                  var(--bg);
+      color: var(--text);
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+
+    /* ─── DEMO BANNER ─── */
+    .demo-banner {
+      background: linear-gradient(90deg, #7C3AED, #06B6D4);
+      color: #fff;
+      text-align: center;
+      padding: 8px 16px;
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.12em;
+      font-family: var(--font-ui);
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+    }
+
+    /* ─── LAYOUT SHELL ─── */
+    .app-shell {
+      display: flex;
+      height: calc(100vh - 32px);
+      min-height: 0;
+    }
+
+    /* ─── SIDEBAR ─── */
+    .sidebar {
+      width: var(--sidebar-w);
+      min-width: var(--sidebar-w);
+      background: rgba(12,14,26,0.85);
+      backdrop-filter: blur(24px);
+      border-right: 1px solid var(--border);
+      display: flex;
+      flex-direction: column;
+      padding: 0;
+      overflow: hidden;
+      transition: var(--transition);
+      position: relative;
+      z-index: 100;
+    }
+
+    .sidebar-logo {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 20px 16px 16px;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .logo-icon {
+      width: 32px;
+      height: 32px;
+      flex-shrink: 0;
+    }
+
+    .logo-text {
+      font-size: 18px;
+      font-weight: 700;
+      letter-spacing: 0.06em;
+      color: #fff;
+      font-family: var(--font-ui);
+    }
+
+    .client-selector {
+      margin: 14px 12px;
+      padding: 9px 12px;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-sm);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      cursor: pointer;
+      transition: var(--transition);
+      font-family: var(--font-ui);
+    }
+    .client-selector:hover {
+      background: var(--surface-hover);
+      border-color: var(--border-hover);
+    }
+    .client-selector-label {
+      font-size: 11px;
+      color: var(--text-muted);
+      font-weight: 500;
+      letter-spacing: 0.05em;
+      margin-bottom: 2px;
+    }
+    .client-selector-name {
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--text);
+    }
+    .client-selector-arrow {
+      color: var(--text-muted);
+      font-size: 10px;
+    }
+
+    .nav-section-label {
+      font-size: 10px;
+      font-weight: 600;
+      letter-spacing: 0.1em;
+      color: var(--text-faint);
+      padding: 8px 16px 4px;
+      text-transform: uppercase;
+    }
+
+    .nav-list {
+      list-style: none;
+      padding: 4px 8px;
+      flex: 1;
+      overflow-y: auto;
+    }
+
+    .nav-item {
+      margin-bottom: 2px;
+    }
+
+    .nav-link {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 9px 10px;
+      border-radius: var(--radius-sm);
+      cursor: pointer;
+      transition: var(--transition);
+      font-size: 13.5px;
+      font-weight: 500;
+      color: var(--text-muted);
+      text-decoration: none;
+      border-left: 2px solid transparent;
+      position: relative;
+    }
+    .nav-link:hover {
+      background: var(--surface);
+      color: var(--text);
+    }
+    .nav-link.active {
+      background: var(--purple-light);
+      color: var(--text);
+      border-left-color: var(--purple);
+    }
+    .nav-link svg {
+      width: 16px;
+      height: 16px;
+      flex-shrink: 0;
+      opacity: 0.8;
+    }
+    .nav-link.active svg { opacity: 1; }
+
+    .nav-badge {
+      margin-left: auto;
+      background: var(--purple-light);
+      color: var(--purple);
+      font-size: 10px;
+      font-weight: 600;
+      padding: 1px 6px;
+      border-radius: 20px;
+      font-family: var(--font-mono);
+    }
+
+    .sidebar-footer {
+      padding: 12px;
+      border-top: 1px solid var(--border);
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .plan-badge {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 8px 12px;
+      background: var(--purple-light);
+      border: 1px solid rgba(124,58,237,0.25);
+      border-radius: var(--radius-sm);
+    }
+    .plan-badge-label {
+      font-size: 11px;
+      font-weight: 700;
+      color: var(--purple);
+      letter-spacing: 0.08em;
+    }
+    .plan-badge-upgrade {
+      font-size: 11px;
+      font-weight: 600;
+      color: var(--cyan);
+      cursor: pointer;
+      text-decoration: none;
+    }
+    .plan-badge-upgrade:hover { text-decoration: underline; }
+
+    .user-row {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .user-avatar {
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, var(--purple), var(--cyan));
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 12px;
+      font-weight: 700;
+      color: #fff;
+      flex-shrink: 0;
+    }
+    .user-info { flex: 1; min-width: 0; }
+    .user-name {
+      font-size: 12.5px;
+      font-weight: 600;
+      color: var(--text);
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+    .user-role {
+      font-size: 11px;
+      color: var(--text-muted);
+    }
+
+    /* ─── MAIN AREA ─── */
+    .main {
+      flex: 1;
+      min-width: 0;
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+    }
+
+    /* ─── TOP BAR ─── */
+    .topbar {
+      height: var(--topbar-h);
+      min-height: var(--topbar-h);
+      display: flex;
+      align-items: center;
+      padding: 0 24px;
+      border-bottom: 1px solid var(--border);
+      background: rgba(12,14,26,0.6);
+      backdrop-filter: blur(16px);
+      gap: 16px;
+    }
+
+    .topbar-title {
+      font-size: 17px;
+      font-weight: 600;
+      color: var(--text);
+      flex: 1;
+    }
+    .topbar-title span {
+      color: var(--text-muted);
+      font-weight: 400;
+    }
+
+    .topbar-actions {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 8px 16px;
+      min-height: 36px;
+      border-radius: var(--radius-sm);
+      font-family: var(--font-ui);
+      font-size: 13px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: var(--transition);
+      border: none;
+      outline: none;
+      text-decoration: none;
+      white-space: nowrap;
+    }
+    .btn-ghost {
+      background: var(--surface);
+      color: var(--text-muted);
+      border: 1px solid var(--border);
+    }
+    .btn-ghost:hover {
+      background: var(--surface-hover);
+      color: var(--text);
+      border-color: var(--border-hover);
+    }
+    .btn-primary {
+      background: var(--purple);
+      color: #fff;
+    }
+    .btn-primary:hover {
+      background: #6D28D9;
+      transform: translateY(-1px);
+      box-shadow: 0 8px 24px rgba(124,58,237,0.35);
+    }
+    .btn-danger {
+      background: var(--red-light);
+      color: var(--red);
+      border: 1px solid rgba(239,68,68,0.25);
+    }
+    .btn-danger:hover {
+      background: rgba(239,68,68,0.25);
+    }
+
+    .topbar-icon-btn {
+      width: 36px;
+      height: 36px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-sm);
+      cursor: pointer;
+      transition: var(--transition);
+      position: relative;
+    }
+    .topbar-icon-btn:hover {
+      background: var(--surface-hover);
+      border-color: var(--border-hover);
+    }
+    .topbar-icon-btn svg {
+      width: 16px;
+      height: 16px;
+      color: var(--text-muted);
+    }
+    .notif-dot {
+      position: absolute;
+      top: 7px;
+      right: 7px;
+      width: 6px;
+      height: 6px;
+      background: var(--red);
+      border-radius: 50%;
+      border: 1px solid var(--bg);
+    }
+
+    .topbar-avatar {
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, var(--cyan), var(--purple));
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 12px;
+      font-weight: 700;
+      color: #fff;
+      cursor: pointer;
+      border: 2px solid rgba(255,255,255,0.1);
+    }
+
+    /* ─── CONTENT SCROLL ─── */
+    .content {
+      flex: 1;
+      overflow-y: auto;
+      padding: 24px;
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
+    .content::-webkit-scrollbar { width: 5px; }
+    .content::-webkit-scrollbar-track { background: transparent; }
+    .content::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.1); border-radius: 10px; }
+
+    /* ─── GLASS CARD ─── */
+    .card {
+      background: var(--surface);
+      backdrop-filter: blur(24px);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      transition: var(--transition);
+      overflow: hidden;
+    }
+    .card:hover {
+      background: var(--surface-hover);
+      border-color: var(--border-hover);
+      transform: translateY(-2px);
+      box-shadow: 0 16px 48px rgba(0,0,0,0.3);
+    }
+    .card-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 16px 20px 12px;
+      border-bottom: 1px solid var(--border);
+    }
+    .card-title {
+      font-size: 14px;
+      font-weight: 600;
+      color: var(--text);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .card-title svg {
+      width: 15px;
+      height: 15px;
+      color: var(--text-muted);
+    }
+    .card-subtitle {
+      font-size: 12px;
+      color: var(--text-muted);
+    }
+    .card-body { padding: 20px; }
+
+    /* ─── KPI GRID ─── */
+    .kpi-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 16px;
+    }
+
+    .kpi-card {
+      background: var(--surface);
+      backdrop-filter: blur(24px);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 18px 20px;
+      transition: var(--transition);
+      position: relative;
+      overflow: hidden;
+      cursor: default;
+    }
+    .kpi-card::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 2px;
+      background: var(--kpi-accent, var(--purple));
+      opacity: 0.7;
+    }
+    .kpi-card:hover {
+      background: var(--surface-hover);
+      border-color: var(--border-hover);
+      transform: translateY(-2px);
+      box-shadow: 0 12px 40px rgba(0,0,0,0.3);
+    }
+    .kpi-label {
+      font-size: 11.5px;
+      font-weight: 500;
+      color: var(--text-muted);
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+      margin-bottom: 8px;
+    }
+    .kpi-value {
+      font-family: var(--font-mono);
+      font-size: 34px;
+      font-weight: 500;
+      color: var(--text);
+      line-height: 1;
+      margin-bottom: 10px;
+      letter-spacing: -0.02em;
+    }
+    .kpi-footer {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 8px;
+    }
+    .kpi-trend {
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      font-family: var(--font-mono);
+      font-size: 12px;
+      font-weight: 500;
+      padding: 3px 8px;
+      border-radius: 20px;
+    }
+    .kpi-trend.up {
+      background: var(--green-light);
+      color: var(--green);
+    }
+    .kpi-trend.down {
+      background: var(--red-light);
+      color: var(--red);
+    }
+    .kpi-sparkline {
+      flex: 1;
+      max-width: 72px;
+    }
+
+    /* ─── CHART CARD ─── */
+    .chart-wrapper {
+      width: 100%;
+      overflow-x: auto;
+    }
+    .chart-wrapper svg {
+      min-width: 500px;
+      width: 100%;
+    }
+
+    /* ─── TWO-COL GRID ─── */
+    .two-col {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+    }
+
+    /* ─── BAR CHART ─── */
+    .bar-list {
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+    }
+    .bar-row { display: flex; flex-direction: column; gap: 5px; }
+    .bar-meta {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .bar-label {
+      font-size: 13px;
+      font-weight: 500;
+      color: var(--text);
+    }
+    .bar-pct {
+      font-family: var(--font-mono);
+      font-size: 12px;
+      font-weight: 500;
+      color: var(--text-muted);
+    }
+    .bar-track {
+      height: 6px;
+      background: rgba(255,255,255,0.05);
+      border-radius: 10px;
+      overflow: hidden;
+    }
+    .bar-fill {
+      height: 100%;
+      border-radius: 10px;
+      transform-origin: left;
+      animation: barGrow 0.8s cubic-bezier(.16,1,.3,1) both;
+    }
+    @keyframes barGrow {
+      from { transform: scaleX(0); }
+      to   { transform: scaleX(1); }
+    }
+
+    /* ─── REPORTS LIST ─── */
+    .reports-list {
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+    }
+    .report-row {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 10px 0;
+      border-bottom: 1px solid var(--border);
+      transition: var(--transition);
+    }
+    .report-row:last-child { border-bottom: none; }
+    .report-icon {
+      width: 32px;
+      height: 32px;
+      background: var(--purple-light);
+      border-radius: var(--radius-sm);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+    .report-icon svg { width: 15px; height: 15px; color: var(--purple); }
+    .report-info { flex: 1; min-width: 0; }
+    .report-name {
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--text);
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+    .report-meta {
+      font-size: 11px;
+      color: var(--text-muted);
+      font-family: var(--font-mono);
+      margin-top: 2px;
+    }
+    .report-status {
+      font-size: 11px;
+      font-weight: 600;
+      padding: 3px 9px;
+      border-radius: 20px;
+      flex-shrink: 0;
+    }
+    .report-status.sent {
+      background: var(--green-light);
+      color: var(--green);
+    }
+    .report-status.pending {
+      background: var(--amber-light);
+      color: var(--amber);
+    }
+    .report-link {
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--cyan);
+      cursor: pointer;
+      text-decoration: none;
+      flex-shrink: 0;
+    }
+    .report-link:hover { text-decoration: underline; }
+
+    /* ─── DATA SOURCES ─── */
+    .sources-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 12px;
+      padding: 20px;
+    }
+    .source-card {
+      background: rgba(255,255,255,0.03);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-sm);
+      padding: 16px;
+      transition: var(--transition);
+    }
+    .source-card:hover {
+      background: var(--surface-hover);
+      border-color: var(--border-hover);
+    }
+    .source-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 12px;
+    }
+    .source-logo {
+      width: 36px;
+      height: 36px;
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 14px;
+      font-weight: 700;
+      color: #fff;
+      font-family: var(--font-ui);
+    }
+    .source-action {
+      width: 26px;
+      height: 26px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      cursor: pointer;
+      transition: var(--transition);
+      color: var(--text-muted);
+    }
+    .source-action:hover { background: var(--surface-hover); color: var(--text); }
+    .source-action svg { width: 12px; height: 12px; }
+    .source-name {
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--text);
+      margin-bottom: 6px;
+    }
+    .source-status {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 11.5px;
+      font-family: var(--font-mono);
+    }
+    .status-dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      flex-shrink: 0;
+    }
+    .status-dot.green { background: var(--green); box-shadow: 0 0 6px var(--green); }
+    .status-dot.amber { background: var(--amber); animation: pulse 1.5s infinite; }
+    .status-dot.red { background: var(--red); }
+    @keyframes pulse {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.4; }
+    }
+    .status-text.green { color: var(--green); }
+    .status-text.amber { color: var(--amber); }
+    .status-text.red { color: var(--red); }
+    .source-time {
+      font-size: 10.5px;
+      color: var(--text-faint);
+      margin-top: 4px;
+      font-family: var(--font-mono);
+    }
+
+    /* ─── CLIENTS GRID ─── */
+    .clients-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr) auto;
+      gap: 12px;
+      padding: 20px;
+      align-items: start;
+    }
+    .client-card {
+      background: rgba(255,255,255,0.03);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-sm);
+      padding: 16px;
+      transition: var(--transition);
+    }
+    .client-card:hover {
+      background: var(--surface-hover);
+      border-color: var(--border-hover);
+    }
+    .client-card-header {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      margin-bottom: 12px;
+    }
+    .client-initial {
+      width: 40px;
+      height: 40px;
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 16px;
+      font-weight: 700;
+      color: #fff;
+      font-family: var(--font-ui);
+    }
+    .client-plan-badge {
+      font-size: 10px;
+      font-weight: 700;
+      padding: 3px 8px;
+      border-radius: 20px;
+      letter-spacing: 0.06em;
+    }
+    .client-plan-badge.pro {
+      background: var(--green-light);
+      color: var(--green);
+    }
+    .client-plan-badge.basic {
+      background: rgba(100,116,139,0.15);
+      color: var(--slate);
+    }
+    .client-plan-badge.enterprise {
+      background: var(--purple-light);
+      color: var(--purple);
+    }
+    .client-name {
+      font-size: 14px;
+      font-weight: 600;
+      color: var(--text);
+      margin-bottom: 4px;
+    }
+    .client-stats {
+      font-size: 12px;
+      color: var(--text-muted);
+      display: flex;
+      gap: 12px;
+      font-family: var(--font-mono);
+    }
+    .client-stat span { color: var(--text); font-weight: 500; }
+
+    .invite-btn-wrap {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 16px 12px;
+    }
+    .invite-btn {
+      border: 2px dashed rgba(124,58,237,0.35);
+      background: var(--purple-light);
+      border-radius: var(--radius-sm);
+      padding: 20px 24px;
+      cursor: pointer;
+      transition: var(--transition);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 8px;
+      color: var(--purple);
+      font-family: var(--font-ui);
+      font-size: 13px;
+      font-weight: 600;
+      text-align: center;
+      min-width: 120px;
+    }
+    .invite-btn:hover {
+      background: rgba(124,58,237,0.22);
+      border-color: var(--purple);
+    }
+    .invite-btn svg { width: 20px; height: 20px; }
+
+    /* ─── ANIMATIONS ─── */
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(16px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+    .fade-up {
+      animation: fadeUp 0.5s cubic-bezier(.16,1,.3,1) both;
+    }
+    .fade-up:nth-child(1)  { animation-delay: 0.05s; }
+    .fade-up:nth-child(2)  { animation-delay: 0.10s; }
+    .fade-up:nth-child(3)  { animation-delay: 0.15s; }
+    .fade-up:nth-child(4)  { animation-delay: 0.20s; }
+    .fade-up:nth-child(5)  { animation-delay: 0.25s; }
+    .fade-up:nth-child(6)  { animation-delay: 0.30s; }
+    .fade-up:nth-child(7)  { animation-delay: 0.35s; }
+    .fade-up:nth-child(8)  { animation-delay: 0.40s; }
+
+    /* ─── LINE CHART ANIMATION ─── */
+    .line-revenue {
+      stroke-dasharray: 2000;
+      stroke-dashoffset: 2000;
+      animation: drawLine 2s cubic-bezier(.16,1,.3,1) 0.4s forwards;
+    }
+    .line-target {
+      stroke-dasharray: 2000;
+      stroke-dashoffset: 2000;
+      animation: drawLine 2s cubic-bezier(.16,1,.3,1) 0.7s forwards;
+    }
+    @keyframes drawLine {
+      to { stroke-dashoffset: 0; }
+    }
+
+    /* ─── BAR ANIMATION DELAYS ─── */
+    .bar-fill:nth-child(1) { animation-delay: 0.1s; }
+    .bar-row:nth-child(2) .bar-fill { animation-delay: 0.2s; }
+    .bar-row:nth-child(3) .bar-fill { animation-delay: 0.3s; }
+    .bar-row:nth-child(4) .bar-fill { animation-delay: 0.4s; }
+    .bar-row:nth-child(5) .bar-fill { animation-delay: 0.5s; }
+
+    /* ─── DIVIDER ─── */
+    .section-divider {
+      height: 1px;
+      background: var(--border);
+      margin: 0;
+    }
+
+    /* ─── CHART LEGEND ─── */
+    .chart-legend {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+    }
+    .legend-item {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 12px;
+      color: var(--text-muted);
+      font-family: var(--font-mono);
+    }
+    .legend-line {
+      width: 20px;
+      height: 2px;
+      border-radius: 2px;
+    }
+    .legend-dashed {
+      width: 20px;
+      height: 0;
+      border-top: 2px dashed;
+    }
+
+    /* ─── TOOLTIP STYLES ─── */
+    .chart-point {
+      cursor: pointer;
+      transition: r 0.15s ease;
+    }
+    .chart-point:hover { r: 5; }
+
+    /* ─── RESPONSIVE ─── */
+    @media (max-width: 1200px) {
+      .sources-grid { grid-template-columns: repeat(2, 1fr); }
+      .clients-grid { grid-template-columns: repeat(2, 1fr); }
+    }
+    @media (max-width: 960px) {
+      .kpi-grid { grid-template-columns: repeat(2, 1fr); }
+      .two-col { grid-template-columns: 1fr; }
+    }
+    @media (max-width: 768px) {
+      :root { --sidebar-w: 0px; }
+      .sidebar { display: none; }
+      .kpi-grid { grid-template-columns: repeat(2, 1fr); }
+      .sources-grid { grid-template-columns: 1fr 1fr; }
+      .clients-grid { grid-template-columns: 1fr; }
+      .topbar-title { font-size: 15px; }
+    }
+    @media (max-width: 480px) {
+      .kpi-grid { grid-template-columns: 1fr; }
+      .content { padding: 16px; gap: 14px; }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      .line-revenue, .line-target, .bar-fill, .fade-up {
+        animation: none !important;
+      }
+    }
+
+    /* ─── CHART AREA FADE ─── */
+    .area-revenue {
+      opacity: 0;
+      animation: areaFade 1.2s ease 1.5s forwards;
+    }
+    @keyframes areaFade {
+      to { opacity: 1; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- Demo Banner -->
+<div class="demo-banner" role="banner">
+  DEMO PREVIEW &mdash; Cascade Analytics &nbsp;·&nbsp; Built by NodeAxis
+</div>
+
+<div class="app-shell">
+
+  <!-- ─── SIDEBAR ─── -->
+  <aside class="sidebar" role="navigation" aria-label="Main navigation">
+
+    <!-- Logo -->
+    <div class="sidebar-logo">
+      <svg class="logo-icon" viewBox="0 0 32 32" fill="none" aria-hidden="true">
+        <rect width="32" height="32" rx="8" fill="rgba(124,58,237,0.18)"/>
+        <path d="M8 8 L16 8 L16 14 L22 14 L22 20 L16 20 L16 26 L8 26" stroke="#06B6D4" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+        <path d="M16 14 L24 14" stroke="rgba(6,182,212,0.4)" stroke-width="1.5" stroke-linecap="round"/>
+        <path d="M12 20 L8 20" stroke="rgba(6,182,212,0.4)" stroke-width="1.5" stroke-linecap="round"/>
+        <circle cx="16" cy="8" r="2" fill="#7C3AED"/>
+        <circle cx="22" cy="14" r="2" fill="#06B6D4"/>
+        <circle cx="16" cy="20" r="2" fill="#7C3AED"/>
+        <circle cx="16" cy="26" r="2" fill="#06B6D4"/>
+      </svg>
+      <span class="logo-text">CASCADE</span>
+    </div>
+
+    <!-- Client Selector -->
+    <div class="client-selector" role="button" aria-haspopup="listbox" aria-label="Select client: Meridian Group">
+      <div>
+        <div class="client-selector-label">CLIENT WORKSPACE</div>
+        <div class="client-selector-name">Meridian Group</div>
+      </div>
+      <div class="client-selector-arrow" aria-hidden="true">&#9660;</div>
+    </div>
+
+    <!-- Nav -->
+    <div class="nav-section-label">MAIN</div>
+    <ul class="nav-list" role="menubar">
+      <li class="nav-item" role="none">
+        <a class="nav-link active" href="#" role="menuitem" aria-current="page">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg>
+          Overview
+          <span class="nav-badge">Live</span>
+        </a>
+      </li>
+      <li class="nav-item" role="none">
+        <a class="nav-link" href="#" role="menuitem">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><polyline points="22 7 13.5 15.5 8.5 10.5 2 17"/><polyline points="16 7 22 7 22 13"/></svg>
+          KPIs
+        </a>
+      </li>
+      <li class="nav-item" role="none">
+        <a class="nav-link" href="#" role="menuitem">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg>
+          Reports
+        </a>
+      </li>
+      <li class="nav-item" role="none">
+        <a class="nav-link" href="#" role="menuitem">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><ellipse cx="12" cy="5" rx="9" ry="3"/><path d="M21 12c0 1.66-4 3-9 3s-9-1.34-9-3"/><path d="M3 5v14c0 1.66 4 3 9 3s9-1.34 9-3V5"/></svg>
+          Data Sources
+          <span class="nav-badge">4</span>
+        </a>
+      </li>
+      <div class="nav-section-label" style="padding-top:12px">SETTINGS</div>
+      <li class="nav-item" role="none">
+        <a class="nav-link" href="#" role="menuitem">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="12" cy="12" r="3"/><path d="M19.07 4.93A10 10 0 105.6 19.07M21 21l-4.35-4.35"/></svg>
+          White-Label Settings
+        </a>
+      </li>
+      <li class="nav-item" role="none">
+        <a class="nav-link" href="#" role="menuitem">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87M16 3.13a4 4 0 010 7.75"/></svg>
+          Team
+        </a>
+      </li>
+    </ul>
+
+    <!-- Footer -->
+    <div class="sidebar-footer">
+      <div class="plan-badge">
+        <span class="plan-badge-label">PRO PLAN</span>
+        <a class="plan-badge-upgrade" href="#" aria-label="Upgrade your plan">Upgrade</a>
+      </div>
+      <div class="user-row">
+        <div class="user-avatar" aria-hidden="true">MK</div>
+        <div class="user-info">
+          <div class="user-name">Marcus Klein</div>
+          <div class="user-role">Admin</div>
+        </div>
+      </div>
+    </div>
+  </aside>
+
+  <!-- ─── MAIN ─── -->
+  <main class="main" role="main">
+
+    <!-- Top Bar -->
+    <header class="topbar">
+      <h1 class="topbar-title">Overview <span>— Meridian Group</span></h1>
+      <div class="topbar-actions">
+        <button class="btn btn-ghost" aria-label="Date range: Last 30 days">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+          Last 30 days &#9660;
+        </button>
+        <button class="btn btn-primary" aria-label="Export data">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+          Export
+        </button>
+        <div class="topbar-icon-btn" role="button" aria-label="Notifications (2 unread)">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M18 8A6 6 0 006 8c0 7-3 9-3 9h18s-3-2-3-9M13.73 21a2 2 0 01-3.46 0"/></svg>
+          <div class="notif-dot" aria-hidden="true"></div>
+        </div>
+        <div class="topbar-avatar" role="button" aria-label="User menu: Marcus Klein">MK</div>
+      </div>
+    </header>
+
+    <!-- Scrollable Content -->
+    <div class="content">
+
+      <!-- KPI Row -->
+      <section class="kpi-grid" aria-label="Key performance indicators">
+
+        <article class="kpi-card fade-up" style="--kpi-accent: #7C3AED;">
+          <div class="kpi-label">Monthly Revenue</div>
+          <div class="kpi-value" aria-label="Monthly Revenue: $284,500">$284,500</div>
+          <div class="kpi-footer">
+            <div class="kpi-trend up" aria-label="Up 12.4%">
+              <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" aria-hidden="true"><polyline points="18 15 12 9 6 15"/></svg>
+              +12.4%
+            </div>
+            <svg class="kpi-sparkline" viewBox="0 0 72 24" aria-hidden="true">
+              <polyline points="0,18 10,16 20,14 30,17 40,10 52,8 62,5 72,3"
+                fill="none" stroke="#7C3AED" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" opacity="0.9"/>
+              <polyline points="0,18 10,16 20,14 30,17 40,10 52,8 62,5 72,3 72,24 0,24"
+                fill="rgba(124,58,237,0.15)" stroke="none"/>
+            </svg>
+          </div>
+        </article>
+
+        <article class="kpi-card fade-up" style="--kpi-accent: #06B6D4;">
+          <div class="kpi-label">Active Users</div>
+          <div class="kpi-value" aria-label="Active Users: 1,847">1,847</div>
+          <div class="kpi-footer">
+            <div class="kpi-trend up" aria-label="Up 8.1%">
+              <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" aria-hidden="true"><polyline points="18 15 12 9 6 15"/></svg>
+              +8.1%
+            </div>
+            <svg class="kpi-sparkline" viewBox="0 0 72 24" aria-hidden="true">
+              <polyline points="0,20 10,18 20,19 30,14 40,12 52,10 62,8 72,6"
+                fill="none" stroke="#06B6D4" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" opacity="0.9"/>
+              <polyline points="0,20 10,18 20,19 30,14 40,12 52,10 62,8 72,6 72,24 0,24"
+                fill="rgba(6,182,212,0.12)" stroke="none"/>
+            </svg>
+          </div>
+        </article>
+
+        <article class="kpi-card fade-up" style="--kpi-accent: #10B981;">
+          <div class="kpi-label">Conversion Rate</div>
+          <div class="kpi-value" aria-label="Conversion Rate: 3.24%">3.24%</div>
+          <div class="kpi-footer">
+            <div class="kpi-trend up" aria-label="Up 0.4 percentage points">
+              <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" aria-hidden="true"><polyline points="18 15 12 9 6 15"/></svg>
+              +0.4pp
+            </div>
+            <svg class="kpi-sparkline" viewBox="0 0 72 24" aria-hidden="true">
+              <polyline points="0,16 10,17 20,15 30,16 40,13 52,11 62,12 72,9"
+                fill="none" stroke="#10B981" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" opacity="0.9"/>
+              <polyline points="0,16 10,17 20,15 30,16 40,13 52,11 62,12 72,9 72,24 0,24"
+                fill="rgba(16,185,129,0.12)" stroke="none"/>
+            </svg>
+          </div>
+        </article>
+
+        <article class="kpi-card fade-up" style="--kpi-accent: #EF4444;">
+          <div class="kpi-label">Avg Session</div>
+          <div class="kpi-value" aria-label="Average Session: 4 minutes 32 seconds">4m 32s</div>
+          <div class="kpi-footer">
+            <div class="kpi-trend down" aria-label="Down 0.3 minutes">
+              <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" aria-hidden="true"><polyline points="6 9 12 15 18 9"/></svg>
+              -0.3m
+            </div>
+            <svg class="kpi-sparkline" viewBox="0 0 72 24" aria-hidden="true">
+              <polyline points="0,8 10,9 20,7 30,10 40,11 52,13 62,15 72,17"
+                fill="none" stroke="#EF4444" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" opacity="0.9"/>
+              <polyline points="0,8 10,9 20,7 30,10 40,11 52,13 62,15 72,17 72,24 0,24"
+                fill="rgba(239,68,68,0.12)" stroke="none"/>
+            </svg>
+          </div>
+        </article>
+      </section>
+
+      <!-- Main Line Chart -->
+      <section class="card fade-up" aria-label="Revenue chart">
+        <div class="card-header">
+          <div class="card-title">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
+            Revenue Over Time
+            <span style="font-weight:400; color:var(--text-muted); font-size:12px;">— Last 12 Months</span>
+          </div>
+          <div class="chart-legend" aria-label="Chart legend">
+            <div class="legend-item">
+              <div class="legend-line" style="background:var(--purple);"></div>
+              Revenue
+            </div>
+            <div class="legend-item">
+              <div class="legend-dashed" style="border-color:var(--cyan);"></div>
+              Target
+            </div>
+          </div>
+        </div>
+        <div class="card-body" style="padding:16px 20px 20px;">
+          <div class="chart-wrapper" role="img" aria-label="Line chart showing revenue and target over 12 months. Revenue peaked at $310,000 in November and current month shows $284,500.">
+            <svg viewBox="0 0 700 220" preserveAspectRatio="xMidYMid meet">
+              <!-- Grid -->
+              <defs>
+                <linearGradient id="revGrad" x1="0" y1="0" x2="0" y2="1">
+                  <stop offset="0%" stop-color="#7C3AED" stop-opacity="0.25"/>
+                  <stop offset="100%" stop-color="#7C3AED" stop-opacity="0"/>
+                </linearGradient>
+              </defs>
+
+              <!-- Y-axis grid lines -->
+              <line x1="55" y1="10"  x2="695" y2="10"  stroke="rgba(255,255,255,0.05)" stroke-width="1"/>
+              <line x1="55" y1="47"  x2="695" y2="47"  stroke="rgba(255,255,255,0.05)" stroke-width="1"/>
+              <line x1="55" y1="84"  x2="695" y2="84"  stroke="rgba(255,255,255,0.05)" stroke-width="1"/>
+              <line x1="55" y1="121" x2="695" y2="121" stroke="rgba(255,255,255,0.05)" stroke-width="1"/>
+              <line x1="55" y1="158" x2="695" y2="158" stroke="rgba(255,255,255,0.05)" stroke-width="1"/>
+              <line x1="55" y1="195" x2="695" y2="195" stroke="rgba(255,255,255,0.08)" stroke-width="1"/>
+
+              <!-- Y labels (JetBrains Mono) -->
+              <text x="50" y="14"  font-family="JetBrains Mono" font-size="10" fill="rgba(226,232,240,0.35)" text-anchor="end">350k</text>
+              <text x="50" y="51"  font-family="JetBrains Mono" font-size="10" fill="rgba(226,232,240,0.35)" text-anchor="end">280k</text>
+              <text x="50" y="88"  font-family="JetBrains Mono" font-size="10" fill="rgba(226,232,240,0.35)" text-anchor="end">210k</text>
+              <text x="50" y="125" font-family="JetBrains Mono" font-size="10" fill="rgba(226,232,240,0.35)" text-anchor="end">140k</text>
+              <text x="50" y="162" font-family="JetBrains Mono" font-size="10" fill="rgba(226,232,240,0.35)" text-anchor="end">70k</text>
+              <text x="50" y="199" font-family="JetBrains Mono" font-size="10" fill="rgba(226,232,240,0.35)" text-anchor="end">0</text>
+
+              <!-- Revenue area fill (animated) -->
+              <!-- Points: Jan–Dec mapped to x from 60 to 690, y from 195 (0) to 10 (350k) -->
+              <!-- Revenue data: 142k,158k,172k,189k,210k,228k,245k,262k,278k,295k,310k,284k -->
+              <!-- Y = 195 - (val/350000 * 185) -->
+              <polygon class="area-revenue"
+                points="60,120 118,111 176,104 234,94 292,84 350,77 408,67 466,60 524,51 582,42 640,31 690,49 690,195 60,195"
+                fill="url(#revGrad)"/>
+
+              <!-- Revenue line -->
+              <polyline class="line-revenue"
+                points="60,120 118,111 176,104 234,94 292,84 350,77 408,67 466,60 524,51 582,42 640,31 690,49"
+                fill="none" stroke="#7C3AED" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+
+              <!-- Target line (dashed) -->
+              <!-- Target: 150k,165k,180k,195k,215k,230k,248k,265k,280k,295k,310k,295k -->
+              <polyline class="line-target"
+                points="60,116 118,107 176,100 234,91 292,82 350,75 408,65 466,58 524,49 582,42 640,31 690,42"
+                fill="none" stroke="#06B6D4" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"
+                stroke-dasharray="6 4"/>
+
+              <!-- Data point circles on revenue line -->
+              <circle class="chart-point" cx="60"  cy="120" r="3" fill="#7C3AED" stroke="#0C0E1A" stroke-width="2"><title>Jan: $142,000</title></circle>
+              <circle class="chart-point" cx="118" cy="111" r="3" fill="#7C3AED" stroke="#0C0E1A" stroke-width="2"><title>Feb: $158,000</title></circle>
+              <circle class="chart-point" cx="176" cy="104" r="3" fill="#7C3AED" stroke="#0C0E1A" stroke-width="2"><title>Mar: $172,000</title></circle>
+              <circle class="chart-point" cx="234" cy="94"  r="3" fill="#7C3AED" stroke="#0C0E1A" stroke-width="2"><title>Apr: $189,000</title></circle>
+              <circle class="chart-point" cx="292" cy="84"  r="3" fill="#7C3AED" stroke="#0C0E1A" stroke-width="2"><title>May: $210,000</title></circle>
+              <circle class="chart-point" cx="350" cy="77"  r="3" fill="#7C3AED" stroke="#0C0E1A" stroke-width="2"><title>Jun: $228,000</title></circle>
+              <circle class="chart-point" cx="408" cy="67"  r="3" fill="#7C3AED" stroke="#0C0E1A" stroke-width="2"><title>Jul: $245,000</title></circle>
+              <circle class="chart-point" cx="466" cy="60"  r="3" fill="#7C3AED" stroke="#0C0E1A" stroke-width="2"><title>Aug: $262,000</title></circle>
+              <circle class="chart-point" cx="524" cy="51"  r="3" fill="#7C3AED" stroke="#0C0E1A" stroke-width="2"><title>Sep: $278,000</title></circle>
+              <circle class="chart-point" cx="582" cy="42"  r="3" fill="#7C3AED" stroke="#0C0E1A" stroke-width="2"><title>Oct: $295,000</title></circle>
+              <circle class="chart-point" cx="640" cy="31"  r="4" fill="#7C3AED" stroke="rgba(124,58,237,0.5)" stroke-width="4"><title>Nov: $310,000 (peak)</title></circle>
+              <circle class="chart-point" cx="690" cy="49"  r="3" fill="#7C3AED" stroke="#0C0E1A" stroke-width="2"><title>Dec: $284,500</title></circle>
+
+              <!-- X labels -->
+              <text x="60"  y="215" font-family="JetBrains Mono" font-size="10" fill="rgba(226,232,240,0.35)" text-anchor="middle">Jan</text>
+              <text x="118" y="215" font-family="JetBrains Mono" font-size="10" fill="rgba(226,232,240,0.35)" text-anchor="middle">Feb</text>
+              <text x="176" y="215" font-family="JetBrains Mono" font-size="10" fill="rgba(226,232,240,0.35)" text-anchor="middle">Mar</text>
+              <text x="234" y="215" font-family="JetBrains Mono" font-size="10" fill="rgba(226,232,240,0.35)" text-anchor="middle">Apr</text>
+              <text x="292" y="215" font-family="JetBrains Mono" font-size="10" fill="rgba(226,232,240,0.35)" text-anchor="middle">May</text>
+              <text x="350" y="215" font-family="JetBrains Mono" font-size="10" fill="rgba(226,232,240,0.35)" text-anchor="middle">Jun</text>
+              <text x="408" y="215" font-family="JetBrains Mono" font-size="10" fill="rgba(226,232,240,0.35)" text-anchor="middle">Jul</text>
+              <text x="466" y="215" font-family="JetBrains Mono" font-size="10" fill="rgba(226,232,240,0.35)" text-anchor="middle">Aug</text>
+              <text x="524" y="215" font-family="JetBrains Mono" font-size="10" fill="rgba(226,232,240,0.35)" text-anchor="middle">Sep</text>
+              <text x="582" y="215" font-family="JetBrains Mono" font-size="10" fill="rgba(226,232,240,0.35)" text-anchor="middle">Oct</text>
+              <text x="640" y="215" font-family="JetBrains Mono" font-size="10" fill="rgba(226,232,240,0.35)" text-anchor="middle">Nov</text>
+              <text x="690" y="215" font-family="JetBrains Mono" font-size="10" fill="rgba(226,232,240,0.45)" text-anchor="middle" font-weight="500">Dec</text>
+            </svg>
+          </div>
+        </div>
+      </section>
+
+      <!-- Two Column -->
+      <div class="two-col">
+
+        <!-- Traffic Sources -->
+        <section class="card fade-up" aria-label="Traffic sources">
+          <div class="card-header">
+            <div class="card-title">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/></svg>
+              Traffic Sources
+            </div>
+            <div class="card-subtitle" style="font-family:var(--font-mono);">Last 30 days</div>
+          </div>
+          <div class="card-body">
+            <div class="bar-list" role="list">
+
+              <div class="bar-row" role="listitem">
+                <div class="bar-meta">
+                  <span class="bar-label">Organic Search</span>
+                  <span class="bar-pct" aria-label="42%">42%</span>
+                </div>
+                <div class="bar-track" role="presentation">
+                  <div class="bar-fill" style="width:42%; background: var(--purple); animation-delay:0.1s;" aria-label="Organic Search 42%"></div>
+                </div>
+              </div>
+
+              <div class="bar-row" role="listitem">
+                <div class="bar-meta">
+                  <span class="bar-label">Direct</span>
+                  <span class="bar-pct" aria-label="28%">28%</span>
+                </div>
+                <div class="bar-track" role="presentation">
+                  <div class="bar-fill" style="width:28%; background: var(--cyan); animation-delay:0.2s;" aria-label="Direct 28%"></div>
+                </div>
+              </div>
+
+              <div class="bar-row" role="listitem">
+                <div class="bar-meta">
+                  <span class="bar-label">Paid Ads</span>
+                  <span class="bar-pct" aria-label="18%">18%</span>
+                </div>
+                <div class="bar-track" role="presentation">
+                  <div class="bar-fill" style="width:18%; background: var(--amber); animation-delay:0.3s;" aria-label="Paid Ads 18%"></div>
+                </div>
+              </div>
+
+              <div class="bar-row" role="listitem">
+                <div class="bar-meta">
+                  <span class="bar-label">Referral</span>
+                  <span class="bar-pct" aria-label="8%">8%</span>
+                </div>
+                <div class="bar-track" role="presentation">
+                  <div class="bar-fill" style="width:8%; background: var(--green); animation-delay:0.4s;" aria-label="Referral 8%"></div>
+                </div>
+              </div>
+
+              <div class="bar-row" role="listitem">
+                <div class="bar-meta">
+                  <span class="bar-label">Social</span>
+                  <span class="bar-pct" aria-label="4%">4%</span>
+                </div>
+                <div class="bar-track" role="presentation">
+                  <div class="bar-fill" style="width:4%; background: var(--slate); animation-delay:0.5s;" aria-label="Social 4%"></div>
+                </div>
+              </div>
+
+            </div>
+          </div>
+        </section>
+
+        <!-- Scheduled Reports -->
+        <section class="card fade-up" aria-label="Scheduled reports">
+          <div class="card-header">
+            <div class="card-title">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+              Scheduled Reports
+            </div>
+            <div class="card-subtitle" style="font-family:var(--font-mono);">5 active</div>
+          </div>
+          <div class="card-body" style="padding:12px 20px 16px;">
+            <div class="reports-list" role="list">
+
+              <div class="report-row" role="listitem">
+                <div class="report-icon" aria-hidden="true">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
+                </div>
+                <div class="report-info">
+                  <div class="report-name">Revenue Summary</div>
+                  <div class="report-meta">Weekly &nbsp;·&nbsp; Jun 10, 2026</div>
+                </div>
+                <span class="report-status sent">Sent</span>
+                <a href="#" class="report-link" aria-label="View Revenue Summary report">View</a>
+              </div>
+
+              <div class="report-row" role="listitem">
+                <div class="report-icon" aria-hidden="true">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/></svg>
+                </div>
+                <div class="report-info">
+                  <div class="report-name">User Retention Report</div>
+                  <div class="report-meta">Monthly &nbsp;·&nbsp; Jun 1, 2026</div>
+                </div>
+                <span class="report-status sent">Sent</span>
+                <a href="#" class="report-link" aria-label="View User Retention report">View</a>
+              </div>
+
+              <div class="report-row" role="listitem">
+                <div class="report-icon" aria-hidden="true">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/></svg>
+                </div>
+                <div class="report-info">
+                  <div class="report-name">Acquisition Funnel</div>
+                  <div class="report-meta">Weekly &nbsp;·&nbsp; Jun 13, 2026</div>
+                </div>
+                <span class="report-status pending">Pending</span>
+                <a href="#" class="report-link" aria-label="View Acquisition Funnel report">View</a>
+              </div>
+
+              <div class="report-row" role="listitem">
+                <div class="report-icon" aria-hidden="true">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg>
+                </div>
+                <div class="report-info">
+                  <div class="report-name">Executive Dashboard</div>
+                  <div class="report-meta">Monthly &nbsp;·&nbsp; Jun 1, 2026</div>
+                </div>
+                <span class="report-status sent">Sent</span>
+                <a href="#" class="report-link" aria-label="View Executive Dashboard report">View</a>
+              </div>
+
+              <div class="report-row" role="listitem">
+                <div class="report-icon" aria-hidden="true">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="20" x2="12" y2="10"/><line x1="18" y1="20" x2="18" y2="4"/><line x1="6" y1="20" x2="6" y2="16"/></svg>
+                </div>
+                <div class="report-info">
+                  <div class="report-name">Channel Performance</div>
+                  <div class="report-meta">Weekly &nbsp;·&nbsp; Jun 10, 2026</div>
+                </div>
+                <span class="report-status pending">Pending</span>
+                <a href="#" class="report-link" aria-label="View Channel Performance report">View</a>
+              </div>
+
+            </div>
+            <div style="margin-top:14px;">
+              <button class="btn btn-primary" style="width:100%;" aria-label="Generate new report">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+                Generate New Report
+              </button>
+            </div>
+          </div>
+        </section>
+
+      </div><!-- /two-col -->
+
+      <!-- Data Sources -->
+      <section class="card fade-up" aria-label="Connected data sources">
+        <div class="card-header">
+          <div class="card-title">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><ellipse cx="12" cy="5" rx="9" ry="3"/><path d="M21 12c0 1.66-4 3-9 3s-9-1.34-9-3"/><path d="M3 5v14c0 1.66 4 3 9 3s9-1.34 9-3V5"/></ellipse></svg>
+            Connected Data Sources
+          </div>
+          <button class="btn btn-ghost" style="font-size:12px;" aria-label="Add new data source">
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+            Add Source
+          </button>
+        </div>
+        <div class="sources-grid" role="list">
+
+          <div class="source-card" role="listitem">
+            <div class="source-header">
+              <div class="source-logo" style="background:linear-gradient(135deg,#00A1E0,#0070B3);" aria-hidden="true">SF</div>
+              <div class="source-action" role="button" aria-label="Disconnect Salesforce CRM">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M18.36 6.64a9 9 0 110 10.72M18.36 6.64L22 8l-1.64-3.64"/></svg>
+              </div>
+            </div>
+            <div class="source-name">Salesforce CRM</div>
+            <div class="source-status">
+              <div class="status-dot green" aria-hidden="true"></div>
+              <span class="status-text green">SYNCED</span>
+            </div>
+            <div class="source-time">2 min ago</div>
+          </div>
+
+          <div class="source-card" role="listitem">
+            <div class="source-header">
+              <div class="source-logo" style="background:linear-gradient(135deg,#F5680A,#FBBC05);" aria-hidden="true">GA</div>
+              <div class="source-action" role="button" aria-label="Disconnect Google Analytics">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M18.36 6.64a9 9 0 110 10.72M18.36 6.64L22 8l-1.64-3.64"/></svg>
+              </div>
+            </div>
+            <div class="source-name">Google Analytics</div>
+            <div class="source-status">
+              <div class="status-dot green" aria-hidden="true"></div>
+              <span class="status-text green">SYNCED</span>
+            </div>
+            <div class="source-time">5 min ago</div>
+          </div>
+
+          <div class="source-card" role="listitem">
+            <div class="source-header">
+              <div class="source-logo" style="background:linear-gradient(135deg,#336791,#5B9BD5);" aria-hidden="true">PG</div>
+              <div class="source-action" role="button" aria-label="Configure PostgreSQL database">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="12" cy="12" r="3"/><path d="M19.07 4.93A10 10 0 105.6 19.07"/></svg>
+              </div>
+            </div>
+            <div class="source-name">PostgreSQL DB</div>
+            <div class="source-status">
+              <div class="status-dot amber" aria-hidden="true"></div>
+              <span class="status-text amber">SYNCING...</span>
+            </div>
+            <div class="source-time">In progress</div>
+          </div>
+
+          <div class="source-card" role="listitem" style="border-color:rgba(239,68,68,0.2);">
+            <div class="source-header">
+              <div class="source-logo" style="background:linear-gradient(135deg,#635BFF,#8075FF);" aria-hidden="true">ST</div>
+              <div class="source-action" style="border-color:rgba(239,68,68,0.25);" role="button" aria-label="View Stripe error details">
+                <svg viewBox="0 0 24 24" fill="none" stroke="#EF4444" stroke-width="2" aria-hidden="true"><circle cx="12" cy="12" r="10"/><line x1="15" y1="9" x2="9" y2="15"/><line x1="9" y1="9" x2="15" y2="15"/></svg>
+              </div>
+            </div>
+            <div class="source-name">Stripe Payments</div>
+            <div class="source-status">
+              <div class="status-dot red" aria-hidden="true"></div>
+              <span class="status-text red">ERROR</span>
+            </div>
+            <div style="margin-top:8px;">
+              <button class="btn btn-danger" style="font-size:11px; padding:5px 12px; min-height:28px;" aria-label="Reconnect Stripe Payments">
+                <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><polyline points="1 4 1 10 7 10"/><path d="M3.51 15a9 9 0 1 0 .49-3.51"/></svg>
+                Reconnect
+              </button>
+            </div>
+          </div>
+
+        </div>
+      </section>
+
+      <!-- Clients Panel -->
+      <section class="card fade-up" aria-label="Client workspaces">
+        <div class="card-header">
+          <div class="card-title">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87M16 3.13a4 4 0 010 7.75"/></svg>
+            Your Clients
+          </div>
+          <div style="display:flex;align-items:center;gap:10px;">
+            <span style="font-family:var(--font-mono);font-size:12px;color:var(--text-muted);">3 workspaces</span>
+          </div>
+        </div>
+        <div class="clients-grid" role="list">
+
+          <div class="client-card" role="listitem">
+            <div class="client-card-header">
+              <div class="client-initial" style="background:linear-gradient(135deg,#7C3AED,#06B6D4);" aria-hidden="true">M</div>
+              <span class="client-plan-badge pro">PRO</span>
+            </div>
+            <div class="client-name">Meridian Group</div>
+            <div class="client-stats">
+              <span><span aria-label="5 dashboards">5</span> dashboards</span>
+              <span><span aria-label="3 users">3</span> users</span>
+            </div>
+          </div>
+
+          <div class="client-card" role="listitem">
+            <div class="client-card-header">
+              <div class="client-initial" style="background:linear-gradient(135deg,#475569,#64748B);" aria-hidden="true">H</div>
+              <span class="client-plan-badge basic">BASIC</span>
+            </div>
+            <div class="client-name">Hartfield &amp; Co.</div>
+            <div class="client-stats">
+              <span><span aria-label="2 dashboards">2</span> dashboards</span>
+              <span><span aria-label="1 user">1</span> user</span>
+            </div>
+          </div>
+
+          <div class="client-card" role="listitem">
+            <div class="client-card-header">
+              <div class="client-initial" style="background:linear-gradient(135deg,#5B21B6,#7C3AED);" aria-hidden="true">W</div>
+              <span class="client-plan-badge enterprise">ENTERPRISE</span>
+            </div>
+            <div class="client-name">Westbrook Partners</div>
+            <div class="client-stats">
+              <span><span aria-label="8 dashboards">8</span> dashboards</span>
+              <span><span aria-label="6 users">6</span> users</span>
+            </div>
+          </div>
+
+          <div class="invite-btn-wrap" role="listitem">
+            <button class="invite-btn" aria-label="Invite a new client">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+              Invite Client
+            </button>
+          </div>
+
+        </div>
+      </section>
+
+    </div><!-- /content -->
+  </main>
+</div>
+
+<script>
+  // Animate bar fills from 0 on intersection
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        e.target.querySelectorAll('.bar-fill').forEach((bar, i) => {
+          bar.style.animationDelay = (0.1 + i * 0.1) + 's';
+          bar.style.animationPlayState = 'running';
+        });
+      }
+    });
+  }, { threshold: 0.3 });
+
+  document.querySelectorAll('.bar-list').forEach(el => {
+    el.querySelectorAll('.bar-fill').forEach(b => b.style.animationPlayState = 'paused');
+    observer.observe(el);
+  });
+
+  // Active nav link interaction
+  document.querySelectorAll('.nav-link').forEach(link => {
+    link.addEventListener('click', (e) => {
+      e.preventDefault();
+      document.querySelectorAll('.nav-link').forEach(l => l.classList.remove('active'));
+      link.classList.add('active');
+    });
+  });
+
+  // KPI number counter animation
+  function animateCounter(el, target, prefix = '', suffix = '', decimals = 0) {
+    const duration = 1200;
+    const start = performance.now();
+    const update = (now) => {
+      const progress = Math.min((now - start) / duration, 1);
+      const ease = 1 - Math.pow(1 - progress, 3);
+      const value = target * ease;
+      el.textContent = prefix + (decimals > 0
+        ? value.toFixed(decimals)
+        : Math.floor(value).toLocaleString()) + suffix;
+      if (progress < 1) requestAnimationFrame(update);
+    };
+    requestAnimationFrame(update);
+  }
+
+  // Trigger counters after a short delay
+  setTimeout(() => {
+    const kpiValues = document.querySelectorAll('.kpi-value');
+    const configs = [
+      { prefix: '$', suffix: '', value: 284500, decimals: 0 },
+      { prefix: '', suffix: '', value: 1847, decimals: 0 },
+      { prefix: '', suffix: '%', value: 3.24, decimals: 2 },
+      { prefix: '', suffix: '', value: 0, decimals: 0, raw: '4m 32s' },
+    ];
+    kpiValues.forEach((el, i) => {
+      const cfg = configs[i];
+      if (cfg.raw) return; // skip session time
+      animateCounter(el, cfg.value, cfg.prefix, cfg.suffix, cfg.decimals);
+    });
+  }, 200);
+</script>
+
+</body>
+</html>

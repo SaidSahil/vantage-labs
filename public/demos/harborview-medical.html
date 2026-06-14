@@ -1,0 +1,1349 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Harborview Medical — Patient Management System</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:ital,opsz,wght@0,8..60,300;0,8..60,400;0,8..60,600;1,8..60,400&family=Nunito:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+  <style>
+    /* ─── RESET & TOKENS ─────────────────────────────────────────── */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --white:        #FFFFFF;
+      --bg:           #F7F9FC;
+      --surface:      #FFFFFF;
+      --border:       #E2E8F0;
+      --border-2:     #CBD5E1;
+      --blue:         #1E5FA8;
+      --blue-light:   #EBF2FB;
+      --blue-mid:     rgba(30,95,168,0.12);
+      --mint:         #059669;
+      --mint-light:   #ECFDF5;
+      --amber:        #D97706;
+      --amber-light:  #FFFBEB;
+      --red:          #DC2626;
+      --red-light:    #FEF2F2;
+      --text:         #1E293B;
+      --text-muted:   #64748B;
+      --text-light:   #94A3B8;
+
+      --radius:       10px;
+      --card-shadow:  0 1px 3px rgba(0,0,0,0.06);
+      --font-ui:      'Nunito', sans-serif;
+      --font-serif:   'Source Serif 4', serif;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: var(--font-ui);
+      background: var(--bg);
+      color: var(--text);
+      font-size: 14px;
+      line-height: 1.5;
+      min-height: 100vh;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* ─── ANIMATIONS ─────────────────────────────────────────────── */
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(14px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+    @keyframes pulse-dot {
+      0%, 100% { opacity: 1; }
+      50%       { opacity: 0.45; }
+    }
+
+    .fade-up {
+      opacity: 0;
+      animation: fadeUp 0.4s ease forwards;
+    }
+    .delay-1  { animation-delay: 0.05s; }
+    .delay-2  { animation-delay: 0.10s; }
+    .delay-3  { animation-delay: 0.15s; }
+    .delay-4  { animation-delay: 0.20s; }
+    .delay-5  { animation-delay: 0.25s; }
+    .delay-6  { animation-delay: 0.30s; }
+    .delay-7  { animation-delay: 0.35s; }
+    .delay-8  { animation-delay: 0.40s; }
+
+    /* ─── DEMO BANNER ─────────────────────────────────────────────── */
+    .demo-banner {
+      background: var(--blue);
+      color: #fff;
+      text-align: center;
+      padding: 8px 16px;
+      font-family: var(--font-ui);
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+    }
+
+    /* ─── TOP NAV ─────────────────────────────────────────────────── */
+    .topnav {
+      background: var(--white);
+      border-bottom: 1px solid var(--border);
+      box-shadow: 0 1px 4px rgba(0,0,0,0.05);
+      padding: 0 24px;
+      height: 60px;
+      display: flex;
+      align-items: center;
+      gap: 20px;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+
+    .nav-logo {
+      display: flex;
+      align-items: center;
+      gap: 9px;
+      text-decoration: none;
+      flex-shrink: 0;
+    }
+    .nav-logo-icon {
+      width: 30px;
+      height: 30px;
+      color: var(--blue);
+    }
+    .nav-logo-text {
+      font-family: var(--font-ui);
+      font-weight: 700;
+      font-size: 13.5px;
+      letter-spacing: 0.06em;
+      color: var(--blue);
+      text-transform: uppercase;
+    }
+
+    .nav-search {
+      flex: 1;
+      max-width: 380px;
+      margin: 0 auto;
+      position: relative;
+    }
+    .nav-search input {
+      width: 100%;
+      height: 38px;
+      border: 1px solid var(--border);
+      border-radius: 99px;
+      padding: 0 16px 0 40px;
+      font-family: var(--font-ui);
+      font-size: 13.5px;
+      color: var(--text);
+      background: var(--bg);
+      outline: none;
+      transition: border-color 150ms ease, box-shadow 150ms ease;
+    }
+    .nav-search input::placeholder { color: var(--text-light); }
+    .nav-search input:focus {
+      border-color: var(--blue);
+      box-shadow: 0 0 0 3px rgba(30,95,168,0.15);
+      background: var(--white);
+    }
+    .nav-search-icon {
+      position: absolute;
+      left: 13px;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 16px;
+      height: 16px;
+      color: var(--text-light);
+      pointer-events: none;
+    }
+
+    .nav-actions {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-left: auto;
+      flex-shrink: 0;
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-family: var(--font-ui);
+      font-weight: 600;
+      font-size: 13px;
+      border-radius: 8px;
+      border: none;
+      cursor: pointer;
+      transition: background 150ms ease, transform 100ms ease, box-shadow 150ms ease;
+      min-height: 44px;
+      padding: 0 16px;
+      text-decoration: none;
+      white-space: nowrap;
+    }
+    .btn:active { transform: scale(0.98); }
+
+    .btn-primary {
+      background: var(--blue);
+      color: #fff;
+    }
+    .btn-primary:hover { background: #174e8e; box-shadow: 0 2px 8px rgba(30,95,168,0.25); }
+
+    .btn-ghost {
+      background: transparent;
+      color: var(--text-muted);
+      min-height: 36px;
+      padding: 0 10px;
+      border-radius: 8px;
+    }
+    .btn-ghost:hover { background: var(--blue-light); color: var(--blue); }
+
+    .btn-sm {
+      min-height: 32px;
+      padding: 0 12px;
+      font-size: 12px;
+      border-radius: 7px;
+    }
+
+    .btn-outline {
+      background: var(--white);
+      border: 1px solid var(--border-2);
+      color: var(--text);
+    }
+    .btn-outline:hover { border-color: var(--blue); color: var(--blue); background: var(--blue-light); }
+
+    .btn-amber {
+      background: var(--amber-light);
+      color: var(--amber);
+      border: 1px solid rgba(217,119,6,0.2);
+    }
+    .btn-amber:hover { background: #fef3c7; }
+
+    .btn-red {
+      background: var(--red-light);
+      color: var(--red);
+      border: 1px solid rgba(220,38,38,0.2);
+    }
+    .btn-red:hover { background: #fee2e2; }
+
+    .btn-mint {
+      background: var(--mint-light);
+      color: var(--mint);
+      border: 1px solid rgba(5,150,105,0.2);
+    }
+    .btn-mint:hover { background: #d1fae5; }
+
+    .nav-bell {
+      position: relative;
+      width: 38px;
+      height: 38px;
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      transition: background 150ms ease;
+      color: var(--text-muted);
+    }
+    .nav-bell:hover { background: var(--blue-light); color: var(--blue); }
+    .nav-bell .badge {
+      position: absolute;
+      top: 5px;
+      right: 5px;
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      background: var(--red);
+      border: 1.5px solid #fff;
+    }
+
+    .nav-user {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 4px 10px 4px 4px;
+      border-radius: 9px;
+      cursor: pointer;
+      transition: background 150ms ease;
+      border: 1px solid transparent;
+    }
+    .nav-user:hover { background: var(--blue-light); border-color: var(--border); }
+    .nav-user-avatar {
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      background: var(--blue);
+      color: #fff;
+      font-family: var(--font-ui);
+      font-weight: 700;
+      font-size: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+    .nav-user-name {
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--text);
+      line-height: 1.2;
+    }
+    .nav-user-role {
+      font-size: 11px;
+      color: var(--text-muted);
+    }
+
+    /* ─── TAB ROW ─────────────────────────────────────────────────── */
+    .tab-row {
+      background: var(--white);
+      border-bottom: 1px solid var(--border);
+      padding: 0 24px;
+      display: flex;
+      gap: 0;
+    }
+    .tab {
+      padding: 0 18px;
+      height: 44px;
+      display: flex;
+      align-items: center;
+      font-family: var(--font-ui);
+      font-weight: 600;
+      font-size: 13.5px;
+      color: var(--text-muted);
+      cursor: pointer;
+      border-bottom: 2.5px solid transparent;
+      transition: color 150ms ease, border-color 150ms ease;
+      white-space: nowrap;
+    }
+    .tab:hover { color: var(--blue); }
+    .tab.active { color: var(--blue); border-bottom-color: var(--blue); }
+
+    /* ─── PAGE CONTENT ────────────────────────────────────────────── */
+    .page {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 28px 24px 60px;
+    }
+
+    .page-heading {
+      font-family: var(--font-serif);
+      font-size: 22px;
+      font-weight: 600;
+      color: var(--text);
+      margin-bottom: 6px;
+    }
+    .page-sub {
+      font-size: 13px;
+      color: var(--text-muted);
+    }
+
+    /* ─── CARDS ───────────────────────────────────────────────────── */
+    .card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      box-shadow: var(--card-shadow);
+    }
+    .card-header {
+      padding: 16px 20px;
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+    }
+    .card-title {
+      font-family: var(--font-serif);
+      font-size: 15.5px;
+      font-weight: 600;
+      color: var(--text);
+    }
+    .card-body { padding: 20px; }
+
+    /* ─── SUMMARY STATS ROW ───────────────────────────────────────── */
+    .stats-row {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 14px;
+      margin-bottom: 20px;
+    }
+
+    .stat-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      box-shadow: var(--card-shadow);
+      padding: 18px 20px;
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      transition: box-shadow 150ms ease;
+    }
+    .stat-card:hover { box-shadow: 0 4px 12px rgba(0,0,0,0.09); }
+    .stat-card:first-child { border-left: 3px solid var(--blue); }
+
+    .stat-label {
+      font-size: 11.5px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      color: var(--text-muted);
+    }
+    .stat-value {
+      font-family: var(--font-serif);
+      font-size: 32px;
+      font-weight: 600;
+      color: var(--text);
+      line-height: 1;
+    }
+    .stat-sub {
+      font-size: 12px;
+      color: var(--text-muted);
+      display: flex;
+      align-items: center;
+      gap: 5px;
+    }
+
+    /* ─── BADGE / PILL ────────────────────────────────────────────── */
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      font-family: var(--font-ui);
+      font-size: 11px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      padding: 3px 8px;
+      border-radius: 99px;
+    }
+    .badge-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      flex-shrink: 0;
+    }
+    .badge-confirmed  { background: var(--mint-light);  color: var(--mint); }
+    .badge-confirmed .badge-dot  { background: var(--mint); }
+    .badge-checkedin  { background: var(--blue-light);  color: var(--blue); }
+    .badge-checkedin .badge-dot  { background: var(--blue); animation: pulse-dot 1.6s ease-in-out infinite; }
+    .badge-pending    { background: var(--amber-light); color: var(--amber); }
+    .badge-pending .badge-dot    { background: var(--amber); }
+    .badge-cancelled  { background: #F1F5F9; color: var(--text-light); }
+    .badge-cancelled .badge-dot  { background: var(--text-light); }
+    .badge-amber-count { background: var(--amber-light); color: var(--amber); }
+
+    /* ─── MAIN GRID ───────────────────────────────────────────────── */
+    .main-grid {
+      display: grid;
+      grid-template-columns: 60% 1fr;
+      gap: 18px;
+      margin-bottom: 20px;
+    }
+
+    /* ─── SCHEDULE ────────────────────────────────────────────────── */
+    .schedule-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      padding: 16px 20px;
+      border-bottom: 1px solid var(--border);
+    }
+    .schedule-title {
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+    }
+    .schedule-title .card-title { margin: 0; }
+    .schedule-date {
+      font-size: 12px;
+      color: var(--text-muted);
+    }
+
+    .practitioner-select {
+      font-family: var(--font-ui);
+      font-size: 12.5px;
+      font-weight: 600;
+      color: var(--text);
+      border: 1px solid var(--border-2);
+      border-radius: 7px;
+      padding: 6px 28px 6px 10px;
+      background: var(--white) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%2364748B' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E") no-repeat right 8px center;
+      -webkit-appearance: none;
+      appearance: none;
+      cursor: pointer;
+      outline: none;
+      transition: border-color 150ms ease;
+    }
+    .practitioner-select:focus { border-color: var(--blue); }
+
+    .appt-list { list-style: none; }
+    .appt-row {
+      display: grid;
+      grid-template-columns: 76px 1fr auto;
+      align-items: center;
+      gap: 12px;
+      padding: 11px 20px;
+      border-bottom: 1px solid var(--border);
+      transition: background 150ms ease;
+      cursor: pointer;
+    }
+    .appt-row:last-child { border-bottom: none; }
+    .appt-row:hover { background: var(--blue-light); }
+    .appt-row.is-cancelled { opacity: 0.55; }
+    .appt-row.is-cancelled .appt-patient { text-decoration: line-through; color: var(--text-light); }
+    .appt-row.is-cancelled .appt-type { text-decoration: line-through; }
+
+    .appt-time {
+      font-variant-numeric: tabular-nums;
+      font-weight: 600;
+      font-size: 13px;
+      color: var(--text-muted);
+      white-space: nowrap;
+    }
+    .appt-info { display: flex; flex-direction: column; gap: 3px; }
+    .appt-patient {
+      font-family: var(--font-serif);
+      font-size: 14.5px;
+      font-weight: 600;
+      color: var(--text);
+    }
+    .appt-meta {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 12px;
+      color: var(--text-muted);
+    }
+    .appt-room {
+      font-size: 11px;
+      font-weight: 600;
+      color: var(--text-light);
+      background: #F1F5F9;
+      padding: 2px 7px;
+      border-radius: 5px;
+    }
+    .appt-actions {
+      display: flex;
+      gap: 6px;
+      align-items: center;
+    }
+
+    /* ─── RIGHT COLUMN ────────────────────────────────────────────── */
+    .right-col {
+      display: flex;
+      flex-direction: column;
+      gap: 18px;
+    }
+
+    /* Alert cards */
+    .alert-list { display: flex; flex-direction: column; gap: 12px; padding: 16px 18px; }
+    .alert-item {
+      border-radius: 9px;
+      padding: 12px 14px;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+    .alert-item-amber { background: var(--amber-light); border: 1px solid rgba(217,119,6,0.18); }
+    .alert-item-red   { background: var(--red-light);   border: 1px solid rgba(220,38,38,0.15); }
+    .alert-item-mint  { background: var(--mint-light);  border: 1px solid rgba(5,150,105,0.18); }
+
+    .alert-top {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 8px;
+    }
+    .alert-icon-wrap {
+      width: 28px;
+      height: 28px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+    .alert-icon-wrap-amber { background: rgba(217,119,6,0.15); color: var(--amber); }
+    .alert-icon-wrap-red   { background: rgba(220,38,38,0.12); color: var(--red); }
+    .alert-icon-wrap-mint  { background: rgba(5,150,105,0.12); color: var(--mint); }
+
+    .alert-text-block { flex: 1; }
+    .alert-type {
+      font-size: 11px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.07em;
+      margin-bottom: 2px;
+    }
+    .alert-type-amber { color: var(--amber); }
+    .alert-type-red   { color: var(--red); }
+    .alert-type-mint  { color: var(--mint); }
+    .alert-patient {
+      font-family: var(--font-serif);
+      font-size: 14px;
+      font-weight: 600;
+      color: var(--text);
+    }
+    .alert-desc { font-size: 12px; color: var(--text-muted); margin-top: 2px; }
+
+    /* Waitlist */
+    .waitlist-list { display: flex; flex-direction: column; gap: 0; }
+    .waitlist-row {
+      padding: 12px 18px;
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      transition: background 150ms ease;
+    }
+    .waitlist-row:last-child { border-bottom: none; }
+    .waitlist-row:hover { background: var(--blue-light); }
+    .waitlist-info { display: flex; flex-direction: column; gap: 2px; }
+    .waitlist-name {
+      font-family: var(--font-serif);
+      font-size: 13.5px;
+      font-weight: 600;
+      color: var(--text);
+    }
+    .waitlist-meta { font-size: 11.5px; color: var(--text-muted); }
+    .waitlist-wait {
+      font-size: 11px;
+      font-weight: 600;
+      color: var(--amber);
+      background: var(--amber-light);
+      padding: 2px 7px;
+      border-radius: 99px;
+    }
+
+    /* ─── WEEK AT A GLANCE ────────────────────────────────────────── */
+    .week-grid-wrap { padding: 18px 20px; }
+    .week-grid {
+      display: grid;
+      grid-template-columns: 130px repeat(5, 1fr);
+      gap: 6px;
+    }
+    .week-grid-header {
+      font-size: 11.5px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.07em;
+      color: var(--text-muted);
+      padding: 4px 6px;
+      text-align: center;
+    }
+    .week-grid-header:first-child { text-align: left; }
+    .week-practitioner {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 4px 0;
+    }
+    .week-practitioner-avatar {
+      width: 26px;
+      height: 26px;
+      border-radius: 50%;
+      font-size: 10px;
+      font-weight: 700;
+      color: #fff;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+    .week-practitioner-name { font-size: 12.5px; font-weight: 600; color: var(--text); }
+    .week-cell {
+      border-radius: 7px;
+      padding: 6px 4px;
+      text-align: center;
+      font-size: 12px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: filter 150ms ease, transform 100ms ease;
+    }
+    .week-cell:hover { filter: brightness(0.93); transform: scale(1.03); }
+    /* density levels */
+    .d1 { background: #DBEAFE; color: #1E40AF; }
+    .d2 { background: #93C5FD; color: #1E3A8A; }
+    .d3 { background: #3B82F6; color: #fff; }
+    .d4 { background: #1E5FA8; color: #fff; }
+    .d0 { background: #F1F5F9; color: var(--text-light); }
+
+    /* ─── INTAKE FORM ─────────────────────────────────────────────── */
+    .form-section { margin-bottom: 24px; }
+    .form-section-title {
+      font-size: 11.5px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--blue);
+      margin-bottom: 14px;
+      padding-bottom: 8px;
+      border-bottom: 1px solid var(--blue-light);
+    }
+    .form-grid-2 {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 14px;
+    }
+    .form-grid-3 {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 14px;
+    }
+    .form-group { display: flex; flex-direction: column; gap: 5px; }
+    .form-group.full-width { grid-column: 1 / -1; }
+    .form-label {
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--text-muted);
+    }
+    .form-label span.required { color: var(--red); margin-left: 2px; }
+    .form-input, .form-textarea, .form-select {
+      font-family: var(--font-ui);
+      font-size: 14px;
+      color: var(--text);
+      background: var(--white);
+      border: 1px solid var(--border-2);
+      border-radius: 8px;
+      padding: 10px 13px;
+      outline: none;
+      transition: border-color 150ms ease, box-shadow 150ms ease;
+      width: 100%;
+    }
+    .form-input::placeholder, .form-textarea::placeholder { color: var(--text-light); }
+    .form-input:focus, .form-textarea:focus, .form-select:focus {
+      border-color: var(--blue);
+      box-shadow: 0 0 0 3px rgba(30,95,168,0.15);
+    }
+    .form-textarea { resize: vertical; min-height: 80px; line-height: 1.5; }
+    .form-select {
+      background: var(--white) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%2364748B' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E") no-repeat right 12px center;
+      -webkit-appearance: none;
+      appearance: none;
+      cursor: pointer;
+    }
+
+    /* Checkboxes */
+    .checkbox-group { display: flex; flex-direction: column; gap: 9px; }
+    .checkbox-label {
+      display: flex;
+      align-items: center;
+      gap: 9px;
+      font-size: 13.5px;
+      color: var(--text);
+      cursor: pointer;
+    }
+    .checkbox-label input[type="checkbox"] {
+      width: 16px;
+      height: 16px;
+      accent-color: var(--blue);
+      cursor: pointer;
+    }
+
+    /* Consent */
+    .consent-box {
+      background: var(--blue-light);
+      border: 1px solid rgba(30,95,168,0.2);
+      border-radius: 9px;
+      padding: 14px 16px;
+      margin-bottom: 18px;
+    }
+    .consent-label {
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
+      font-size: 13px;
+      color: var(--text);
+      line-height: 1.5;
+      cursor: pointer;
+    }
+    .consent-label input[type="checkbox"] {
+      margin-top: 2px;
+      width: 16px;
+      height: 16px;
+      accent-color: var(--blue);
+      flex-shrink: 0;
+    }
+
+    .hipaa-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 10.5px;
+      font-weight: 700;
+      color: var(--mint);
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      background: var(--mint-light);
+      border: 1px solid rgba(5,150,105,0.2);
+      border-radius: 99px;
+      padding: 4px 10px;
+    }
+
+    .btn-submit {
+      width: 100%;
+      height: 52px;
+      background: var(--blue);
+      color: #fff;
+      font-family: var(--font-ui);
+      font-weight: 700;
+      font-size: 15px;
+      border: none;
+      border-radius: 10px;
+      cursor: pointer;
+      transition: background 150ms ease, box-shadow 150ms ease, transform 100ms ease;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+    }
+    .btn-submit:hover { background: #174e8e; box-shadow: 0 4px 14px rgba(30,95,168,0.3); }
+    .btn-submit:active { transform: scale(0.99); }
+
+    /* ─── FOOTER ──────────────────────────────────────────────────── */
+    .page-footer {
+      text-align: center;
+      padding: 24px 0 0;
+      font-size: 12px;
+      color: var(--text-light);
+      border-top: 1px solid var(--border);
+    }
+
+    /* ─── RESPONSIVE ──────────────────────────────────────────────── */
+    @media (max-width: 900px) {
+      .main-grid { grid-template-columns: 1fr; }
+      .stats-row { grid-template-columns: 1fr 1fr; }
+      .form-grid-2, .form-grid-3 { grid-template-columns: 1fr; }
+      .week-grid { grid-template-columns: 90px repeat(5, 1fr); }
+    }
+    @media (max-width: 600px) {
+      .topnav { padding: 0 14px; }
+      .nav-search { display: none; }
+      .nav-logo-text { display: none; }
+      .page { padding: 16px 14px 40px; }
+      .stats-row { grid-template-columns: 1fr 1fr; gap: 10px; }
+      .tab-row { overflow-x: auto; }
+      .week-grid { display: none; }
+    }
+
+    /* ─── SMALL UTILITY ───────────────────────────────────────────── */
+    .flex-center { display: flex; align-items: center; }
+    .gap-8 { gap: 8px; }
+    .text-muted { color: var(--text-muted); }
+    .mt-20 { margin-top: 20px; }
+    .divider { height: 1px; background: var(--border); }
+    .section-gap { margin-bottom: 20px; }
+  </style>
+</head>
+<body>
+
+<!-- DEMO BANNER -->
+<div class="demo-banner">DEMO PREVIEW — Harborview Medical &nbsp;·&nbsp; Built by NodeAxis</div>
+
+<!-- TOP NAV -->
+<header class="topnav fade-up">
+  <a class="nav-logo" href="#">
+    <!-- Cross / medical icon -->
+    <svg class="nav-logo-icon" viewBox="0 0 30 30" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <rect x="11" y="3" width="8" height="24" rx="2.5" fill="currentColor"/>
+      <rect x="3" y="11" width="24" height="8" rx="2.5" fill="currentColor"/>
+    </svg>
+    <span class="nav-logo-text">Harborview Medical</span>
+  </a>
+
+  <div class="nav-search">
+    <svg class="nav-search-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+      <circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/>
+    </svg>
+    <input type="text" placeholder="Search patients, appointments…" />
+  </div>
+
+  <div class="nav-actions">
+    <button class="btn btn-primary btn-sm">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+      New Appointment
+    </button>
+
+    <div class="nav-bell" title="Notifications">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/>
+      </svg>
+      <span class="badge"></span>
+    </div>
+
+    <div class="nav-user">
+      <div class="nav-user-avatar">SC</div>
+      <div>
+        <div class="nav-user-name">Dr. Sarah Chen</div>
+        <div class="nav-user-role">Family Medicine</div>
+      </div>
+    </div>
+  </div>
+</header>
+
+<!-- TAB ROW -->
+<nav class="tab-row fade-up delay-1">
+  <div class="tab active">Dashboard</div>
+  <div class="tab">Appointments</div>
+  <div class="tab">Patients</div>
+  <div class="tab">Billing</div>
+  <div class="tab">Reports</div>
+</nav>
+
+<!-- PAGE -->
+<main class="page">
+
+  <!-- SUMMARY STATS -->
+  <div class="stats-row fade-up delay-2">
+    <div class="stat-card">
+      <span class="stat-label">Today's Appointments</span>
+      <span class="stat-value">18</span>
+      <span class="stat-sub">
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+        4 practitioners
+      </span>
+    </div>
+    <div class="stat-card">
+      <span class="stat-label">Checked In</span>
+      <span class="stat-value">7</span>
+      <span class="stat-sub">
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+        In waiting room
+      </span>
+    </div>
+    <div class="stat-card">
+      <span class="stat-label">Pending Intake</span>
+      <span class="stat-value" style="display:flex;align-items:center;gap:10px;">3 <span class="badge badge-amber-count">Action needed</span></span>
+      <span class="stat-sub" style="color:var(--amber);">
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+        Forms not yet submitted
+      </span>
+    </div>
+    <div class="stat-card">
+      <span class="stat-label">Upcoming This Week</span>
+      <span class="stat-value">67</span>
+      <span class="stat-sub">
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
+        Mon – Fri schedule
+      </span>
+    </div>
+  </div>
+
+  <!-- MAIN TWO-COLUMN GRID -->
+  <div class="main-grid section-gap fade-up delay-3">
+
+    <!-- LEFT: SCHEDULE -->
+    <div class="card">
+      <div class="schedule-header">
+        <div class="schedule-title">
+          <div class="card-title">Today's Schedule</div>
+          <div class="schedule-date">Friday, June 13, 2026</div>
+        </div>
+        <select class="practitioner-select">
+          <option>Dr. Sarah Chen</option>
+          <option>Dr. Arun Patel</option>
+          <option>Dr. Kenji Nakamura</option>
+          <option>Dr. Maya Williams</option>
+        </select>
+      </div>
+
+      <ul class="appt-list">
+        <!-- 9:00 AM CONFIRMED -->
+        <li class="appt-row">
+          <span class="appt-time">9:00 AM</span>
+          <div class="appt-info">
+            <span class="appt-patient">James Whitmore</span>
+            <div class="appt-meta">
+              <span class="badge badge-confirmed"><span class="badge-dot"></span>Confirmed</span>
+              <span>Annual Physical</span>
+              <span class="appt-room">Rm 2</span>
+            </div>
+          </div>
+          <div class="appt-actions">
+            <button class="btn btn-outline btn-sm">
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+              Chart
+            </button>
+            <button class="btn btn-primary btn-sm">Check In</button>
+          </div>
+        </li>
+
+        <!-- 9:30 AM CHECKED IN -->
+        <li class="appt-row">
+          <span class="appt-time">9:30 AM</span>
+          <div class="appt-info">
+            <span class="appt-patient">Priya Sharma</span>
+            <div class="appt-meta">
+              <span class="badge badge-checkedin"><span class="badge-dot"></span>Checked In</span>
+              <span>Follow-up Visit</span>
+              <span class="appt-room">Rm 1</span>
+            </div>
+          </div>
+          <div class="appt-actions">
+            <button class="btn btn-outline btn-sm">View Notes</button>
+          </div>
+        </li>
+
+        <!-- 10:00 AM PENDING (new patient) -->
+        <li class="appt-row">
+          <span class="appt-time">10:00 AM</span>
+          <div class="appt-info">
+            <span class="appt-patient" style="color:var(--text-muted);font-style:italic;">New Patient</span>
+            <div class="appt-meta">
+              <span class="badge badge-pending"><span class="badge-dot"></span>Pending</span>
+              <span>Initial Consult</span>
+              <span class="appt-room">Rm 3</span>
+            </div>
+          </div>
+          <div class="appt-actions">
+            <button class="btn btn-amber btn-sm">
+              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+              Intake Pending
+            </button>
+          </div>
+        </li>
+
+        <!-- 10:30 AM CONFIRMED -->
+        <li class="appt-row">
+          <span class="appt-time">10:30 AM</span>
+          <div class="appt-info">
+            <span class="appt-patient">Riko Nakamura</span>
+            <div class="appt-meta">
+              <span class="badge badge-confirmed"><span class="badge-dot"></span>Confirmed</span>
+              <span>Blood Pressure Review</span>
+              <span class="appt-room">Rm 2</span>
+            </div>
+          </div>
+          <div class="appt-actions">
+            <button class="btn btn-outline btn-sm">
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+              Chart
+            </button>
+          </div>
+        </li>
+
+        <!-- 11:00 AM CANCELLED -->
+        <li class="appt-row is-cancelled">
+          <span class="appt-time">11:00 AM</span>
+          <div class="appt-info">
+            <span class="appt-patient">Thomas Brewer</span>
+            <div class="appt-meta">
+              <span class="badge badge-cancelled"><span class="badge-dot"></span>Cancelled</span>
+              <span class="appt-type">Wellness Check</span>
+              <span class="appt-room">Rm 4</span>
+            </div>
+          </div>
+          <div class="appt-actions">
+            <button class="btn btn-outline btn-sm" style="opacity:0.55;">Reschedule</button>
+          </div>
+        </li>
+
+        <!-- 11:30 AM CONFIRMED -->
+        <li class="appt-row">
+          <span class="appt-time">11:30 AM</span>
+          <div class="appt-info">
+            <span class="appt-patient">Miriam Okonkwo</span>
+            <div class="appt-meta">
+              <span class="badge badge-confirmed"><span class="badge-dot"></span>Confirmed</span>
+              <span>Skin Concern</span>
+              <span class="appt-room">Rm 1</span>
+            </div>
+          </div>
+          <div class="appt-actions">
+            <button class="btn btn-outline btn-sm">
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+              Chart
+            </button>
+          </div>
+        </li>
+      </ul>
+    </div>
+
+    <!-- RIGHT: ALERTS + WAITLIST -->
+    <div class="right-col">
+
+      <!-- REQUIRES ATTENTION -->
+      <div class="card">
+        <div class="card-header">
+          <span class="card-title">Requires Attention</span>
+          <span class="badge badge-amber-count">3 items</span>
+        </div>
+        <div class="alert-list">
+          <!-- Amber -->
+          <div class="alert-item alert-item-amber">
+            <div class="alert-top">
+              <div class="alert-icon-wrap alert-icon-wrap-amber">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+              </div>
+              <div class="alert-text-block">
+                <div class="alert-type alert-type-amber">Intake Form</div>
+                <div class="alert-patient">Sarah Liu</div>
+                <div class="alert-desc">Appointment 2:00 PM · Form not yet completed</div>
+              </div>
+            </div>
+            <button class="btn btn-amber btn-sm" style="align-self:flex-start;">Send Reminder</button>
+          </div>
+
+          <!-- Red -->
+          <div class="alert-item alert-item-red">
+            <div class="alert-top">
+              <div class="alert-icon-wrap alert-icon-wrap-red">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="15" y1="9" x2="9" y2="15"/><line x1="9" y1="9" x2="15" y2="15"/></svg>
+              </div>
+              <div class="alert-text-block">
+                <div class="alert-type alert-type-red">No-Show</div>
+                <div class="alert-patient">David Park</div>
+                <div class="alert-desc">8:30 AM · Marked as no-show</div>
+              </div>
+            </div>
+            <button class="btn btn-red btn-sm" style="align-self:flex-start;">Follow Up</button>
+          </div>
+
+          <!-- Mint -->
+          <div class="alert-item alert-item-mint">
+            <div class="alert-top">
+              <div class="alert-icon-wrap alert-icon-wrap-mint">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
+              </div>
+              <div class="alert-text-block">
+                <div class="alert-type alert-type-mint">Lab Results Ready</div>
+                <div class="alert-patient">Emma Torres</div>
+                <div class="alert-desc">Results awaiting physician review</div>
+              </div>
+            </div>
+            <button class="btn btn-mint btn-sm" style="align-self:flex-start;">View Results</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- WAITLIST -->
+      <div class="card">
+        <div class="card-header">
+          <span class="card-title">Waitlist</span>
+          <span style="font-size:12px;color:var(--text-muted);">2 waiting</span>
+        </div>
+        <div class="waitlist-list">
+          <div class="waitlist-row">
+            <div class="waitlist-info">
+              <div class="waitlist-name">Anya Petrov</div>
+              <div class="waitlist-meta">Preferred: Morning · Any day this week</div>
+            </div>
+            <div style="display:flex;align-items:center;gap:8px;flex-shrink:0;">
+              <span class="waitlist-wait">3 days</span>
+              <button class="btn btn-primary btn-sm">Offer Slot</button>
+            </div>
+          </div>
+          <div class="waitlist-row">
+            <div class="waitlist-info">
+              <div class="waitlist-name">Marcus Webb</div>
+              <div class="waitlist-meta">Preferred: Afternoon · Fri or Mon</div>
+            </div>
+            <div style="display:flex;align-items:center;gap:8px;flex-shrink:0;">
+              <span class="waitlist-wait">5 days</span>
+              <button class="btn btn-primary btn-sm">Offer Slot</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div><!-- /main-grid -->
+
+  <!-- WEEK AT A GLANCE -->
+  <div class="card section-gap fade-up delay-5">
+    <div class="card-header">
+      <span class="card-title">Week at a Glance</span>
+      <span style="font-size:12px;color:var(--text-muted);">Jun 9 – Jun 13, 2026</span>
+    </div>
+    <div class="week-grid-wrap">
+      <div class="week-grid">
+        <!-- Headers -->
+        <div class="week-grid-header"></div>
+        <div class="week-grid-header">Mon</div>
+        <div class="week-grid-header">Tue</div>
+        <div class="week-grid-header">Wed</div>
+        <div class="week-grid-header">Thu</div>
+        <div class="week-grid-header">Fri</div>
+        <!-- Dr. Chen -->
+        <div class="week-practitioner">
+          <div class="week-practitioner-avatar" style="background:#1E5FA8;">SC</div>
+          <div class="week-practitioner-name">Dr. Chen</div>
+        </div>
+        <div class="week-cell d2">8 appts</div>
+        <div class="week-cell d3">11 appts</div>
+        <div class="week-cell d1">5 appts</div>
+        <div class="week-cell d4">14 appts</div>
+        <div class="week-cell d3">10 appts</div>
+        <!-- Dr. Patel -->
+        <div class="week-practitioner">
+          <div class="week-practitioner-avatar" style="background:#7C3AED;">AP</div>
+          <div class="week-practitioner-name">Dr. Patel</div>
+        </div>
+        <div class="week-cell d3">10 appts</div>
+        <div class="week-cell d1">4 appts</div>
+        <div class="week-cell d3">9 appts</div>
+        <div class="week-cell d2">7 appts</div>
+        <div class="week-cell d4">13 appts</div>
+        <!-- Dr. Nakamura -->
+        <div class="week-practitioner">
+          <div class="week-practitioner-avatar" style="background:#065F46;">KN</div>
+          <div class="week-practitioner-name">Dr. Nakamura</div>
+        </div>
+        <div class="week-cell d0">—</div>
+        <div class="week-cell d2">6 appts</div>
+        <div class="week-cell d4">12 appts</div>
+        <div class="week-cell d3">9 appts</div>
+        <div class="week-cell d2">8 appts</div>
+        <!-- Dr. Williams -->
+        <div class="week-practitioner">
+          <div class="week-practitioner-avatar" style="background:#B45309;">MW</div>
+          <div class="week-practitioner-name">Dr. Williams</div>
+        </div>
+        <div class="week-cell d1">5 appts</div>
+        <div class="week-cell d3">10 appts</div>
+        <div class="week-cell d2">7 appts</div>
+        <div class="week-cell d1">4 appts</div>
+        <div class="week-cell d3">11 appts</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- PATIENT INTAKE FORM -->
+  <div class="card fade-up delay-6">
+    <div class="card-header">
+      <div>
+        <div class="card-title">Digital Patient Intake</div>
+        <div style="font-size:12px;color:var(--text-muted);margin-top:3px;">New Patient Registration Form · All fields marked <span style="color:var(--red);">*</span> are required</div>
+      </div>
+      <div class="hipaa-badge">
+        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+        HIPAA-Conscious Design
+      </div>
+    </div>
+
+    <div class="card-body">
+
+      <!-- Patient Information -->
+      <div class="form-section">
+        <div class="form-section-title">Patient Information</div>
+        <div class="form-grid-2">
+          <div class="form-group">
+            <label class="form-label">Full Legal Name <span class="required">*</span></label>
+            <input class="form-input" type="text" placeholder="e.g. Jane Marie Doe" />
+          </div>
+          <div class="form-group">
+            <label class="form-label">Date of Birth <span class="required">*</span></label>
+            <input class="form-input" type="date" />
+          </div>
+          <div class="form-group">
+            <label class="form-label">BC Care Card Number <span class="required">*</span></label>
+            <input class="form-input" type="text" placeholder="1234 567 890" />
+          </div>
+          <div class="form-group">
+            <label class="form-label">Phone Number <span class="required">*</span></label>
+            <input class="form-input" type="tel" placeholder="(604) 555-0100" />
+          </div>
+          <div class="form-group full-width">
+            <label class="form-label">Home Address</label>
+            <input class="form-input" type="text" placeholder="123 Example Street, Vancouver, BC V5K 0A1" />
+          </div>
+        </div>
+      </div>
+
+      <!-- Health Information -->
+      <div class="form-section">
+        <div class="form-section-title">Health Information</div>
+        <div class="form-grid-2">
+          <div class="form-group full-width">
+            <label class="form-label">Known Allergies</label>
+            <textarea class="form-textarea" placeholder="List any known allergies to medications, foods, or environmental factors…"></textarea>
+          </div>
+          <div class="form-group full-width">
+            <label class="form-label">Current Medications</label>
+            <textarea class="form-textarea" placeholder="Include name, dose, and frequency for each medication…"></textarea>
+          </div>
+          <div class="form-group full-width">
+            <label class="form-label">Family Medical History — select all that apply</label>
+            <div class="checkbox-group">
+              <label class="checkbox-label"><input type="checkbox" /> Diabetes (Type 1 or Type 2)</label>
+              <label class="checkbox-label"><input type="checkbox" /> Heart Disease or Cardiovascular Conditions</label>
+              <label class="checkbox-label"><input type="checkbox" checked /> Cancer (please specify in Reason for Visit)</label>
+              <label class="checkbox-label"><input type="checkbox" /> Hypertension / High Blood Pressure</label>
+              <label class="checkbox-label"><input type="checkbox" /> Mental Health Conditions</label>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Reason for Visit -->
+      <div class="form-section">
+        <div class="form-section-title">Reason for Visit</div>
+        <div class="form-group">
+          <label class="form-label">Please describe your primary concern or reason for this appointment <span class="required">*</span></label>
+          <textarea class="form-textarea" style="min-height:100px;" placeholder="Describe your symptoms, concerns, or what you'd like to address during this visit…"></textarea>
+        </div>
+      </div>
+
+      <!-- Emergency Contact -->
+      <div class="form-section">
+        <div class="form-section-title">Emergency Contact</div>
+        <div class="form-grid-3">
+          <div class="form-group">
+            <label class="form-label">Contact Name <span class="required">*</span></label>
+            <input class="form-input" type="text" placeholder="Full name" />
+          </div>
+          <div class="form-group">
+            <label class="form-label">Relationship</label>
+            <select class="form-select form-input">
+              <option value="">Select…</option>
+              <option>Spouse / Partner</option>
+              <option>Parent</option>
+              <option>Child</option>
+              <option>Sibling</option>
+              <option>Friend</option>
+              <option>Other</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Phone Number <span class="required">*</span></label>
+            <input class="form-input" type="tel" placeholder="(604) 555-0199" />
+          </div>
+        </div>
+      </div>
+
+      <!-- Consent -->
+      <div class="consent-box">
+        <label class="consent-label">
+          <input type="checkbox" />
+          <span>I consent to the collection, use, and disclosure of my personal health information by Harborview Medical for the purposes of providing medical care, as described in the <strong>Privacy Notice</strong>. I understand I may withdraw this consent at any time in writing.</span>
+        </label>
+      </div>
+
+      <button class="btn-submit">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+        Submit Intake Form
+      </button>
+
+      <div style="margin-top:16px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:10px;">
+        <div class="hipaa-badge">
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+          HIPAA-Conscious Design
+        </div>
+        <span style="font-size:11.5px;color:var(--text-light);">Your information is encrypted and stored securely. Never sold to third parties.</span>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- FOOTER -->
+  <div class="page-footer fade-up delay-8 mt-20">
+    <p>Harborview Medical · Patient Management System &nbsp;·&nbsp; Built by <strong>NodeAxis</strong></p>
+    <p style="margin-top:5px;">Demo preview only — no real patient data is stored or transmitted.</p>
+  </div>
+
+</main>
+
+</body>
+</html>

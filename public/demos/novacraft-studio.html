@@ -1,0 +1,1450 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>NovaCraft Studio — Brand Films · Campaigns · Experiences</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Courier+Prime:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet" />
+
+  <style>
+    /* =====================================================
+       DESIGN TOKENS — NEO-BRUTALISM
+    ===================================================== */
+    :root {
+      --black:       #000000;
+      --white:       #FFFFFF;
+      --yellow:      #FFE500;
+      --yellow-dim:  rgba(255, 229, 0, 0.08);
+      --grey:        #F0F0F0;
+      --dark-grey:   #1A1A1A;
+      --border:      #000000;
+      --text:        #000000;
+      --text-inv:    #FFFFFF;
+      --text-meta:   #555555;
+
+      --shadow-sm:   4px 4px 0px #000;
+      --shadow-md:   6px 6px 0px #000;
+      --shadow-lg:   8px 8px 0px #000;
+      --shadow-inv:  4px 4px 0px #FFFFFF;
+
+      --font-display: 'Bebas Neue', sans-serif;
+      --font-body:    'Courier Prime', monospace;
+
+      --border-w:    3px;
+      --border-w-sm: 2px;
+    }
+
+    /* =====================================================
+       RESET & BASE
+    ===================================================== */
+    *, *::before, *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      font-family: var(--font-body);
+      background: var(--white);
+      color: var(--text);
+      overflow-x: hidden;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    img { display: block; max-width: 100%; }
+    a { text-decoration: none; color: inherit; }
+
+    /* =====================================================
+       ANIMATIONS
+    ===================================================== */
+    @keyframes ticker {
+      from { transform: translateX(0); }
+      to   { transform: translateX(-50%); }
+    }
+
+    @keyframes fadeUp {
+      from {
+        opacity: 0;
+        transform: translateY(40px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to   { opacity: 1; }
+    }
+
+    @keyframes blink {
+      0%, 100% { opacity: 1; }
+      50%       { opacity: 0; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after {
+        animation-duration: 0.01ms !important;
+        transition-duration: 0.01ms !important;
+      }
+    }
+
+    /* =====================================================
+       DEMO BANNER
+    ===================================================== */
+    .demo-banner {
+      background: var(--yellow);
+      color: var(--black);
+      text-align: center;
+      padding: 9px 16px;
+      font-family: var(--font-body);
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      border-bottom: 2px solid var(--black);
+      position: relative;
+      z-index: 100;
+    }
+
+    /* =====================================================
+       NAVIGATION
+    ===================================================== */
+    .nav {
+      background: var(--white);
+      border-bottom: var(--border-w) solid var(--black);
+      padding: 0 48px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      height: 72px;
+      position: sticky;
+      top: 0;
+      z-index: 90;
+    }
+
+    .nav-logo {
+      font-family: var(--font-display);
+      font-size: 36px;
+      color: var(--black);
+      letter-spacing: 0.04em;
+      line-height: 1;
+      text-transform: uppercase;
+    }
+
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 40px;
+      list-style: none;
+    }
+
+    .nav-links a {
+      font-family: var(--font-body);
+      font-size: 13px;
+      font-weight: 700;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--black);
+      position: relative;
+      padding-bottom: 2px;
+      transition: color 0.15s;
+    }
+
+    .nav-links a::after {
+      content: '';
+      position: absolute;
+      bottom: -2px;
+      left: 0;
+      width: 0;
+      height: 2px;
+      background: var(--black);
+      transition: width 0.2s ease-out;
+    }
+
+    .nav-links a:hover::after { width: 100%; }
+
+    .nav-cta {
+      font-family: var(--font-body);
+      font-size: 13px;
+      font-weight: 700;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--black);
+      background: var(--yellow);
+      border: var(--border-w-sm) solid var(--black);
+      padding: 12px 22px;
+      box-shadow: var(--shadow-sm);
+      cursor: pointer;
+      transition: transform 0.15s ease-out, box-shadow 0.15s ease-out;
+      display: inline-block;
+      min-height: 48px;
+      display: flex;
+      align-items: center;
+    }
+
+    .nav-cta:hover {
+      transform: translate(-2px, -2px);
+      box-shadow: var(--shadow-md);
+    }
+
+    .nav-hamburger {
+      display: none;
+      flex-direction: column;
+      gap: 5px;
+      cursor: pointer;
+      padding: 8px;
+      background: none;
+      border: none;
+    }
+
+    .nav-hamburger span {
+      display: block;
+      width: 26px;
+      height: 2px;
+      background: var(--black);
+      transition: transform 0.2s;
+    }
+
+    /* =====================================================
+       HERO
+    ===================================================== */
+    .hero {
+      background: var(--white);
+      min-height: calc(100vh - 115px);
+      position: relative;
+      overflow: hidden;
+      padding: 80px 48px 0;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+
+    .hero-bg-number {
+      font-family: var(--font-display);
+      font-size: clamp(200px, 35vw, 500px);
+      color: var(--black);
+      opacity: 0.05;
+      position: absolute;
+      right: -60px;
+      top: 50%;
+      transform: translateY(-50%);
+      line-height: 1;
+      pointer-events: none;
+      user-select: none;
+      letter-spacing: -0.04em;
+    }
+
+    .hero-content {
+      position: relative;
+      z-index: 2;
+      max-width: 65%;
+      animation: fadeUp 0.5s ease-out both;
+    }
+
+    .hero-label {
+      font-family: var(--font-body);
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      color: var(--text-meta);
+      margin-bottom: 24px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .hero-label::before {
+      content: '';
+      display: inline-block;
+      width: 32px;
+      height: 2px;
+      background: var(--yellow);
+      flex-shrink: 0;
+    }
+
+    .hero-headline {
+      font-family: var(--font-display);
+      line-height: 0.85;
+      letter-spacing: 0.02em;
+      color: var(--black);
+      margin-bottom: 36px;
+    }
+
+    .hero-headline .line-1 { font-size: clamp(80px, 13vw, 200px); display: block; }
+    .hero-headline .line-2 { font-size: clamp(60px, 10vw, 160px); display: block; }
+    .hero-headline .line-3 { font-size: clamp(80px, 13vw, 200px); display: block; }
+    .hero-headline .line-4 { font-size: clamp(50px, 8vw,  120px); display: block; color: var(--text-meta); }
+
+    .hero-body {
+      font-family: var(--font-body);
+      font-size: 15px;
+      font-weight: 400;
+      line-height: 1.7;
+      color: var(--text-meta);
+      max-width: 400px;
+      margin-bottom: 40px;
+      animation: fadeUp 0.5s 0.15s ease-out both;
+    }
+
+    .hero-ctas {
+      display: flex;
+      gap: 16px;
+      flex-wrap: wrap;
+      animation: fadeUp 0.5s 0.25s ease-out both;
+    }
+
+    .btn-primary {
+      font-family: var(--font-body);
+      font-size: 13px;
+      font-weight: 700;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--black);
+      background: var(--yellow);
+      border: var(--border-w) solid var(--black);
+      padding: 14px 28px;
+      box-shadow: var(--shadow-sm);
+      cursor: pointer;
+      transition: transform 0.15s ease-out, box-shadow 0.15s ease-out;
+      display: inline-flex;
+      align-items: center;
+      min-height: 52px;
+    }
+
+    .btn-primary:hover {
+      transform: translate(-2px, -2px);
+      box-shadow: var(--shadow-md);
+    }
+
+    .btn-secondary {
+      font-family: var(--font-body);
+      font-size: 13px;
+      font-weight: 700;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--white);
+      background: var(--black);
+      border: var(--border-w) solid var(--black);
+      padding: 14px 28px;
+      cursor: pointer;
+      transition: transform 0.15s ease-out, box-shadow 0.15s ease-out;
+      display: inline-flex;
+      align-items: center;
+      min-height: 52px;
+    }
+
+    .btn-secondary:hover {
+      transform: translate(-2px, -2px);
+      box-shadow: var(--shadow-sm);
+    }
+
+    /* =====================================================
+       TICKER
+    ===================================================== */
+    .ticker-wrap {
+      width: 100%;
+      overflow: hidden;
+      border-top: var(--border-w) solid var(--black);
+      border-bottom: var(--border-w) solid var(--black);
+      padding: 14px 0;
+      background: var(--white);
+      margin-top: 72px;
+    }
+
+    .ticker-track {
+      display: flex;
+      white-space: nowrap;
+      animation: ticker 14s linear infinite;
+    }
+
+    .ticker-track:hover { animation-play-state: paused; }
+
+    .ticker-item {
+      font-family: var(--font-body);
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      color: var(--black);
+      padding: 0 32px;
+      flex-shrink: 0;
+    }
+
+    .ticker-dot {
+      color: var(--yellow);
+      font-size: 18px;
+      line-height: 1;
+      vertical-align: middle;
+    }
+
+    /* =====================================================
+       SELECTED WORK
+    ===================================================== */
+    .section-work {
+      background: var(--black);
+      color: var(--text-inv);
+      padding: 80px 0 0;
+    }
+
+    .section-work-header {
+      padding: 0 48px 56px;
+    }
+
+    .section-tag {
+      font-family: var(--font-body);
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.24em;
+      text-transform: uppercase;
+      color: var(--text-meta);
+      margin-bottom: 16px;
+    }
+
+    .section-title-work {
+      font-family: var(--font-display);
+      font-size: clamp(40px, 7vw, 72px);
+      color: var(--text-inv);
+      letter-spacing: 0.03em;
+      line-height: 1;
+      display: inline-block;
+      border-bottom: 3px solid var(--yellow);
+      padding-bottom: 8px;
+    }
+
+    .work-cards {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .work-card {
+      border: 2px solid rgba(255,255,255,0.15);
+      border-left: none;
+      border-right: none;
+      border-bottom: none;
+      padding: 48px 48px;
+      display: flex;
+      align-items: center;
+      gap: 48px;
+      cursor: pointer;
+      transition: background 0.2s ease, border-left 0.15s ease, padding-left 0.15s ease, box-shadow 0.15s ease;
+      position: relative;
+      border-left: 0px solid var(--yellow);
+    }
+
+    .work-card::before {
+      content: '';
+      position: absolute;
+      left: 0;
+      top: 0;
+      bottom: 0;
+      width: 0;
+      background: var(--yellow);
+      transition: width 0.2s ease-out;
+    }
+
+    .work-card:hover {
+      background: var(--dark-grey);
+      box-shadow: inset 5px 0 0 var(--yellow);
+    }
+
+    .work-card:last-child {
+      border-bottom: 2px solid rgba(255,255,255,0.15);
+    }
+
+    .work-num {
+      font-family: var(--font-display);
+      font-size: clamp(60px, 9vw, 100px);
+      color: rgba(255,255,255,0.12);
+      line-height: 1;
+      flex-shrink: 0;
+      width: 120px;
+      text-align: right;
+      letter-spacing: -0.02em;
+    }
+
+    .work-info {
+      flex: 1;
+    }
+
+    .work-meta {
+      font-family: var(--font-body);
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--text-meta);
+      margin-bottom: 10px;
+    }
+
+    .work-title {
+      font-family: var(--font-display);
+      font-size: clamp(32px, 5vw, 64px);
+      color: var(--text-inv);
+      letter-spacing: 0.02em;
+      line-height: 1;
+      margin-bottom: 16px;
+    }
+
+    .work-link {
+      font-family: var(--font-body);
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--yellow);
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      transition: gap 0.15s;
+    }
+
+    .work-link:hover { gap: 14px; }
+
+    .work-visual {
+      flex-shrink: 0;
+      width: 200px;
+      height: 130px;
+      border: 2px solid rgba(255,255,255,0.2);
+      position: relative;
+      overflow: hidden;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    /* Film frame CSS art */
+    .film-frame {
+      width: 100%;
+      height: 100%;
+      background: #0a0a0a;
+      position: relative;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .film-frame-inner {
+      width: calc(100% - 28px);
+      height: calc(100% - 20px);
+      border: 1px solid rgba(255,255,255,0.25);
+      position: relative;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .film-sprockets {
+      position: absolute;
+      top: 0; bottom: 0;
+      left: 4px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-evenly;
+      align-items: center;
+      gap: 0;
+    }
+
+    .film-sprockets.right {
+      left: auto;
+      right: 4px;
+    }
+
+    .film-sprocket {
+      width: 6px;
+      height: 6px;
+      border: 1px solid rgba(255,255,255,0.3);
+      background: #000;
+    }
+
+    .film-scene-label {
+      font-family: var(--font-display);
+      font-size: 11px;
+      letter-spacing: 0.1em;
+      color: rgba(255,255,255,0.4);
+      text-align: center;
+      line-height: 1.3;
+    }
+
+    .film-corner {
+      position: absolute;
+      width: 8px;
+      height: 8px;
+      border-color: rgba(255,255,255,0.4);
+      border-style: solid;
+    }
+
+    .film-corner.tl { top: 4px; left: 4px; border-width: 2px 0 0 2px; }
+    .film-corner.tr { top: 4px; right: 4px; border-width: 2px 2px 0 0; }
+    .film-corner.bl { bottom: 4px; left: 4px; border-width: 0 0 2px 2px; }
+    .film-corner.br { bottom: 4px; right: 4px; border-width: 0 2px 2px 0; }
+
+    /* =====================================================
+       SERVICES
+    ===================================================== */
+    .section-services {
+      background: var(--white);
+      padding: 100px 48px;
+    }
+
+    .section-services-header {
+      text-align: center;
+      margin-bottom: 64px;
+    }
+
+    .section-title-services {
+      font-family: var(--font-display);
+      font-size: clamp(56px, 8vw, 96px);
+      color: var(--black);
+      letter-spacing: 0.03em;
+      line-height: 1;
+    }
+
+    .services-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 0;
+      border: var(--border-w) solid var(--black);
+    }
+
+    .service-block {
+      padding: 48px 40px;
+      border: var(--border-w) solid var(--black);
+      position: relative;
+      background: var(--white);
+      transition: background 0.2s ease, transform 0.15s ease, box-shadow 0.15s ease;
+      cursor: default;
+    }
+
+    .service-block:hover {
+      background: var(--grey);
+      transform: translate(-3px, -3px);
+      box-shadow: var(--shadow-md);
+      z-index: 2;
+    }
+
+    .service-num-badge {
+      position: absolute;
+      top: 24px;
+      right: 24px;
+      font-family: var(--font-body);
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.14em;
+      color: var(--black);
+      background: var(--yellow);
+      border: 2px solid var(--black);
+      padding: 4px 10px;
+    }
+
+    .service-title {
+      font-family: var(--font-display);
+      font-size: clamp(28px, 3.5vw, 48px);
+      color: var(--black);
+      letter-spacing: 0.03em;
+      line-height: 1;
+      margin-bottom: 16px;
+      padding-right: 60px;
+    }
+
+    .service-desc {
+      font-family: var(--font-body);
+      font-size: 14px;
+      line-height: 1.7;
+      color: var(--text-meta);
+    }
+
+    /* =====================================================
+       STATS
+    ===================================================== */
+    .section-stats {
+      background: var(--black);
+      padding: 80px 48px;
+    }
+
+    .stats-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 0;
+    }
+
+    .stat-block {
+      padding: 40px 32px;
+      border-top: 4px solid var(--yellow);
+      border-right: 1px solid rgba(255,255,255,0.1);
+      position: relative;
+    }
+
+    .stat-block:last-child { border-right: none; }
+
+    .stat-number {
+      font-family: var(--font-display);
+      font-size: clamp(48px, 6vw, 80px);
+      color: var(--text-inv);
+      line-height: 1;
+      letter-spacing: 0.02em;
+      margin-bottom: 8px;
+    }
+
+    .stat-label {
+      font-family: var(--font-body);
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--text-meta);
+      line-height: 1.4;
+    }
+
+    /* =====================================================
+       TESTIMONIAL
+    ===================================================== */
+    .section-testimonial {
+      background: var(--white);
+      padding: 100px 48px;
+      border-top: var(--border-w) solid var(--black);
+      border-bottom: var(--border-w) solid var(--black);
+    }
+
+    .testimonial-inner {
+      max-width: 1000px;
+      margin: 0 auto;
+    }
+
+    .testimonial-mark {
+      font-family: var(--font-display);
+      font-size: 120px;
+      color: var(--yellow);
+      line-height: 0.6;
+      margin-bottom: 24px;
+      display: block;
+    }
+
+    .testimonial-quote {
+      font-family: var(--font-display);
+      font-size: clamp(36px, 5vw, 64px);
+      color: var(--black);
+      line-height: 1.05;
+      letter-spacing: 0.01em;
+      margin-bottom: 40px;
+      font-style: italic;
+    }
+
+    .testimonial-attr {
+      font-family: var(--font-body);
+      font-size: 13px;
+      font-weight: 700;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: var(--text-meta);
+      display: flex;
+      align-items: center;
+      gap: 16px;
+    }
+
+    .testimonial-attr::before {
+      content: '';
+      display: inline-block;
+      width: 40px;
+      height: 2px;
+      background: var(--black);
+    }
+
+    /* =====================================================
+       CONTACT CTA
+    ===================================================== */
+    .section-contact {
+      background: var(--black);
+      padding: 100px 48px;
+    }
+
+    .contact-title {
+      font-family: var(--font-display);
+      color: var(--text-inv);
+      line-height: 0.88;
+      letter-spacing: 0.02em;
+      margin-bottom: 48px;
+    }
+
+    .contact-title .ct-line1 {
+      font-size: clamp(60px, 10vw, 120px);
+      display: block;
+    }
+
+    .contact-title .ct-line2 {
+      font-size: clamp(72px, 12vw, 140px);
+      display: block;
+    }
+
+    .contact-email {
+      font-family: var(--font-body);
+      font-size: clamp(18px, 2.5vw, 24px);
+      font-weight: 400;
+      color: var(--text-inv);
+      display: inline-block;
+      margin-bottom: 48px;
+      position: relative;
+      transition: color 0.15s;
+    }
+
+    .contact-email::after {
+      content: '';
+      position: absolute;
+      bottom: -3px;
+      left: 0;
+      width: 0;
+      height: 2px;
+      background: var(--yellow);
+      transition: width 0.2s ease-out;
+    }
+
+    .contact-email:hover { color: var(--yellow); }
+    .contact-email:hover::after { width: 100%; }
+
+    .btn-cta-full {
+      font-family: var(--font-body);
+      font-size: 15px;
+      font-weight: 700;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: var(--black);
+      background: var(--yellow);
+      border: var(--border-w) solid var(--yellow);
+      padding: 20px 40px;
+      box-shadow: var(--shadow-inv);
+      cursor: pointer;
+      transition: transform 0.15s ease-out, box-shadow 0.15s ease-out;
+      display: inline-flex;
+      align-items: center;
+      min-height: 64px;
+      max-width: 440px;
+      width: 100%;
+      justify-content: center;
+    }
+
+    .btn-cta-full:hover {
+      transform: translate(-2px, -2px);
+      box-shadow: 6px 6px 0 rgba(255,255,255,0.5);
+    }
+
+    /* =====================================================
+       FOOTER
+    ===================================================== */
+    .footer {
+      background: var(--white);
+      border-top: var(--border-w) solid var(--black);
+      padding: 28px 48px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 16px;
+    }
+
+    .footer-item {
+      font-family: var(--font-body);
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--text-meta);
+    }
+
+    .footer-item a {
+      color: var(--text-meta);
+      text-decoration: underline;
+      text-underline-offset: 3px;
+      transition: color 0.15s;
+    }
+
+    .footer-item a:hover { color: var(--black); }
+
+    /* =====================================================
+       INTERSECTION OBSERVER FADE-UPS
+    ===================================================== */
+    .reveal {
+      opacity: 0;
+      transform: translateY(40px);
+      transition: opacity 0.4s ease-out, transform 0.4s ease-out;
+    }
+
+    .reveal.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* =====================================================
+       RESPONSIVE
+    ===================================================== */
+    @media (max-width: 1024px) {
+      .nav { padding: 0 32px; }
+      .hero { padding: 60px 32px 0; }
+      .hero-content { max-width: 80%; }
+      .hero-bg-number { font-size: 240px; opacity: 0.04; }
+      .section-work-header { padding: 0 32px 48px; }
+      .work-card { padding: 40px 32px; gap: 32px; }
+      .work-visual { width: 160px; height: 110px; }
+      .section-services { padding: 80px 32px; }
+      .section-stats { padding: 60px 32px; }
+      .section-testimonial { padding: 80px 32px; }
+      .section-contact { padding: 80px 32px; }
+      .footer { padding: 24px 32px; }
+    }
+
+    @media (max-width: 768px) {
+      .nav { padding: 0 20px; height: 64px; }
+      .nav-links { display: none; }
+      .nav-cta { display: none; }
+      .nav-hamburger { display: flex; }
+
+      .hero { padding: 48px 20px 0; min-height: auto; padding-bottom: 0; }
+      .hero-content { max-width: 100%; }
+      .hero-bg-number { font-size: 160px; right: -20px; top: 20%; opacity: 0.04; }
+
+      .hero-headline .line-1 { font-size: clamp(72px, 22vw, 100px); }
+      .hero-headline .line-2 { font-size: clamp(56px, 17vw, 80px); }
+      .hero-headline .line-3 { font-size: clamp(72px, 22vw, 100px); }
+      .hero-headline .line-4 { font-size: clamp(44px, 13vw, 64px); }
+
+      .ticker-wrap { margin-top: 48px; }
+
+      .section-work-header { padding: 0 20px 40px; }
+      .work-card { padding: 32px 20px; gap: 16px; flex-wrap: wrap; }
+      .work-num { font-size: 56px; width: 70px; }
+      .work-visual { display: none; }
+
+      .section-services { padding: 64px 20px; }
+      .services-grid { grid-template-columns: 1fr; }
+      .service-block { padding: 36px 28px; }
+
+      .section-stats { padding: 48px 20px; }
+      .stats-grid { grid-template-columns: repeat(2, 1fr); gap: 0; }
+      .stat-block { padding: 32px 20px; }
+      .stat-block:nth-child(2) { border-right: none; }
+      .stat-block:nth-child(3) { border-right: 1px solid rgba(255,255,255,0.1); }
+
+      .section-testimonial { padding: 64px 20px; }
+      .testimonial-mark { font-size: 80px; }
+
+      .section-contact { padding: 64px 20px; }
+
+      .footer {
+        flex-direction: column;
+        text-align: center;
+        gap: 12px;
+        padding: 24px 20px;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .stats-grid { grid-template-columns: 1fr; }
+      .stat-block { border-right: none !important; }
+    }
+
+    /* =====================================================
+       MOBILE NAV OVERLAY
+    ===================================================== */
+    .mobile-nav {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: var(--black);
+      z-index: 200;
+      flex-direction: column;
+      padding: 80px 32px 40px;
+    }
+
+    .mobile-nav.open { display: flex; }
+
+    .mobile-nav-close {
+      position: absolute;
+      top: 20px;
+      right: 20px;
+      font-family: var(--font-body);
+      font-size: 13px;
+      font-weight: 700;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--text-inv);
+      background: none;
+      border: 2px solid rgba(255,255,255,0.3);
+      padding: 8px 16px;
+      cursor: pointer;
+      min-height: 48px;
+    }
+
+    .mobile-nav-links {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+      flex: 1;
+      justify-content: center;
+    }
+
+    .mobile-nav-links a {
+      font-family: var(--font-display);
+      font-size: 64px;
+      color: var(--text-inv);
+      letter-spacing: 0.03em;
+      display: block;
+      padding: 8px 0;
+      border-bottom: 1px solid rgba(255,255,255,0.08);
+      transition: color 0.15s;
+    }
+
+    .mobile-nav-links a:hover { color: var(--yellow); }
+
+    .mobile-nav-footer {
+      font-family: var(--font-body);
+      font-size: 11px;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.3);
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- DEMO BANNER -->
+  <div class="demo-banner" role="banner" aria-label="Demo preview">
+    DEMO PREVIEW &mdash; BUILT BY NODEAXIS &middot; NODEAXIS.CA
+  </div>
+
+  <!-- MOBILE NAV OVERLAY -->
+  <nav class="mobile-nav" id="mobileNav" role="navigation" aria-label="Mobile navigation" aria-hidden="true">
+    <button class="mobile-nav-close" id="mobileNavClose" aria-label="Close navigation">CLOSE ✕</button>
+    <ul class="mobile-nav-links">
+      <li><a href="#work" onclick="closeMobileNav()">Work</a></li>
+      <li><a href="#services" onclick="closeMobileNav()">Services</a></li>
+      <li><a href="#about" onclick="closeMobileNav()">About</a></li>
+      <li><a href="#contact" onclick="closeMobileNav()">Contact</a></li>
+    </ul>
+    <p class="mobile-nav-footer">NOVACRAFT STUDIO · VANCOUVER</p>
+  </nav>
+
+  <!-- NAV -->
+  <header>
+    <nav class="nav" role="navigation" aria-label="Main navigation">
+      <a href="#" class="nav-logo" aria-label="NovaCraft Studio home">NOVACRAFT</a>
+      <ul class="nav-links" role="list">
+        <li><a href="#work">Work</a></li>
+        <li><a href="#services">Services</a></li>
+        <li><a href="#about">About</a></li>
+        <li><a href="#contact">Contact</a></li>
+      </ul>
+      <a href="#contact" class="nav-cta" aria-label="Start a project">START A PROJECT &rarr;</a>
+      <button class="nav-hamburger" id="navHamburger" aria-label="Open navigation menu" aria-expanded="false" aria-controls="mobileNav">
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
+    </nav>
+  </header>
+
+  <!-- HERO -->
+  <section class="hero" aria-label="Hero — NovaCraft Studio">
+    <div class="hero-bg-number" aria-hidden="true">07</div>
+
+    <div class="hero-content">
+      <p class="hero-label">BRAND FILMS &middot; CAMPAIGNS &middot; EXPERIENCES</p>
+
+      <h1 class="hero-headline">
+        <span class="line-1">WE MAKE</span>
+        <span class="line-2">WORK</span>
+        <span class="line-3">THAT</span>
+        <span class="line-4">MOVES.</span>
+      </h1>
+
+      <p class="hero-body">
+        Vancouver-based creative production. We build brand identities, shoot campaigns, and create experiences that people actually remember.
+      </p>
+
+      <div class="hero-ctas">
+        <a href="#work" class="btn-primary">SEE OUR WORK</a>
+        <a href="#contact" class="btn-secondary">REEL &#9654;</a>
+      </div>
+    </div>
+
+    <!-- TICKER -->
+    <div class="ticker-wrap" aria-hidden="true">
+      <div class="ticker-track">
+        <span class="ticker-item">BRAND FILMS</span>
+        <span class="ticker-item ticker-dot">&bull;</span>
+        <span class="ticker-item">CAMPAIGNS</span>
+        <span class="ticker-item ticker-dot">&bull;</span>
+        <span class="ticker-item">INSTALLATIONS</span>
+        <span class="ticker-item ticker-dot">&bull;</span>
+        <span class="ticker-item">MOTION</span>
+        <span class="ticker-item ticker-dot">&bull;</span>
+        <span class="ticker-item">IDENTITY</span>
+        <span class="ticker-item ticker-dot">&bull;</span>
+        <span class="ticker-item">4K</span>
+        <span class="ticker-item ticker-dot">&bull;</span>
+        <span class="ticker-item">COLOUR</span>
+        <span class="ticker-item ticker-dot">&bull;</span>
+        <span class="ticker-item">SOUND</span>
+        <span class="ticker-item ticker-dot">&bull;</span>
+        <!-- duplicate for seamless loop -->
+        <span class="ticker-item">BRAND FILMS</span>
+        <span class="ticker-item ticker-dot">&bull;</span>
+        <span class="ticker-item">CAMPAIGNS</span>
+        <span class="ticker-item ticker-dot">&bull;</span>
+        <span class="ticker-item">INSTALLATIONS</span>
+        <span class="ticker-item ticker-dot">&bull;</span>
+        <span class="ticker-item">MOTION</span>
+        <span class="ticker-item ticker-dot">&bull;</span>
+        <span class="ticker-item">IDENTITY</span>
+        <span class="ticker-item ticker-dot">&bull;</span>
+        <span class="ticker-item">4K</span>
+        <span class="ticker-item ticker-dot">&bull;</span>
+        <span class="ticker-item">COLOUR</span>
+        <span class="ticker-item ticker-dot">&bull;</span>
+        <span class="ticker-item">SOUND</span>
+        <span class="ticker-item ticker-dot">&bull;</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- SELECTED WORK -->
+  <section class="section-work" id="work" aria-labelledby="work-heading">
+    <div class="section-work-header reveal">
+      <p class="section-tag">Portfolio</p>
+      <h2 class="section-title-work" id="work-heading">SELECTED WORK &mdash; 2022&ndash;2024</h2>
+    </div>
+
+    <div class="work-cards" role="list">
+
+      <!-- Card 1 -->
+      <article class="work-card reveal" role="listitem" tabindex="0" aria-label="Project: Meridian Spirits Brand Campaign 2024">
+        <div class="work-num" aria-hidden="true">01</div>
+        <div class="work-info">
+          <p class="work-meta">Brand Campaign &middot; 2024</p>
+          <h3 class="work-title">MERIDIAN SPIRITS</h3>
+          <a href="#" class="work-link" aria-label="View full case study for Meridian Spirits">
+            &rarr; FULL CASE STUDY
+          </a>
+        </div>
+        <div class="work-visual" aria-hidden="true">
+          <div class="film-frame">
+            <div class="film-sprockets">
+              <div class="film-sprocket"></div>
+              <div class="film-sprocket"></div>
+              <div class="film-sprocket"></div>
+              <div class="film-sprocket"></div>
+              <div class="film-sprocket"></div>
+            </div>
+            <div class="film-frame-inner">
+              <div class="film-corner tl"></div>
+              <div class="film-corner tr"></div>
+              <div class="film-corner bl"></div>
+              <div class="film-corner br"></div>
+              <div class="film-scene-label">SCENE 01<br/>MERIDIAN</div>
+            </div>
+            <div class="film-sprockets right">
+              <div class="film-sprocket"></div>
+              <div class="film-sprocket"></div>
+              <div class="film-sprocket"></div>
+              <div class="film-sprocket"></div>
+              <div class="film-sprocket"></div>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <!-- Card 2 -->
+      <article class="work-card reveal" role="listitem" tabindex="0" aria-label="Project: Atlas Apparel Product Launch 2023">
+        <div class="work-num" aria-hidden="true">02</div>
+        <div class="work-info">
+          <p class="work-meta">Product Launch &middot; 2023</p>
+          <h3 class="work-title">ATLAS APPAREL</h3>
+          <a href="#" class="work-link" aria-label="View full case study for Atlas Apparel">
+            &rarr; FULL CASE STUDY
+          </a>
+        </div>
+        <div class="work-visual" aria-hidden="true">
+          <div class="film-frame">
+            <div class="film-sprockets">
+              <div class="film-sprocket"></div>
+              <div class="film-sprocket"></div>
+              <div class="film-sprocket"></div>
+              <div class="film-sprocket"></div>
+              <div class="film-sprocket"></div>
+            </div>
+            <div class="film-frame-inner">
+              <div class="film-corner tl"></div>
+              <div class="film-corner tr"></div>
+              <div class="film-corner bl"></div>
+              <div class="film-corner br"></div>
+              <div class="film-scene-label">SCENE 02<br/>ATLAS</div>
+            </div>
+            <div class="film-sprockets right">
+              <div class="film-sprocket"></div>
+              <div class="film-sprocket"></div>
+              <div class="film-sprocket"></div>
+              <div class="film-sprocket"></div>
+              <div class="film-sprocket"></div>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <!-- Card 3 -->
+      <article class="work-card reveal" role="listitem" tabindex="0" aria-label="Project: Crest Financial Brand Identity 2022">
+        <div class="work-num" aria-hidden="true">03</div>
+        <div class="work-info">
+          <p class="work-meta">Brand Identity &middot; 2022</p>
+          <h3 class="work-title">CREST FINANCIAL</h3>
+          <a href="#" class="work-link" aria-label="View full case study for Crest Financial">
+            &rarr; FULL CASE STUDY
+          </a>
+        </div>
+        <div class="work-visual" aria-hidden="true">
+          <div class="film-frame">
+            <div class="film-sprockets">
+              <div class="film-sprocket"></div>
+              <div class="film-sprocket"></div>
+              <div class="film-sprocket"></div>
+              <div class="film-sprocket"></div>
+              <div class="film-sprocket"></div>
+            </div>
+            <div class="film-frame-inner">
+              <div class="film-corner tl"></div>
+              <div class="film-corner tr"></div>
+              <div class="film-corner bl"></div>
+              <div class="film-corner br"></div>
+              <div class="film-scene-label">SCENE 03<br/>CREST</div>
+            </div>
+            <div class="film-sprockets right">
+              <div class="film-sprocket"></div>
+              <div class="film-sprocket"></div>
+              <div class="film-sprocket"></div>
+              <div class="film-sprocket"></div>
+              <div class="film-sprocket"></div>
+            </div>
+          </div>
+        </div>
+      </article>
+
+    </div>
+  </section>
+
+  <!-- SERVICES -->
+  <section class="section-services" id="services" aria-labelledby="services-heading">
+    <div class="section-services-header reveal">
+      <p class="section-tag" style="text-align:center; margin-bottom:12px;">What We Do</p>
+      <h2 class="section-title-services" id="services-heading">WHAT WE DO</h2>
+    </div>
+
+    <div class="services-grid" role="list">
+
+      <div class="service-block reveal" role="listitem">
+        <span class="service-num-badge" aria-hidden="true">01</span>
+        <h3 class="service-title">BRAND FILMS</h3>
+        <p class="service-desc">From 30-second social to 3-minute cinematic brand docs. We make every frame count and every cut land.</p>
+      </div>
+
+      <div class="service-block reveal" role="listitem">
+        <span class="service-num-badge" aria-hidden="true">02</span>
+        <h3 class="service-title">CAMPAIGN DIRECTION</h3>
+        <p class="service-desc">Concept to delivery. Strategy, creative, production — all under one roof, zero excuses about the brief.</p>
+      </div>
+
+      <div class="service-block reveal" role="listitem">
+        <span class="service-num-badge" aria-hidden="true">03</span>
+        <h3 class="service-title">MOTION + IDENTITY</h3>
+        <p class="service-desc">Logos that move. Systems that scale. Visual identity built to live across every surface and screen.</p>
+      </div>
+
+      <div class="service-block reveal" role="listitem">
+        <span class="service-num-badge" aria-hidden="true">04</span>
+        <h3 class="service-title">EXPERIENTIAL</h3>
+        <p class="service-desc">Pop-ups, installations, events that earn press coverage — not just social likes. We build things people talk about.</p>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- STATS -->
+  <section class="section-stats" id="about" aria-label="Studio statistics">
+    <div class="stats-grid" role="list">
+
+      <div class="stat-block reveal" role="listitem">
+        <p class="stat-number">07</p>
+        <p class="stat-label">YEARS<br/>IN OPERATION</p>
+      </div>
+
+      <div class="stat-block reveal" role="listitem">
+        <p class="stat-number">214</p>
+        <p class="stat-label">PROJECTS<br/>COMPLETED</p>
+      </div>
+
+      <div class="stat-block reveal" role="listitem">
+        <p class="stat-number">2X</p>
+        <p class="stat-label">INDUSTRY<br/>AWARDS</p>
+      </div>
+
+      <div class="stat-block reveal" role="listitem">
+        <p class="stat-number" style="line-height:0.9">1<br/><span style="font-size:0.45em; line-height:1; display:block; margin-top:4px;">RULE:</span></p>
+        <p class="stat-label">NO<br/>TEMPLATES</p>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- TESTIMONIAL -->
+  <section class="section-testimonial" aria-labelledby="testimonial-heading">
+    <div class="testimonial-inner reveal">
+      <span class="testimonial-mark" aria-hidden="true">&ldquo;</span>
+      <blockquote>
+        <p class="testimonial-quote" id="testimonial-heading">
+          They made our brand look like it cost five times what we paid.
+        </p>
+        <footer class="testimonial-attr">
+          <cite style="font-style:normal;">Creative Director, Meridian Spirits</cite>
+        </footer>
+      </blockquote>
+    </div>
+  </section>
+
+  <!-- CONTACT CTA -->
+  <section class="section-contact" id="contact" aria-labelledby="contact-heading">
+    <div class="reveal">
+      <h2 class="contact-title" id="contact-heading">
+        <span class="ct-line1">READY TO</span>
+        <span class="ct-line2">MAKE SOMETHING?</span>
+      </h2>
+      <a href="mailto:hello@novacraft.ca" class="contact-email" aria-label="Email NovaCraft Studio at hello@novacraft.ca">
+        hello@novacraft.ca
+      </a>
+      <br />
+      <a href="mailto:hello@novacraft.ca" class="btn-cta-full" aria-label="Start the conversation with NovaCraft Studio">
+        START THE CONVERSATION &rarr;
+      </a>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer class="footer" role="contentinfo">
+    <span class="footer-item">NOVACRAFT STUDIO</span>
+    <span class="footer-item">VANCOUVER, BC</span>
+    <span class="footer-item">&copy; 2024 &middot; BUILT BY <a href="https://nodeaxis.ca" target="_blank" rel="noopener noreferrer">NODEAXIS</a></span>
+  </footer>
+
+  <!-- =====================================================
+       JAVASCRIPT
+  ===================================================== -->
+  <script>
+    // -----------------------------------------------
+    // MOBILE NAV
+    // -----------------------------------------------
+    const hamburger  = document.getElementById('navHamburger');
+    const mobileNav  = document.getElementById('mobileNav');
+    const closeBtn   = document.getElementById('mobileNavClose');
+
+    function openMobileNav() {
+      mobileNav.classList.add('open');
+      mobileNav.setAttribute('aria-hidden', 'false');
+      hamburger.setAttribute('aria-expanded', 'true');
+      document.body.style.overflow = 'hidden';
+    }
+
+    function closeMobileNav() {
+      mobileNav.classList.remove('open');
+      mobileNav.setAttribute('aria-hidden', 'true');
+      hamburger.setAttribute('aria-expanded', 'false');
+      document.body.style.overflow = '';
+    }
+
+    hamburger.addEventListener('click', openMobileNav);
+    closeBtn.addEventListener('click', closeMobileNav);
+
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape' && mobileNav.classList.contains('open')) {
+        closeMobileNav();
+      }
+    });
+
+    // -----------------------------------------------
+    // INTERSECTION OBSERVER — REVEAL ON SCROLL
+    // -----------------------------------------------
+    const revealEls = document.querySelectorAll('.reveal');
+
+    const revealObserver = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('visible');
+          revealObserver.unobserve(entry.target);
+        }
+      });
+    }, {
+      threshold: 0.12,
+      rootMargin: '0px 0px -40px 0px'
+    });
+
+    revealEls.forEach(el => revealObserver.observe(el));
+
+    // -----------------------------------------------
+    // STAGGERED REVEAL FOR CARDS IN SAME SECTION
+    // -----------------------------------------------
+    const staggerGroups = [
+      document.querySelectorAll('.work-card'),
+      document.querySelectorAll('.service-block'),
+      document.querySelectorAll('.stat-block'),
+    ];
+
+    staggerGroups.forEach(group => {
+      group.forEach((el, i) => {
+        el.style.transitionDelay = `${i * 60}ms`;
+      });
+    });
+
+    // -----------------------------------------------
+    // WORK CARD — keyboard activation (Enter/Space)
+    // -----------------------------------------------
+    document.querySelectorAll('.work-card').forEach(card => {
+      card.addEventListener('keydown', (e) => {
+        if (e.key === 'Enter' || e.key === ' ') {
+          e.preventDefault();
+          const link = card.querySelector('.work-link');
+          if (link) link.click();
+        }
+      });
+    });
+
+    // -----------------------------------------------
+    // NAV — active highlight on scroll
+    // -----------------------------------------------
+    const sections  = document.querySelectorAll('section[id]');
+    const navLinks  = document.querySelectorAll('.nav-links a');
+
+    const sectionObserver = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          const id = entry.target.getAttribute('id');
+          navLinks.forEach(link => {
+            const isActive = link.getAttribute('href') === '#' + id;
+            link.style.color = isActive ? 'var(--black)' : '';
+            link.style.fontWeight = isActive ? '700' : '';
+          });
+        }
+      });
+    }, { threshold: 0.4 });
+
+    sections.forEach(s => sectionObserver.observe(s));
+  </script>
+
+</body>
+</html>
