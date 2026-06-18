@@ -18,6 +18,17 @@ A running record of every session: what was built, what broke, what was fixed, a
 
 ## Sessions
 
+### [2026-06-18] — Fix: Google search showed generic globe instead of logo (favicon)
+
+**Changes:**
+- `app/favicon.ico` — New. Generated a real multi-resolution ICO (16/32/48px PNG frames) from the NodeAxis hexagon mark using `sharp`. Used a solid dark version (dark bg, white mark — no `prefers-color-scheme` CSS, since ICO/PNG can't do media queries) so it reads clearly on Google's white results background. Next.js App Router auto-detects `app/favicon.ico` and serves it at `/favicon.ico` with the correct `<link rel="icon">`.
+
+**Bugs encountered:** Google SERP displayed the default globe icon instead of the site logo. Root cause: the site only had an SVG favicon (`app/icon.svg`) and no `/favicon.ico`. Google's favicon crawler strongly prefers a real `/favicon.ico` (≥48px) and has unreliable SVG support, so it fell back to the globe.
+
+**Fixes applied:** Added `app/favicon.ico` (16/32/48px). SVG favicon retained for modern browsers; ICO covers Google + legacy.
+
+**Still open / TODO:** Favicon won't update in Google results until Google recrawls — after deploy, submit the homepage URL in Google Search Console (URL Inspection → Request Indexing) to speed it up. Can take days/weeks regardless.
+
 ### [2026-06-18] — Feature: Tier 2 legal & compliance — Privacy, Terms, cookie consent
 
 **Changes:**
