@@ -18,6 +18,24 @@ A running record of every session: what was built, what broke, what was fixed, a
 
 ## Sessions
 
+### [2026-06-18] — Feature: Tier 2 legal & compliance — Privacy, Terms, cookie consent
+
+**Changes:**
+- `components/LegalShell.tsx` — New reusable shell for legal pages: Navbar + hero (eyebrow "Legal", title, intro, "Last updated") + structured prose body + "questions? email" footer note + Footer. Renders sections from a typed `LegalSection[]` data model (`string` = paragraph, `string[]` = bullet list, `{ sub }` = sub-heading). Paragraphs/bullets allow inline `<strong>`/links via `dangerouslySetInnerHTML` (content is static/authored, not user input).
+- `app/privacy/page.tsx` + `layout.tsx` — Privacy Policy grounded in what the site actually does: PIPEDA-aligned, 12 sections. Discloses real data flows — contact form (name/email/service/budget/message) via **Formspree**, hosting/logs via **Vercel**, theme preference in localStorage. Covers use, retention, security, PIPEDA rights, OPC complaint path. Real contact: info@nodeaxis.ca / 778-240-8911.
+- `app/terms/page.tsx` + `layout.tsx` — Terms of Service, 13 sections. Reflects real business terms: fixed upfront quotes (no hourly), **ownership + source code transfers on full payment**, "from $399" is a guide not a binding offer, portfolio rights, warranties/liability cap, **governing law = British Columbia, Canada**.
+- `components/CookieConsent.tsx` — Accessible (`role="dialog"`, `aria-live`) bottom-anchored banner shown only when no prior choice. Accept/Decline → `localStorage['nodeaxis-cookie-consent']` + dispatches `nodeaxis-consent-change` event so future analytics can gate on consent. Mounted globally in `app/layout.tsx`.
+- `components/Footer.tsx` — Added Privacy Policy + Terms of Service links to footer nav.
+- `app/sitemap.ts` — Added /privacy and /terms (priority 0.3).
+
+**Decisions:** Pages read as real, professional policies (no "consult a lawyer" copy on-page). Effective date set to today, 2026-06-18.
+
+**Bugs encountered:** None. `npm run build` succeeds — /privacy and /terms prerender static (13/13 pages). The one ESLint `set-state-in-effect` flag in CookieConsent is the same rule already present across the repo (theme.tsx etc.) and is the correct pattern (localStorage must be read post-mount to avoid hydration mismatch); build does not gate on it.
+
+**Still open / TODO:** ⚠️ Have the Privacy Policy + Terms reviewed by a lawyer before relying on them. Then: Calendly embed, per-service pages, blog/insights, analytics (gate on cookie consent), form spam protection, custom domain, real device testing.
+
+---
+
 ### [2026-06-18] — Feature: Tier 1 credibility — Case Studies + "Built On" tech/partner strip
 
 **Changes:**
