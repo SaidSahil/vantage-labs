@@ -18,6 +18,21 @@ A running record of every session: what was built, what broke, what was fixed, a
 
 ## Sessions
 
+### [2026-06-18] — Feature: Tier 1 credibility — Case Studies + "Built On" tech/partner strip
+
+**Changes:**
+- `components/CaseStudies.tsx` — New featured case-studies section. Pulls 3 real projects (Team4Security, Saffron Kitchen, Meridian Property) from `lib/projects.ts` and presents each as an alternating two-column card: a metric panel (big accent metric `3` / `+40%` / `−60%` with label + faint blueprint grid + tool chips) beside a narrative column (tags, name, "The Brief" = project.description, "The Outcome" = project.results, "Read the case study →" link to `/projects/[slug]`). Narrative stays sourced from projects.ts; only the headline metric is curated in-component. Renders nothing if no projects resolve.
+- `components/TechStack.tsx` — New honest credibility strip used **instead of fake client logos** (agency has no shippable client logos yet). Two labeled wordmark groups: "Core Engineering" (Next.js, React, TypeScript, Node.js, PostgreSQL, Tailwind CSS) and "Platforms & Partners" (Vercel, Stripe, AWS — the three the user confirmed legitimate). Each wordmark is a bordered chip with hover lift + accent fill. Header "Built on infrastructure you can trust."
+- `app/page.tsx` — Imported and inserted both in a credibility-escalation order: `Work → CaseStudies → TechStack → Testimonials`.
+
+**Decisions (from user):** Skipped a team/leadership section (not building fake people). No real client logos yet → tech/partner strip instead. Confirmed partners limited to Vercel, Stripe, AWS.
+
+**Bugs encountered:** None. `tsc --noEmit` clean; ESLint clean for both new files (the 18 repo-wide lint errors are pre-existing in Hero/Services/theme.tsx etc., untouched).
+
+**Still open / TODO:** Tier 2 (Privacy Policy, Terms, cookie consent), Calendly embed, per-service pages, blog/insights, JSON-LD Organization/LocalBusiness/Service schema, analytics, form spam protection, custom domain, real device testing. Original pending items unchanged.
+
+---
+
 ### [2026-06-13] — Feature: HTML demo previews + download for all 8 portfolio projects
 
 **What was done:**

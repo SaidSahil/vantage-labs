@@ -6,6 +6,8 @@ import Navbar   from '@/components/Navbar'
 import Hero     from '@/components/Hero'
 import Marquee  from '@/components/Marquee'
 import Work         from '@/components/Work'
+import CaseStudies  from '@/components/CaseStudies'
+import TechStack     from '@/components/TechStack'
 import Testimonials from '@/components/Testimonials'
 import Services from '@/components/Services'
 import Process  from '@/components/Process'
@@ -97,6 +99,8 @@ export default function Home() {
       <Hero />
       <Marquee />
       <Work />
+      <CaseStudies />
+      <TechStack />
       <Testimonials />
       <Services />
       <Process />
