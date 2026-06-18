@@ -337,6 +337,9 @@ body::after {
 ::-webkit-scrollbar-thumb { background: var(--na-border-mid); border-radius: 2px; }
 
 /* ─── FOCUS ─────────────────────────────────────── */
+/* Brand-consistent keyboard focus ring. Kept on :focus-visible so it shows
+   for keyboard/AT users without appearing on mouse clicks. Do NOT remove
+   outlines globally anywhere — this ring must always remain visible. */
 :focus-visible {
   outline: 2px solid var(--na-accent);
   outline-offset: 4px;
@@ -349,10 +352,19 @@ body::after {
 }
 
 /* ─── REDUCED MOTION ────────────────────────────── */
+/* Neutralizes CSS-driven animations/transitions for users who request
+   reduced motion. NOTE: JS/Framer-Motion animations are not covered here
+   and are a separate follow-up (gate motion variants on a useReducedMotion
+   hook). */
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after {
     animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
     transition-duration: 0.001ms !important;
+    scroll-behavior: auto !important;
+  }
+  html {
+    scroll-behavior: auto !important;
   }
   .ticker-track {
     animation-play-state: paused !important;

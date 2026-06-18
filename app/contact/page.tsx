@@ -61,7 +61,8 @@ function WordReveal({ words, baseDelay = 0, style }: { words: string[]; baseDela
 export default function ContactPage() {
   const [focused, setFocused] = useState<string | null>(null)
   const [status, setStatus] = useState<Status>('idle')
-  const [form, setForm] = useState({ name: '', email: '', service: '', budget: '', message: '' })
+  // `company` is a honeypot — kept empty by real users, only bots fill it.
+  const [form, setForm] = useState({ name: '', email: '', service: '', budget: '', message: '', company: '' })
 
   function update(field: string, value: string) {
     setForm(f => ({ ...f, [field]: value }))
@@ -527,6 +528,29 @@ export default function ContactPage() {
                     exit={{ opacity: 0 }}
                     style={{ display: 'flex', flexDirection: 'column', gap: 22 }}
                   >
+                    {/* Honeypot — hidden from users & assistive tech; bots fill it and get silently dropped server-side. */}
+                    <input
+                      type="text"
+                      name="company"
+                      tabIndex={-1}
+                      autoComplete="off"
+                      aria-hidden="true"
+                      value={form.company}
+                      onChange={e => update('company', e.target.value)}
+                      style={{
+                        position: 'absolute',
+                        width: 1,
+                        height: 1,
+                        padding: 0,
+                        margin: -1,
+                        border: 0,
+                        clip: 'rect(0 0 0 0)',
+                        clipPath: 'inset(50%)',
+                        overflow: 'hidden',
+                        whiteSpace: 'nowrap',
+                      }}
+                    />
+
                     <div style={{ marginBottom: 4 }}>
                       <h2 style={{ fontSize: 18, fontWeight: 700, color: 'var(--na-text)', letterSpacing: '-0.02em', marginBottom: 6 }}>
                         Tell us about your project

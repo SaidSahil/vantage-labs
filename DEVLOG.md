@@ -18,6 +18,31 @@ A running record of every session: what was built, what broke, what was fixed, a
 
 ## Sessions
 
+### [2026-06-18] — Feature: Tier 4 (Authority & SEO) + Tier 5 (Polish & Ops) — done cooperatively
+
+Tier 4 built directly; Tier 5 built in parallel by a background subagent. One combined build + commit.
+
+**Tier 4 — Authority & SEO (me):**
+- `lib/posts.ts` — New blog content layer: typed `PostBlock` model (p / h2 / ul / quote) + 3 authored, on-brand articles (hand-coded vs WordPress; small-business website cost in BC; 5 signs your site is costing you customers). Helpers `getPost`, `sortedPosts`.
+- `app/blog/page.tsx` + `layout.tsx` — Insights listing page (server-rendered) with metadata + `Blog` JSON-LD listing all posts.
+- `app/blog/[slug]/page.tsx` — Post page with `generateStaticParams` (SSG — all 3 prerender), `generateMetadata` (canonical + OG article), block renderer, "keep reading" + contact CTA, and `BlogPosting` + `BreadcrumbList` JSON-LD per post.
+- `app/services/layout.tsx` — Added `Service` (with CAD $399 Offer) + `BreadcrumbList` JSON-LD.
+- `app/layout.tsx` — Added Vercel Analytics (`@vercel/analytics/next` `<Analytics />`). Cookieless + same-origin, so CSP-safe (no `next.config.ts` change needed) and no consent gating required.
+- `components/Navbar.tsx` + `components/Footer.tsx` — Added "Insights" (/blog) link.
+- `app/sitemap.ts` — Added /blog + all post URLs.
+- `package.json` — Added `@vercel/analytics`.
+
+**Tier 5 — Polish & Operational (subagent, files fenced off from Tier 4):**
+- `app/api/contact/route.ts` — Spam protection: honeypot (`company` field → silent 200 drop, no Formspree forward) + best-effort in-memory IP rate limit (5 submissions / 10-min rolling window → 429). Comment notes per-instance-memory limitation; a shared store (Vercel KV) needed for hardened limits.
+- `app/contact/page.tsx` — Hidden, sr-only honeypot input (`tabIndex=-1`, `aria-hidden`, `autoComplete=off`); wired via existing form-state serialization.
+- `app/globals.css` — Accessibility: confirmed brand `:focus-visible` ring (commented to never remove globally); extended `prefers-reduced-motion` block (animation-iteration-count, scroll-behavior); verified `.skip-link` reveals on focus. Note: Framer-Motion JS animations still need a `useReducedMotion` follow-up.
+
+**Bugs encountered:** None. `npm run build` succeeds — 18 routes; /blog static, /blog/[slug] SSG (3 posts), /api/contact dynamic. No file collisions between the two work streams (boundaries enforced via agent prompt).
+
+**Still open / TODO:** Framer-Motion `useReducedMotion` pass; harden rate limit with Vercel KV if abused; ⚠️ lawyer review of Privacy/Terms (carried from Tier 2); Calendly embed, per-service pages, lead magnet (Tier 3); custom domain; real device testing; connect Vercel Analytics in the Vercel dashboard after deploy.
+
+---
+
 ### [2026-06-18] — Fix: Google search showed generic globe instead of logo (favicon)
 
 **Changes:**

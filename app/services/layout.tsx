@@ -16,6 +16,44 @@ export const metadata: Metadata = {
   },
 }
 
+const servicesSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'Service',
+  '@id': 'https://nodeaxis.ca/services#service',
+  serviceType: 'Web Design, Web Applications, Dashboards & Software Development',
+  provider: { '@id': 'https://nodeaxis.ca/#organization' },
+  areaServed: { '@type': 'State', name: 'British Columbia' },
+  url: 'https://nodeaxis.ca/services',
+  description:
+    'Hand-coded websites, web apps, dashboards, and custom software for businesses in British Columbia, Canada. Fixed pricing from $399.',
+  offers: {
+    '@type': 'Offer',
+    priceCurrency: 'CAD',
+    price: '399',
+    priceSpecification: {
+      '@type': 'PriceSpecification',
+      priceCurrency: 'CAD',
+      minPrice: '399',
+    },
+    availability: 'https://schema.org/InStock',
+  },
+}
+
+const breadcrumbSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'BreadcrumbList',
+  itemListElement: [
+    { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://nodeaxis.ca' },
+    { '@type': 'ListItem', position: 2, name: 'Services', item: 'https://nodeaxis.ca/services' },
+  ],
+}
+
 export default function ServicesLayout({ children }: { children: React.ReactNode }) {
-  return <>{children}</>
+  return (
+    <>
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(servicesSchema) }} />
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }} />
+      {children}
+    </>
+  )
 }
