@@ -18,6 +18,22 @@ A running record of every session: what was built, what broke, what was fixed, a
 
 ## Sessions
 
+### [2026-06-19] — Feature: Private client demo pages at /demo/[slug]
+
+**Changes:**
+- `demos/` folder — New directory at project root (not in `public/`) storing standalone HTML demos: `edge-construction.html`, `myk-construction.html`, `thesmalljob.html`. Files here are never served directly by Next.js static hosting.
+- `app/demo/[slug]/route.ts` — Route handler that reads a demo HTML file by slug, returns raw HTML. Returns 404 if slug doesn't exist. Strips path traversal attempts via `path.basename`. Sets `X-Robots-Tag: noindex, nofollow` and `Cache-Control: no-store`.
+- `next.config.ts` — Added `/demo/:slug*` header block: permissive CSP for demo pages (Google Fonts + `unsafe-inline` needed by demo HTML), `noindex` robots tag.
+- No `app/demo/page.tsx` created — `/demo` returns 404, so customers can't browse or enumerate demos.
+
+**Bugs encountered:** None. Clean build — 19 routes, `/demo/[slug]` dynamic.
+
+**Usage:** Send client `nodeaxis.ca/demo/edge-construction` (or `myk-construction`, `thesmalljob`). Going to `/demo` directly returns 404. Add new demo by dropping a `.html` file in `demos/` and sharing the slug.
+
+**Still open / TODO:** Same as previous — Framer-Motion reduced motion, Vercel KV rate limit, Calendly, custom domain, real device testing.
+
+---
+
 ### [2026-06-18] — Feature: Tier 4 (Authority & SEO) + Tier 5 (Polish & Ops) — done cooperatively
 
 Tier 4 built directly; Tier 5 built in parallel by a background subagent. One combined build + commit.

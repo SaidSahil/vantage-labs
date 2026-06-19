@@ -30,11 +30,26 @@ const nextConfig: NextConfig = {
           },
         ],
       },
-      // Allow /demos/*.html to be embedded in same-origin iframes (overrides the DENY above)
+      // Demo pages: standalone HTML with Google Fonts + inline styles/scripts
       {
-        source: '/demos/(.*)',
+        source: '/demo/:slug*',
         headers: [
-          { key: 'X-Frame-Options', value: 'SAMEORIGIN' },
+          { key: 'X-Frame-Options', value: 'DENY' },
+          { key: 'X-Robots-Tag', value: 'noindex, nofollow' },
+          {
+            key: 'Content-Security-Policy',
+            value: [
+              "default-src 'self'",
+              "script-src 'self' 'unsafe-inline'",
+              "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com",
+              "font-src 'self' https://fonts.gstatic.com",
+              "img-src 'self' data: blob:",
+              "connect-src 'self'",
+              "frame-ancestors 'none'",
+              "base-uri 'self'",
+              "form-action 'self'",
+            ].join('; '),
+          },
         ],
       },
       {
