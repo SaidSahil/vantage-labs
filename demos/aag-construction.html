@@ -1,0 +1,627 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AAG Services Construction — Vancouver's Premium Builder</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700;900&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+/* ─── Reset & Tokens ─── */
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --mint:#BDE8E1;
+  --mint-dk:#A8D9D1;
+  --mint-lt:#D9F4F0;
+  --white:#FFFFFF;
+  --off:#F6F7F8;
+  --dark:#131313;
+  --yellow:#F5D13A;
+  --yellow2:#E6C428;
+  --muted:#6B7280;
+  --border:#E2E5E8;
+  --display:'Montserrat','Helvetica Neue',Arial,sans-serif;
+  --sans:'Inter',-apple-system,system-ui,sans-serif;
+  --shadow:0 2px 12px rgba(0,0,0,.08);
+  --shadow-lg:0 8px 40px rgba(0,0,0,.12);
+  --r:12px;
+}
+html{scroll-behavior:smooth}
+body{font-family:var(--sans);color:var(--dark);background:var(--white);overflow-x:hidden}
+img{display:block;max-width:100%}
+a{text-decoration:none;color:inherit}
+
+/* ─── Typography ─── */
+.eyebrow{font-family:var(--display);font-size:11px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--muted)}
+.eyebrow span{color:var(--dark)}
+h1,h2,h3{font-family:var(--display);font-weight:900;line-height:1.05;letter-spacing:-.01em}
+
+/* ─── Buttons ─── */
+.btn-arrowcircle{display:inline-flex;align-items:center;gap:10px;padding:14px 18px 14px 26px;background:var(--dark);color:var(--white);border-radius:50px;font-family:var(--display);font-size:13px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;cursor:pointer;border:none;transition:transform .2s ease,box-shadow .2s ease}
+.btn-arrowcircle:hover{transform:translateY(-2px);box-shadow:0 8px 24px rgba(0,0,0,.22)}
+.btn-arrowcircle .ac{width:34px;height:34px;border-radius:50%;background:var(--yellow);display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:background .2s}
+.btn-arrowcircle:hover .ac{background:var(--yellow2)}
+.btn-arrowcircle .ac svg{width:14px;height:14px}
+
+.btn-pill-yellow{display:inline-flex;align-items:center;gap:8px;padding:15px 32px;background:var(--yellow);color:var(--dark);border-radius:50px;font-family:var(--display);font-size:13px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;cursor:pointer;border:none;transition:background .2s ease,transform .2s ease}
+.btn-pill-yellow:hover{background:var(--yellow2);transform:translateY(-2px)}
+
+.btn-outline{display:inline-flex;align-items:center;gap:8px;padding:11px 22px;background:transparent;color:var(--dark);border-radius:50px;font-family:var(--display);font-size:12px;font-weight:700;letter-spacing:.07em;text-transform:uppercase;cursor:pointer;border:2px solid var(--dark);transition:background .2s ease,color .2s ease}
+.btn-outline:hover{background:var(--dark);color:var(--white)}
+
+/* ─── Nav ─── */
+nav{position:fixed;top:0;left:0;right:0;z-index:100;padding:22px 5%;display:flex;align-items:center;justify-content:space-between;transition:background .3s ease,box-shadow .3s ease}
+nav.solid{background:rgba(255,255,255,.96);backdrop-filter:blur(12px);box-shadow:0 1px 0 var(--border)}
+.nav-logo{font-family:var(--display);font-size:18px;font-weight:900;letter-spacing:-.01em;display:flex;align-items:center;gap:10px}
+.nav-logo .logo-mark{width:32px;height:32px;background:var(--dark);border-radius:8px;display:flex;align-items:center;justify-content:center}
+.nav-logo .logo-mark span{color:var(--yellow);font-size:12px;font-weight:900;letter-spacing:0}
+.nav-links{display:flex;align-items:center;gap:36px;list-style:none}
+.nav-links a{font-size:13px;font-weight:500;color:var(--dark);opacity:.7;transition:opacity .2s}
+.nav-links a:hover{opacity:1}
+.nav-cta{display:flex;align-items:center;gap:14px}
+
+/* ─── Hero ─── */
+.hero{min-height:100vh;background:var(--mint);display:grid;grid-template-columns:1fr 1fr;position:relative;overflow:hidden;padding-top:90px}
+
+/* left */
+.hero-left{display:flex;flex-direction:column;justify-content:flex-end;padding:0 5% 80px 8%;position:relative;z-index:2}
+.hero-eyebrow{display:flex;align-items:center;gap:12px;margin-bottom:28px}
+.hero-eyebrow .dot{width:6px;height:6px;border-radius:50%;background:var(--dark)}
+.hero-h1{font-size:clamp(52px,6.5vw,88px);line-height:.97;margin-bottom:28px;max-width:600px}
+.hero-h1 em{font-style:normal;color:var(--dark);opacity:.28}
+.hero-sub{font-size:15px;font-weight:400;line-height:1.7;color:rgba(19,19,19,.65);max-width:420px;margin-bottom:44px}
+.hero-actions{display:flex;align-items:center;gap:16px;flex-wrap:wrap}
+.hero-phone{font-size:13px;font-weight:600;color:rgba(19,19,19,.55);letter-spacing:.04em}
+.hero-phone strong{color:var(--dark);font-weight:700}
+
+/* decorative +  markers */
+.plus-mark{font-family:var(--display);font-size:11px;font-weight:700;color:rgba(19,19,19,.35);letter-spacing:.1em;display:flex;align-items:center;gap:6px;margin-top:48px}
+.plus-mark::before{content:'';width:32px;height:1px;background:rgba(19,19,19,.25)}
+
+/* right — CSS architectural composition */
+.hero-right{position:relative;overflow:hidden}
+.hero-wall{position:absolute;inset:0;background:linear-gradient(135deg,#A8D9D1 0%,#8EC8BF 60%,#7AB5AB 100%);clip-path:polygon(8% 0,100% 0,100% 100%,0 100%)}
+.hero-floor{position:absolute;bottom:0;left:0;right:0;height:38%;background:repeating-linear-gradient(90deg,rgba(255,255,255,.07) 0px,rgba(255,255,255,.07) 1px,transparent 1px,transparent 80px),linear-gradient(to bottom,#6FA89F,#5A9189)}
+.hero-floor::before{content:'';position:absolute;top:0;left:0;right:0;height:1px;background:rgba(255,255,255,.3)}
+.hero-window{position:absolute;top:10%;right:12%;width:220px;height:280px;background:linear-gradient(135deg,rgba(255,255,255,.22),rgba(255,255,255,.06));border:1px solid rgba(255,255,255,.3);border-radius:4px}
+.hero-window::before{content:'';position:absolute;top:50%;left:0;right:0;height:1px;background:rgba(255,255,255,.2)}
+.hero-window::after{content:'';position:absolute;top:0;bottom:0;left:50%;width:1px;background:rgba(255,255,255,.2)}
+.hero-beam{position:absolute;top:0;right:18%;width:3px;height:100%;background:rgba(255,255,255,.12)}
+.hero-accent-block{position:absolute;bottom:22%;left:6%;width:100px;height:100px;border:2px solid rgba(255,255,255,.2);border-radius:4px}
+
+/* floating glassmorphism card */
+.hero-card{position:absolute;bottom:15%;left:-28px;width:240px;background:rgba(255,255,255,.92);backdrop-filter:blur(16px);border-radius:16px;padding:22px 24px;box-shadow:0 12px 40px rgba(0,0,0,.14);z-index:10}
+.hero-card-label{font-size:10px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);margin-bottom:10px}
+.hero-card-stat{font-family:var(--display);font-size:38px;font-weight:900;line-height:1;color:var(--dark)}
+.hero-card-stat sup{font-size:18px}
+.hero-card-desc{font-size:12px;color:var(--muted);margin-top:6px;line-height:1.5}
+.hero-card-divider{height:1px;background:var(--border);margin:14px 0}
+.hero-card-row{display:flex;align-items:center;justify-content:space-between}
+.hero-card-mini{font-family:var(--display);font-size:20px;font-weight:900;color:var(--dark)}
+.hero-card-mini-label{font-size:10px;color:var(--muted);margin-top:2px}
+
+/* vertical social rail */
+.social-rail{position:absolute;right:28px;top:50%;transform:translateY(-50%);display:flex;flex-direction:column;align-items:center;gap:18px;z-index:10}
+.social-rail::before,.social-rail::after{content:'';width:1px;height:50px;background:rgba(19,19,19,.2)}
+.social-rail a{width:32px;height:32px;border-radius:50%;background:rgba(255,255,255,.5);display:flex;align-items:center;justify-content:center;transition:background .2s}
+.social-rail a:hover{background:var(--white)}
+.social-rail svg{width:13px;height:13px;fill:var(--dark)}
+
+/* ─── Ticker ─── */
+.ticker{background:var(--dark);padding:18px 0;overflow:hidden;white-space:nowrap;position:relative}
+.ticker-inner{display:inline-flex;gap:0;animation:ticker 28s linear infinite}
+.ticker-item{font-family:var(--display);font-size:12px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:rgba(255,255,255,.6);padding:0 36px;display:flex;align-items:center;gap:14px}
+.ticker-item .tick-dot{width:5px;height:5px;border-radius:50%;background:var(--yellow);flex-shrink:0}
+.ticker-item strong{color:var(--white)}
+@keyframes ticker{0%{transform:translateX(0)}100%{transform:translateX(-50%)}}
+
+/* ─── About ─── */
+.about{padding:100px 8%;display:grid;grid-template-columns:1fr 1fr;gap:80px;align-items:center;background:var(--white)}
+.about-left .section-label{margin-bottom:20px}
+.about-left h2{font-size:clamp(36px,4vw,54px);margin-bottom:24px;max-width:440px}
+.about-left p{font-size:15px;line-height:1.75;color:var(--muted);max-width:420px;margin-bottom:40px}
+.stats-grid{display:grid;grid-template-columns:1fr 1fr;gap:0}
+.stat-item{padding:24px 0;border-top:3px solid var(--yellow)}
+.stat-item:nth-child(odd){padding-right:24px;border-right:1px solid var(--border)}
+.stat-item:nth-child(even){padding-left:24px}
+.stat-num{font-family:var(--display);font-size:42px;font-weight:900;color:var(--dark);line-height:1}
+.stat-num sup{font-size:20px}
+.stat-label{font-size:12px;color:var(--muted);margin-top:4px;font-weight:500;text-transform:uppercase;letter-spacing:.07em}
+
+/* right — CSS warm tiles */
+.about-right{display:grid;grid-template-columns:1fr 1fr;grid-template-rows:1fr 1fr;gap:12px;height:440px}
+.about-tile{border-radius:var(--r);overflow:hidden;position:relative}
+.about-tile-1{background:linear-gradient(135deg,#8EC8BF,#6FB5AB);grid-row:span 2}
+.about-tile-2{background:linear-gradient(135deg,#D4B896,#C4A882)}
+.about-tile-3{background:linear-gradient(135deg,#B8D4D0,#A2C4BF)}
+.about-tile-label{position:absolute;bottom:16px;left:16px;font-family:var(--display);font-size:11px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:rgba(255,255,255,.8)}
+.about-tile-num{position:absolute;top:16px;right:16px;font-family:var(--display);font-size:28px;font-weight:900;color:rgba(255,255,255,.3)}
+
+/* ─── Services ─── */
+.services{padding:100px 8%;background:var(--off)}
+.services-header{display:flex;align-items:flex-end;justify-content:space-between;margin-bottom:56px;gap:24px}
+.services-header h2{font-size:clamp(32px,3.5vw,48px);max-width:420px}
+.services-header p{font-size:14px;line-height:1.7;color:var(--muted);max-width:300px;text-align:right}
+.services-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:20px}
+.service-card{background:var(--white);border-radius:var(--r);padding:36px 32px;box-shadow:var(--shadow);transition:transform .25s ease,box-shadow .25s ease;position:relative;overflow:hidden}
+.service-card::after{content:'';position:absolute;bottom:0;left:0;right:0;height:3px;background:var(--yellow);transform:scaleX(0);transform-origin:left;transition:transform .3s ease}
+.service-card:hover{transform:translateY(-6px);box-shadow:var(--shadow-lg)}
+.service-card:hover::after{transform:scaleX(1)}
+.service-card:hover .card-arrow{background:var(--yellow)}
+.card-icon{width:52px;height:52px;border-radius:10px;background:var(--mint-lt);display:flex;align-items:center;justify-content:center;margin-bottom:28px}
+.card-icon svg{width:24px;height:24px;stroke:var(--dark);stroke-width:1.5;fill:none}
+.service-card h3{font-size:20px;font-weight:800;margin-bottom:12px}
+.service-card p{font-size:14px;line-height:1.7;color:var(--muted);margin-bottom:28px}
+.card-items{list-style:none;display:flex;flex-direction:column;gap:7px;margin-bottom:32px}
+.card-items li{font-size:13px;color:var(--muted);display:flex;align-items:center;gap:8px}
+.card-items li::before{content:'';width:4px;height:4px;border-radius:50%;background:var(--yellow);flex-shrink:0}
+.card-arrow{width:40px;height:40px;border-radius:50%;background:var(--off);display:flex;align-items:center;justify-content:center;transition:background .25s ease}
+.card-arrow svg{width:16px;height:16px;stroke:var(--dark);stroke-width:2;fill:none}
+
+/* ─── Process ─── */
+.process{padding:100px 8%;background:var(--mint)}
+.process-header{text-align:center;margin-bottom:72px}
+.process-header .eyebrow{margin-bottom:16px;justify-content:center}
+.process-header h2{font-size:clamp(32px,3.5vw,48px)}
+.process-steps{display:grid;grid-template-columns:repeat(4,1fr);gap:0;position:relative}
+.process-steps::before{content:'';position:absolute;top:28px;left:12.5%;right:12.5%;height:2px;background:rgba(19,19,19,.12);z-index:0}
+.process-step{text-align:center;padding:0 20px;position:relative;z-index:1}
+.step-circle{width:56px;height:56px;border-radius:50%;background:var(--white);display:flex;align-items:center;justify-content:center;margin:0 auto 24px;font-family:var(--display);font-size:15px;font-weight:900;color:var(--dark);box-shadow:0 4px 16px rgba(0,0,0,.1);transition:background .25s,color .25s}
+.process-step:hover .step-circle{background:var(--yellow);color:var(--dark)}
+.process-step h3{font-size:16px;font-weight:700;margin-bottom:10px}
+.process-step p{font-size:13px;line-height:1.65;color:rgba(19,19,19,.6)}
+
+/* ─── Testimonials ─── */
+.testimonials{padding:100px 8%;background:var(--white)}
+.testi-header{display:flex;align-items:flex-end;justify-content:space-between;margin-bottom:60px}
+.testi-header h2{font-size:clamp(32px,3.5vw,48px)}
+.testi-count{font-family:var(--display);font-size:13px;font-weight:700;letter-spacing:.06em;color:var(--muted)}
+.testi-wrap{display:grid;grid-template-columns:260px 1fr;gap:0;border:1px solid var(--border);border-radius:var(--r);overflow:hidden}
+.tname-list{background:var(--off);padding:8px 0}
+.tname-btn{width:100%;padding:20px 28px;background:none;border:none;cursor:pointer;text-align:left;position:relative;transition:background .2s}
+.tname-btn::after{content:'';position:absolute;bottom:0;left:28px;right:28px;height:1px;background:var(--border)}
+.tname-btn:last-child::after{display:none}
+.tname-btn:hover{background:rgba(0,0,0,.025)}
+.tname-btn.active{background:var(--white)}
+.tname-btn.active::before{content:'';position:absolute;left:0;top:0;bottom:0;width:3px;background:var(--yellow)}
+.tname-name{font-family:var(--display);font-size:14px;font-weight:700;color:var(--dark);margin-bottom:3px}
+.tname-role{font-size:11px;color:var(--muted)}
+.testi-quote-wrap{padding:52px 56px;display:flex;flex-direction:column;justify-content:center}
+.testi-stars{display:flex;gap:4px;margin-bottom:24px}
+.testi-stars span{color:var(--yellow);font-size:16px}
+blockquote{font-size:clamp(17px,2vw,22px);font-style:italic;line-height:1.65;color:var(--dark);font-weight:300;margin-bottom:32px;max-width:600px}
+blockquote::before{content:'\201C';font-size:60px;font-family:var(--display);font-weight:900;color:var(--mint-dk);line-height:.8;display:block;margin-bottom:12px}
+.testi-author{display:flex;align-items:center;gap:16px}
+.testi-avatar{width:48px;height:48px;border-radius:50%;background:var(--mint);display:flex;align-items:center;justify-content:center;font-family:var(--display);font-size:15px;font-weight:900;color:var(--dark);flex-shrink:0}
+.testi-author-name{font-family:var(--display);font-size:14px;font-weight:700}
+.testi-author-loc{font-size:12px;color:var(--muted);margin-top:2px}
+
+/* ─── CTA ─── */
+.cta-section{padding:100px 8%;background:var(--dark);display:grid;grid-template-columns:1fr auto;gap:60px;align-items:center}
+.cta-left h2{font-size:clamp(32px,4vw,56px);color:var(--white);max-width:520px;margin-bottom:16px}
+.cta-left p{font-size:15px;color:rgba(255,255,255,.5);max-width:440px;line-height:1.7}
+.cta-right{display:flex;flex-direction:column;align-items:center;gap:20px;flex-shrink:0}
+.cta-phone{font-family:var(--display);font-size:20px;font-weight:900;color:var(--white);letter-spacing:-.01em}
+.cta-phone-label{font-size:11px;color:rgba(255,255,255,.4);text-align:center;margin-top:4px;letter-spacing:.08em;text-transform:uppercase}
+
+/* ─── Footer ─── */
+footer{background:#0D0D0D;padding:64px 8% 32px;color:rgba(255,255,255,.5)}
+.footer-top{display:grid;grid-template-columns:1.5fr 1fr 1fr 1fr;gap:48px;margin-bottom:56px}
+.footer-brand .nav-logo{color:var(--white);margin-bottom:16px}
+.footer-brand .nav-logo .logo-mark{background:var(--yellow)}
+.footer-brand .nav-logo .logo-mark span{color:var(--dark)}
+.footer-brand p{font-size:13px;line-height:1.75;max-width:260px}
+.footer-col h4{font-family:var(--display);font-size:12px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--white);margin-bottom:20px}
+.footer-col ul{list-style:none;display:flex;flex-direction:column;gap:10px}
+.footer-col ul li a{font-size:13px;transition:color .2s}
+.footer-col ul li a:hover{color:var(--white)}
+.footer-bottom{border-top:1px solid rgba(255,255,255,.08);padding-top:28px;display:flex;align-items:center;justify-content:space-between}
+.footer-bottom p{font-size:12px}
+.footer-bottom .yellow-dot{color:var(--yellow)}
+
+/* ─── Scroll animation ─── */
+.reveal{opacity:0;transform:translateY(28px);transition:opacity .65s ease,transform .65s ease}
+.reveal.visible{opacity:1;transform:none}
+
+/* ─── Section label row ─── */
+.section-label{display:flex;align-items:center;gap:10px;margin-bottom:16px}
+.section-label .bracket{font-family:var(--display);font-size:12px;font-weight:700;color:var(--muted);letter-spacing:.08em}
+
+/* ─── Responsive ─── */
+@media(max-width:1024px){
+  .hero{grid-template-columns:1fr;min-height:auto;padding-bottom:60px}
+  .hero-right{height:340px}
+  .hero-card{left:20px;bottom:20px}
+  .about{grid-template-columns:1fr;gap:60px}
+  .about-right{height:300px}
+  .services-grid{grid-template-columns:1fr 1fr}
+  .process-steps{grid-template-columns:1fr 1fr;gap:40px}
+  .process-steps::before{display:none}
+  .cta-section{grid-template-columns:1fr;gap:40px}
+  .footer-top{grid-template-columns:1fr 1fr}
+}
+@media(max-width:768px){
+  .nav-links{display:none}
+  .hero-left{padding:60px 6% 60px}
+  .services-grid{grid-template-columns:1fr}
+  .testi-wrap{grid-template-columns:1fr}
+  .tname-list{display:flex;overflow-x:auto}
+  .tname-btn{min-width:160px}
+  .cta-section{padding:80px 6%}
+  .footer-top{grid-template-columns:1fr}
+  .footer-bottom{flex-direction:column;gap:12px;text-align:center}
+}
+</style>
+</head>
+<body>
+
+<!-- ─── Navigation ─── -->
+<nav id="nav">
+  <div class="nav-logo">
+    <div class="logo-mark"><span>AAG</span></div>
+    AAG Services
+  </div>
+  <ul class="nav-links">
+    <li><a href="#about">About</a></li>
+    <li><a href="#services">Services</a></li>
+    <li><a href="#process">Process</a></li>
+    <li><a href="#testimonials">Reviews</a></li>
+  </ul>
+  <div class="nav-cta">
+    <a href="tel:7788721467" class="btn-outline">Call (778) 872-1467</a>
+    <a href="#cta" class="btn-arrowcircle" style="font-size:12px;padding:11px 16px 11px 20px">
+      Get A Quote
+      <span class="ac"><svg viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M2 7h10M8 3l4 4-4 4"/></svg></span>
+    </a>
+  </div>
+</nav>
+
+<!-- ─── Hero ─── -->
+<section class="hero">
+  <div class="hero-left">
+    <div class="hero-eyebrow">
+      <span class="dot"></span>
+      <span class="eyebrow">[ Vancouver Construction &amp; Renovation ]</span>
+    </div>
+    <h1>We Build<br>Vancouver<br><em>Better.</em></h1>
+    <p class="hero-sub">Premium renovation and construction services for residential and commercial clients across Metro Vancouver — on time, on budget, on standard.</p>
+    <div class="hero-actions">
+      <a href="#cta" class="btn-arrowcircle">
+        Get A Free Quote
+        <span class="ac"><svg viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M2 7h10M8 3l4 4-4 4"/></svg></span>
+      </a>
+      <div class="hero-phone">
+        <div>Call anytime</div>
+        <strong>(778) 872-1467</strong>
+      </div>
+    </div>
+    <div class="plus-mark">+ Renovation · Finishing · New Builds</div>
+  </div>
+  <div class="hero-right">
+    <div class="hero-wall"></div>
+    <div class="hero-floor"></div>
+    <div class="hero-window"></div>
+    <div class="hero-beam"></div>
+    <div class="hero-accent-block"></div>
+    <div class="hero-card">
+      <div class="hero-card-label">Projects Completed</div>
+      <div class="hero-card-stat">150<sup>+</sup></div>
+      <div class="hero-card-desc">Residential &amp; commercial across Metro Vancouver</div>
+      <div class="hero-card-divider"></div>
+      <div class="hero-card-row">
+        <div>
+          <div class="hero-card-mini">12+</div>
+          <div class="hero-card-mini-label">Years Active</div>
+        </div>
+        <div style="text-align:right">
+          <div class="hero-card-mini">98%</div>
+          <div class="hero-card-mini-label">Satisfaction</div>
+        </div>
+      </div>
+    </div>
+    <div class="social-rail">
+      <a href="#" aria-label="Instagram">
+        <svg viewBox="0 0 24 24"><rect x="2" y="2" width="20" height="20" rx="5" ry="5" stroke="var(--dark)" stroke-width="2" fill="none"/><circle cx="12" cy="12" r="5" stroke="var(--dark)" stroke-width="2" fill="none"/><circle cx="17.5" cy="6.5" r="1.5" fill="var(--dark)" stroke="none"/></svg>
+      </a>
+      <a href="#" aria-label="Facebook">
+        <svg viewBox="0 0 24 24"><path d="M18 2h-3a5 5 0 00-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 011-1h3z" stroke="var(--dark)" stroke-width="2" fill="none"/></svg>
+      </a>
+      <a href="#" aria-label="LinkedIn">
+        <svg viewBox="0 0 24 24"><rect x="2" y="9" width="4" height="12" stroke="var(--dark)" stroke-width="2" fill="none"/><circle cx="4" cy="4" r="2" stroke="var(--dark)" stroke-width="2" fill="none"/><path d="M16 8a6 6 0 016 6v7h-4v-7a2 2 0 00-2-2 2 2 0 00-2 2v7h-4V9h4v2" stroke="var(--dark)" stroke-width="2" fill="none"/></svg>
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- ─── Ticker ─── -->
+<div class="ticker">
+  <div class="ticker-inner" id="ticker-inner">
+    <span class="ticker-item"><span class="tick-dot"></span><strong>Renovation</strong> · Full · Basement · Kitchen · Bathroom</span>
+    <span class="ticker-item"><span class="tick-dot"></span><strong>Finishing</strong> · Tile · Hardwood · Drywall · Painting</span>
+    <span class="ticker-item"><span class="tick-dot"></span><strong>Property Development</strong> · New Builds · Subdividing</span>
+    <span class="ticker-item"><span class="tick-dot"></span><strong>Vancouver</strong> · Burnaby · Surrey · North Shore</span>
+    <span class="ticker-item"><span class="tick-dot"></span><strong>Renovation</strong> · Full · Basement · Kitchen · Bathroom</span>
+    <span class="ticker-item"><span class="tick-dot"></span><strong>Finishing</strong> · Tile · Hardwood · Drywall · Painting</span>
+    <span class="ticker-item"><span class="tick-dot"></span><strong>Property Development</strong> · New Builds · Subdividing</span>
+    <span class="ticker-item"><span class="tick-dot"></span><strong>Vancouver</strong> · Burnaby · Surrey · North Shore</span>
+  </div>
+</div>
+
+<!-- ─── About ─── -->
+<section class="about" id="about">
+  <div class="about-left reveal">
+    <div class="section-label">
+      <span class="bracket">[ About AAG ]</span>
+    </div>
+    <h2>Built on Quality.<br>Driven by Craft.</h2>
+    <p>At AAG Services Construction, we specialize in delivering high-quality construction and renovation services tailored to the unique needs of Vancouver homeowners and commercial clients — combining innovative design with functional, cost-effective solutions.</p>
+    <a href="#cta" class="btn-arrowcircle">
+      Start Your Project
+      <span class="ac"><svg viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M2 7h10M8 3l4 4-4 4"/></svg></span>
+    </a>
+    <div class="stats-grid" style="margin-top:48px">
+      <div class="stat-item">
+        <div class="stat-num">150<sup>+</sup></div>
+        <div class="stat-label">Projects Done</div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-num">12<sup>+</sup></div>
+        <div class="stat-label">Years Experience</div>
+      </div>
+      <div class="stat-item" style="border-top:3px solid var(--yellow);margin-top:0;padding-top:24px">
+        <div class="stat-num">98<sup>%</sup></div>
+        <div class="stat-label">Client Satisfaction</div>
+      </div>
+      <div class="stat-item" style="border-top:3px solid var(--yellow);margin-top:0;padding-top:24px">
+        <div class="stat-num">3</div>
+        <div class="stat-label">Service Divisions</div>
+      </div>
+    </div>
+  </div>
+  <div class="about-right reveal">
+    <div class="about-tile about-tile-1">
+      <div class="about-tile-num">01</div>
+      <div class="about-tile-label">Renovation</div>
+    </div>
+    <div class="about-tile about-tile-2">
+      <div class="about-tile-num">02</div>
+      <div class="about-tile-label">Finishing</div>
+    </div>
+    <div class="about-tile about-tile-3">
+      <div class="about-tile-num">03</div>
+      <div class="about-tile-label">Development</div>
+    </div>
+  </div>
+</section>
+
+<!-- ─── Services ─── -->
+<section class="services" id="services">
+  <div class="services-header reveal">
+    <div>
+      <div class="section-label"><span class="bracket">[ What We Do ]</span></div>
+      <h2>Three Divisions,<br>One Standard.</h2>
+    </div>
+    <p>Every project is managed end-to-end with transparent communication, sustainable practices, and advanced safety protocols.</p>
+  </div>
+  <div class="services-grid">
+    <div class="service-card reveal">
+      <div class="card-icon">
+        <svg viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+      </div>
+      <h3>Renovation Services</h3>
+      <p>Full-scope interior transformations for every room — from structural overhauls to cosmetic refreshes.</p>
+      <ul class="card-items">
+        <li>Full Home Renovation</li>
+        <li>Basement Renovation</li>
+        <li>Kitchen &amp; Bathroom Renovation</li>
+        <li>Fireplace &amp; Stairs Renovation</li>
+      </ul>
+      <div class="card-arrow">
+        <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 8h10M9 4l4 4-4 4"/></svg>
+      </div>
+    </div>
+    <div class="service-card reveal">
+      <div class="card-icon">
+        <svg viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M9 21V9"/></svg>
+      </div>
+      <h3>Finishing Services</h3>
+      <p>The final details that define a space — premium materials installed to exacting standards.</p>
+      <ul class="card-items">
+        <li>Tile &amp; Stone Installation</li>
+        <li>Hardwood, Laminate &amp; Vinyl</li>
+        <li>Drywall &amp; Mudding</li>
+        <li>Interior Painting</li>
+      </ul>
+      <div class="card-arrow">
+        <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 8h10M9 4l4 4-4 4"/></svg>
+      </div>
+    </div>
+    <div class="service-card reveal">
+      <div class="card-icon">
+        <svg viewBox="0 0 24 24"><polygon points="12 2 2 7 12 12 22 7 12 2"/><polyline points="2 17 12 22 22 17"/><polyline points="2 12 12 17 22 12"/></svg>
+      </div>
+      <h3>Property Development</h3>
+      <p>From new builds to investment strategies — we guide you through the full development lifecycle.</p>
+      <ul class="card-items">
+        <li>New Build Construction</li>
+        <li>Property Acquisition Guidance</li>
+        <li>Land Subdividing</li>
+        <li>Mortgage Consultation</li>
+      </ul>
+      <div class="card-arrow">
+        <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 8h10M9 4l4 4-4 4"/></svg>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ─── Process ─── -->
+<section class="process" id="process">
+  <div class="process-header reveal">
+    <div class="section-label" style="justify-content:center"><span class="bracket">[ How It Works ]</span></div>
+    <h2>From Concept to Completion</h2>
+  </div>
+  <div class="process-steps">
+    <div class="process-step reveal">
+      <div class="step-circle">01</div>
+      <h3>Free Consultation</h3>
+      <p>We meet on-site to understand your vision, scope, and budget — no obligation, no pressure.</p>
+    </div>
+    <div class="process-step reveal">
+      <div class="step-circle">02</div>
+      <h3>Detailed Quote</h3>
+      <p>A transparent, line-by-line estimate with timeline milestones — no hidden costs, ever.</p>
+    </div>
+    <div class="process-step reveal">
+      <div class="step-circle">03</div>
+      <h3>Expert Execution</h3>
+      <p>Our certified crews build to code with daily progress updates and strict safety protocols.</p>
+    </div>
+    <div class="process-step reveal">
+      <div class="step-circle">04</div>
+      <h3>Final Walkthrough</h3>
+      <p>We hand over your completed space only after you've signed off on every detail.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ─── Testimonials ─── -->
+<section class="testimonials" id="testimonials">
+  <div class="testi-header reveal">
+    <div>
+      <div class="section-label"><span class="bracket">[ Client Reviews ]</span></div>
+      <h2>What Our Clients Say</h2>
+    </div>
+    <div class="testi-count">03 Reviews</div>
+  </div>
+  <div class="testi-wrap reveal">
+    <div class="tname-list" role="tablist">
+      <button class="tname-btn active" role="tab" data-i="0">
+        <div class="tname-name">David M.</div>
+        <div class="tname-role">Homeowner · Burnaby</div>
+      </button>
+      <button class="tname-btn" role="tab" data-i="1">
+        <div class="tname-name">Sarah L.</div>
+        <div class="tname-role">Property Manager · Coquitlam</div>
+      </button>
+      <button class="tname-btn" role="tab" data-i="2">
+        <div class="tname-name">Mike R.</div>
+        <div class="tname-role">Business Owner · Downtown Vancouver</div>
+      </button>
+    </div>
+    <div class="testi-quote-wrap">
+      <div class="testi-stars">
+        <span>★</span><span>★</span><span>★</span><span>★</span><span>★</span>
+      </div>
+      <blockquote id="tq"></blockquote>
+      <div class="testi-author">
+        <div class="testi-avatar" id="tav"></div>
+        <div>
+          <div class="testi-author-name" id="tn"></div>
+          <div class="testi-author-loc" id="tr"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ─── CTA ─── -->
+<section class="cta-section" id="cta">
+  <div class="cta-left reveal">
+    <h2>Ready to Build Something Great?</h2>
+    <p>Get your free, no-obligation quote today. Our team is available Mon–Sat, 7am–6pm across Metro Vancouver.</p>
+  </div>
+  <div class="cta-right reveal">
+    <a class="btn-pill-yellow" href="mailto:aag.services.crltd@gmail.com">
+      Email Us Today
+      <svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 8h10M9 4l4 4-4 4"/></svg>
+    </a>
+    <div>
+      <div class="cta-phone">(778) 872-1467</div>
+      <div class="cta-phone-label">Call anytime</div>
+    </div>
+  </div>
+</section>
+
+<!-- ─── Footer ─── -->
+<footer>
+  <div class="footer-top">
+    <div class="footer-brand">
+      <div class="nav-logo">
+        <div class="logo-mark"><span>AAG</span></div>
+        AAG Services
+      </div>
+      <p>Vancouver's trusted construction and renovation partner — delivering quality, on schedule, every time.</p>
+    </div>
+    <div class="footer-col">
+      <h4>Renovation</h4>
+      <ul>
+        <li><a href="#">Full Renovation</a></li>
+        <li><a href="#">Basement</a></li>
+        <li><a href="#">Kitchen</a></li>
+        <li><a href="#">Bathroom</a></li>
+        <li><a href="#">Fireplace</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h4>Finishing</h4>
+      <ul>
+        <li><a href="#">Tile Installation</a></li>
+        <li><a href="#">Hardwood &amp; Vinyl</a></li>
+        <li><a href="#">Drywall</a></li>
+        <li><a href="#">Painting</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h4>Contact</h4>
+      <ul>
+        <li><a href="tel:7788721467">(778) 872-1467</a></li>
+        <li><a href="mailto:aag.services.crltd@gmail.com">aag.services.crltd<br>@gmail.com</a></li>
+        <li><a href="#">Vancouver, BC</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <p>© 2025 AAG Services Construction<span class="yellow-dot"> · </span>All Rights Reserved</p>
+    <p>Designed by <span style="color:var(--yellow)">NodeAxis</span></p>
+  </div>
+</footer>
+
+<script>
+/* ─── Nav solid on scroll ─── */
+var nav=document.getElementById('nav');
+window.addEventListener('scroll',function(){
+  nav.classList.toggle('solid',window.scrollY>40);
+},{passive:true});
+
+/* ─── Testimonials ─── */
+var data=[
+  {q:"AAG completely transformed our basement into a proper living suite. The crew was professional, cleaned up every day, and finished ahead of schedule. Truly impressive work.",n:"David M.",r:"Homeowner · Burnaby, BC",av:"DM"},
+  {q:"We hired AAG for a full kitchen renovation and couldn't be happier. The tile work is flawless and they stayed exactly on budget. I've already referred them to three neighbours.",n:"Sarah L.",r:"Property Manager · Coquitlam, BC",av:"SL"},
+  {q:"Professional, reliable, and they really know their craft. The commercial fit-out they did for our office came in on time and looks incredible. Will absolutely use them again.",n:"Mike R.",r:"Business Owner · Downtown Vancouver",av:"MR"}
+];
+function setT(i){
+  document.getElementById('tq').textContent=data[i].q;
+  document.getElementById('tn').textContent=data[i].n;
+  document.getElementById('tr').textContent=data[i].r;
+  document.getElementById('tav').textContent=data[i].av;
+  document.querySelectorAll('.tname-btn').forEach(function(b,idx){
+    b.classList.toggle('active',idx===i);
+  });
+}
+setT(0);
+document.querySelectorAll('.tname-btn').forEach(function(btn){
+  btn.addEventListener('click',function(){setT(+this.dataset.i);});
+});
+
+/* ─── Scroll reveal ─── */
+var obs=new IntersectionObserver(function(entries){
+  entries.forEach(function(e){
+    if(e.isIntersecting){e.target.classList.add('visible');obs.unobserve(e.target);}
+  });
+},{threshold:.15});
+document.querySelectorAll('.reveal').forEach(function(el){obs.observe(el);});
+</script>
+</body>
+</html>
