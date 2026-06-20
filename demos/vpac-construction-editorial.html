@@ -1,0 +1,725 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>VPAC Construction Group — We Love to Build</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,400;0,9..144,500;0,9..144,600;1,9..144,400;1,9..144,500&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  *,*::before,*::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root{
+    --paper:  #f4f0e8;
+    --paper2: #ece6da;
+    --ink:    #18191b;
+    --ink2:   #56554f;
+    --clay:   #b5502e;
+    --line:   rgba(24,25,27,0.14);
+    --line2:  rgba(24,25,27,0.08);
+    --disp:   'Fraunces', Georgia, serif;
+    --sans:   'Inter', system-ui, sans-serif;
+    --ease:   cubic-bezier(0.19,1,0.22,1);
+  }
+
+  html{ scroll-behavior:smooth; }
+  body{ font-family:var(--sans); background:var(--paper); color:var(--ink); overflow-x:hidden; -webkit-font-smoothing:antialiased; }
+
+  ::selection{ background:var(--clay); color:var(--paper); }
+
+  .wrap{ max-width:1280px; margin:0 auto; padding:0 48px; }
+
+  /* labels */
+  .label{
+    font-family:var(--sans); font-size:11px; font-weight:600;
+    letter-spacing:0.22em; text-transform:uppercase; color:var(--clay);
+    display:inline-flex; align-items:center; gap:12px;
+  }
+  .label::before{ content:''; width:26px; height:1px; background:var(--clay); display:block; }
+
+  /* ─── NAV ───────────────────────── */
+  #nav{
+    position:fixed; top:0; left:0; right:0; z-index:100;
+    display:flex; align-items:center; justify-content:space-between;
+    padding:26px 48px; transition:padding .4s var(--ease), background .4s var(--ease), border-color .4s;
+    border-bottom:1px solid transparent;
+  }
+  #nav.solid{
+    background:rgba(244,240,232,0.86); backdrop-filter:blur(14px) saturate(1.2);
+    padding:16px 48px; border-bottom:1px solid var(--line2);
+  }
+  .logo{ font-family:var(--disp); font-size:26px; font-weight:500; letter-spacing:-0.01em; color:var(--ink); text-decoration:none; }
+  .logo b{ color:var(--clay); font-weight:500; }
+  .nav-mid{ display:flex; gap:38px; }
+  .nav-mid a{
+    font-size:13px; font-weight:500; color:var(--ink); text-decoration:none; position:relative; opacity:.7;
+    transition:opacity .25s;
+  }
+  .nav-mid a::after{
+    content:''; position:absolute; left:0; bottom:-4px; height:1px; width:100%;
+    background:var(--clay); transform:scaleX(0); transform-origin:right; transition:transform .35s var(--ease);
+  }
+  .nav-mid a:hover{ opacity:1; }
+  .nav-mid a:hover::after{ transform:scaleX(1); transform-origin:left; }
+  .nav-cta{
+    font-family:var(--sans); font-size:12px; font-weight:600; letter-spacing:0.04em;
+    color:var(--paper); background:var(--ink); text-decoration:none;
+    padding:11px 22px; border-radius:100px; transition:background .3s, transform .3s var(--ease);
+    display:inline-flex; align-items:center; gap:8px;
+  }
+  .nav-cta:hover{ background:var(--clay); transform:translateY(-2px); }
+  .nav-cta svg{ width:13px; height:13px; }
+
+  /* ─── HERO ──────────────────────── */
+  #hero{ padding:172px 0 0; position:relative; }
+  .hero-meta{
+    display:flex; justify-content:space-between; align-items:baseline;
+    padding-bottom:22px; border-bottom:1px solid var(--line);
+    font-size:12px; letter-spacing:0.04em; color:var(--ink2);
+  }
+  .hero-meta .r{ display:flex; gap:26px; }
+  .hero-display{ padding:54px 0 30px; }
+  .hero-display h1{
+    font-family:var(--disp); font-weight:300; line-height:0.92; letter-spacing:-0.03em;
+    font-size:clamp(64px, 13vw, 188px); color:var(--ink);
+  }
+  .hero-display h1 em{ font-style:italic; font-weight:400; }
+  .hero-display h1 .clay{ color:var(--clay); }
+  .reveal-line{ display:block; overflow:hidden; }
+  .reveal-line > span{ display:block; transform:translateY(108%); transition:transform 1.05s var(--ease); }
+  .lifted .reveal-line > span{ transform:translateY(0); }
+  .reveal-line:nth-child(2) > span{ transition-delay:.09s; }
+
+  .hero-foot{
+    display:grid; grid-template-columns:1.1fr 1fr; gap:48px; align-items:end;
+    padding:34px 0 64px; border-top:1px solid var(--line);
+  }
+  .hero-lead{ font-size:19px; line-height:1.62; color:var(--ink2); max-width:480px; }
+  .hero-lead b{ color:var(--ink); font-weight:600; }
+  .hero-actions{ display:flex; gap:14px; justify-self:end; align-items:center; }
+
+  .btn-ink, .btn-ghost{
+    font-family:var(--sans); font-size:13px; font-weight:600; letter-spacing:0.03em;
+    text-decoration:none; padding:15px 30px; border-radius:100px; cursor:pointer;
+    display:inline-flex; align-items:center; gap:10px; transition:all .3s var(--ease); border:1px solid transparent;
+  }
+  .btn-ink{ background:var(--ink); color:var(--paper); }
+  .btn-ink:hover{ background:var(--clay); transform:translateY(-2px); }
+  .btn-ghost{ background:transparent; color:var(--ink); border-color:var(--line); }
+  .btn-ghost:hover{ border-color:var(--ink); }
+  .btn-ink svg, .btn-ghost svg{ width:15px; height:15px; }
+
+  /* architectural line drawing */
+  .hero-elevation{ width:100%; height:auto; display:block; margin-top:-10px; }
+  .hero-elevation line, .hero-elevation rect, .hero-elevation path, .hero-elevation circle{
+    vector-effect:non-scaling-stroke;
+  }
+
+  /* ─── MARQUEE STRIP ─────────────── */
+  #strip{ background:var(--ink); color:var(--paper); overflow:hidden; padding:18px 0; }
+  .marq{ display:flex; width:max-content; animation:marq 32s linear infinite; }
+  .marq:hover{ animation-play-state:paused; }
+  .marq span{
+    font-family:var(--disp); font-style:italic; font-weight:400; font-size:24px;
+    white-space:nowrap; padding:0 30px; opacity:.9;
+  }
+  .marq i{ color:var(--clay); font-style:normal; align-self:center; }
+  @keyframes marq{ from{transform:translateX(0);} to{transform:translateX(-50%);} }
+
+  /* ─── SECTION SHELL ─────────────── */
+  section.block{ padding:130px 0; }
+  .sec-head{ display:flex; justify-content:space-between; align-items:flex-end; gap:48px; margin-bottom:64px; }
+  .sec-head h2{
+    font-family:var(--disp); font-weight:300; line-height:0.98; letter-spacing:-0.025em;
+    font-size:clamp(40px, 5.4vw, 76px); color:var(--ink); margin-top:18px;
+  }
+  .sec-head h2 em{ font-style:italic; }
+  .sec-head p{ font-size:16px; line-height:1.65; color:var(--ink2); max-width:380px; }
+
+  /* reveal */
+  .rv{ opacity:0; transform:translateY(34px); transition:opacity .9s var(--ease), transform .9s var(--ease); }
+  .rv.on{ opacity:1; transform:none; }
+  .d1{transition-delay:.08s;} .d2{transition-delay:.16s;} .d3{transition-delay:.24s;} .d4{transition-delay:.32s;}
+
+  /* ─── SECTORS (index rows) ──────── */
+  #sectors{ background:var(--paper); }
+  .idx{ border-top:1px solid var(--line); }
+  .idx-row{
+    display:grid; grid-template-columns:90px 1fr auto; align-items:center; gap:32px;
+    padding:34px 8px; border-bottom:1px solid var(--line); position:relative; cursor:pointer;
+    transition:padding .45s var(--ease);
+  }
+  .idx-row::before{
+    content:''; position:absolute; inset:0; background:var(--ink); transform:scaleY(0); transform-origin:bottom;
+    transition:transform .5s var(--ease); z-index:0;
+  }
+  .idx-row > *{ position:relative; z-index:1; transition:color .4s var(--ease); }
+  .idx-row:hover{ padding-left:24px; }
+  .idx-row:hover::before{ transform:scaleY(1); }
+  .idx-num{ font-family:var(--disp); font-size:18px; color:var(--ink2); font-weight:400; }
+  .idx-title{ font-family:var(--disp); font-weight:300; font-size:clamp(28px,3.6vw,46px); letter-spacing:-0.02em; line-height:1; }
+  .idx-desc{ font-size:14px; color:var(--ink2); max-width:340px; justify-self:end; text-align:right; line-height:1.5; }
+  .idx-arrow{ width:46px; height:46px; border:1px solid var(--line); border-radius:50%; display:flex; align-items:center; justify-content:center; flex-shrink:0; }
+  .idx-arrow svg{ width:18px; height:18px; transition:transform .4s var(--ease); }
+  .idx-row:hover .idx-num{ color:var(--clay); }
+  .idx-row:hover .idx-title{ color:var(--paper); }
+  .idx-row:hover .idx-desc{ color:rgba(244,240,232,.6); }
+  .idx-row:hover .idx-arrow{ border-color:var(--clay); background:var(--clay); }
+  .idx-row:hover .idx-arrow svg{ transform:translate(3px,-3px); stroke:var(--paper); }
+
+  /* ─── ABOUT ─────────────────────── */
+  #about{ background:var(--paper2); }
+  .about-grid{ display:grid; grid-template-columns:1fr 1fr; gap:90px; align-items:start; }
+  .about-lead{ font-family:var(--disp); font-weight:300; font-size:clamp(26px,3vw,38px); line-height:1.28; letter-spacing:-0.01em; color:var(--ink); }
+  .about-lead em{ font-style:italic; color:var(--clay); }
+  .about-body{ font-size:16px; line-height:1.75; color:var(--ink2); margin-top:28px; max-width:460px; }
+  .values{ display:flex; flex-wrap:wrap; gap:10px; margin-top:30px; }
+  .values span{ font-size:12px; font-weight:600; letter-spacing:0.08em; text-transform:uppercase; color:var(--ink); padding:8px 16px; border:1px solid var(--line); border-radius:100px; }
+  .stat-list{ border-top:1px solid var(--line); }
+  .stat-row{ display:flex; align-items:baseline; justify-content:space-between; padding:30px 0; border-bottom:1px solid var(--line); }
+  .stat-num{ font-family:var(--disp); font-weight:300; font-size:clamp(48px,6vw,82px); line-height:1; letter-spacing:-0.03em; }
+  .stat-num sup{ font-size:.4em; color:var(--clay); top:-1.1em; }
+  .stat-lbl{ font-size:13px; color:var(--ink2); text-align:right; max-width:180px; line-height:1.4; }
+
+  /* ─── SERVICES ──────────────────── */
+  #services{ background:var(--paper); }
+  .svc{ border-top:1px solid var(--line); }
+  .svc-row{ display:grid; grid-template-columns:80px 0.9fr 1.3fr auto; gap:36px; align-items:start; padding:42px 8px; border-bottom:1px solid var(--line); transition:background .4s var(--ease); }
+  .svc-row:hover{ background:var(--paper2); }
+  .svc-n{ font-family:var(--disp); font-size:16px; color:var(--clay); padding-top:6px; }
+  .svc-name{ font-family:var(--disp); font-weight:300; font-size:clamp(26px,2.8vw,36px); letter-spacing:-0.02em; line-height:1.05; }
+  .svc-text{ font-size:15px; line-height:1.7; color:var(--ink2); }
+  .svc-tag{ font-size:12px; font-weight:600; letter-spacing:0.06em; text-transform:uppercase; color:var(--ink2); justify-self:end; padding-top:8px; white-space:nowrap; }
+
+  /* ─── PROJECTS ──────────────────── */
+  #projects{ background:var(--paper2); }
+  .pgrid{ display:grid; grid-template-columns:repeat(6,1fr); gap:24px; }
+  figure.proj{ margin:0; position:relative; cursor:pointer; }
+  .proj-frame{
+    position:relative; overflow:hidden; background:var(--paper); border:1px solid var(--line);
+    display:flex; align-items:center; justify-content:center;
+  }
+  .proj-frame svg{ width:62%; height:auto; opacity:.5; transition:transform .8s var(--ease), opacity .5s; }
+  figure.proj:hover .proj-frame svg{ transform:scale(1.06); opacity:.8; }
+  .proj-cap{ display:flex; justify-content:space-between; align-items:flex-start; padding-top:16px; gap:16px; }
+  .proj-name{ font-family:var(--disp); font-weight:400; font-size:20px; letter-spacing:-0.01em; line-height:1.1; }
+  .proj-type{ font-size:11px; font-weight:600; letter-spacing:0.14em; text-transform:uppercase; color:var(--clay); margin-bottom:6px; }
+  .proj-meta{ font-size:13px; color:var(--ink2); text-align:right; white-space:nowrap; padding-top:2px; }
+
+  .proj.big{ grid-column:span 4; }
+  .proj.big .proj-frame{ aspect-ratio:16/10; }
+  .proj.sm{ grid-column:span 2; }
+  .proj.sm .proj-frame{ aspect-ratio:4/5; }
+  .proj.mid{ grid-column:span 3; }
+  .proj.mid .proj-frame{ aspect-ratio:3/2; }
+
+  /* ─── PROCESS ───────────────────── */
+  #process{ background:var(--paper); }
+  .steps{ display:grid; grid-template-columns:repeat(4,1fr); gap:0; border-top:1px solid var(--ink); }
+  .step{ padding:38px 28px 44px; border-right:1px solid var(--line); position:relative; }
+  .step:last-child{ border-right:none; }
+  .step-n{ font-family:var(--disp); font-weight:300; font-size:60px; line-height:1; color:var(--ink); letter-spacing:-0.03em; }
+  .step-n b{ color:var(--clay); font-weight:300; }
+  .step h3{ font-family:var(--sans); font-size:16px; font-weight:600; margin:22px 0 12px; }
+  .step p{ font-size:14px; line-height:1.65; color:var(--ink2); }
+  .step::after{ content:''; position:absolute; top:-1px; left:0; height:3px; width:0; background:var(--clay); transition:width .6s var(--ease); }
+  .step.on::after{ width:100%; }
+
+  /* ─── QUOTE ─────────────────────── */
+  #quote{ background:var(--paper2); text-align:center; }
+  #quote .wrap{ max-width:980px; }
+  .bigq{ font-family:var(--disp); font-weight:300; font-style:italic; font-size:clamp(28px,4.2vw,56px); line-height:1.18; letter-spacing:-0.015em; color:var(--ink); }
+  .bigq .clay{ color:var(--clay); font-style:normal; }
+  .q-mark{ font-family:var(--disp); font-size:90px; line-height:0; color:var(--clay); opacity:.25; display:block; margin-bottom:30px; }
+  .q-author{ margin-top:42px; font-size:13px; font-weight:600; letter-spacing:0.1em; text-transform:uppercase; }
+  .q-co{ font-size:13px; color:var(--ink2); margin-top:6px; }
+
+  /* ─── CTA (dark) ────────────────── */
+  #cta{ background:var(--ink); color:var(--paper); padding:140px 0; }
+  #cta .wrap{ text-align:center; }
+  #cta .label{ color:var(--clay); justify-content:center; }
+  #cta .label::before{ background:var(--clay); }
+  .cta-h{ font-family:var(--disp); font-weight:300; font-size:clamp(44px,7vw,108px); line-height:0.98; letter-spacing:-0.03em; margin:26px 0 16px; }
+  .cta-h em{ font-style:italic; }
+  .cta-h .clay{ color:var(--clay); }
+  .cta-sub{ font-size:18px; color:rgba(244,240,232,.55); margin-bottom:48px; }
+  .cta-row{ display:flex; justify-content:center; gap:16px; flex-wrap:wrap; }
+  #cta .btn-ink{ background:var(--paper); color:var(--ink); }
+  #cta .btn-ink:hover{ background:var(--clay); color:var(--paper); }
+  #cta .btn-ghost{ color:var(--paper); border-color:rgba(244,240,232,.25); }
+  #cta .btn-ghost:hover{ border-color:var(--paper); }
+
+  /* ─── FOOTER ────────────────────── */
+  #footer{ background:var(--ink); color:var(--paper); padding:70px 0 40px; border-top:1px solid rgba(244,240,232,.1); }
+  .ft-top{ display:grid; grid-template-columns:2fr 1fr 1fr 1fr; gap:48px; padding-bottom:60px; }
+  .ft-logo{ font-family:var(--disp); font-size:30px; font-weight:400; margin-bottom:16px; }
+  .ft-logo b{ color:var(--clay); }
+  .ft-tag{ font-size:14px; line-height:1.6; color:rgba(244,240,232,.45); max-width:280px; }
+  .ft-col h4{ font-size:11px; font-weight:600; letter-spacing:0.18em; text-transform:uppercase; color:var(--clay); margin-bottom:20px; }
+  .ft-col a{ display:block; font-size:14px; color:rgba(244,240,232,.55); text-decoration:none; margin-bottom:11px; transition:color .25s; }
+  .ft-col a:hover{ color:var(--paper); }
+  .ft-bottom{ display:flex; justify-content:space-between; align-items:center; padding-top:30px; border-top:1px solid rgba(244,240,232,.1); font-size:12px; color:rgba(244,240,232,.35); }
+
+  /* ─── RESPONSIVE ────────────────── */
+  @media(max-width:1000px){
+    .hero-foot{ grid-template-columns:1fr; gap:30px; }
+    .hero-actions{ justify-self:start; }
+    .about-grid{ grid-template-columns:1fr; gap:54px; }
+    .pgrid{ grid-template-columns:repeat(2,1fr); }
+    .proj.big,.proj.sm,.proj.mid{ grid-column:span 2; }
+    .proj.big .proj-frame,.proj.mid .proj-frame{ aspect-ratio:3/2; }
+    .proj.sm .proj-frame{ aspect-ratio:1/1; }
+    .steps{ grid-template-columns:1fr 1fr; }
+    .step:nth-child(2){ border-right:none; }
+    .step{ border-bottom:1px solid var(--line); }
+    .idx-row{ grid-template-columns:60px 1fr auto; }
+    .idx-desc{ display:none; }
+  }
+  @media(max-width:640px){
+    .wrap{ padding:0 22px; }
+    #nav{ padding:18px 22px; } #nav.solid{ padding:13px 22px; }
+    .nav-mid{ display:none; }
+    #hero{ padding:128px 0 0; }
+    .hero-meta .r{ gap:14px; } .hero-meta{ font-size:10px; }
+    section.block{ padding:84px 0; }
+    .sec-head{ flex-direction:column; align-items:flex-start; gap:18px; margin-bottom:44px; }
+    .svc-row{ grid-template-columns:1fr; gap:12px; }
+    .svc-tag{ justify-self:start; }
+    .pgrid{ grid-template-columns:1fr; }
+    .proj.big,.proj.sm,.proj.mid{ grid-column:span 1; }
+    .steps{ grid-template-columns:1fr; }
+    .step{ border-right:none; }
+    .ft-top{ grid-template-columns:1fr 1fr; gap:34px; }
+    .ft-bottom{ flex-direction:column; gap:10px; text-align:center; }
+    .stat-num{ font-size:60px; }
+  }
+  @media(prefers-reduced-motion:reduce){
+    .rv{ opacity:1; transform:none; }
+    .reveal-line > span{ transform:none; }
+    .marq{ animation:none; }
+  }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav id="nav">
+  <a href="#" class="logo">VPAC<b>.</b></a>
+  <div class="nav-mid">
+    <a href="#sectors">Sectors</a>
+    <a href="#about">Studio</a>
+    <a href="#services">Services</a>
+    <a href="#projects">Work</a>
+  </div>
+  <a href="#cta" class="nav-cta">
+    Start a Project
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="7" y1="17" x2="17" y2="7"/><polyline points="7 7 17 7 17 17"/></svg>
+  </a>
+</nav>
+
+<!-- HERO -->
+<header id="hero">
+  <div class="wrap">
+    <div class="hero-meta">
+      <span>VPAC Construction Group Ltd.</span>
+      <div class="r">
+        <span>Vancouver, BC</span>
+        <span>Est. 2000</span>
+        <span>Index № 01</span>
+      </div>
+    </div>
+
+    <div class="hero-display" id="heroDisp">
+      <h1>
+        <span class="reveal-line"><span>We love</span></span>
+        <span class="reveal-line"><span>to <em class="clay">build.</em></span></span>
+      </h1>
+    </div>
+
+    <div class="hero-foot">
+      <p class="hero-lead">
+        For over two decades, VPAC has delivered <b>multi-family, corporate, industrial, and senior-living</b> projects across Western Canada — with unmatched attention to detail and a genuine love for the craft.
+      </p>
+      <div class="hero-actions">
+        <a href="#projects" class="btn-ink">
+          View Our Work
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+        </a>
+        <a href="#cta" class="btn-ghost">Start a Project</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- architectural elevation line drawing -->
+  <svg class="hero-elevation" viewBox="0 0 1440 150" preserveAspectRatio="xMidYMax meet" fill="none" stroke="rgba(24,25,27,0.22)" stroke-width="1">
+    <line x1="0" y1="149" x2="1440" y2="149"/>
+    <!-- low block left -->
+    <rect x="60" y="92" width="190" height="57"/>
+    <line x1="60" y1="108" x2="250" y2="108"/>
+    <line x1="98" y1="92" x2="98" y2="149"/><line x1="136" y1="92" x2="136" y2="149"/><line x1="174" y1="92" x2="174" y2="149"/><line x1="212" y1="92" x2="212" y2="149"/>
+    <!-- mid tower -->
+    <rect x="300" y="40" width="150" height="109"/>
+    <line x1="300" y1="62" x2="450" y2="62"/><line x1="300" y1="84" x2="450" y2="84"/><line x1="300" y1="106" x2="450" y2="106"/><line x1="300" y1="128" x2="450" y2="128"/>
+    <line x1="337" y1="40" x2="337" y2="149"/><line x1="375" y1="40" x2="375" y2="149"/><line x1="413" y1="40" x2="413" y2="149"/>
+    <!-- tall tower (clay accent) -->
+    <rect x="500" y="8" width="120" height="141" stroke="#b5502e"/>
+    <line x1="500" y1="34" x2="620" y2="34" stroke="#b5502e"/><line x1="500" y1="60" x2="620" y2="60" stroke="#b5502e"/><line x1="500" y1="86" x2="620" y2="86" stroke="#b5502e"/><line x1="500" y1="112" x2="620" y2="112" stroke="#b5502e"/>
+    <line x1="540" y1="8" x2="540" y2="149" stroke="#b5502e"/><line x1="580" y1="8" x2="580" y2="149" stroke="#b5502e"/>
+    <!-- wide block -->
+    <rect x="670" y="70" width="240" height="79"/>
+    <line x1="670" y1="96" x2="910" y2="96"/><line x1="670" y1="122" x2="910" y2="122"/>
+    <line x1="718" y1="70" x2="718" y2="149"/><line x1="766" y1="70" x2="766" y2="149"/><line x1="814" y1="70" x2="814" y2="149"/><line x1="862" y1="70" x2="862" y2="149"/>
+    <!-- pitched roof block -->
+    <path d="M960 149 V96 L1020 64 L1080 96 V149"/>
+    <line x1="960" y1="120" x2="1080" y2="120"/>
+    <!-- crane -->
+    <line x1="1180" y1="149" x2="1180" y2="22"/>
+    <line x1="1120" y1="40" x2="1320" y2="40"/>
+    <line x1="1180" y1="22" x2="1140" y2="40"/><line x1="1180" y1="22" x2="1230" y2="40"/>
+    <line x1="1300" y1="40" x2="1300" y2="70"/>
+    <line x1="1140" y1="40" x2="1170" y2="55"/>
+    <!-- right block -->
+    <rect x="1360" y="84" width="80" height="65"/>
+    <line x1="1360" y1="108" x2="1440" y2="108"/>
+  </svg>
+</header>
+
+<!-- MARQUEE -->
+<div id="strip">
+  <div class="marq">
+    <span>Coquitlam College</span><span><i>✶</i></span>
+    <span>Best Buy Canada HQ</span><span><i>✶</i></span>
+    <span>Amica Somerset House</span><span><i>✶</i></span>
+    <span>Sienna Senior Living</span><span><i>✶</i></span>
+    <span>Ashlu Development</span><span><i>✶</i></span>
+    <span>26West</span><span><i>✶</i></span>
+    <span>Coquitlam College</span><span><i>✶</i></span>
+    <span>Best Buy Canada HQ</span><span><i>✶</i></span>
+    <span>Amica Somerset House</span><span><i>✶</i></span>
+    <span>Sienna Senior Living</span><span><i>✶</i></span>
+    <span>Ashlu Development</span><span><i>✶</i></span>
+    <span>26West</span><span><i>✶</i></span>
+  </div>
+</div>
+
+<!-- SECTORS -->
+<section class="block" id="sectors">
+  <div class="wrap">
+    <div class="sec-head">
+      <div>
+        <div class="label rv">Where We Build</div>
+        <h2 class="rv d1">Four sectors, <em>decades</em><br>of specialized craft.</h2>
+      </div>
+      <p class="rv d2">Each sector carries its own demands. We bring dedicated, senior-level expertise to all four.</p>
+    </div>
+
+    <div class="idx rv d1">
+      <div class="idx-row">
+        <div class="idx-num">01</div>
+        <div class="idx-title">Multi-Family Residential</div>
+        <div class="idx-desc">From 40-unit townhomes to 67-unit mixed-use developments.</div>
+        <div class="idx-arrow"><svg viewBox="0 0 24 24" fill="none" stroke="#18191b" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><line x1="7" y1="17" x2="17" y2="7"/><polyline points="7 7 17 7 17 17"/></svg></div>
+      </div>
+      <div class="idx-row">
+        <div class="idx-num">02</div>
+        <div class="idx-title">Corporate & Institutional</div>
+        <div class="idx-desc">Campus builds and tenant improvements — delivered live, with zero disruption.</div>
+        <div class="idx-arrow"><svg viewBox="0 0 24 24" fill="none" stroke="#18191b" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><line x1="7" y1="17" x2="17" y2="7"/><polyline points="7 7 17 7 17 17"/></svg></div>
+      </div>
+      <div class="idx-row">
+        <div class="idx-num">03</div>
+        <div class="idx-title">Specialized Industrial</div>
+        <div class="idx-desc">Turnkey facilities engineered for operational precision.</div>
+        <div class="idx-arrow"><svg viewBox="0 0 24 24" fill="none" stroke="#18191b" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><line x1="7" y1="17" x2="17" y2="7"/><polyline points="7 7 17 7 17 17"/></svg></div>
+      </div>
+      <div class="idx-row">
+        <div class="idx-num">04</div>
+        <div class="idx-title">Senior Living & Care</div>
+        <div class="idx-desc">The Lower Mainland's most trusted builder for seniors housing.</div>
+        <div class="idx-arrow"><svg viewBox="0 0 24 24" fill="none" stroke="#18191b" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><line x1="7" y1="17" x2="17" y2="7"/><polyline points="7 7 17 7 17 17"/></svg></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ABOUT -->
+<section class="block" id="about">
+  <div class="wrap">
+    <div class="about-grid">
+      <div>
+        <div class="label rv">The Studio</div>
+        <p class="about-lead rv d1" style="margin-top:22px;">
+          We're a team of <em>60+ builders</em> who believe construction is a relationship business first — and a craft second to none.
+        </p>
+        <p class="about-body rv d2">
+          For over 25 years, VPAC Construction Group has been the trusted choice for developers, institutions, and operators across British Columbia. Our leadership team averages 25 years of experience, and with a Certified Energy Manager on staff, we're built for today's sustainability demands and tomorrow's standards.
+        </p>
+        <div class="values rv d2">
+          <span>People</span><span>Passion</span><span>Progress</span><span>Trust</span>
+        </div>
+      </div>
+      <div class="rv d2">
+        <div class="stat-list">
+          <div class="stat-row">
+            <div class="stat-num"><span class="cnt" data-to="25">0</span><sup>+</sup></div>
+            <div class="stat-lbl">Years building across Western Canada</div>
+          </div>
+          <div class="stat-row">
+            <div class="stat-num"><span class="cnt" data-to="60">0</span><sup>+</sup></div>
+            <div class="stat-lbl">Professionals on the team</div>
+          </div>
+          <div class="stat-row">
+            <div class="stat-num"><span class="cnt" data-to="100">0</span><sup>+</sup></div>
+            <div class="stat-lbl">Projects delivered on time & on budget</div>
+          </div>
+          <div class="stat-row">
+            <div class="stat-num"><span class="cnt" data-to="112">0</span><sup>k</sup></div>
+            <div class="stat-lbl">Sq. ft. — our largest single build</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SERVICES -->
+<section class="block" id="services">
+  <div class="wrap">
+    <div class="sec-head">
+      <div>
+        <div class="label rv">How We Engage</div>
+        <h2 class="rv d1">Three ways<br>we <em>partner</em>.</h2>
+      </div>
+      <p class="rv d2">Whichever path fits your project, total accountability stays with us from first sketch to final handover.</p>
+    </div>
+
+    <div class="svc rv d1">
+      <div class="svc-row">
+        <div class="svc-n">01</div>
+        <div class="svc-name">Construction Management</div>
+        <div class="svc-text">Acting as your expert advocate, we coordinate every trade, timeline, and cost — with full transparency from pre-construction through closeout.</div>
+        <div class="svc-tag">Advisory · Oversight</div>
+      </div>
+      <div class="svc-row">
+        <div class="svc-n">02</div>
+        <div class="svc-name">Design-Build</div>
+        <div class="svc-text">One team, one contract, total accountability. Our integrated model collapses timelines and eliminates the gaps between design and construction.</div>
+        <div class="svc-tag">Integrated · Turnkey</div>
+      </div>
+      <div class="svc-row">
+        <div class="svc-n">03</div>
+        <div class="svc-name">General Contracting</div>
+        <div class="svc-text">25+ years of hands-on excellence — every subcontractor and site operation managed with discipline and an obsession for quality.</div>
+        <div class="svc-tag">Execution · Delivery</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PROJECTS -->
+<section class="block" id="projects">
+  <div class="wrap">
+    <div class="sec-head">
+      <div>
+        <div class="label rv">Selected Work</div>
+        <h2 class="rv d1">Projects that<br><em>define</em> us.</h2>
+      </div>
+      <a href="#" class="btn-ghost rv d2" style="align-self:center;">
+        View All Projects
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+      </a>
+    </div>
+
+    <div class="pgrid">
+      <!-- big -->
+      <figure class="proj big rv d1">
+        <div class="proj-frame">
+          <svg viewBox="0 0 200 120" fill="none" stroke="#18191b" stroke-width="1.2">
+            <rect x="20" y="30" width="70" height="80"/><line x1="20" y1="50" x2="90" y2="50"/><line x1="20" y1="70" x2="90" y2="70"/><line x1="20" y1="90" x2="90" y2="90"/><line x1="43" y1="30" x2="43" y2="110"/><line x1="66" y1="30" x2="66" y2="110"/>
+            <rect x="100" y="14" width="58" height="96" stroke="#b5502e"/><line x1="100" y1="38" x2="158" y2="38" stroke="#b5502e"/><line x1="100" y1="62" x2="158" y2="62" stroke="#b5502e"/><line x1="100" y1="86" x2="158" y2="86" stroke="#b5502e"/><line x1="129" y1="14" x2="129" y2="110" stroke="#b5502e"/>
+            <line x1="10" y1="110" x2="180" y2="110"/>
+          </svg>
+        </div>
+        <figcaption class="proj-cap">
+          <div><div class="proj-type">Senior Living</div><div class="proj-name">Amica Somerset House</div></div>
+          <div class="proj-meta">112,000 sq.ft.<br>Vancouver, BC</div>
+        </figcaption>
+      </figure>
+      <!-- sm -->
+      <figure class="proj sm rv d2">
+        <div class="proj-frame">
+          <svg viewBox="0 0 120 150" fill="none" stroke="#18191b" stroke-width="1.2">
+            <path d="M20 140 V60 L60 30 L100 60 V140"/><line x1="20" y1="90" x2="100" y2="90"/><line x1="20" y1="115" x2="100" y2="115"/><line x1="60" y1="30" x2="60" y2="140"/>
+            <line x1="10" y1="140" x2="110" y2="140"/>
+          </svg>
+        </div>
+        <figcaption class="proj-cap">
+          <div><div class="proj-type">Education</div><div class="proj-name">Coquitlam College</div></div>
+          <div class="proj-meta">3-storey<br>Coquitlam</div>
+        </figcaption>
+      </figure>
+      <!-- mid -->
+      <figure class="proj mid rv d1">
+        <div class="proj-frame">
+          <svg viewBox="0 0 180 120" fill="none" stroke="#18191b" stroke-width="1.2">
+            <rect x="20" y="40" width="140" height="70"/><line x1="20" y1="62" x2="160" y2="62"/><line x1="20" y1="84" x2="160" y2="84"/><line x1="55" y1="40" x2="55" y2="110"/><line x1="90" y1="40" x2="90" y2="110"/><line x1="125" y1="40" x2="125" y2="110"/>
+            <line x1="10" y1="110" x2="170" y2="110"/>
+          </svg>
+        </div>
+        <figcaption class="proj-cap">
+          <div><div class="proj-type">Corporate Interiors</div><div class="proj-name">Best Buy Canada HQ</div></div>
+          <div class="proj-meta">70,000 sq.ft.<br>Burnaby</div>
+        </figcaption>
+      </figure>
+      <!-- mid -->
+      <figure class="proj mid rv d2">
+        <div class="proj-frame">
+          <svg viewBox="0 0 180 120" fill="none" stroke="#18191b" stroke-width="1.2">
+            <rect x="20" y="55" width="60" height="55"/><rect x="80" y="30" width="50" height="80" stroke="#b5502e"/><rect x="130" y="68" width="30" height="42"/>
+            <line x1="20" y1="78" x2="80" y2="78"/><line x1="80" y1="55" x2="130" y2="55" stroke="#b5502e"/><line x1="80" y1="80" x2="130" y2="80" stroke="#b5502e"/>
+            <line x1="10" y1="110" x2="170" y2="110"/>
+          </svg>
+        </div>
+        <figcaption class="proj-cap">
+          <div><div class="proj-type">Multi-Family</div><div class="proj-name">Ashlu Mixed-Use</div></div>
+          <div class="proj-meta">67 units<br>Vancouver</div>
+        </figcaption>
+      </figure>
+    </div>
+  </div>
+</section>
+
+<!-- PROCESS -->
+<section class="block" id="process">
+  <div class="wrap">
+    <div class="sec-head">
+      <div>
+        <div class="label rv">How We Deliver</div>
+        <h2 class="rv d1">A process built<br>on <em>certainty</em>.</h2>
+      </div>
+      <p class="rv d2">No surprises. Every phase is structured to protect your budget, your schedule, and your peace of mind.</p>
+    </div>
+
+    <div class="steps rv d1">
+      <div class="step">
+        <div class="step-n">0<b>1</b></div>
+        <h3>Discovery & Pre-Construction</h3>
+        <p>We start by understanding your goals — reviewing scope, site, budget, and schedule before a shovel breaks ground.</p>
+      </div>
+      <div class="step">
+        <div class="step-n">0<b>2</b></div>
+        <h3>Planning & Value Engineering</h3>
+        <p>We surface cost-saving opportunities without compromising quality — delivering real time and budget savings.</p>
+      </div>
+      <div class="step">
+        <div class="step-n">0<b>3</b></div>
+        <h3>Construction & Site Management</h3>
+        <p>Precision execution with full transparency. Every trade managed to keep you on schedule and on budget.</p>
+      </div>
+      <div class="step">
+        <div class="step-n">0<b>4</b></div>
+        <h3>Handover & Commissioning</h3>
+        <p>We ensure everything performs as designed — full commissioning, documentation, and post-occupancy support.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- QUOTE -->
+<section class="block" id="quote">
+  <div class="wrap">
+    <span class="q-mark rv">“</span>
+    <p class="bigq rv d1">
+      VPAC found creative ways to <span class="clay">value engineer</span> our project that made the entire build process seamless and effortless.
+    </p>
+    <div class="q-author rv d2">Dava Development</div>
+    <div class="q-co rv d2">Multi-Family Residential Partner</div>
+  </div>
+</section>
+
+<!-- CTA -->
+<section id="cta">
+  <div class="wrap">
+    <div class="label rv">Let's Build</div>
+    <h2 class="cta-h rv d1">Something<br>that <em class="clay">lasts.</em></h2>
+    <p class="cta-sub rv d2">Tell us about your next project — our team responds within 24 hours.</p>
+    <div class="cta-row rv d2">
+      <a href="mailto:info@vpacconstruction.com" class="btn-ink">
+        info@vpacconstruction.com
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+      </a>
+      <a href="tel:+16046897900" class="btn-ghost">Call (604) 689-7900</a>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer id="footer">
+  <div class="wrap">
+    <div class="ft-top">
+      <div>
+        <div class="ft-logo">VPAC<b>.</b></div>
+        <p class="ft-tag">VPAC Construction Group Ltd. — Vancouver's trusted construction partner for over 25 years. We love to build.</p>
+      </div>
+      <div class="ft-col">
+        <h4>Services</h4>
+        <a href="#">Construction Management</a>
+        <a href="#">Design-Build</a>
+        <a href="#">General Contracting</a>
+      </div>
+      <div class="ft-col">
+        <h4>Sectors</h4>
+        <a href="#">Multi-Family</a>
+        <a href="#">Corporate</a>
+        <a href="#">Industrial</a>
+        <a href="#">Senior Living</a>
+      </div>
+      <div class="ft-col">
+        <h4>Contact</h4>
+        <a href="mailto:info@vpacconstruction.com">info@vpacconstruction.com</a>
+        <a href="tel:+16046897900">(604) 689-7900</a>
+        <a href="#">1188 West Georgia St, Vancouver</a>
+      </div>
+    </div>
+    <div class="ft-bottom">
+      <span>© 2025 VPAC Construction Group Ltd.</span>
+      <span>Built with precision in Vancouver, BC</span>
+    </div>
+  </div>
+</footer>
+
+<script>
+  // nav state
+  const nav = document.getElementById('nav');
+  addEventListener('scroll', () => nav.classList.toggle('solid', scrollY > 50), { passive:true });
+
+  // hero line reveal on load
+  addEventListener('load', () => requestAnimationFrame(() => document.getElementById('heroDisp').classList.add('lifted')));
+  // fallback if load already fired
+  setTimeout(() => document.getElementById('heroDisp').classList.add('lifted'), 250);
+
+  // generic reveals
+  const io = new IntersectionObserver(es => {
+    es.forEach(e => { if (e.isIntersecting){ e.target.classList.add('on'); io.unobserve(e.target); } });
+  }, { threshold:0.12, rootMargin:'0px 0px -40px 0px' });
+  document.querySelectorAll('.rv, .step').forEach(el => io.observe(el));
+
+  // counters
+  const easeOutQuart = t => 1 - Math.pow(1 - t, 4);
+  function countUp(el, to){
+    const dur = 1500, t0 = performance.now();
+    const run = now => {
+      const p = Math.min((now - t0)/dur, 1);
+      el.textContent = p < 1 ? Math.floor(easeOutQuart(p) * to) : to;
+      if (p < 1) requestAnimationFrame(run);
+    };
+    requestAnimationFrame(run);
+  }
+  const co = new IntersectionObserver(es => {
+    es.forEach(e => { if (e.isIntersecting){ countUp(e.target, +e.target.dataset.to); co.unobserve(e.target); } });
+  }, { threshold:0.6 });
+  document.querySelectorAll('.cnt').forEach(el => co.observe(el));
+</script>
+</body>
+</html>
