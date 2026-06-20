@@ -1,0 +1,945 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Banff Contracting — Elevate Your Living. Love Your Home.</title>
+  <meta name="description" content="Banff Contracting — luxury home renovation, custom kitchens, spa bathrooms and whole-home remodels built with premium materials and meticulous craft.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --cream:  #F4EDE1;   /* warm page background */
+      --paper:  #FBF6EE;   /* lighter section background */
+      --white:  #FFFFFF;
+      --ink:    #211C15;   /* espresso near-black */
+      --ink2:   #463E33;
+      --muted:  #8A8073;
+      --sand:   #E7DCC9;   /* soft tan tint */
+      --line:   rgba(33,28,21,0.10);
+      --clay:   #C15F3C;   /* terracotta accent */
+      --clay2:  #A84B2C;   /* darker hover */
+      --serif:  'Fraunces', Georgia, 'Times New Roman', serif;
+      --sans:   'Inter', system-ui, -apple-system, sans-serif;
+      --ease:   cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: var(--sans); color: var(--ink);
+      background: var(--cream); overflow-x: hidden;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* ─── NAV ─────────────────────────────── */
+    #nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 26px 56px;
+      transition: background 0.45s var(--ease), padding 0.35s var(--ease), box-shadow 0.45s, border-color 0.45s;
+      border-bottom: 1px solid transparent;
+    }
+    #nav.solid {
+      background: rgba(251,246,238,0.88);
+      backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px);
+      padding: 16px 56px;
+      border-bottom: 1px solid var(--line);
+    }
+    .brand { display: flex; align-items: center; gap: 12px; text-decoration: none; }
+    .brand-mark { width: 30px; height: 30px; flex-shrink: 0; }
+    .brand-mark svg { width: 100%; height: 100%; display: block; }
+    .brand-text { display: flex; flex-direction: column; line-height: 1; }
+    .brand-name { font-family: var(--serif); font-size: 22px; font-weight: 600; color: var(--ink); letter-spacing: -0.01em; }
+    .brand-sub { font-size: 9.5px; font-weight: 600; letter-spacing: 0.32em; text-transform: uppercase; color: var(--muted); margin-top: 3px; }
+
+    .nav-links { display: flex; gap: 38px; list-style: none; }
+    .nav-links a {
+      color: var(--ink2); text-decoration: none;
+      font-size: 13px; font-weight: 500; letter-spacing: 0.04em;
+      position: relative; transition: color 0.2s;
+    }
+    .nav-links a::after {
+      content: ''; position: absolute; left: 0; bottom: -6px; width: 0; height: 1.5px;
+      background: var(--clay); transition: width 0.3s var(--ease);
+    }
+    .nav-links a:hover { color: var(--ink); }
+    .nav-links a:hover::after { width: 100%; }
+
+    .nav-cta {
+      display: inline-flex; align-items: center; gap: 10px;
+      background: var(--ink); color: var(--cream); border: none; cursor: pointer;
+      padding: 12px 14px 12px 22px; border-radius: 40px;
+      font-family: var(--sans); font-size: 13px; font-weight: 600; letter-spacing: 0.02em;
+      text-decoration: none; transition: background 0.25s, transform 0.25s;
+    }
+    .nav-cta:hover { background: var(--clay); transform: translateY(-1px); }
+    .nav-cta .arrow {
+      width: 24px; height: 24px; border-radius: 50%; background: var(--cream); color: var(--ink);
+      display: inline-flex; align-items: center; justify-content: center; font-size: 13px;
+      transition: transform 0.3s var(--ease);
+    }
+    .nav-cta:hover .arrow { transform: rotate(45deg); }
+
+    /* ─── HERO ─────────────────────────────── */
+    #hero {
+      position: relative; min-height: 100vh;
+      display: grid; grid-template-columns: 1.05fr 0.95fr; align-items: center;
+      gap: 56px; padding: 150px 56px 90px; overflow: hidden;
+      background:
+        radial-gradient(120% 90% at 88% 10%, rgba(193,95,60,0.10), transparent 55%),
+        var(--cream);
+    }
+    .hero-deco-dots {
+      position: absolute; inset: 0; pointer-events: none; opacity: 0.5;
+      background-image: radial-gradient(rgba(33,28,21,0.10) 1px, transparent 1px);
+      background-size: 30px 30px;
+      -webkit-mask-image: radial-gradient(80% 60% at 50% 40%, #000 30%, transparent 75%);
+              mask-image: radial-gradient(80% 60% at 50% 40%, #000 30%, transparent 75%);
+    }
+
+    .hero-left { position: relative; z-index: 3; max-width: 620px; }
+    .eyebrow {
+      display: inline-flex; align-items: center; gap: 12px; margin-bottom: 28px;
+      font-size: 11px; font-weight: 600; letter-spacing: 0.22em; text-transform: uppercase; color: var(--clay);
+    }
+    .eyebrow::before { content: ''; width: 28px; height: 1px; background: var(--clay); }
+
+    .hero-h1 {
+      font-family: var(--serif);
+      font-size: clamp(50px, 7vw, 92px); font-weight: 500;
+      line-height: 1.0; letter-spacing: -0.02em; color: var(--ink);
+    }
+    .hero-h1 em { font-style: italic; font-weight: 400; color: var(--clay); }
+
+    .hero-sub {
+      margin-top: 28px; max-width: 470px;
+      font-size: 17px; line-height: 1.7; color: var(--ink2);
+    }
+
+    .hero-actions { display: flex; align-items: center; gap: 16px; margin-top: 40px; flex-wrap: wrap; }
+    .btn-primary {
+      display: inline-flex; align-items: center; gap: 12px;
+      background: var(--clay); color: #fff; border: none; cursor: pointer;
+      padding: 15px 16px 15px 28px; border-radius: 40px;
+      font-family: var(--sans); font-size: 14px; font-weight: 600; letter-spacing: 0.01em;
+      text-decoration: none; transition: background 0.25s, transform 0.25s, box-shadow 0.25s;
+      box-shadow: 0 10px 26px rgba(193,95,60,0.28);
+    }
+    .btn-primary:hover { background: var(--clay2); transform: translateY(-2px); box-shadow: 0 14px 32px rgba(168,75,44,0.34); }
+    .btn-primary .arrow {
+      width: 26px; height: 26px; border-radius: 50%; background: rgba(255,255,255,0.22);
+      display: inline-flex; align-items: center; justify-content: center; font-size: 14px;
+      transition: transform 0.3s var(--ease);
+    }
+    .btn-primary:hover .arrow { transform: rotate(45deg); }
+
+    .btn-ghost {
+      display: inline-flex; align-items: center; gap: 10px;
+      background: transparent; color: var(--ink); cursor: pointer;
+      padding: 15px 26px; border-radius: 40px; border: 1px solid var(--line);
+      font-family: var(--sans); font-size: 14px; font-weight: 600;
+      text-decoration: none; transition: border-color 0.25s, background 0.25s;
+    }
+    .btn-ghost:hover { border-color: var(--ink); background: rgba(33,28,21,0.03); }
+
+    .hero-trust {
+      margin-top: 48px; display: flex; align-items: center; gap: 18px;
+      font-size: 13px; color: var(--muted);
+    }
+    .hero-stars { color: var(--clay); letter-spacing: 2px; font-size: 14px; }
+    .hero-trust b { color: var(--ink); font-weight: 600; }
+
+    /* Hero visual */
+    .hero-right { position: relative; z-index: 2; height: 560px; }
+    .panel-back {
+      position: absolute; inset: 8% 0 8% 8%;
+      background: linear-gradient(160deg, var(--sand), #d8c9b1);
+      border-radius: 220px 220px 26px 26px;
+    }
+    .panel-front {
+      position: absolute; inset: 14% 12% 0 20%;
+      background: var(--paper);
+      border-radius: 200px 200px 22px 22px;
+      box-shadow: 0 30px 70px rgba(33,28,21,0.16);
+      overflow: hidden;
+      display: flex; align-items: flex-end; justify-content: center;
+    }
+    .panel-front svg { width: 92%; height: 92%; }
+    .interior-stroke { fill: none; stroke: var(--ink); stroke-width: 1.4; stroke-linecap: round; stroke-linejoin: round; }
+    .interior-soft   { fill: none; stroke: rgba(33,28,21,0.32); stroke-width: 1.1; stroke-linecap: round; }
+    .sun { fill: rgba(193,95,60,0.16); }
+
+    .float-card {
+      position: absolute; left: -34px; bottom: 56px; z-index: 4;
+      width: 230px; padding: 20px 22px;
+      background: rgba(255,255,255,0.72);
+      backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px);
+      border: 1px solid rgba(255,255,255,0.9);
+      border-radius: 18px;
+      box-shadow: 0 24px 50px rgba(33,28,21,0.18);
+    }
+    .float-card .fc-top { display: flex; align-items: center; gap: 12px; margin-bottom: 14px; }
+    .fc-badge {
+      width: 42px; height: 42px; border-radius: 12px; background: var(--ink); flex-shrink: 0;
+      display: flex; align-items: center; justify-content: center;
+    }
+    .fc-badge svg { width: 22px; height: 22px; stroke: var(--clay); fill: none; stroke-width: 1.6; stroke-linecap: round; stroke-linejoin: round; }
+    .fc-num { font-family: var(--serif); font-size: 28px; font-weight: 600; line-height: 1; color: var(--ink); }
+    .fc-label { font-size: 11px; color: var(--muted); letter-spacing: 0.02em; }
+    .fc-text { font-size: 13px; line-height: 1.55; color: var(--ink2); }
+
+    .float-tag {
+      position: absolute; right: 4px; top: 64px; z-index: 4;
+      background: var(--white); border-radius: 14px; padding: 14px 18px;
+      box-shadow: 0 18px 40px rgba(33,28,21,0.14);
+      display: flex; align-items: center; gap: 12px;
+    }
+    .float-tag .dot { width: 9px; height: 9px; border-radius: 50%; background: #4a9d5b; box-shadow: 0 0 0 4px rgba(74,157,91,0.18); }
+    .float-tag span { font-size: 12px; font-weight: 600; color: var(--ink); }
+    .float-tag small { display: block; font-size: 11px; color: var(--muted); font-weight: 500; }
+
+    /* ─── MARQUEE ───────────────────────────── */
+    #marquee { background: var(--ink); overflow: hidden; padding: 20px 0; }
+    .mq-track { display: flex; width: max-content; animation: mq 30s linear infinite; }
+    .mq-track:hover { animation-play-state: paused; }
+    .mq-item {
+      white-space: nowrap; padding: 0 28px; display: flex; align-items: center; gap: 28px;
+      font-family: var(--serif); font-size: 17px; font-style: italic; font-weight: 400; color: rgba(244,237,225,0.78);
+    }
+    .mq-star { color: var(--clay); font-style: normal; font-family: var(--sans); }
+    @keyframes mq { from { transform: translateX(0); } to { transform: translateX(-50%); } }
+
+    /* ─── SHARED ────────────────────────────── */
+    .container { max-width: 1240px; margin: 0 auto; padding: 0 56px; }
+    section { padding: 120px 0; }
+    .stag {
+      display: inline-flex; align-items: center; gap: 11px;
+      font-size: 11px; font-weight: 600; letter-spacing: 0.22em; text-transform: uppercase;
+      color: var(--clay); margin-bottom: 20px;
+    }
+    .stag::before { content: ''; width: 24px; height: 1px; background: var(--clay); }
+    .sh2 {
+      font-family: var(--serif); font-size: clamp(34px, 4.5vw, 56px); font-weight: 500;
+      line-height: 1.04; letter-spacing: -0.02em; color: var(--ink);
+    }
+    .sh2 em { font-style: italic; color: var(--clay); font-weight: 400; }
+    .ssub { font-size: 17px; line-height: 1.7; color: var(--muted); max-width: 500px; margin-top: 18px; }
+
+    /* Fade-in */
+    .fi { opacity: 0; transform: translateY(30px); transition: opacity 0.7s var(--ease), transform 0.7s var(--ease); }
+    .fi.on { opacity: 1; transform: none; }
+    .d1 { transition-delay: 0.08s; } .d2 { transition-delay: 0.16s; }
+    .d3 { transition-delay: 0.24s; } .d4 { transition-delay: 0.32s; }
+    .d5 { transition-delay: 0.40s; }
+
+    /* ─── STATS ─────────────────────────────── */
+    #stats { background: var(--paper); padding: 0; }
+    .stats-grid { display: grid; grid-template-columns: repeat(4, 1fr); }
+    .stat {
+      padding: 64px 44px; border-right: 1px solid var(--line);
+      display: flex; flex-direction: column; gap: 6px;
+    }
+    .stat:last-child { border-right: none; }
+    .stat-num { font-family: var(--serif); font-size: 56px; font-weight: 500; line-height: 1; color: var(--ink); }
+    .stat-num sup { font-size: 26px; color: var(--clay); vertical-align: super; }
+    .stat-lbl { font-size: 12px; font-weight: 600; letter-spacing: 0.12em; text-transform: uppercase; color: var(--muted); margin-top: 8px; }
+
+    /* ─── SERVICES ──────────────────────────── */
+    #services { background: var(--cream); }
+    .svc-head { display: flex; justify-content: space-between; align-items: flex-end; gap: 40px; margin-bottom: 56px; }
+    .svc-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
+    .svc-card {
+      background: var(--white); border: 1px solid var(--line); border-radius: 20px;
+      padding: 38px 34px; position: relative; overflow: hidden;
+      transition: transform 0.4s var(--ease), box-shadow 0.4s var(--ease), border-color 0.4s;
+    }
+    .svc-card:hover { transform: translateY(-6px); box-shadow: 0 26px 50px rgba(33,28,21,0.10); border-color: transparent; }
+    .svc-ic {
+      width: 56px; height: 56px; border-radius: 14px; background: var(--cream);
+      display: flex; align-items: center; justify-content: center; margin-bottom: 26px;
+      transition: background 0.4s var(--ease);
+    }
+    .svc-ic svg { width: 27px; height: 27px; stroke: var(--ink); fill: none; stroke-width: 1.5; stroke-linecap: round; stroke-linejoin: round; transition: stroke 0.4s; }
+    .svc-card:hover .svc-ic { background: var(--clay); }
+    .svc-card:hover .svc-ic svg { stroke: #fff; }
+    .svc-title { font-family: var(--serif); font-size: 22px; font-weight: 600; color: var(--ink); margin-bottom: 12px; }
+    .svc-desc { font-size: 14.5px; line-height: 1.7; color: var(--muted); }
+    .svc-num {
+      position: absolute; top: 26px; right: 30px; font-family: var(--serif);
+      font-size: 15px; color: var(--line); font-weight: 600;
+    }
+
+    /* ─── WHY / PILLARS ─────────────────────── */
+    #why { background: var(--paper); }
+    .why-grid { display: grid; grid-template-columns: 0.9fr 1.1fr; gap: 72px; align-items: center; }
+    .why-pillars { display: flex; flex-direction: column; gap: 4px; margin-top: 36px; }
+    .pillar {
+      display: flex; gap: 22px; padding: 26px 0; border-top: 1px solid var(--line);
+    }
+    .pillar:last-child { border-bottom: 1px solid var(--line); }
+    .pillar-n { font-family: var(--serif); font-size: 17px; color: var(--clay); font-weight: 600; flex-shrink: 0; padding-top: 2px; }
+    .pillar-t { font-family: var(--serif); font-size: 21px; font-weight: 600; color: var(--ink); margin-bottom: 7px; }
+    .pillar-d { font-size: 14.5px; line-height: 1.7; color: var(--muted); }
+
+    .why-quote {
+      background: var(--ink); border-radius: 24px; padding: 48px 44px; color: var(--cream); position: relative; overflow: hidden;
+    }
+    .why-quote .qmark { font-family: var(--serif); font-size: 120px; line-height: 0.6; color: rgba(193,95,60,0.4); position: absolute; top: 38px; right: 36px; }
+    .why-quote-text { font-family: var(--serif); font-size: 23px; font-weight: 400; line-height: 1.5; position: relative; z-index: 1; }
+    .why-quote-meta { margin-top: 30px; display: flex; align-items: center; gap: 14px; position: relative; z-index: 1; }
+    .wq-avatar { width: 46px; height: 46px; border-radius: 50%; background: var(--clay); display: flex; align-items: center; justify-content: center; font-family: var(--serif); font-weight: 600; font-size: 18px; color: #fff; flex-shrink: 0; }
+    .wq-name { font-size: 14px; font-weight: 600; color: #fff; }
+    .wq-role { font-size: 12.5px; color: rgba(244,237,225,0.55); }
+    .why-quote-stats { display: flex; gap: 40px; margin-top: 36px; padding-top: 30px; border-top: 1px solid rgba(255,255,255,0.12); position: relative; z-index: 1; }
+    .wqs-num { font-family: var(--serif); font-size: 34px; font-weight: 600; color: #fff; }
+    .wqs-num sup { font-size: 16px; color: var(--clay); }
+    .wqs-lbl { font-size: 11px; letter-spacing: 0.08em; text-transform: uppercase; color: rgba(244,237,225,0.5); margin-top: 4px; }
+
+    /* ─── PROJECTS ──────────────────────────── */
+    #projects { background: var(--cream); }
+    .proj-head { display: flex; justify-content: space-between; align-items: flex-end; margin-bottom: 52px; gap: 30px; }
+    .proj-grid { display: grid; grid-template-columns: 1.4fr 1fr 1fr; grid-template-rows: 320px 320px; gap: 18px; }
+    .pcard {
+      position: relative; overflow: hidden; border-radius: 20px; cursor: pointer;
+      background: var(--ink); display: flex; align-items: flex-end;
+    }
+    .pcard:nth-child(1) { grid-row: 1 / 3; }
+    .pcard:nth-child(4) { grid-column: 2 / 4; }
+    .pcard-art { position: absolute; inset: 0; }
+    .pcard-art::before {
+      content: ''; position: absolute; inset: 0;
+      background-image:
+        linear-gradient(rgba(193,95,60,0.08) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(193,95,60,0.08) 1px, transparent 1px);
+      background-size: 34px 34px;
+    }
+    .pcard:nth-child(1) .pcard-art { background: linear-gradient(150deg, #2a241b, #1a160f); }
+    .pcard:nth-child(2) .pcard-art { background: linear-gradient(150deg, #34291d, #211a12); }
+    .pcard:nth-child(3) .pcard-art { background: linear-gradient(150deg, #3a2c20, #241b13); }
+    .pcard:nth-child(4) .pcard-art { background: linear-gradient(150deg, #2d2519, #19140d); }
+    .pcard-geo { position: absolute; top: 46%; left: 50%; transform: translate(-50%,-50%); opacity: 0.16; transition: transform 0.6s var(--ease), opacity 0.4s; }
+    .pcard-geo svg { width: 130px; height: 130px; stroke: var(--clay); fill: none; stroke-width: 1; }
+    .pcard:hover .pcard-geo { transform: translate(-50%,-58%) scale(1.08); opacity: 0.28; }
+    .pcard-info { position: relative; z-index: 1; padding: 30px 32px; width: 100%; background: linear-gradient(transparent, rgba(0,0,0,0.55)); }
+    .pcard-type { font-size: 10.5px; font-weight: 600; letter-spacing: 0.2em; text-transform: uppercase; color: var(--clay); margin-bottom: 8px; }
+    .pcard-name { font-family: var(--serif); font-size: 23px; font-weight: 600; color: #fff; margin-bottom: 5px; }
+    .pcard-meta { font-size: 13px; color: rgba(244,237,225,0.55); }
+    .pcard-plus {
+      position: absolute; top: 24px; right: 24px; z-index: 2; width: 40px; height: 40px; border-radius: 50%;
+      border: 1px solid rgba(244,237,225,0.3); color: rgba(244,237,225,0.7);
+      display: flex; align-items: center; justify-content: center; font-size: 18px;
+      transition: background 0.3s, color 0.3s, border-color 0.3s, transform 0.3s var(--ease);
+    }
+    .pcard:hover .pcard-plus { background: var(--clay); border-color: var(--clay); color: #fff; transform: rotate(90deg); }
+
+    /* ─── PROCESS ───────────────────────────── */
+    #process { background: var(--paper); }
+    .proc-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 0; margin-top: 56px; border: 1px solid var(--line); border-radius: 20px; overflow: hidden; background: var(--white); }
+    .pstep { padding: 44px 36px; border-right: 1px solid var(--line); transition: background 0.4s var(--ease); position: relative; }
+    .pstep:last-child { border-right: none; }
+    .pstep:hover { background: var(--cream); }
+    .ps-n { font-family: var(--serif); font-size: 15px; font-weight: 600; color: var(--clay); letter-spacing: 0.1em; margin-bottom: 26px; }
+    .ps-line { width: 100%; height: 1px; background: var(--line); margin-bottom: 26px; position: relative; }
+    .ps-line::before { content: ''; position: absolute; left: 0; top: -2px; width: 5px; height: 5px; border-radius: 50%; background: var(--clay); }
+    .ps-title { font-family: var(--serif); font-size: 20px; font-weight: 600; color: var(--ink); margin-bottom: 12px; }
+    .ps-desc { font-size: 14px; line-height: 1.7; color: var(--muted); }
+
+    /* ─── TESTIMONIALS ──────────────────────── */
+    #testimonials { background: var(--cream); }
+    .test-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; margin-top: 56px; }
+    .tcard { background: var(--white); border: 1px solid var(--line); border-radius: 20px; padding: 36px 32px; display: flex; flex-direction: column; }
+    .tstars { color: var(--clay); letter-spacing: 2px; font-size: 14px; margin-bottom: 20px; }
+    .tquote { font-size: 16px; line-height: 1.72; color: var(--ink2); flex-grow: 1; }
+    .tmeta { display: flex; align-items: center; gap: 13px; margin-top: 28px; padding-top: 24px; border-top: 1px solid var(--line); }
+    .tavatar { width: 44px; height: 44px; border-radius: 50%; background: var(--sand); display: flex; align-items: center; justify-content: center; font-family: var(--serif); font-weight: 600; color: var(--ink); flex-shrink: 0; }
+    .tname { font-size: 14px; font-weight: 600; color: var(--ink); }
+    .trole { font-size: 12.5px; color: var(--muted); }
+
+    /* ─── CTA ───────────────────────────────── */
+    #cta { background: var(--ink); padding: 120px 0; position: relative; overflow: hidden; }
+    .cta-glow { position: absolute; inset: 0; pointer-events: none; background: radial-gradient(60% 80% at 80% 20%, rgba(193,95,60,0.22), transparent 60%); }
+    .cta-dots { position: absolute; inset: 0; opacity: 0.5; pointer-events: none; background-image: radial-gradient(rgba(244,237,225,0.10) 1px, transparent 1px); background-size: 30px 30px; }
+    .cta-inner { position: relative; z-index: 1; text-align: center; max-width: 740px; margin: 0 auto; }
+    .cta-h2 { font-family: var(--serif); font-size: clamp(38px, 5.5vw, 70px); font-weight: 500; line-height: 1.05; letter-spacing: -0.02em; color: var(--cream); }
+    .cta-h2 em { font-style: italic; color: var(--clay); }
+    .cta-sub { font-size: 18px; color: rgba(244,237,225,0.6); margin-top: 22px; }
+    .cta-row { display: flex; justify-content: center; gap: 16px; margin-top: 42px; flex-wrap: wrap; }
+    .btn-cream {
+      display: inline-flex; align-items: center; gap: 12px; background: var(--cream); color: var(--ink);
+      padding: 16px 16px 16px 30px; border-radius: 40px; font-weight: 600; font-size: 14px; text-decoration: none;
+      transition: transform 0.25s, background 0.25s;
+    }
+    .btn-cream:hover { transform: translateY(-2px); background: #fff; }
+    .btn-cream .arrow { width: 26px; height: 26px; border-radius: 50%; background: var(--clay); color: #fff; display: inline-flex; align-items: center; justify-content: center; transition: transform 0.3s var(--ease); }
+    .btn-cream:hover .arrow { transform: rotate(45deg); }
+    .btn-line { display: inline-flex; align-items: center; gap: 10px; color: var(--cream); border: 1px solid rgba(244,237,225,0.25); padding: 16px 28px; border-radius: 40px; font-weight: 600; font-size: 14px; text-decoration: none; transition: border-color 0.25s, background 0.25s; }
+    .btn-line:hover { border-color: var(--cream); background: rgba(244,237,225,0.06); }
+
+    /* ─── FOOTER ────────────────────────────── */
+    #footer { background: #181410; padding: 84px 0 36px; }
+    .ftgrid { display: grid; grid-template-columns: 1.7fr 1fr 1fr 1fr; gap: 48px; margin-bottom: 60px; }
+    .ft-brand-name { font-family: var(--serif); font-size: 24px; font-weight: 600; color: var(--cream); margin-bottom: 16px; }
+    .ft-tag { font-size: 14px; color: rgba(244,237,225,0.4); line-height: 1.7; max-width: 280px; margin-bottom: 26px; }
+    .ft-social { display: flex; gap: 12px; }
+    .ft-social a { width: 38px; height: 38px; border-radius: 50%; border: 1px solid rgba(244,237,225,0.16); display: flex; align-items: center; justify-content: center; transition: background 0.25s, border-color 0.25s, transform 0.25s; }
+    .ft-social a:hover { background: var(--clay); border-color: var(--clay); transform: translateY(-2px); }
+    .ft-social svg { width: 16px; height: 16px; fill: rgba(244,237,225,0.65); transition: fill 0.25s; }
+    .ft-social a:hover svg { fill: #fff; }
+    .ft-col-title { font-size: 11px; font-weight: 600; letter-spacing: 0.16em; text-transform: uppercase; color: var(--clay); margin-bottom: 20px; }
+    .ft-links { list-style: none; display: flex; flex-direction: column; gap: 12px; }
+    .ft-links a { font-size: 14px; color: rgba(244,237,225,0.5); text-decoration: none; transition: color 0.2s; }
+    .ft-links a:hover { color: var(--cream); }
+    .ft-bottom { border-top: 1px solid rgba(244,237,225,0.08); padding-top: 28px; display: flex; justify-content: space-between; align-items: center; gap: 16px; flex-wrap: wrap; }
+    .ft-legal { font-size: 12.5px; color: rgba(244,237,225,0.32); }
+    .ft-legal a { color: rgba(244,237,225,0.5); text-decoration: none; }
+    .ft-legal a:hover { color: var(--clay); }
+
+    /* ─── RESPONSIVE ────────────────────────── */
+    @media (max-width: 1080px) {
+      #hero { grid-template-columns: 1fr; gap: 40px; padding: 140px 40px 80px; }
+      .hero-right { height: 460px; max-width: 520px; }
+      .why-grid { grid-template-columns: 1fr; gap: 48px; }
+      .svc-grid { grid-template-columns: repeat(2, 1fr); }
+      .test-grid { grid-template-columns: 1fr; }
+      .stats-grid { grid-template-columns: repeat(2, 1fr); }
+      .stat:nth-child(2) { border-right: none; }
+      .proj-grid { grid-template-columns: 1fr 1fr; grid-template-rows: 280px 280px 280px; }
+      .pcard:nth-child(1) { grid-row: auto; }
+      .pcard:nth-child(4) { grid-column: 1 / 3; }
+      .proc-grid { grid-template-columns: 1fr 1fr; }
+      .pstep:nth-child(2) { border-right: none; }
+      .pstep:nth-child(1), .pstep:nth-child(2) { border-bottom: 1px solid var(--line); }
+      .ftgrid { grid-template-columns: 1fr 1fr; }
+    }
+    @media (max-width: 640px) {
+      #nav { padding: 18px 22px; }
+      #nav.solid { padding: 12px 22px; }
+      .nav-links { display: none; }
+      .brand-sub { display: none; }
+      #hero { padding: 130px 22px 64px; }
+      .container { padding: 0 22px; }
+      section { padding: 80px 0; }
+      .hero-right { height: 400px; }
+      .float-card { left: -10px; bottom: 20px; width: 200px; }
+      .svc-grid { grid-template-columns: 1fr; }
+      .svc-head { flex-direction: column; align-items: flex-start; }
+      .stats-grid { grid-template-columns: 1fr 1fr; }
+      .stat { padding: 40px 24px; }
+      .proj-grid { grid-template-columns: 1fr; grid-template-rows: repeat(4, 280px); }
+      .pcard:nth-child(4) { grid-column: auto; }
+      .proc-grid { grid-template-columns: 1fr; }
+      .pstep { border-right: none; border-bottom: 1px solid var(--line); }
+      .pstep:last-child { border-bottom: none; }
+      .why-quote-stats { gap: 26px; }
+      .ftgrid { grid-template-columns: 1fr; gap: 36px; }
+      .ft-bottom { flex-direction: column; align-items: flex-start; }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      .fi { opacity: 1; transform: none; }
+      .mq-track { animation: none; }
+      html { scroll-behavior: auto; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav id="nav">
+  <a class="brand" href="#hero">
+    <span class="brand-mark">
+      <svg viewBox="0 0 40 40" aria-hidden="true">
+        <path d="M3 33 L15 13 L21 23 L26 16 L37 33 Z" fill="#211C15"/>
+        <path d="M15 13 L21 23 L17.5 23 L13 16 Z" fill="#C15F3C"/>
+        <path d="M26 16 L37 33 L30 33 L24 20 Z" fill="#C15F3C" opacity="0.85"/>
+      </svg>
+    </span>
+    <span class="brand-text">
+      <span class="brand-name">Banff</span>
+      <span class="brand-sub">Contracting</span>
+    </span>
+  </a>
+  <ul class="nav-links">
+    <li><a href="#services">Services</a></li>
+    <li><a href="#why">Why Banff</a></li>
+    <li><a href="#projects">Projects</a></li>
+    <li><a href="#process">Process</a></li>
+  </ul>
+  <a href="#cta" class="nav-cta">Get a Quote <span class="arrow">↗</span></a>
+</nav>
+
+<!-- HERO -->
+<section id="hero">
+  <div class="hero-deco-dots"></div>
+
+  <div class="hero-left">
+    <div class="eyebrow">Banff, AB · Luxury Home Renovation</div>
+    <h1 class="hero-h1">Elevate your living.<br><em>Love your home.</em></h1>
+    <p class="hero-sub">
+      From custom kitchens and spa-inspired bathrooms to full whole-home remodels — we craft
+      premium, made-to-measure spaces with high-end materials and meticulous attention to every detail.
+    </p>
+    <div class="hero-actions">
+      <a href="#cta" class="btn-primary">Book a Consultation <span class="arrow">↗</span></a>
+      <a href="#projects" class="btn-ghost">View Our Work</a>
+    </div>
+    <div class="hero-trust">
+      <span class="hero-stars">★★★★★</span>
+      <span><b>5.0 rating</b> from homeowners across the Bow Valley</span>
+    </div>
+  </div>
+
+  <div class="hero-right">
+    <div class="panel-back"></div>
+    <div class="panel-front">
+      <svg viewBox="0 0 340 360" aria-hidden="true">
+        <!-- floor -->
+        <line class="interior-stroke" x1="20" y1="318" x2="320" y2="318"/>
+        <!-- arched window -->
+        <path class="interior-stroke" d="M96 318 V150 a74 74 0 0 1 148 0 V318"/>
+        <line class="interior-stroke" x1="170" y1="78" x2="170" y2="318"/>
+        <line class="interior-stroke" x1="96" y1="190" x2="244" y2="190"/>
+        <line class="interior-stroke" x1="96" y1="254" x2="244" y2="254"/>
+        <!-- sun glow -->
+        <circle class="sun" cx="170" cy="150" r="40"/>
+        <!-- console table -->
+        <rect class="interior-stroke" x="118" y="262" width="104" height="10" rx="2"/>
+        <line class="interior-stroke" x1="128" y1="272" x2="128" y2="318"/>
+        <line class="interior-stroke" x1="212" y1="272" x2="212" y2="318"/>
+        <!-- vase + branch -->
+        <path class="interior-soft" d="M150 262 q-6 -16 2 -32 q-9 4 -10 -14 q12 8 14 -4 q3 14 -2 28 q9 -10 12 4 q-9 -2 -14 18 Z"/>
+        <path class="interior-stroke" d="M146 262 h22 l-3 -16 h-16 Z"/>
+        <!-- framed art left -->
+        <rect class="interior-soft" x="40" y="150" width="40" height="54" rx="2"/>
+        <path class="interior-soft" d="M46 192 l10 -16 8 10 6 -8 8 14"/>
+        <!-- floor lamp right -->
+        <line class="interior-soft" x1="290" y1="318" x2="290" y2="176"/>
+        <path class="interior-soft" d="M278 176 h24 l-6 -18 h-12 Z"/>
+        <line class="interior-soft" x1="282" y1="318" x2="298" y2="318"/>
+      </svg>
+    </div>
+
+    <div class="float-tag">
+      <span class="dot"></span>
+      <span>Now booking<small>Spring 2026 projects</small></span>
+    </div>
+
+    <div class="float-card">
+      <div class="fc-top">
+        <span class="fc-badge">
+          <svg viewBox="0 0 24 24"><path d="M12 2l2.4 5.4 5.6.5-4.3 3.8 1.3 5.8L12 14.8 6.9 17.5l1.3-5.8L4 7.9l5.6-.5z"/></svg>
+        </span>
+        <div>
+          <div class="fc-num">12+</div>
+          <div class="fc-label">Years of craft</div>
+        </div>
+      </div>
+      <p class="fc-text">Premium designs, exceptional results, and high-end materials — on every single project.</p>
+    </div>
+  </div>
+</section>
+
+<!-- MARQUEE -->
+<div id="marquee">
+  <div class="mq-track">
+    <span class="mq-item">Custom Kitchens <span class="mq-star">✦</span></span>
+    <span class="mq-item">Spa Bathrooms <span class="mq-star">✦</span></span>
+    <span class="mq-item">Whole-Home Remodels <span class="mq-star">✦</span></span>
+    <span class="mq-item">Custom Tile &amp; Millwork <span class="mq-star">✦</span></span>
+    <span class="mq-item">Windows &amp; Doors <span class="mq-star">✦</span></span>
+    <span class="mq-item">Commercial Fit-Outs <span class="mq-star">✦</span></span>
+    <span class="mq-item">Custom Kitchens <span class="mq-star">✦</span></span>
+    <span class="mq-item">Spa Bathrooms <span class="mq-star">✦</span></span>
+    <span class="mq-item">Whole-Home Remodels <span class="mq-star">✦</span></span>
+    <span class="mq-item">Custom Tile &amp; Millwork <span class="mq-star">✦</span></span>
+    <span class="mq-item">Windows &amp; Doors <span class="mq-star">✦</span></span>
+    <span class="mq-item">Commercial Fit-Outs <span class="mq-star">✦</span></span>
+  </div>
+</div>
+
+<!-- STATS -->
+<div id="stats">
+  <div class="stats-grid">
+    <div class="stat fi">
+      <div class="stat-num"><span class="cnt" data-to="150">0</span><sup>+</sup></div>
+      <div class="stat-lbl">Homes Transformed</div>
+    </div>
+    <div class="stat fi d1">
+      <div class="stat-num"><span class="cnt" data-to="12">0</span><sup>+</sup></div>
+      <div class="stat-lbl">Years of Craftsmanship</div>
+    </div>
+    <div class="stat fi d2">
+      <div class="stat-num"><span class="cnt" data-to="100">0</span><sup>%</sup></div>
+      <div class="stat-lbl">Premium Materials</div>
+    </div>
+    <div class="stat fi d3">
+      <div class="stat-num"><span class="cnt" data-to="5">0</span><sup>★</sup></div>
+      <div class="stat-lbl">Average Client Rating</div>
+    </div>
+  </div>
+</div>
+
+<!-- SERVICES -->
+<section id="services">
+  <div class="container">
+    <div class="svc-head fi">
+      <div>
+        <div class="stag">What We Do</div>
+        <h2 class="sh2">Renovations done<br><em>beautifully.</em></h2>
+      </div>
+      <p class="ssub">Every Banff project is fully managed end-to-end — one accountable team, premium finishes, and a finish line you'll actually look forward to.</p>
+    </div>
+    <div class="svc-grid">
+      <div class="svc-card fi d1">
+        <span class="svc-num">01</span>
+        <div class="svc-ic">
+          <svg viewBox="0 0 24 24"><path d="M3 21h18"/><path d="M5 21V8h14v13"/><path d="M5 12h14"/><path d="M9 8V4h6v4"/><line x1="10" y1="15.5" x2="10" y2="17.5"/><line x1="14" y1="15.5" x2="14" y2="17.5"/></svg>
+        </div>
+        <h3 class="svc-title">Custom Kitchens</h3>
+        <p class="svc-desc">Bespoke cabinetry, stone countertops, and statement islands designed around how you actually live and cook.</p>
+      </div>
+      <div class="svc-card fi d2">
+        <span class="svc-num">02</span>
+        <div class="svc-ic">
+          <svg viewBox="0 0 24 24"><path d="M5 12V6a2 2 0 0 1 2-2 2 2 0 0 1 2 2"/><line x1="7" y1="8" x2="7.01" y2="8"/><path d="M3 12h18v3a4 4 0 0 1-4 4H7a4 4 0 0 1-4-4z"/><line x1="7" y1="19" x2="6" y2="21"/><line x1="17" y1="19" x2="18" y2="21"/></svg>
+        </div>
+        <h3 class="svc-title">Spa Bathrooms</h3>
+        <p class="svc-desc">Walk-in showers, soaking tubs, heated floors, and luxury tile — a private retreat in your own home.</p>
+      </div>
+      <div class="svc-card fi d3">
+        <span class="svc-num">03</span>
+        <div class="svc-ic">
+          <svg viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a1 1 0 0 1-1 1h-5v-7H9v7H4a1 1 0 0 1-1-1z"/></svg>
+        </div>
+        <h3 class="svc-title">Whole-Home Remodels</h3>
+        <p class="svc-desc">Full-home transformations — open-concept layouts, structural changes, and a cohesive design from door to door.</p>
+      </div>
+      <div class="svc-card fi d1">
+        <span class="svc-num">04</span>
+        <div class="svc-ic">
+          <svg viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="1"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="12" y1="3" x2="12" y2="21"/></svg>
+        </div>
+        <h3 class="svc-title">Tile, Paint &amp; Finishes</h3>
+        <p class="svc-desc">Precision tile work, flawless paint, and refined finishing details that separate a renovation from a masterpiece.</p>
+      </div>
+      <div class="svc-card fi d2">
+        <span class="svc-num">05</span>
+        <div class="svc-ic">
+          <svg viewBox="0 0 24 24"><rect x="4" y="3" width="16" height="18" rx="1"/><line x1="12" y1="3" x2="12" y2="21"/><line x1="4" y1="12" x2="20" y2="12"/><circle cx="9" cy="16" r="0.6"/><circle cx="15" cy="16" r="0.6"/></svg>
+        </div>
+        <h3 class="svc-title">Windows &amp; Doors</h3>
+        <p class="svc-desc">Repair, replacement, and installation of windows and interior doors — better light, better insulation, better feel.</p>
+      </div>
+      <div class="svc-card fi d3">
+        <span class="svc-num">06</span>
+        <div class="svc-ic">
+          <svg viewBox="0 0 24 24"><path d="M14.7 6.3a4 4 0 0 0-5.4 5.4l-6 6a1.5 1.5 0 0 0 2.1 2.1l6-6a4 4 0 0 0 5.4-5.4l-2.3 2.3-2.1-.5-.5-2.1z"/></svg>
+        </div>
+        <h3 class="svc-title">Repairs &amp; Commercial</h3>
+        <p class="svc-desc">Professional repairs, demolition, and commercial fit-outs delivered with the same standard as our premium homes.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- WHY / PILLARS -->
+<section id="why">
+  <div class="container">
+    <div class="why-grid">
+      <div class="fi">
+        <div class="stag">Why Banff</div>
+        <h2 class="sh2">Built on three<br><em>promises.</em></h2>
+        <div class="why-pillars">
+          <div class="pillar">
+            <span class="pillar-n">01</span>
+            <div>
+              <div class="pillar-t">Premium Designs</div>
+              <p class="pillar-d">Unparalleled designs that redefine luxury — tailored to your space, your taste, and the way you live.</p>
+            </div>
+          </div>
+          <div class="pillar">
+            <span class="pillar-n">02</span>
+            <div>
+              <div class="pillar-t">Exceptional Results</div>
+              <p class="pillar-d">A meticulous, detail-obsessed team that treats your home like a portfolio piece — because it is.</p>
+            </div>
+          </div>
+          <div class="pillar">
+            <span class="pillar-n">03</span>
+            <div>
+              <div class="pillar-t">High-End Materials</div>
+              <p class="pillar-d">Only premium, carefully selected materials — finishes built to look stunning and last for decades.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="why-quote fi d2">
+        <span class="qmark">”</span>
+        <p class="why-quote-text">Professional, courteous, and efficient from the first walkthrough to the final reveal. Mr. Nasr kept us informed at every step — the team treated our home like their own.</p>
+        <div class="why-quote-meta">
+          <div class="wq-avatar">D</div>
+          <div>
+            <div class="wq-name">Dr. Daniel R.</div>
+            <div class="wq-role">Whole-Home Renovation · Banff</div>
+          </div>
+        </div>
+        <div class="why-quote-stats">
+          <div>
+            <div class="wqs-num">98<sup>%</sup></div>
+            <div class="wqs-lbl">On-time delivery</div>
+          </div>
+          <div>
+            <div class="wqs-num">24<sup>h</sup></div>
+            <div class="wqs-lbl">Avg. response time</div>
+          </div>
+          <div>
+            <div class="wqs-num">100<sup>%</sup></div>
+            <div class="wqs-lbl">Would recommend</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PROJECTS -->
+<section id="projects">
+  <div class="container">
+    <div class="proj-head fi">
+      <div>
+        <div class="stag">Selected Work</div>
+        <h2 class="sh2">Spaces we're<br><em>proud of.</em></h2>
+      </div>
+      <a href="#cta" class="btn-ghost">Start Your Project</a>
+    </div>
+    <div class="proj-grid fi d1">
+      <div class="pcard">
+        <div class="pcard-art"></div>
+        <span class="pcard-plus">+</span>
+        <div class="pcard-geo">
+          <svg viewBox="0 0 100 100"><rect x="14" y="30" width="72" height="48" rx="2"/><line x1="14" y1="54" x2="86" y2="54"/><line x1="50" y1="30" x2="50" y2="78"/><rect x="24" y="40" width="20" height="8"/><circle cx="68" cy="44" r="6"/></svg>
+        </div>
+        <div class="pcard-info">
+          <div class="pcard-type">Custom Kitchen</div>
+          <div class="pcard-name">Hillside Modern Kitchen</div>
+          <div class="pcard-meta">Walnut cabinetry · quartzite island · Canmore</div>
+        </div>
+      </div>
+      <div class="pcard">
+        <div class="pcard-art"></div>
+        <span class="pcard-plus">+</span>
+        <div class="pcard-geo">
+          <svg viewBox="0 0 100 100"><rect x="20" y="20" width="60" height="60" rx="30"/><circle cx="50" cy="50" r="16"/><line x1="50" y1="6" x2="50" y2="20"/></svg>
+        </div>
+        <div class="pcard-info">
+          <div class="pcard-type">Spa Bathroom</div>
+          <div class="pcard-name">Marble Soaking Suite</div>
+          <div class="pcard-meta">Heated floors · Banff</div>
+        </div>
+      </div>
+      <div class="pcard">
+        <div class="pcard-art"></div>
+        <span class="pcard-plus">+</span>
+        <div class="pcard-geo">
+          <svg viewBox="0 0 100 100"><path d="M14 56 L50 22 L86 56"/><rect x="26" y="56" width="48" height="30"/><rect x="44" y="66" width="12" height="20"/></svg>
+        </div>
+        <div class="pcard-info">
+          <div class="pcard-type">Whole-Home</div>
+          <div class="pcard-name">Open-Concept Chalet</div>
+          <div class="pcard-meta">Full remodel · Bow Valley</div>
+        </div>
+      </div>
+      <div class="pcard">
+        <div class="pcard-art"></div>
+        <span class="pcard-plus">+</span>
+        <div class="pcard-geo">
+          <svg viewBox="0 0 100 100"><rect x="16" y="22" width="68" height="56" rx="2"/><line x1="16" y1="40" x2="84" y2="40"/><line x1="38" y1="40" x2="38" y2="78"/><line x1="62" y1="40" x2="62" y2="78"/><circle cx="27" cy="59" r="4"/></svg>
+        </div>
+        <div class="pcard-info">
+          <div class="pcard-type">Living &amp; Millwork</div>
+          <div class="pcard-name">Heritage Living Room Restoration</div>
+          <div class="pcard-meta">Custom built-ins · feature fireplace · Banff</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PROCESS -->
+<section id="process">
+  <div class="container">
+    <div class="fi" style="max-width:640px;">
+      <div class="stag">How It Works</div>
+      <h2 class="sh2">A calm, clear<br><em>process.</em></h2>
+      <p class="ssub">No surprises, no chaos — just a transparent path from first idea to the day you fall in love with your home again.</p>
+    </div>
+    <div class="proc-grid">
+      <div class="pstep fi d1">
+        <div class="ps-n">STEP 01</div>
+        <div class="ps-line"></div>
+        <div class="ps-title">Consultation &amp; Design</div>
+        <p class="ps-desc">We listen first — understanding your vision, space, and budget, then translate it into a clear design and scope.</p>
+      </div>
+      <div class="pstep fi d2">
+        <div class="ps-n">STEP 02</div>
+        <div class="ps-line"></div>
+        <div class="ps-title">Material Selection</div>
+        <p class="ps-desc">Hand-pick premium finishes, stone, and fixtures with guidance from our team — every detail, intentional.</p>
+      </div>
+      <div class="pstep fi d3">
+        <div class="ps-n">STEP 03</div>
+        <div class="ps-line"></div>
+        <div class="ps-title">Build &amp; Craft</div>
+        <p class="ps-desc">Our crew executes with discipline and care, keeping you informed and your home protected at every stage.</p>
+      </div>
+      <div class="pstep fi d4">
+        <div class="ps-n">STEP 04</div>
+        <div class="ps-line"></div>
+        <div class="ps-title">The Final Reveal</div>
+        <p class="ps-desc">A spotless handover and a walkthrough of your transformed space — built to be loved for years to come.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- TESTIMONIALS -->
+<section id="testimonials">
+  <div class="container">
+    <div class="fi" style="text-align:center; max-width:620px; margin:0 auto;">
+      <div class="stag" style="justify-content:center;">Client Voices</div>
+      <h2 class="sh2">Homeowners who<br><em>love their homes.</em></h2>
+    </div>
+    <div class="test-grid">
+      <div class="tcard fi d1">
+        <div class="tstars">★★★★★</div>
+        <p class="tquote">"From design to completion the team was responsive and communicative. Mohammadreza was reachable whenever we had a question — the finished kitchen exceeded what we pictured."</p>
+        <div class="tmeta">
+          <div class="tavatar">A</div>
+          <div>
+            <div class="tname">Dr. Amir K.</div>
+            <div class="trole">Kitchen Renovation</div>
+          </div>
+        </div>
+      </div>
+      <div class="tcard fi d2">
+        <div class="tstars">★★★★★</div>
+        <p class="tquote">"Meticulous attention to detail and genuinely high-end materials. As an engineer I notice the small things — and every one of them was done right and on schedule."</p>
+        <div class="tmeta">
+          <div class="tavatar">S</div>
+          <div>
+            <div class="tname">Sara M., P.Eng.</div>
+            <div class="trole">Master Bathroom</div>
+          </div>
+        </div>
+      </div>
+      <div class="tcard fi d3">
+        <div class="tstars">★★★★★</div>
+        <p class="tquote">"Professional, courteous, and efficient. They turned a tired older home into something that feels brand new — we genuinely love living here again."</p>
+        <div class="tmeta">
+          <div class="tavatar">J</div>
+          <div>
+            <div class="tname">Jordan &amp; Lena P.</div>
+            <div class="trole">Whole-Home Remodel</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA -->
+<section id="cta">
+  <div class="cta-glow"></div>
+  <div class="cta-dots"></div>
+  <div class="container">
+    <div class="cta-inner">
+      <h2 class="cta-h2 fi">Ready to fall in love<br>with your home <em>again?</em></h2>
+      <p class="cta-sub fi d1">Book a no-pressure consultation. We'll walk your space, talk through ideas, and respond within 24 hours.</p>
+      <div class="cta-row fi d2">
+        <a href="mailto:hello@banffcontracting.com" class="btn-cream">Book a Consultation <span class="arrow">↗</span></a>
+        <a href="tel:+14035550142" class="btn-line">Call (403) 555-0142</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer id="footer">
+  <div class="container">
+    <div class="ftgrid">
+      <div>
+        <div class="ft-brand-name">Banff Contracting</div>
+        <p class="ft-tag">Luxury home renovation across Banff and the Bow Valley. Elevate your living — love your home.</p>
+        <div class="ft-social">
+          <a href="#" aria-label="Facebook"><svg viewBox="0 0 24 24"><path d="M13 22v-9h3l.5-3.5H13V7.2c0-1 .3-1.7 1.8-1.7H17V2.3C16.4 2.2 15.3 2 14 2c-2.7 0-4.5 1.6-4.5 4.7V9.5H6.5V13h3v9z"/></svg></a>
+          <a href="#" aria-label="Instagram"><svg viewBox="0 0 24 24"><path d="M12 2.2c3.2 0 3.6 0 4.9.1 1.2.1 1.8.3 2.2.4.6.2 1 .5 1.4.9.4.4.7.8.9 1.4.2.4.4 1 .4 2.2.1 1.3.1 1.7.1 4.9s0 3.6-.1 4.9c-.1 1.2-.3 1.8-.4 2.2-.2.6-.5 1-.9 1.4-.4.4-.8.7-1.4.9-.4.2-1 .4-2.2.4-1.3.1-1.7.1-4.9.1s-3.6 0-4.9-.1c-1.2-.1-1.8-.3-2.2-.4-.6-.2-1-.5-1.4-.9-.4-.4-.7-.8-.9-1.4-.2-.4-.4-1-.4-2.2C2.2 15.6 2.2 15.2 2.2 12s0-3.6.1-4.9c.1-1.2.3-1.8.4-2.2.2-.6.5-1 .9-1.4.4-.4.8-.7 1.4-.9.4-.2 1-.4 2.2-.4C8.4 2.2 8.8 2.2 12 2.2m0 1.8c-3.1 0-3.5 0-4.7.1-1.1 0-1.7.2-2.1.4-.5.2-.9.4-1.3.8-.4.4-.6.8-.8 1.3-.2.4-.3 1-.4 2.1C2.6 9.9 2.6 10.3 2.6 12s0 2.1.1 3.3c0 1.1.2 1.7.4 2.1.2.5.4.9.8 1.3.4.4.8.6 1.3.8.4.2 1 .3 2.1.4 1.2.1 1.6.1 4.7.1s3.5 0 4.7-.1c1.1 0 1.7-.2 2.1-.4.5-.2.9-.4 1.3-.8.4-.4.6-.8.8-1.3.2-.4.3-1 .4-2.1.1-1.2.1-1.6.1-3.3s0-2.1-.1-3.3c0-1.1-.2-1.7-.4-2.1-.2-.5-.4-.9-.8-1.3-.4-.4-.8-.6-1.3-.8-.4-.2-1-.3-2.1-.4-1.2-.1-1.6-.1-4.7-.1m0 3.1a4.9 4.9 0 1 1 0 9.8 4.9 4.9 0 0 1 0-9.8m0 8a3.1 3.1 0 1 0 0-6.2 3.1 3.1 0 0 0 0 6.2m6.3-8.2a1.15 1.15 0 1 1-2.3 0 1.15 1.15 0 0 1 2.3 0"/></svg></a>
+          <a href="#" aria-label="LinkedIn"><svg viewBox="0 0 24 24"><path d="M6.5 8.5v11H3v-11zM4.7 3.5a2 2 0 1 1 0 4 2 2 0 0 1 0-4M21 19.5h-3.5v-5.8c0-1.4-.5-2.3-1.7-2.3-.9 0-1.5.6-1.7 1.2-.1.2-.1.5-.1.8v6.1H10.5s.05-9.9 0-11H14v1.6c.5-.7 1.3-1.8 3.1-1.8 2.3 0 3.9 1.5 3.9 4.6z"/></svg></a>
+        </div>
+      </div>
+      <div>
+        <div class="ft-col-title">Services</div>
+        <ul class="ft-links">
+          <li><a href="#services">Custom Kitchens</a></li>
+          <li><a href="#services">Spa Bathrooms</a></li>
+          <li><a href="#services">Whole-Home Remodels</a></li>
+          <li><a href="#services">Windows &amp; Doors</a></li>
+        </ul>
+      </div>
+      <div>
+        <div class="ft-col-title">Company</div>
+        <ul class="ft-links">
+          <li><a href="#why">Why Banff</a></li>
+          <li><a href="#projects">Projects</a></li>
+          <li><a href="#process">Our Process</a></li>
+          <li><a href="#testimonials">Reviews</a></li>
+        </ul>
+      </div>
+      <div>
+        <div class="ft-col-title">Get in Touch</div>
+        <ul class="ft-links">
+          <li><a href="mailto:hello@banffcontracting.com">hello@banffcontracting.com</a></li>
+          <li><a href="tel:+14035550142">(403) 555-0142</a></li>
+          <li><a href="#">Banff, Alberta</a></li>
+          <li><a href="#cta">Book a Consultation</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="ft-bottom">
+      <div class="ft-legal">© 2026 Banff Contracting. All rights reserved.</div>
+      <div class="ft-legal">Concept demo · designed by <a href="#">your agency</a></div>
+    </div>
+  </div>
+</footer>
+
+<script>
+  // Nav: solid background on scroll
+  const nav = document.getElementById('nav');
+  window.addEventListener('scroll', () => nav.classList.toggle('solid', window.scrollY > 50), { passive: true });
+
+  // Fade-in on scroll
+  const obs = new IntersectionObserver((entries) => {
+    entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('on'); obs.unobserve(e.target); } });
+  }, { threshold: 0.12, rootMargin: '0px 0px -40px 0px' });
+  document.querySelectorAll('.fi').forEach(el => obs.observe(el));
+
+  // Count-up stats
+  const easeOutQuart = t => 1 - Math.pow(1 - t, 4);
+  function countUp(el, to) {
+    const dur = 1500, t0 = performance.now();
+    const run = now => {
+      const p = Math.min((now - t0) / dur, 1);
+      el.textContent = p < 1 ? Math.floor(easeOutQuart(p) * to) : to;
+      if (p < 1) requestAnimationFrame(run);
+    };
+    requestAnimationFrame(run);
+  }
+  const cobs = new IntersectionObserver((entries) => {
+    entries.forEach(e => { if (e.isIntersecting) { countUp(e.target, +e.target.dataset.to); cobs.unobserve(e.target); } });
+  }, { threshold: 0.6 });
+  document.querySelectorAll('.cnt').forEach(el => cobs.observe(el));
+</script>
+</body>
+</html>
