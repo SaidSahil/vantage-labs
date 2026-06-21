@@ -74,7 +74,10 @@ function ProjectCard({ project }: { project: typeof projects[0] }) {
             style={{ position: 'absolute', inset: 0, overflow: 'hidden' }}
           >
             <iframe
-              src={project.preview ?? `/demos/${project.slug}.html`}
+              // Always frame the local demo. External sites (e.g. project.preview)
+              // send their own X-Frame-Options and refuse to be embedded, leaving a
+              // blank card — the detail page uses the local demo for the same reason.
+              src={`/demos/${project.slug}.html`}
               title={project.name}
               style={{
                 position: 'absolute',

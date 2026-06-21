@@ -18,6 +18,21 @@ A running record of every session: what was built, what broke, what was fixed, a
 
 ## Sessions
 
+### [2026-06-21] — Fix: Portfolio HTML previews not rendering (iframes blocked by headers)
+
+**Changes:**
+- `next.config.ts` — Reworked `headers()`. The global `source: '/(.*)'` rule applied `X-Frame-Options: DENY` + CSP `frame-ancestors 'none'` to **every** path, including the static portfolio demos at `/demos/*.html`. Replaced the global source with a negative-lookahead `/((?!demos/).*)` so the strict anti-framing headers still cover the real app, and added a dedicated `/demos/:path*` block that allows same-origin framing (`X-Frame-Options: SAMEORIGIN`, `frame-ancestors 'self'`) plus `noindex`. Also added `frame-src 'self'` to the app CSP so host pages may embed the previews. Extracted the two CSP strings into `APP_CSP` / `DEMO_CSP` constants.
+- `app/work/page.tsx` — Project card iframe now always uses the local demo (`/demos/${slug}.html`) instead of `project.preview ?? …`. Team4Security's `preview` pointed at the live external site, which refuses to be framed (its own X-Frame-Options) and left a blank card.
+- Removed the old `/demo/:slug*` config block — it was for the *private* client-demo route handler (`/demo/<slug>`), not the portfolio previews, and is now redundant: that route still sets its own `noindex` in code and inherits an equivalent (stronger) header set from the global rule.
+
+**Bugs encountered:** Project detail pages (`/projects/[slug]`) and the `/work` grid showed blank "Live Preview" iframes. Root cause was not missing files — all 16 `public/demos/*.html` exist — but the same-origin demo documents were served with `X-Frame-Options: DENY` and `frame-ancestors 'none'`, so the browser refused to render them in any iframe, even a same-origin parent.
+
+**Fixes applied:** Carved `/demos/*` out of the strict framing headers (see above). Verified with `curl -D-`: `/demos/team4security.html` → `X-Frame-Options: SAMEORIGIN` + `frame-ancestors 'self'`; `/` → still `DENY` + `'none'`. `/projects/team4security`, `/work`, and demo files all return 200.
+
+**Still open / TODO:** Same as previous — Framer-Motion reduced motion, Vercel KV rate limit, Calendly, custom domain, real device testing. Note: `lib/projects.ts` still has a `preview` field that's now only used as data (no longer drives the iframe src) — could be removed in a future cleanup.
+
+---
+
 ### [2026-06-19] — Feature: Private client demo pages at /demo/[slug]
 
 **Changes:**
