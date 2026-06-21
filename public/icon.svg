@@ -1,22 +1,12 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" width="32" height="32">
-  <style>
-    .bg   { fill: #F2F4FB; }
-    .hex  { stroke: #4F8EF7; }
-    .mark { stroke: #4F8EF7; fill: #4F8EF7; }
-    @media (prefers-color-scheme: dark) {
-      .bg   { fill: #0D0F1A; }
-      .hex  { stroke: rgba(255,255,255,0.85); }
-      .mark { stroke: rgba(255,255,255,0.85); fill: rgba(255,255,255,0.85); }
-    }
-  </style>
-  <rect width="32" height="32" rx="6" class="bg"/>
+  <rect width="32" height="32" rx="6" fill="#0D0F1A"/>
   <polygon points="16,3 27,10 27,22 16,29 5,22 5,10"
-           fill="none" class="hex" stroke-width="1.4" stroke-linejoin="round"/>
-  <line x1="9.5" y1="9"  x2="9.5"  y2="23"  class="mark" stroke-width="2"  stroke-linecap="round"/>
-  <line x1="9.5" y1="9"  x2="22.5" y2="23"  class="mark" stroke-width="2"  stroke-linecap="round"/>
-  <line x1="22.5" y1="9" x2="22.5" y2="23"  class="mark" stroke-width="2"  stroke-linecap="round"/>
-  <circle cx="9.5"  cy="9"  r="1.6" class="mark"/>
-  <circle cx="22.5" cy="9"  r="1.6" class="mark"/>
-  <circle cx="9.5"  cy="23" r="1.6" class="mark"/>
-  <circle cx="22.5" cy="23" r="1.6" class="mark"/>
+           fill="none" stroke="rgba(255,255,255,0.85)" stroke-width="1.4" stroke-linejoin="round"/>
+  <line x1="9.5" y1="9"  x2="9.5"  y2="23"  stroke="rgba(255,255,255,0.85)" stroke-width="2"  stroke-linecap="round"/>
+  <line x1="9.5" y1="9"  x2="22.5" y2="23"  stroke="rgba(255,255,255,0.85)" stroke-width="2"  stroke-linecap="round"/>
+  <line x1="22.5" y1="9" x2="22.5" y2="23"  stroke="rgba(255,255,255,0.85)" stroke-width="2"  stroke-linecap="round"/>
+  <circle cx="9.5"  cy="9"  r="1.6" fill="rgba(255,255,255,0.85)"/>
+  <circle cx="22.5" cy="9"  r="1.6" fill="rgba(255,255,255,0.85)"/>
+  <circle cx="9.5"  cy="23" r="1.6" fill="rgba(255,255,255,0.85)"/>
+  <circle cx="22.5" cy="23" r="1.6" fill="rgba(255,255,255,0.85)"/>
 </svg>
