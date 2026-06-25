@@ -33,6 +33,25 @@ A running record of every session: what was built, what broke, what was fixed, a
 
 ---
 
+### [2026-06-25] — Feature: 30-day expiry on demo templates
+
+**Changes:**
+- `demos/registry.json` — New file mapping each static demo slug to its `createdAt` ISO date. All 15 existing demos pre-populated with their actual file creation dates (June 18-21 2026). Add new slugs here whenever a demo is deployed.
+- `app/demo/[slug]/route.ts` — Added 30-day expiry logic:
+  - **Static demos**: route reads `registry.json` on each request; if the slug's `createdAt` is > 30 days ago, returns a styled "Preview expired" page (HTTP 410) instead of the HTML.
+  - **Query-param (personalized) demos**: route checks a new `d` query param (unix timestamp in seconds, set when the link is generated). If `d` is present and > 30 days old, returns the same expired page. Links without `d` still work (backward compatible with existing sent links).
+- Expired page is a clean dark-mode HTML page telling the prospect the 30-day preview period has ended and to contact NodeAxis.
+
+**To extend a demo:**
+- Static: update the date for that slug in `demos/registry.json` and push/deploy.
+- Personalized: regenerate the link with a fresh `d=<unix_seconds>` value.
+
+**To add a new static demo with expiry:** drop the `.html` in `demos/`, add `"slug": "YYYY-MM-DD"` to `registry.json`, push.
+
+**Still open / TODO:** Same as previous.
+
+---
+
 ### [2026-06-19] — Feature: Private client demo pages at /demo/[slug]
 
 **Changes:**
