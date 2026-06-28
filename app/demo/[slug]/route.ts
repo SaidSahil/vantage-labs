@@ -46,6 +46,7 @@ function isExpired(createdAt: string | number): boolean {
   const ts = typeof createdAt === 'number'
     ? createdAt * 1000
     : new Date(createdAt).getTime();
+  if (isNaN(ts)) return false; // malformed input — fail open, don't expire
   return Date.now() - ts > DEMO_TTL_MS;
 }
 
@@ -63,7 +64,8 @@ export async function GET(
   //         d = unix timestamp (seconds) of when the link was created — used for 30-day expiry
   if (sp.get('n')) {
     const d = sp.get('d');
-    if (d && isExpired(parseInt(d, 10))) {
+    const dNum = d ? parseInt(d, 10) : NaN;
+    if (!isNaN(dNum) && isExpired(dNum)) {
       return new NextResponse(expiredPage(sp.get('n') ?? 'this demo'), { status: 410, headers: HTML_HEADERS });
     }
     const html = buildSalonDemo({
@@ -85,10 +87,14 @@ export async function GET(
   // Check demos/registry.json for the 30-day expiry window
   const registryPath = path.join(process.cwd(), 'demos', 'registry.json');
   if (fs.existsSync(registryPath)) {
-    const registry = JSON.parse(fs.readFileSync(registryPath, 'utf-8')) as Record<string, string>;
-    if (registry[safeSlug] && isExpired(registry[safeSlug])) {
-      const displayName = safeSlug.replace(/-/g, ' ');
-      return new NextResponse(expiredPage(displayName), { status: 410, headers: HTML_HEADERS });
+    try {
+      const registry = JSON.parse(fs.readFileSync(registryPath, 'utf-8')) as Record<string, string>;
+      if (registry[safeSlug] && isExpired(registry[safeSlug])) {
+        const displayName = safeSlug.replace(/-/g, ' ');
+        return new NextResponse(expiredPage(displayName), { status: 410, headers: HTML_HEADERS });
+      }
+    } catch {
+      // malformed registry.json — serve the demo rather than 500
     }
   }
 
