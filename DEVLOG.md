@@ -18,6 +18,31 @@ A running record of every session: what was built, what broke, what was fixed, a
 
 ## Sessions
 
+### [2026-07-08] — Feature: Consent-gated Vercel Analytics + first-party visit/engagement analytics
+
+**Changes:**
+- `components/AnalyticsGate.tsx` — New. Wraps `@vercel/analytics`'s `<Analytics />`, only rendering it once `nodeaxis-cookie-consent` is `'accepted'`; listens for `nodeaxis-consent-change` to start/stop live without a reload. `app/layout.tsx` now mounts this instead of `<Analytics />` directly (it was previously unconditional despite the privacy policy promising consent-gating).
+- `components/CookieConsent.tsx` — Updated stale comment now that `AnalyticsGate` actually consumes the event it dispatches.
+- **First-party analytics** (design doc: `docs/plans/2026-07-08-first-party-analytics-design.md`) — added because Vercel Analytics deliberately withholds IP/location and interaction detail:
+  - `prisma/schema.prisma`, `prisma.config.ts`, `lib/db.ts` — Prisma 7 + `@prisma/adapter-pg` against a hosted Postgres (`DATABASE_URL` env var, not yet provisioned). Mirrors `agency-database`'s Prisma conventions. Two models: `Visit` (path, referrer, country/region/city — no raw IP — userAgent, sessionId, createdAt) and `SectionEngagement` (path, section, viewMs, clicks, upserted per session).
+  - `lib/tracking.ts`, `components/Tracker.tsx` — client-side visit beacon on route change, consent-gated, posts to `/api/track/visit`.
+  - `components/Tracked.tsx` — wraps named page sections (`app/page.tsx`: hero, work, case-studies, tech-stack, testimonials, services, process, why, faq, cta) with an `IntersectionObserver` that accumulates time-in-view + click count, flushed to `/api/track/engagement` periodically/on hide/on unmount.
+  - `app/api/track/visit/route.ts`, `app/api/track/engagement/route.ts` — Node-runtime route handlers; location comes from Vercel's `x-vercel-ip-*` request headers (works on any Vercel serverless function, no Edge runtime needed, no external geo-IP lookup).
+  - `lib/session.ts`, `proxy.ts`, `app/admin/login/page.tsx`, `app/api/admin/login/route.ts`, `app/api/admin/logout/route.ts`, `components/LogoutButton.tsx`, `app/admin/analytics/page.tsx` — password-gated dashboard (login form + HMAC session cookie, mirrors `agency-database/lib/session.ts` pattern) showing visits/day, top pages/referrers/countries, section engagement, recent visits.
+  - `app/privacy/page.tsx` — Section 4/5 updated to disclose the database provider and exactly what's collected (approximate location, section engagement) when analytics consent is given.
+  - `package.json` — added `prisma`, `@prisma/client`, `@prisma/adapter-pg`, `pg`, `dotenv`; `postinstall: prisma generate`.
+
+**Migration note:** this Next.js version deprecated `middleware.ts` in favor of `proxy.ts` (defaults to Node.js runtime instead of Edge). Built `proxy.ts` directly rather than `middleware.ts` — Node runtime is also required here since `lib/session.ts` uses Node's `crypto` module, which Edge Runtime doesn't support.
+
+**Verified:** `npm run build` clean, `tsc --noEmit` clean, lint clean on all new files. Smoke-tested on a scratch port (3050, since 3000 was occupied by an unrelated running app): unauthenticated `/admin/analytics` redirects to `/admin/login` (307); wrong password → 401; correct password → session cookie → dashboard renders (500 only because `DATABASE_URL` isn't provisioned yet, expected).
+
+**Still open / TODO:**
+- Provision a Postgres database (Neon or Vercel Postgres) and set `DATABASE_URL`, `ADMIN_PASSWORD`, `SESSION_SECRET` in `.env.local` and in Vercel's project env vars.
+- Run `npx prisma migrate dev` once `DATABASE_URL` is set, to create the `Visit`/`SectionEngagement` tables.
+- Everything else carried forward (contact form backend, Calendly, custom domain, real project images, device testing).
+
+---
+
 ### [2026-06-21] — Fix: Portfolio HTML previews not rendering (iframes blocked by headers)
 
 **Changes:**
@@ -741,5 +766,5 @@ Browsers cache favicons separately from page content and hold them aggressively.
 | 2 | Calendly not embedded | Medium | Open | Goes on /contact page |
 | 3 | Domain not connected | High | Open | Deployment pending |
 | 4 | No real project images | Medium | Open | Placeholders used in lib/projects.ts |
-| 5 | No analytics | Low | Open | Vercel Analytics or GA4 |
+| 5 | No analytics | Low | Done (code) | Vercel Analytics (consent-gated) + first-party visit/location/section-engagement tracking built; needs `DATABASE_URL`/`ADMIN_PASSWORD`/`SESSION_SECRET` provisioned + `prisma migrate dev` before it's live |
 | 6 | Mobile Safari / Android Chrome untested | Medium | Open | Test on real devices after responsiveness fix |

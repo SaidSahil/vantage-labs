@@ -6,9 +6,8 @@ import Link from 'next/link'
 const STORAGE_KEY = 'nodeaxis-cookie-consent'
 const ease = [0.22, 1, 0.36, 1] as [number, number, number, number]
 
-// Records the visitor's choice. When analytics is added later, gate its
-// initialization on `localStorage.getItem('nodeaxis-cookie-consent') === 'accepted'`
-// and/or listen for the 'nodeaxis-consent-change' event dispatched below.
+// Records the visitor's choice and dispatches 'nodeaxis-consent-change',
+// which AnalyticsGate listens for to start/stop Vercel Analytics.
 export default function CookieConsent() {
   const [visible, setVisible] = useState(false)
 

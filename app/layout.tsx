@@ -1,9 +1,10 @@
 import type { Metadata } from 'next'
 import { Inter } from 'next/font/google'
 import Script from 'next/script'
-import { Analytics } from '@vercel/analytics/next'
 import { ThemeProvider } from '@/lib/theme'
 import CookieConsent from '@/components/CookieConsent'
+import AnalyticsGate from '@/components/AnalyticsGate'
+import Tracker from '@/components/Tracker'
 import './globals.css'
 
 const inter = Inter({
@@ -94,9 +95,9 @@ export default function RootLayout({
       <head>
         {/* Organization + LocalBusiness structured data */}
         <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
+        {/* Anti-flash: runs before React hydrates, prevents theme flicker */}
+        <Script id="theme-init" strategy="beforeInteractive">{`(function(){try{var t=localStorage.getItem('nodeaxis-theme');if(t==='light'){document.documentElement.classList.remove('dark')}else{document.documentElement.classList.add('dark')}}catch(e){document.documentElement.classList.add('dark')}})();`}</Script>
       </head>
-      {/* Anti-flash: runs before React hydrates, prevents theme flicker */}
-      <Script id="theme-init" strategy="beforeInteractive">{`(function(){try{var t=localStorage.getItem('nodeaxis-theme');if(t==='light'){document.documentElement.classList.remove('dark')}else{document.documentElement.classList.add('dark')}}catch(e){document.documentElement.classList.add('dark')}})();`}</Script>
       <body>
         <a href="#main-content" className="skip-link">Skip to content</a>
         <ThemeProvider>
@@ -105,7 +106,8 @@ export default function RootLayout({
           </div>
           <CookieConsent />
         </ThemeProvider>
-        <Analytics />
+        <AnalyticsGate />
+        <Tracker />
       </body>
     </html>
   )

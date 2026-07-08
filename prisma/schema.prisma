@@ -1,0 +1,39 @@
+generator client {
+  provider = "prisma-client"
+  output   = "../app/generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+model Visit {
+  id        String   @id @default(cuid())
+  path      String
+  referrer  String?
+  country   String?
+  region    String?
+  city      String?
+  userAgent String?
+  sessionId String
+  createdAt DateTime @default(now())
+
+  @@index([createdAt])
+  @@index([path])
+  @@index([sessionId])
+}
+
+model SectionEngagement {
+  id        String   @id @default(cuid())
+  path      String
+  section   String
+  viewMs    Int      @default(0)
+  clicks    Int      @default(0)
+  sessionId String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@unique([sessionId, path, section])
+  @@index([path, section])
+  @@index([createdAt])
+}

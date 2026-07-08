@@ -39,6 +39,7 @@ const sections: LegalSection[] = [
       [
         '<strong>Vercel</strong> — website hosting and infrastructure;',
         '<strong>Formspree</strong> — processing and delivering contact-form submissions;',
+        '<strong>Our database provider</strong> — storing anonymous visit and engagement analytics described in Section 5;',
         '<strong>Email and telephone providers</strong> — for direct communication with you.',
       ],
       'Some of these providers may store or process data outside of Canada. Where that happens, your information may be subject to the laws of those jurisdictions.',
@@ -47,7 +48,8 @@ const sections: LegalSection[] = [
   {
     heading: '5. Cookies and similar technologies',
     body: [
-      'The Site uses minimal storage. Strictly necessary functionality (such as remembering your theme preference) is stored locally in your browser. If we introduce analytics or other non-essential cookies in the future, we will request your consent through our cookie banner first, and you can change your choice at any time.',
+      'The Site uses minimal storage. Strictly necessary functionality (such as remembering your theme preference) is stored locally in your browser.',
+      'If you accept analytics through our cookie banner, we record which pages you visit, the approximate time of your visit, your approximate location (country/region/city, derived from your IP address — we do not store the IP address itself), the referring site, and how you engage with sections of a page (time spent viewing a section and clicks within it). This helps us understand which pages and content are useful. You can withdraw consent at any time, and no analytics are recorded if you decline.',
     ],
   },
   {

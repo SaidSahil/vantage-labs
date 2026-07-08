@@ -1,10 +1,14 @@
 import type { NextConfig } from "next";
 
+// React dev mode needs eval() for Fast Refresh / debugging (never used in
+// production builds), so relax script-src only when running `next dev`.
+const isDev = process.env.NODE_ENV !== 'production'
+
 // Shared CSP directives for the main app. `frame-src 'self'` lets our own
 // pages embed the same-origin demo previews under /demos/*.html.
 const APP_CSP = [
   "default-src 'self'",
-  "script-src 'self' 'unsafe-inline'",
+  `script-src 'self' 'unsafe-inline'${isDev ? " 'unsafe-eval'" : ''}`,
   "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com",
   "font-src 'self' https://fonts.gstatic.com",
   "img-src 'self' data: blob:",

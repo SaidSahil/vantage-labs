@@ -15,6 +15,7 @@ import Why      from '@/components/Why'
 import FAQ      from '@/components/FAQ'
 import CTA      from '@/components/CTA'
 import Footer   from '@/components/Footer'
+import Tracked  from '@/components/Tracked'
 
 const faqSchema = {
   '@context': 'https://schema.org',
@@ -96,17 +97,17 @@ export default function Home() {
       <Cursor />
       {!loaderDone && <IntroLoader onComplete={handleIntroComplete} />}
       <Navbar />
-      <Hero />
+      <Tracked id="hero"><Hero /></Tracked>
       <Marquee />
-      <Work />
-      <CaseStudies />
-      <TechStack />
-      <Testimonials />
-      <Services />
-      <Process />
-      <Why />
-      <FAQ />
-      <CTA />
+      <Tracked id="work"><Work /></Tracked>
+      <Tracked id="case-studies"><CaseStudies /></Tracked>
+      <Tracked id="tech-stack"><TechStack /></Tracked>
+      <Tracked id="testimonials"><Testimonials /></Tracked>
+      <Tracked id="services"><Services /></Tracked>
+      <Tracked id="process"><Process /></Tracked>
+      <Tracked id="why"><Why /></Tracked>
+      <Tracked id="faq"><FAQ /></Tracked>
+      <Tracked id="cta"><CTA /></Tracked>
       <Footer />
     </main>
   )

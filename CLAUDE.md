@@ -76,7 +76,7 @@ Each route has its own `layout.tsx` for per-page metadata/SEO.
 - Calendly embed on contact page
 - Custom domain (not connected)
 - Real project images/media (placeholders only)
-- Analytics (Vercel Analytics / GA4 not set up)
+- Analytics: Vercel Analytics (consent-gated) + first-party visit/location/section-engagement tracking are built (`docs/plans/2026-07-08-first-party-analytics-design.md`), but need `DATABASE_URL`/`ADMIN_PASSWORD`/`SESSION_SECRET` provisioned and `prisma migrate dev` run before they're live
 - Real device testing on iOS Safari and Android Chrome
 
 ## Dev log
