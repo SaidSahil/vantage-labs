@@ -12,7 +12,7 @@ const sections: LegalSection[] = [
     heading: '2. Information we collect',
     body: [
       { sub: 'Information you give us' },
-      'When you submit our contact form, we collect the information you choose to provide — typically your name, email address, the type of service you\'re interested in, your budget range, and the contents of your message. If you contact us by email or phone, we collect whatever information you include in that communication.',
+      'When you submit our contact form, we collect the information you choose to provide — typically your name, email address, the type of service you\'re interested in, your budget range, and the contents of your message. This is stored in our own database as well as forwarded to our contact-form provider. If you contact us by email or phone, we collect whatever information you include in that communication.',
       { sub: 'Information collected automatically' },
       'Like most websites, our hosting provider automatically logs basic technical data when you visit — such as your IP address, browser type, device information, referring pages, and timestamps. This is used for security, troubleshooting, and keeping the Site running.',
       'We also store a small preference in your browser\'s local storage to remember your light/dark theme choice. This stays on your device and is not transmitted to us.',
@@ -39,7 +39,7 @@ const sections: LegalSection[] = [
       [
         '<strong>Vercel</strong> — website hosting and infrastructure;',
         '<strong>Formspree</strong> — processing and delivering contact-form submissions;',
-        '<strong>Our database provider</strong> — storing anonymous visit and engagement analytics described in Section 5;',
+        '<strong>Our database provider</strong> — storing contact-form submissions and the anonymous visit and engagement analytics described in Section 5;',
         '<strong>Email and telephone providers</strong> — for direct communication with you.',
       ],
       'Some of these providers may store or process data outside of Canada. Where that happens, your information may be subject to the laws of those jurisdictions.',

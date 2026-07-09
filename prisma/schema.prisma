@@ -37,3 +37,20 @@ model SectionEngagement {
   @@index([path, section])
   @@index([createdAt])
 }
+
+model Lead {
+  id        String   @id @default(cuid())
+  name      String
+  email     String
+  service   String?
+  budget    String?
+  message   String
+  path      String?
+  referrer  String?
+  country   String?
+  sessionId String?
+  createdAt DateTime @default(now())
+
+  @@index([createdAt])
+  @@index([sessionId])
+}

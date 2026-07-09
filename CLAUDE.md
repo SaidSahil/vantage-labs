@@ -60,7 +60,7 @@ Each route has its own `layout.tsx` for per-page metadata/SEO.
 2. **IntroLoader must use `setTimeout`** (matched to animation duration) to signal completion — not `onExitComplete`. `onExitComplete` is unreliable on mobile browsers.
 3. **`app/page.tsx`** wires IntroLoader → Hero state. Keep that handoff clean.
 
-## Current status (as of 2026-06-11)
+## Current status (as of 2026-07-09)
 **Done:**
 - All pages and routes built
 - All components built and integrated
@@ -72,12 +72,15 @@ Each route has its own `layout.tsx` for per-page metadata/SEO.
 - Night/day theme toggle with CSS variable system
 
 **Still pending:**
-- Contact form backend (no submission handler — Resend / EmailJS / Formspree not yet wired)
 - Calendly embed on contact page
 - Custom domain (not connected)
 - Real project images/media (placeholders only)
-- Analytics: Vercel Analytics (consent-gated) + first-party visit/location/section-engagement tracking are built (`docs/plans/2026-07-08-first-party-analytics-design.md`), but need `DATABASE_URL`/`ADMIN_PASSWORD`/`SESSION_SECRET` provisioned and `prisma migrate dev` run before they're live
 - Real device testing on iOS Safari and Android Chrome
+
+**Analytics & admin dashboard (live):**
+- Contact form (`app/api/contact/route.ts`) forwards to Formspree AND persists every submission to the `Lead` table — first-party record survives even if Formspree hiccups.
+- Vercel Analytics (consent-gated) + first-party visit/location/section-engagement tracking + lead capture are all live against a provisioned Neon Postgres (`DATABASE_URL`/`ADMIN_PASSWORD`/`SESSION_SECRET` are set, migrations applied). See `docs/plans/2026-07-08-first-party-analytics-design.md` for the original design and `DEVLOG.md` (2026-07-09 entry) for the hardening/expansion pass: dated session cookie with expiry (`lib/session.ts`), rate-limited admin login (`lib/rateLimit.ts`), date-range/page-filterable/paginated dashboard, device/browser breakdown, CSV export (`app/api/admin/export/*`).
+- Dashboard: `/admin/analytics` (password-gated via `/admin/login`, protected by `proxy.ts`).
 
 ## Dev log
 Full session-by-session history is in `DEVLOG.md`. Always update it at the end of every conversation.

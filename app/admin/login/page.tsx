@@ -5,7 +5,7 @@ import { useRouter } from 'next/navigation'
 export default function AdminLoginPage() {
   const router = useRouter()
   const [password, setPassword] = useState('')
-  const [status, setStatus] = useState<'idle' | 'loading' | 'error'>('idle')
+  const [status, setStatus] = useState<'idle' | 'loading' | 'error' | 'rate-limited'>('idle')
 
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault()
@@ -19,7 +19,7 @@ export default function AdminLoginPage() {
       router.push('/admin/analytics')
       router.refresh()
     } else {
-      setStatus('error')
+      setStatus(res.status === 429 ? 'rate-limited' : 'error')
     }
   }
 
@@ -96,6 +96,9 @@ export default function AdminLoginPage() {
         />
         {status === 'error' && (
           <p style={{ fontSize: 12, color: '#f77', marginBottom: 16 }}>Incorrect password. Try again.</p>
+        )}
+        {status === 'rate-limited' && (
+          <p style={{ fontSize: 12, color: '#f77', marginBottom: 16 }}>Too many attempts. Try again in a few minutes.</p>
         )}
         <button
           type="submit"

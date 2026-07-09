@@ -4,6 +4,7 @@ import Link from 'next/link'
 import { motion, AnimatePresence } from 'framer-motion'
 import { ArrowLeft, ArrowRight, Check, Mail, MapPin, Clock, Phone, ChevronDown } from 'lucide-react'
 import { fadeUp, stagger, ease, viewport as vp } from '@/lib/animations'
+import { hasAnalyticsConsent, getSessionId } from '@/lib/tracking'
 import Navbar from '@/components/Navbar'
 import Footer from '@/components/Footer'
 
@@ -75,7 +76,13 @@ export default function ContactPage() {
       const res = await fetch('/api/contact', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(form),
+        body: JSON.stringify({
+          ...form,
+          path: window.location.pathname,
+          // Only attach the session id when the visitor has already opted into
+          // analytics — a form submission shouldn't itself create a tracking id.
+          sessionId: hasAnalyticsConsent() ? getSessionId() : undefined,
+        }),
       })
       setStatus(res.ok ? 'success' : 'error')
     } catch {

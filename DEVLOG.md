@@ -18,6 +18,38 @@ A running record of every session: what was built, what broke, what was fixed, a
 
 ## Sessions
 
+### [2026-07-09] — Hardening + expansion of the admin analytics dashboard
+
+Follow-up to yesterday's first-party analytics build, after an audit of `/admin/analytics`. `DATABASE_URL` turned out to already be provisioned and live (Neon) — the previous session's "still open" item was stale; `prisma migrate status` showed the `Visit`/`SectionEngagement` tables already applied.
+
+**Security fixes:**
+- `lib/session.ts` — the admin session was a static HMAC of a constant string: every login produced the *identical* cookie value forever, with no expiry and no way to invalidate it server-side. Rewrote to sign `{token}.{expiresAt}.{nonce}` per login (7-day expiry, random nonce, `timingSafeEqual` check). Also made a missing `SESSION_SECRET` fail closed (`throw`) in production instead of silently falling back to a hardcoded dev string.
+- `lib/rateLimit.ts` — new, extracted from `app/api/contact/route.ts`'s existing best-effort in-memory limiter so it could be reused.
+- `app/api/admin/login/route.ts` — now rate-limited (5 attempts / 10 min / IP), previously unlimited and brute-forceable. `app/admin/login/page.tsx` surfaces the 429 distinctly from a wrong password.
+
+**New: first-party lead capture.** Contact form submissions were only ever forwarded to Formspree — nothing landed in our own DB, so the analytics dashboard had zero visibility into actual conversions.
+- `prisma/schema.prisma` — new `Lead` model (name, email, service, budget, message, path, referrer, country, sessionId, createdAt); migration `20260709002445_add_lead` applied to the live DB.
+- `app/api/contact/route.ts` — persists to `prisma.lead` before forwarding to Formspree; if Formspree fails but the DB write succeeded, still returns success (the lead isn't lost) instead of showing the user an error.
+- `app/contact/page.tsx` — now sends `path` and a consent-gated `sessionId` (only attached if the visitor already opted into analytics — a form submission shouldn't itself create a tracking id).
+- `app/privacy/page.tsx` — sections 2 and 4 updated to disclose that contact-form submissions are stored in our own database, not just forwarded to Formspree.
+
+**Dashboard rebuild (`app/admin/analytics/page.tsx`):**
+- Date range selector (7/30/90 days) via `?days=`, driving every breakdown query (previously hardcoded to 30 days with no way to change it, and several breakdowns silently queried all-time regardless of the chart's range).
+- New Leads section — paginated table + "Leads" and "Conversion rate" stat tiles.
+- Section engagement is now page-filterable (`?path=`) via a GET form — previously a single global top-20 blending every page's sections together, despite the original design doc calling for "page-selectable."
+- Devices/Browsers breakdown — new `lib/userAgent.ts` classifies the already-captured but previously-unused `userAgent` field.
+- Recent visits — paginated (`?vpage=`, 20/page) and filterable by page (`?vpath=`); was capped at 20 rows with no way to see more.
+- CSV export — `app/api/admin/export/visits/route.ts`, `app/api/admin/export/leads/route.ts` (new, auto-protected by the existing `/api/admin/*` proxy matcher), `lib/csv.ts` shared formatter.
+
+**Verified:** `tsc --noEmit` clean, lint clean, `next build` clean. Restarted the running dev server (it had a stale Prisma client in its `global.prisma` singleton from before the `Lead` model existed — the singleton pattern reuses the instance across Fast Refresh, so it doesn't pick up a regenerated client without a full process restart). Smoke-tested end-to-end against the live DB: login → hardened session cookie issued; rate limit trips correctly on the 6th attempt within 10 min; dashboard renders all new sections; contact form submission → lead persisted → shows up on dashboard → CSV export includes it; honeypot path confirmed *not* to persist a lead; CSV export routes confirmed 401 without the session cookie. Deleted the test lead row afterward so it doesn't sit in the live table.
+
+**Still open / TODO:**
+- No automated cleanup/retention for `Visit`/`SectionEngagement`/`Lead` — still fine per the original design doc's YAGNI call, revisit if the tables grow large.
+- Multi-admin accounts still explicitly out of scope (single shared `ADMIN_PASSWORD`, no user table) — unchanged by this session.
+- Everything else carried forward (Calendly, custom domain, real project images, device testing).
+
+---
+
 ### [2026-07-08] — Feature: Consent-gated Vercel Analytics + first-party visit/engagement analytics
 
 **Changes:**

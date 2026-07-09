@@ -1,39 +1,18 @@
 import { NextRequest, NextResponse } from "next/server"
+import { prisma } from "@/lib/db"
+import { getClientIp, isRateLimited } from "@/lib/rateLimit"
 
 function isString(v: unknown): v is string {
   return typeof v === "string"
 }
 
-// ── Best-effort rate limiting ──────────────────────────────────
-// NOTE: This Map lives in per-serverless-instance memory only. It is
-// best-effort and will not coordinate across multiple instances/regions,
-// and resets on cold start. For hardened limits use a shared store (e.g. KV).
 const RATE_LIMIT_MAX = 5            // max submissions per window
 const RATE_LIMIT_WINDOW_MS = 10 * 60 * 1000  // 10-minute rolling window
-const rateLimitHits = new Map<string, number[]>()
-
-function getClientIp(req: NextRequest): string {
-  const fwd = req.headers.get("x-forwarded-for")
-  if (fwd) return fwd.split(",")[0].trim()
-  return req.headers.get("x-real-ip")?.trim() || "unknown"
-}
-
-function isRateLimited(ip: string): boolean {
-  const now = Date.now()
-  const recent = (rateLimitHits.get(ip) || []).filter(t => now - t < RATE_LIMIT_WINDOW_MS)
-  if (recent.length >= RATE_LIMIT_MAX) {
-    rateLimitHits.set(ip, recent)
-    return true
-  }
-  recent.push(now)
-  rateLimitHits.set(ip, recent)
-  return false
-}
 
 export async function POST(req: NextRequest) {
   try {
     const ip = getClientIp(req)
-    if (isRateLimited(ip)) {
+    if (ip && isRateLimited(`contact:${ip}`, RATE_LIMIT_MAX, RATE_LIMIT_WINDOW_MS)) {
       return NextResponse.json(
         { error: "Too many requests. Please try again in a few minutes." },
         { status: 429 },
@@ -72,13 +51,34 @@ export async function POST(req: NextRequest) {
       message: body.message.trim().slice(0, 5000),
     }
 
+    // First-party capture: store the lead in our own DB so it shows up in the
+    // admin dashboard regardless of whether the Formspree email notification
+    // succeeds. Best-effort — a DB hiccup shouldn't block the actual submission.
+    let leadStored = false
+    try {
+      await prisma.lead.create({
+        data: {
+          ...payload,
+          path: isString(body.path) ? body.path.slice(0, 200) : undefined,
+          referrer: req.headers.get("referer") ?? undefined,
+          country: req.headers.get("x-vercel-ip-country") ?? undefined,
+          sessionId: isString(body.sessionId) ? body.sessionId.slice(0, 100) : undefined,
+        },
+      })
+      leadStored = true
+    } catch (err) {
+      console.error("Failed to store lead", err)
+    }
+
     const res = await fetch(`https://formspree.io/f/${formspreeId}`, {
       method: "POST",
       headers: { "Content-Type": "application/json", Accept: "application/json" },
       body: JSON.stringify(payload),
-    })
+    }).catch(() => null)
 
-    if (!res.ok) {
+    if (!res || !res.ok) {
+      // The lead is still captured first-party even if the email notification failed.
+      if (leadStored) return NextResponse.json({ ok: true })
       return NextResponse.json({ error: "Submission failed" }, { status: 502 })
     }
 

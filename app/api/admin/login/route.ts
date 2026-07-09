@@ -1,7 +1,16 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { makeSession } from '@/lib/session'
+import { getClientIp, isRateLimited } from '@/lib/rateLimit'
+
+const LOGIN_RATE_LIMIT_MAX = 5             // max attempts per window
+const LOGIN_RATE_LIMIT_WINDOW_MS = 10 * 60 * 1000  // 10-minute rolling window
 
 export async function POST(req: NextRequest) {
+  const ip = getClientIp(req)
+  if (ip && isRateLimited(`admin-login:${ip}`, LOGIN_RATE_LIMIT_MAX, LOGIN_RATE_LIMIT_WINDOW_MS)) {
+    return NextResponse.json({ error: 'Too many attempts. Try again later.' }, { status: 429 })
+  }
+
   const body = await req.json().catch(() => ({}))
   const { password } = body as { password?: string }
 
