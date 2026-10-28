@@ -13,7 +13,7 @@ const APP_CSP = [
   "font-src 'self' https://fonts.gstatic.com",
   "img-src 'self' data: blob:",
   "connect-src 'self'",
-  "frame-src 'self'",
+  "frame-src 'self' https://calendly.com",
   "frame-ancestors 'none'",
   "base-uri 'self'",
   "form-action 'self'",
@@ -43,9 +43,9 @@ const nextConfig: NextConfig = {
       {
         // Everything EXCEPT the demo files. `X-Frame-Options: DENY` +
         // `frame-ancestors 'none'` here block clickjacking on the real app.
-        // The negative lookahead keeps these from hitting /demos/*, which must
-        // be framable by our own pages.
-        source: '/((?!demos/).*)',
+        // The negative lookahead keeps these from hitting /demos/* and the
+        // /demo/* route handler, which must be framable by our own pages.
+        source: '/((?!demos?/).*)',
         headers: [
           { key: 'X-Frame-Options', value: 'DENY' },
           { key: 'X-Content-Type-Options', value: 'nosniff' },
@@ -59,7 +59,7 @@ const nextConfig: NextConfig = {
         // Standalone demo HTML (public/demos/*.html). Must be embeddable by our
         // own /projects/[slug] and /work pages, so framing is allowed for the
         // same origin only — not third parties (still clickjacking-safe).
-        source: '/demos/:path*',
+        source: '/:dir(demos|demo)/:path*',
         headers: [
           { key: 'X-Frame-Options', value: 'SAMEORIGIN' },
           { key: 'X-Robots-Tag', value: 'noindex, nofollow' },

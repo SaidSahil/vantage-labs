@@ -1,14 +1,16 @@
 import type { Metadata } from 'next'
 
+const title = 'See It in Action: Free Website Preview for Trades | NodeAxis'
+const description =
+  'See a sample NodeAxis site for a Surrey trade. We build a free preview of your new site — with your name, trade and phone — before you pay anything.'
+
 export const metadata: Metadata = {
-  title: 'Portfolio: Web Design, Apps & Systems — NodeAxis',
-  description: 'Browse NodeAxis portfolio — websites, web apps, dashboards, and systems built for real BC businesses. Hand-coded, no templates, built to perform.',
-  alternates: {
-    canonical: 'https://nodeaxis.ca/work',
-  },
+  title,
+  description,
+  alternates: { canonical: 'https://nodeaxis.ca/work' },
   openGraph: {
-    title: 'Portfolio: Web Design, Apps & Systems — NodeAxis',
-    description: 'Browse NodeAxis portfolio — websites, web apps, dashboards, and systems built for real BC businesses. Hand-coded, no templates, built to perform.',
+    title,
+    description,
     type: 'website',
     locale: 'en_CA',
     url: 'https://nodeaxis.ca/work',

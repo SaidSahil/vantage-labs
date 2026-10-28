@@ -1,370 +1,291 @@
 'use client'
-import { useEffect, useRef, useState } from 'react'
+import { useCallback, useEffect, useRef, useState } from 'react'
 import { usePathname } from 'next/navigation'
-import { motion, AnimatePresence } from 'framer-motion'
 import Link from 'next/link'
-import MagneticButton from '@/components/MagneticButton'
+import { AnimatePresence, motion, useReducedMotion } from 'framer-motion'
 import { useTheme } from '@/lib/theme'
+import { business, promise } from '@/lib/offer'
+import { NodeAxisMark, PillButton } from '@/components/ui'
 
-function NodeAxisMark({ light }: { light?: boolean }) {
-  const c = light ? 'rgba(255,255,255,0.85)' : 'var(--na-logo-color)'
+const links = [
+  { href: '/services', label: 'Services' },
+  { href: '/#how-it-works', label: 'How it works' },
+  { href: '/work', label: 'Demo' },
+  { href: '/about', label: 'About' },
+  { href: '/contact', label: 'Contact' },
+]
+
+const ease = [0.22, 1, 0.36, 1] as const
+
+function PhoneIcon({ size = 15 }: { size?: number }) {
   return (
-    <svg width="22" height="22" viewBox="0 0 22 22" fill="none" aria-hidden="true">
-      {/* Hex outline */}
-      <polygon
-        points="11,1.5 19.5,6.25 19.5,15.75 11,20.5 2.5,15.75 2.5,6.25"
-        stroke={c} strokeWidth="1.3" strokeLinejoin="round"
-      />
-      {/* N — left bar */}
-      <line x1="7" y1="7" x2="7" y2="15" stroke={c} strokeWidth="1.7" strokeLinecap="round"/>
-      {/* N — diagonal */}
-      <line x1="7" y1="7" x2="15" y2="15" stroke={c} strokeWidth="1.7" strokeLinecap="round"/>
-      {/* N — right bar */}
-      <line x1="15" y1="7" x2="15" y2="15" stroke={c} strokeWidth="1.7" strokeLinecap="round"/>
-      {/* Circuit nodes */}
-      <circle cx="7"  cy="7"  r="1.2" fill={c}/>
-      <circle cx="15" cy="7"  r="1.2" fill={c}/>
-      <circle cx="7"  cy="15" r="1.2" fill={c}/>
-      <circle cx="15" cy="15" r="1.2" fill={c}/>
+    <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+      <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.8 19.8 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6A19.8 19.8 0 0 1 2.12 4.18 2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.13.96.36 1.9.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.91.34 1.85.57 2.81.7A2 2 0 0 1 22 16.92z" />
     </svg>
   )
 }
 
-export default function Navbar() {
-  const pathname = usePathname()
-  const isHome = pathname === '/'
-  const isWork = pathname === '/work'
+function ThemeToggle() {
   const { theme, toggle } = useTheme()
+  const isDark = theme === 'dark'
+  return (
+    <button
+      type="button"
+      onClick={toggle}
+      className="na-icon-btn"
+      aria-label={isDark ? 'Switch to light mode' : 'Switch to dark mode'}
+    >
+      {isDark ? (
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" aria-hidden="true">
+          <circle cx="12" cy="12" r="4.5" />
+          <path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41" />
+        </svg>
+      ) : (
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" aria-hidden="true">
+          <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z" />
+        </svg>
+      )}
+    </button>
+  )
+}
 
-  const links = [
-    { href: '/work',     label: 'Work' },
-    { href: '/services', label: 'Services' },
-    { href: '/blog',     label: 'Insights' },
-    { href: '/about',    label: 'About' },
-    { href: '/contact',  label: 'Contact' },
-  ]
+function isActive(pathname: string, href: string) {
+  if (href.includes('#')) return false
+  return pathname === href || pathname.startsWith(`${href}/`)
+}
 
+export default function Navbar() {
+  const pathname = usePathname() ?? '/'
+  const reduce = useReducedMotion()
   const [scrolled, setScrolled] = useState(false)
   const [menuOpen, setMenuOpen] = useState(false)
+  const openBtnRef = useRef<HTMLButtonElement>(null)
+  const closeBtnRef = useRef<HTMLButtonElement>(null)
   const menuRef = useRef<HTMLDivElement>(null)
 
-  // true only on the work page before any scroll — triggers white text mode
-  const light = isWork && !scrolled
-
   useEffect(() => {
-    const onScroll = () => setScrolled(window.scrollY > 60)
+    const onScroll = () => setScrolled(window.scrollY > 24)
+    onScroll()
     window.addEventListener('scroll', onScroll, { passive: true })
     return () => window.removeEventListener('scroll', onScroll)
   }, [])
 
+  const closeMenu = useCallback(() => {
+    setMenuOpen(false)
+    // Return focus to the trigger once the overlay is gone.
+    requestAnimationFrame(() => openBtnRef.current?.focus())
+  }, [])
+
+  // Body scroll lock, Escape to close, focus trap while the menu is open.
   useEffect(() => {
     if (!menuOpen) return
-    const handler = (e: MouseEvent) => {
-      if (menuRef.current && !menuRef.current.contains(e.target as Node)) {
-        setMenuOpen(false)
+    const { body } = document
+    const prevOverflow = body.style.overflow
+    body.style.overflow = 'hidden'
+    closeBtnRef.current?.focus()
+
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') {
+        e.preventDefault()
+        closeMenu()
+        return
+      }
+      if (e.key !== 'Tab' || !menuRef.current) return
+      const focusables = menuRef.current.querySelectorAll<HTMLElement>(
+        'a[href], button:not([disabled]), [tabindex]:not([tabindex="-1"])',
+      )
+      if (focusables.length === 0) return
+      const first = focusables[0]
+      const last = focusables[focusables.length - 1]
+      if (e.shiftKey && document.activeElement === first) {
+        e.preventDefault()
+        last.focus()
+      } else if (!e.shiftKey && document.activeElement === last) {
+        e.preventDefault()
+        first.focus()
       }
     }
-    document.addEventListener('mousedown', handler)
-    return () => document.removeEventListener('mousedown', handler)
-  }, [menuOpen])
+    document.addEventListener('keydown', onKey)
+    return () => {
+      body.style.overflow = prevOverflow
+      document.removeEventListener('keydown', onKey)
+    }
+  }, [menuOpen, closeMenu])
 
-  const textColor    = light ? '#FFFFFF'                : 'var(--na-text)'
-  const mutedColor   = light ? 'rgba(255,255,255,0.55)' : 'var(--na-muted)'
-  const borderColor  = light ? 'rgba(255,255,255,0.28)' : 'var(--na-border-mid)'
-  const dividerColor = light ? 'rgba(255,255,255,0.18)' : 'var(--na-border-mid)'
+  const fade = reduce ? { duration: 0 } : { duration: 0.35, ease }
 
   return (
-    <nav
-      style={{
-        position: 'fixed',
-        top: 0,
-        left: 0,
-        right: 0,
-        zIndex: 50,
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'space-between',
-        paddingLeft: 'clamp(24px, 4vw, 56px)',
-        paddingRight: 'clamp(24px, 4vw, 56px)',
-        paddingTop: scrolled ? 16 : 28,
-        paddingBottom: scrolled ? 16 : 28,
-        transition: 'all 0.35s cubic-bezier(0.22,1,0.36,1)',
-        background: scrolled ? 'var(--na-nav-bg)' : 'transparent',
-        backdropFilter: scrolled ? 'blur(18px)' : 'none',
-        borderBottom: scrolled ? '1px solid var(--na-border)' : '1px solid transparent',
-      }}
-    >
-      {/* Logo */}
-      <Link
-        href="/"
-        aria-label="NodeAxis home"
-        style={{ display: 'flex', alignItems: 'center', gap: 9, textDecoration: 'none' }}
+    <>
+      <header
+        style={{
+          position: 'fixed',
+          top: 0,
+          left: 0,
+          right: 0,
+          zIndex: 50,
+          padding: 'var(--na-gutter)',
+          pointerEvents: 'none',
+        }}
       >
-        <NodeAxisMark light={light} />
-        <span style={{ fontSize: 13, fontWeight: 700, letterSpacing: '-0.01em', color: textColor, transition: 'color 0.35s ease' }}>
-          NodeAxis
-        </span>
-      </Link>
-
-      {/* Desktop links */}
-      <ul
-        style={{ gap: 40, listStyle: 'none', margin: 0, padding: 0 }}
-        className="hidden md:flex"
-        role="list"
-      >
-        {links.map((link, i) => {
-          const isActive = pathname === link.href
-          return (
-            <motion.li
-              key={link.href}
-              initial={{ opacity: 0, y: -5 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.25 + i * 0.07, duration: 0.45, ease: 'easeOut' }}
-            >
-              <Link
-                href={link.href}
-                style={{
-                  fontSize: 12,
-                  fontWeight: isActive ? 600 : 400,
-                  letterSpacing: '0.06em',
-                  color: isActive ? textColor : mutedColor,
-                  textDecoration: 'none',
-                  textTransform: 'uppercase',
-                  transition: 'color 0.2s ease, font-weight 0.2s ease',
-                  position: 'relative',
-                  paddingBottom: 2,
-                }}
-                onMouseEnter={e => (e.currentTarget.style.color = textColor)}
-                onMouseLeave={e => (e.currentTarget.style.color = isActive ? textColor : mutedColor)}
-              >
-                {link.label}
-                {isActive && (
-                  <span style={{
-                    position: 'absolute',
-                    bottom: -4,
-                    left: '50%',
-                    transform: 'translateX(-50%)',
-                    width: 4,
-                    height: 4,
-                    borderRadius: '50%',
-                    background: light ? '#FFFFFF' : 'var(--na-accent)',
-                  }} />
-                )}
-              </Link>
-            </motion.li>
-          )
-        })}
-      </ul>
-
-      {/* Desktop CTA */}
-      <motion.div
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ delay: 0.5, duration: 0.4 }}
-        style={{ alignItems: 'center', gap: 12 }}
-        className="hidden md:flex"
-      >
-        <div style={{ width: 1, height: 18, background: dividerColor, transition: 'background 0.35s ease' }} />
-
-        {/* Theme toggle */}
-        <button
-          type="button"
-          onClick={toggle}
-          aria-label={theme === 'dark' ? 'Switch to light mode' : 'Switch to dark mode'}
-          className="theme-toggle"
-        >
-          {theme === 'dark' ? (
-            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round">
-              <circle cx="12" cy="12" r="5"/>
-              <line x1="12" y1="1" x2="12" y2="3"/>
-              <line x1="12" y1="21" x2="12" y2="23"/>
-              <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/>
-              <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/>
-              <line x1="1" y1="12" x2="3" y2="12"/>
-              <line x1="21" y1="12" x2="23" y2="12"/>
-              <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/>
-              <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/>
-            </svg>
-          ) : (
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round">
-              <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>
-            </svg>
-          )}
-        </button>
-
-        <MagneticButton strength={0.3}>
-          <Link
-            href="/contact"
-            style={{
-              fontSize: 12,
-              fontWeight: 600,
-              letterSpacing: '0.06em',
-              textTransform: 'uppercase',
-              color: textColor,
-              textDecoration: 'none',
-              padding: '9px 20px',
-              border: `1px solid ${borderColor}`,
-              borderRadius: 100,
-              transition: 'all 0.22s ease',
-              whiteSpace: 'nowrap',
-              display: 'inline-block',
-            }}
-            onMouseEnter={e => {
-              e.currentTarget.style.background = textColor
-              e.currentTarget.style.color = light ? '#0D0F1A' : 'var(--na-bg)'
-              e.currentTarget.style.borderColor = textColor
-            }}
-            onMouseLeave={e => {
-              e.currentTarget.style.background = 'transparent'
-              e.currentTarget.style.color = textColor
-              e.currentTarget.style.borderColor = borderColor
-            }}
-          >
-            Start a Project
-          </Link>
-        </MagneticButton>
-      </motion.div>
-
-      {/* Mobile — Menu dropdown */}
-      <div ref={menuRef} className="flex md:hidden" style={{ position: 'relative', alignItems: 'center', gap: 8 }}>
-        {/* Mobile theme toggle */}
-        <button
-          type="button"
-          onClick={toggle}
-          aria-label={theme === 'dark' ? 'Switch to light mode' : 'Switch to dark mode'}
-          className="theme-toggle"
-        >
-          {theme === 'dark' ? (
-            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round">
-              <circle cx="12" cy="12" r="5"/>
-              <line x1="12" y1="1" x2="12" y2="3"/>
-              <line x1="12" y1="21" x2="12" y2="23"/>
-              <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/>
-              <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/>
-              <line x1="1" y1="12" x2="3" y2="12"/>
-              <line x1="21" y1="12" x2="23" y2="12"/>
-              <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/>
-              <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/>
-            </svg>
-          ) : (
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round">
-              <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>
-            </svg>
-          )}
-        </button>
-
-        <button
-          onClick={() => setMenuOpen(v => !v)}
-          aria-label={menuOpen ? 'Close menu' : 'Open menu'}
-          aria-expanded={menuOpen}
-          type="button"
+        <nav
+          aria-label="Main"
           style={{
-            background: menuOpen ? 'var(--na-text)' : 'transparent',
-            border: '1px solid',
-            borderColor: menuOpen ? 'var(--na-text)' : borderColor,
-            borderRadius: 100,
-            padding: '7px 16px',
+            pointerEvents: 'auto',
             display: 'flex',
             alignItems: 'center',
-            gap: 6,
-            cursor: 'pointer',
-            transition: 'all 0.2s ease',
+            justifyContent: 'space-between',
+            gap: 16,
+            minHeight: 64,
+            padding: '8px 8px 8px clamp(16px, 2vw, 24px)',
+            borderRadius: 999,
+            background: scrolled ? 'var(--na-nav-bg)' : 'transparent',
+            backdropFilter: scrolled ? 'blur(16px) saturate(1.4)' : 'none',
+            WebkitBackdropFilter: scrolled ? 'blur(16px) saturate(1.4)' : 'none',
+            border: `1px solid ${scrolled ? 'var(--na-border)' : 'transparent'}`,
+            boxShadow: scrolled ? '0 8px 30px -18px rgba(18,19,22,0.25)' : 'none',
+            transition: 'background-color 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease',
+            color: 'var(--na-text)',
           }}
         >
-          <span style={{
-            fontSize: 11,
-            fontWeight: 600,
-            letterSpacing: '0.08em',
-            textTransform: 'uppercase',
-            color: menuOpen ? 'var(--na-bg)' : textColor,
-            transition: 'color 0.2s ease',
-          }}>
-            Menu
-          </span>
-          <motion.svg
-            width="10"
-            height="10"
-            viewBox="0 0 10 10"
-            fill="none"
-            animate={{ rotate: menuOpen ? 180 : 0 }}
-            transition={{ duration: 0.2 }}
-            aria-hidden="true"
+          {/* Logo */}
+          <Link
+            href="/"
+            aria-label={`${business.name} home`}
+            style={{ display: 'inline-flex', alignItems: 'center', gap: 9, minHeight: 44, color: 'var(--na-logo-color)' }}
           >
-            <path
-              d="M2 3.5L5 6.5L8 3.5"
-              stroke={menuOpen ? 'var(--na-bg)' : textColor}
-              strokeWidth="1.5"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-            />
-          </motion.svg>
-        </button>
+            <NodeAxisMark />
+            <span style={{ fontFamily: 'var(--na-font-display)', fontSize: 18, fontWeight: 600, letterSpacing: '-0.03em', color: 'var(--na-text)' }}>
+              {business.name}
+            </span>
+          </Link>
 
-        <AnimatePresence>
-          {menuOpen && (
-            <motion.div
-              initial={{ opacity: 0, y: -8, scale: 0.96 }}
-              animate={{ opacity: 1, y: 0, scale: 1 }}
-              exit={{ opacity: 0, y: -8, scale: 0.96 }}
-              transition={{ duration: 0.18, ease: 'easeOut' }}
-              style={{
-                position: 'absolute',
-                top: 'calc(100% + 10px)',
-                right: 0,
-                background: 'var(--na-bg)',
-                border: '1px solid var(--na-border-mid)',
-                borderRadius: 16,
-                boxShadow: '0 8px 32px rgba(0,0,0,0.10)',
-                minWidth: 180,
-                overflow: 'hidden',
-              }}
-            >
-              {links.map((link, i) => (
+          {/* Desktop links */}
+          <ul className="hidden lg:flex" style={{ alignItems: 'center', gap: 'clamp(16px, 2vw, 32px)', listStyle: 'none' }}>
+            {links.map(link => (
+              <li key={link.href}>
                 <Link
-                  key={link.href}
                   href={link.href}
-                  onClick={() => setMenuOpen(false)}
-                  style={{
-                    display: 'block',
-                    padding: '14px 20px',
-                    fontSize: 13,
-                    fontWeight: 500,
-                    color: 'var(--na-text)',
-                    textDecoration: 'none',
-                    borderBottom: i < links.length - 1 ? '1px solid var(--na-border-mid)' : 'none',
-                    transition: 'background 0.15s ease',
-                  }}
-                  onMouseEnter={e => (e.currentTarget.style.background = 'var(--na-surface)')}
-                  onMouseLeave={e => (e.currentTarget.style.background = 'transparent')}
+                  className="na-nav-link"
+                  aria-current={isActive(pathname, link.href) ? 'page' : undefined}
                 >
                   {link.label}
                 </Link>
-              ))}
-              <div style={{ padding: '12px 20px', borderTop: '1px solid var(--na-border-mid)' }}>
-                <Link
-                  href="/contact"
-                  onClick={() => setMenuOpen(false)}
-                  style={{
-                    display: 'block',
-                    textAlign: 'center',
-                    fontSize: 12,
-                    fontWeight: 600,
-                    letterSpacing: '0.06em',
-                    textTransform: 'uppercase',
-                    color: 'var(--na-inv-text)',
-                    textDecoration: 'none',
-                    padding: '10px 16px',
-                    background: 'var(--na-inv-bg)',
-                    borderRadius: 100,
-                  }}
-                >
-                  Start a Project
-                </Link>
-              </div>
-            </motion.div>
-          )}
-        </AnimatePresence>
-      </div>
-    </nav>
+              </li>
+            ))}
+          </ul>
+
+          {/* Right side */}
+          <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
+            <a
+              href={business.phoneHref}
+              className="na-nav-link hidden xl:inline-flex"
+              style={{ gap: 8, color: 'var(--na-text)', marginRight: 6 }}
+            >
+              <PhoneIcon />
+              <span>{business.phoneDisplay}</span>
+            </a>
+            <PillButton href={promise.ctaHref} size="sm" className="hidden sm:inline-flex">
+              Free audit
+            </PillButton>
+            <ThemeToggle />
+            <button
+              ref={openBtnRef}
+              type="button"
+              className="na-icon-btn lg:hidden"
+              aria-label="Open menu"
+              aria-expanded={menuOpen}
+              aria-controls="mobile-menu"
+              onClick={() => setMenuOpen(true)}
+            >
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" aria-hidden="true">
+                <path d="M4 8h16M4 16h16" />
+              </svg>
+            </button>
+          </div>
+        </nav>
+      </header>
+
+      {/* Mobile full-screen dark menu */}
+      <AnimatePresence>
+        {menuOpen && (
+          <motion.div
+            ref={menuRef}
+            id="mobile-menu"
+            role="dialog"
+            aria-modal="true"
+            aria-label="Site menu"
+            className="na-inverse lg:hidden"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={fade}
+            style={{
+              position: 'fixed',
+              inset: 0,
+              zIndex: 100,
+              background: 'var(--na-inv-bg)',
+              color: 'var(--na-inv-text)',
+              display: 'flex',
+              flexDirection: 'column',
+              padding: 'calc(var(--na-gutter) + 8px) clamp(20px, 5vw, 32px) max(24px, env(safe-area-inset-bottom))',
+              overflowY: 'auto',
+            }}
+          >
+            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', minHeight: 64 }}>
+              <Link
+                href="/"
+                onClick={closeMenu}
+                aria-label={`${business.name} home`}
+                style={{ display: 'inline-flex', alignItems: 'center', gap: 9, minHeight: 44 }}
+              >
+                <NodeAxisMark />
+                <span style={{ fontFamily: 'var(--na-font-display)', fontSize: 18, fontWeight: 600, letterSpacing: '-0.03em' }}>
+                  {business.name}
+                </span>
+              </Link>
+              <button ref={closeBtnRef} type="button" className="na-icon-btn" aria-label="Close menu" onClick={closeMenu}>
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" aria-hidden="true">
+                  <path d="M6 6l12 12M18 6L6 18" />
+                </svg>
+              </button>
+            </div>
+
+            <nav aria-label="Mobile" style={{ flex: 1, display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '32px 0' }}>
+              <ul style={{ listStyle: 'none', display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 4, textAlign: 'center' }}>
+                {[{ href: '/', label: 'Home' }, ...links].map((link, i) => (
+                  <motion.li
+                    key={link.href}
+                    initial={reduce ? false : { opacity: 0, y: 16 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={reduce ? { duration: 0 } : { duration: 0.45, ease, delay: 0.05 + i * 0.04 }}
+                  >
+                    <Link
+                      href={link.href}
+                      className="na-menu-link"
+                      aria-current={(link.href === '/' ? pathname === '/' : isActive(pathname, link.href)) ? 'page' : undefined}
+                      onClick={() => setMenuOpen(false)}
+                    >
+                      {link.label}
+                    </Link>
+                  </motion.li>
+                ))}
+              </ul>
+            </nav>
+
+            <div style={{ display: 'flex', flexDirection: 'column', gap: 10, paddingTop: 16, borderTop: '1px solid var(--na-inv-border)' }}>
+              <PillButton href={promise.ctaHref} size="lg" block arrow onClick={() => setMenuOpen(false)}>
+                {promise.cta}
+              </PillButton>
+              <PillButton href={business.phoneHref} variant="ghost" size="lg" block icon={<PhoneIcon size={16} />}>
+                Call {business.phoneDisplay}
+              </PillButton>
+              <p style={{ fontSize: 13, color: 'var(--na-inv-muted)', textAlign: 'center', marginTop: 4 }}>
+                {business.hours} · Serving {business.city} and nearby
+              </p>
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+    </>
   )
 }

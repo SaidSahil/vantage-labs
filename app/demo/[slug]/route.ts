@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from 'next/server';
 import path from 'path';
 import fs from 'fs';
 import { buildSalonDemo } from '@/lib/demo-template';
+import { buildTradesDemo } from '@/lib/trades-demo.template';
 
 const HTML_HEADERS = {
   'Content-Type': 'text/html; charset=utf-8',
@@ -57,6 +58,33 @@ export async function GET(
   const { slug } = await params;
   const safeSlug = path.basename(slug);
   const sp = req.nextUrl.searchParams;
+
+  // Personalized trades demo — /demo/trades only.
+  // Params: n = business name, t = trade, c = city (default Surrey), p = phone,
+  //         e = email, d = unix seconds of link creation (30-day expiry).
+  // Without n, renders a default sample so /work can showcase it.
+  if (safeSlug === 'trades') {
+    const n = sp.get('n');
+    if (n) {
+      const d = sp.get('d');
+      const dNum = d ? parseInt(d, 10) : NaN;
+      if (!isNaN(dNum) && isExpired(dNum)) {
+        return new NextResponse(expiredPage(n), { status: 410, headers: HTML_HEADERS });
+      }
+    }
+    const html = buildTradesDemo(
+      n
+        ? {
+            name: n,
+            trade: sp.get('t') ?? '',
+            city: sp.get('c') || 'Surrey',
+            phone: sp.get('p') ?? '',
+            email: sp.get('e') ?? '',
+          }
+        : { name: 'Example Plumbing Co.', trade: 'Plumbing', city: 'Surrey', phone: '604-555-0100', email: '' },
+    );
+    return new NextResponse(html, { status: 200, headers: HTML_HEADERS });
+  }
 
   // Personalized salon demo — filled from query params the CRM encodes into
   // the link. No database or filesystem needed; works on Vercel serverless.

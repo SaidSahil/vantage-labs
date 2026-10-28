@@ -272,7 +272,7 @@ export default function AboutPage() {
               lineHeight: 1.82,
               marginBottom: 28,
             }}>
-              Most businesses get handed a template and told it's web design. NodeAxis builds
+              Most businesses get handed a template and told it’s web design. NodeAxis builds
               websites, systems, databases, and digital infrastructure — from scratch, to senior standard.
             </p>
             <div style={{
@@ -298,7 +298,7 @@ export default function AboutPage() {
             position: 'relative', zIndex: 1, maxWidth: 480,
           }}
         >
-          Most businesses get handed a template and told it's web design. NodeAxis builds
+          Most businesses get handed a template and told it’s web design. NodeAxis builds
           websites, systems, databases, and digital infrastructure — from scratch, senior standard. From $399.
         </motion.p>
 
@@ -377,10 +377,10 @@ export default function AboutPage() {
                   position: 'absolute', left: 0, top: 0, bottom: 0,
                   width: 3, background: 'var(--na-accent)', borderRadius: 2,
                 }} />
-                "I've built systems, databases, and digital products. NodeAxis exists because small businesses
+                “I’ve built systems, databases, and digital products. NodeAxis exists because small businesses
                 {' '}<em style={{ fontStyle: 'italic', fontWeight: 300, color: 'var(--na-heading)' }}>
                   deserve that same senior-level craft — without the agency price tag.
-                </em>"
+                </em>”
               </blockquote>
               <p style={{
                 fontSize: 12, fontWeight: 700, letterSpacing: '0.12em',
@@ -437,7 +437,7 @@ export default function AboutPage() {
               </p>
               <p style={{ fontSize: 14, color: 'var(--na-muted)', lineHeight: 1.88 }}>
                 Based in British Columbia. Metro Vancouver clients know us by name.
-                Coast to coast, every project — whether it's a landing page or a custom system — gets the
+                Coast to coast, every project — whether it’s a landing page or a custom system — gets the
                 same focused attention.
               </p>
             </motion.div>
@@ -468,7 +468,7 @@ export default function AboutPage() {
               lineHeight: 0.92, color: 'var(--na-text)',
               maxWidth: 700,
             }}>
-              Three things we'll{' '}
+              Three things we’ll{' '}
               <em style={{ fontStyle: 'italic', fontWeight: 300, color: 'var(--na-heading)' }}>
                 never&nbsp;compromise.
               </em>
@@ -596,7 +596,7 @@ export default function AboutPage() {
           >
             Numbers that reflect a commitment:{' '}
             <strong style={{ color: 'var(--na-inv-text)', fontWeight: 700, fontStyle: 'normal' }}>
-              affordable doesn't mean compromise.
+              affordable doesn’t mean compromise.
             </strong>
           </motion.p>
         </div>
@@ -790,7 +790,7 @@ export default function AboutPage() {
               color: 'var(--na-inv-text)', lineHeight: 0.9,
               marginBottom: 36,
             }}>
-              LET'S BUILD
+              LET’S BUILD
               <br />
               <em style={{ fontStyle: 'italic', fontWeight: 300, color: 'rgba(232,232,240,0.38)' }}>
                 something real.
@@ -803,7 +803,7 @@ export default function AboutPage() {
               lineHeight: 1.82, fontWeight: 300,
             }}>
               Ready to get your business online with a site that actually works?
-              Tell us what you need — we'll respond within one business day.
+              Tell us what you need — we’ll respond within one business day.
             </p>
             <div style={{ display: 'flex', gap: 14, justifyContent: 'center', flexWrap: 'wrap' }}>
               <Link href="/contact" className="btn-primary">

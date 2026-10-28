@@ -1,14 +1,17 @@
 import type { Metadata } from 'next'
+import { business, faqs, tiers } from '@/lib/offer'
+
+const title = 'Services & Prices for Surrey Trades | NodeAxis'
+const description =
+  'Plain prices for Surrey trades: a free local audit, a one-time Get Found setup, a monthly Never Miss a Lead plan, and custom tools. Month-to-month, no long contracts.'
 
 export const metadata: Metadata = {
-  title: 'Web Design, Apps & Software Services in BC — NodeAxis',
-  description: 'Hand-coded websites, web apps, dashboards, and custom software for BC businesses, starting at $399. No templates, no shortcuts — built to perform.',
-  alternates: {
-    canonical: 'https://nodeaxis.ca/services',
-  },
+  title,
+  description,
+  alternates: { canonical: 'https://nodeaxis.ca/services' },
   openGraph: {
-    title: 'Web Design, Apps & Software Services in BC — NodeAxis',
-    description: 'Hand-coded websites, web apps, dashboards, and custom software for BC businesses, starting at $399. No templates, no shortcuts — built to perform.',
+    title,
+    description,
     type: 'website',
     locale: 'en_CA',
     url: 'https://nodeaxis.ca/services',
@@ -16,27 +19,42 @@ export const metadata: Metadata = {
   },
 }
 
+const numericPrice = (p: string) => {
+  const n = p.replace(/[^0-9.]/g, '')
+  return n ? n : undefined
+}
+
 const servicesSchema = {
   '@context': 'https://schema.org',
   '@type': 'Service',
   '@id': 'https://nodeaxis.ca/services#service',
-  serviceType: 'Web Design, Web Applications, Dashboards & Software Development',
+  serviceType: 'Google Business Profile, review requests, missed-call text-back and websites for trades',
   provider: { '@id': 'https://nodeaxis.ca/#organization' },
-  areaServed: { '@type': 'State', name: 'British Columbia' },
+  areaServed: business.serviceArea.map(name => ({ '@type': 'City', name })),
   url: 'https://nodeaxis.ca/services',
-  description:
-    'Hand-coded websites, web apps, dashboards, and custom software for businesses in British Columbia, Canada. Fixed pricing from $399.',
-  offers: {
-    '@type': 'Offer',
-    priceCurrency: 'CAD',
-    price: '399',
-    priceSpecification: {
-      '@type': 'PriceSpecification',
+  description,
+  hasOfferCatalog: {
+    '@type': 'OfferCatalog',
+    name: 'NodeAxis plans',
+    itemListElement: tiers.map(t => ({
+      '@type': 'Offer',
+      name: t.name,
+      description: t.pitch,
+      url: `https://nodeaxis.ca/services#${t.id}`,
       priceCurrency: 'CAD',
-      minPrice: '399',
-    },
-    availability: 'https://schema.org/InStock',
+      ...(numericPrice(t.price) ? { price: numericPrice(t.price) } : {}),
+    })),
   },
+}
+
+const faqSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'FAQPage',
+  mainEntity: faqs.map(f => ({
+    '@type': 'Question',
+    name: f.q,
+    acceptedAnswer: { '@type': 'Answer', text: f.a },
+  })),
 }
 
 const breadcrumbSchema = {
@@ -52,6 +70,7 @@ export default function ServicesLayout({ children }: { children: React.ReactNode
   return (
     <>
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(servicesSchema) }} />
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }} />
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }} />
       {children}
     </>

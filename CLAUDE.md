@@ -1,7 +1,7 @@
 # NodeAxis — Project Context
 
 ## What this is
-A Next.js 14 agency website for "NodeAxis." Supports day/night theme toggle. Dark default, high-motion, premium feel. App Router. TypeScript. Tailwind CSS. Framer Motion for all animations.
+Website for "NodeAxis" — since 2026-10-28 (branch `trades-site`) positioned as the local tech partner for Surrey, BC trades ("More calls. More 5-star reviews. Less paperwork."). Brief: `docs/plans/2026-10-28-trades-site-brief.md`; all copy/prices live in `lib/offer.ts`; UI primitives in `components/ui/`. Light (cream) default with theme toggle, calm motion. The old dark agency site is preserved at tag `v1-agency-site` / branch `legacy/agency-site`. Next.js 16 App Router, TypeScript, Tailwind 4, Framer Motion.
 
 ## Project root
 `c:\Users\Said Sahil\Desktop\Project_1\P\projects\Agency\vantage-labs\`

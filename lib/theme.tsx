@@ -3,25 +3,41 @@ import { createContext, useContext, useEffect, useState } from 'react'
 
 type Theme = 'dark' | 'light'
 
+const STORAGE_KEY = 'nodeaxis-theme'
+
+// Light is the default; dark only when the visitor explicitly chose it.
 const ThemeContext = createContext<{ theme: Theme; toggle: () => void }>({
-  theme: 'dark',
+  theme: 'light',
   toggle: () => {},
 })
 
+function readStored(): Theme {
+  try {
+    return localStorage.getItem(STORAGE_KEY) === 'dark' ? 'dark' : 'light'
+  } catch {
+    return 'light'
+  }
+}
+
 export function ThemeProvider({ children }: { children: React.ReactNode }) {
-  const [theme, setTheme] = useState<Theme>('dark')
+  const [theme, setTheme] = useState<Theme>('light')
 
   useEffect(() => {
-    const stored = localStorage.getItem('nodeaxis-theme') as Theme | null
-    const initial = stored ?? 'dark'
-    setTheme(initial)
+    const initial = readStored()
     document.documentElement.classList.toggle('dark', initial === 'dark')
+    // Sync React state with the class the anti-flash script already applied.
+    // eslint-disable-next-line react-hooks/set-state-in-effect
+    setTheme(initial)
   }, [])
 
   const toggle = () => {
     setTheme(current => {
       const next = current === 'dark' ? 'light' : 'dark'
-      localStorage.setItem('nodeaxis-theme', next)
+      try {
+        localStorage.setItem(STORAGE_KEY, next)
+      } catch {
+        /* storage unavailable — theme still switches for this visit */
+      }
       document.documentElement.classList.toggle('dark', next === 'dark')
       return next
     })

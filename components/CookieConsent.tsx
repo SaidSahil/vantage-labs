@@ -13,6 +13,8 @@ export default function CookieConsent() {
 
   useEffect(() => {
     try {
+      // Reads browser-only storage after mount (not available during SSR).
+      // eslint-disable-next-line react-hooks/set-state-in-effect
       if (!localStorage.getItem(STORAGE_KEY)) setVisible(true)
     } catch {
       /* storage unavailable — stay hidden */
@@ -36,101 +38,60 @@ export default function CookieConsent() {
           role="dialog"
           aria-label="Cookie consent"
           aria-live="polite"
+          className="na-inverse"
           initial={{ opacity: 0, y: 24 }}
           animate={{ opacity: 1, y: 0 }}
           exit={{ opacity: 0, y: 24 }}
           transition={{ duration: 0.4, ease }}
           style={{
             position: 'fixed',
-            left: 'clamp(16px, 3vw, 28px)',
-            right: 'clamp(16px, 3vw, 28px)',
-            bottom: 'clamp(16px, 3vw, 28px)',
+            left: 'var(--na-gutter)',
+            right: 'var(--na-gutter)',
+            bottom: 'max(var(--na-gutter), env(safe-area-inset-bottom))',
             zIndex: 9999,
-            maxWidth: 520,
+            maxWidth: 460,
             marginInline: 'auto',
             background: 'var(--na-inv-bg)',
+            color: 'var(--na-inv-text)',
             border: '1px solid var(--na-inv-border)',
-            borderRadius: 16,
-            padding: 'clamp(20px, 3vw, 28px)',
-            boxShadow: '0 24px 60px -24px rgba(0,0,0,0.6)',
+            borderRadius: 'var(--na-radius-card)',
+            padding: 'clamp(18px, 3vw, 24px)',
+            boxShadow: 'var(--na-shadow-float)',
           }}
         >
-          <div
-            style={{
-              fontSize: 11,
-              fontWeight: 600,
-              letterSpacing: '0.14em',
-              textTransform: 'uppercase',
-              color: 'var(--na-inv-accent)',
-              marginBottom: 10,
-            }}
-          >
-            Cookies
-          </div>
+          <p className="na-tag" style={{ marginBottom: 8 }}>Cookies</p>
           <p
             style={{
               fontSize: 14,
-              lineHeight: 1.65,
+              lineHeight: 1.6,
               color: 'var(--na-inv-text)',
-              margin: '0 0 18px',
+              margin: '0 0 16px',
             }}
           >
             We use only what&apos;s needed to keep this site working. With your consent,
             we may also measure traffic to improve it. Read our{' '}
             <Link
               href="/privacy"
-              style={{ color: 'var(--na-inv-accent)', textDecoration: 'underline', fontWeight: 600 }}
+              style={{ color: 'var(--na-inv-accent)', textDecoration: 'underline', textUnderlineOffset: 3, fontWeight: 500 }}
             >
               Privacy Policy
             </Link>
             .
           </p>
-          <div style={{ display: 'flex', flexWrap: 'wrap', gap: 10 }}>
+          <div style={{ display: 'flex', flexWrap: 'wrap', gap: 8 }}>
             <button
+              type="button"
               onClick={() => choose('accepted')}
-              style={{
-                flex: '1 1 auto',
-                minHeight: 44,
-                padding: '10px 20px',
-                borderRadius: 10,
-                border: 'none',
-                background: 'var(--na-inv-accent)',
-                color: 'var(--na-inv-bg)',
-                fontSize: 13,
-                fontWeight: 700,
-                letterSpacing: '0.04em',
-                cursor: 'pointer',
-                transition: 'opacity 0.2s ease',
-              }}
-              onMouseEnter={(e) => (e.currentTarget.style.opacity = '0.85')}
-              onMouseLeave={(e) => (e.currentTarget.style.opacity = '1')}
+              className="na-pill na-pill--primary na-pill--sm"
+              style={{ flex: '1 1 auto' }}
             >
               Accept
             </button>
             <button
+              type="button"
               onClick={() => choose('declined')}
-              style={{
-                flex: '1 1 auto',
-                minHeight: 44,
-                padding: '10px 20px',
-                borderRadius: 10,
-                border: '1px solid var(--na-inv-border)',
-                background: 'transparent',
-                color: 'var(--na-inv-text)',
-                fontSize: 13,
-                fontWeight: 600,
-                letterSpacing: '0.04em',
-                cursor: 'pointer',
-                transition: 'background 0.2s ease, border-color 0.2s ease',
-              }}
-              onMouseEnter={(e) => {
-                e.currentTarget.style.borderColor = 'var(--na-inv-accent)'
-                e.currentTarget.style.background = 'rgba(var(--na-inv-accent-rgb), 0.08)'
-              }}
-              onMouseLeave={(e) => {
-                e.currentTarget.style.borderColor = 'var(--na-inv-border)'
-                e.currentTarget.style.background = 'transparent'
-              }}
+              className="na-pill na-pill--ghost na-pill--sm"
+              style={{ flex: '1 1 auto', borderColor: 'var(--na-inv-border)' }}
             >
               Decline
             </button>

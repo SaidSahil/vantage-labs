@@ -18,6 +18,31 @@ A running record of every session: what was built, what broke, what was fixed, a
 
 ## Sessions
 
+### [2026-10-28] — Pivot: trades-focused local site (branch `trades-site`)
+
+Strategy research (see `reports/`) + a Google Maps scan of 774 Surrey businesses led to repositioning NodeAxis as the local tech partner for Surrey trades (plumbing, HVAC, roofing, electrical, landscaping). Promise: "More calls. More 5-star reviews. Less paperwork." Main CTA: free local audit (`/audit`).
+
+**Version safety:** old agency site preserved at tag `v1-agency-site`, branch `legacy/agency-site`, and a runnable worktree at `../nodeaxis-legacy`. New work on branch `trades-site`.
+
+**Changes:**
+- `lib/offer.ts` — single source of truth for copy, tiers ($0 audit / $590 Get Found / $249/mo Never Miss a Lead / quoted Custom Systems), steps, Surrey stats, FAQ.
+- New design system (user references: warm editorial travel site, Muse.Studio, Lumóra): cream canvas, rounded inset panels, Inter Tight display type, electric-blue pill CTAs, dark footer/menu. Light theme is now the default (anti-flash script + `lib/theme.tsx`). Primitives in `components/ui/`.
+- New Navbar (full-screen dark mobile menu) and Footer (giant wordmark).
+- New homepage (`app/page.tsx`, `components/home/*`) — IntroLoader and Cursor no longer used on home (files kept).
+- New `/audit` page + shared `components/AuditForm.tsx`; rebuilt `/services`, `/work`, `/contact`.
+- `app/api/contact/route.ts` accepts trade/business/phone/website; phone OR email required; mapped into existing `Lead` columns (no migration). Old payload still works.
+- Personalized trades demo: `lib/trades-demo.template.ts`, `/demo/trades?n=&t=&c=&p=&e=&d=` (see `demos/README.md`).
+- `next.config.ts` — `/demo/*` now framable same-origin (was DENY); Calendly allowed in `frame-src` (`NEXT_PUBLIC_CALENDLY_URL` enables the embed on `/contact`).
+- Real photos in `public/images/` (Unsplash/Pexels, see `CREDITS.md`).
+
+**Still open / TODO:**
+- Review agent-written copy (services "who it's for", honest notes) and confirm prices in `lib/offer.ts`.
+- Set `NEXT_PUBLIC_CALENDLY_URL`.
+- Pre-existing lint errors (set-state-in-effect) in `AnalyticsGate`, `Process`, `Tracked`, `Tracker`.
+- Design polish: "How it works" striped header cards look weak in dark mode; dark-mode featured tier contrast.
+- Replace sample review/alert cards with real client results once pilots run.
+- Real-device testing (iOS Safari, Android Chrome); merge `trades-site` → `main` when approved.
+
 ### [2026-07-09] — Hardening + expansion of the admin analytics dashboard
 
 Follow-up to yesterday's first-party analytics build, after an audit of `/admin/analytics`. `DATABASE_URL` turned out to already be provisioned and live (Neon) — the previous session's "still open" item was stale; `prisma migrate status` showed the `Visit`/`SectionEngagement` tables already applied.

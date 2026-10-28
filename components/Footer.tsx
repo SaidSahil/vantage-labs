@@ -1,166 +1,150 @@
-'use client'
-import { motion } from 'framer-motion'
-import { fadeUp, viewport } from '@/lib/animations'
 import Link from 'next/link'
+import { business, promise, tiers } from '@/lib/offer'
+import { NodeAxisMark, PillButton } from '@/components/ui'
 
-function NodeAxisMark() {
-  return (
-    <svg width="18" height="18" viewBox="0 0 22 22" fill="none" aria-hidden="true">
-      <polygon points="11,1.5 19.5,6.25 19.5,15.75 11,20.5 2.5,15.75 2.5,6.25" stroke="var(--na-inv-accent)" strokeWidth="1.3" strokeLinejoin="round"/>
-      <line x1="7" y1="7" x2="7"  y2="15" stroke="var(--na-inv-accent)" strokeWidth="1.7" strokeLinecap="round"/>
-      <line x1="7" y1="7" x2="15" y2="15" stroke="var(--na-inv-accent)" strokeWidth="1.7" strokeLinecap="round"/>
-      <line x1="15" y1="7" x2="15" y2="15" stroke="var(--na-inv-accent)" strokeWidth="1.7" strokeLinecap="round"/>
-      <circle cx="7"  cy="7"  r="1.2" fill="var(--na-inv-accent)"/>
-      <circle cx="15" cy="7"  r="1.2" fill="var(--na-inv-accent)"/>
-      <circle cx="7"  cy="15" r="1.2" fill="var(--na-inv-accent)"/>
-      <circle cx="15" cy="15" r="1.2" fill="var(--na-inv-accent)"/>
-    </svg>
-  )
-}
+const navLinks = [
+  { href: '/', label: 'Home' },
+  { href: '/services', label: 'Services' },
+  { href: '/#how-it-works', label: 'How it works' },
+  { href: '/work', label: 'Demo' },
+  { href: '/about', label: 'About' },
+  { href: '/blog', label: 'Insights' },
+  { href: '/contact', label: 'Contact' },
+]
 
-function LinkedInIcon() {
-  return (
-    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" aria-hidden="true">
-      <path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
-      <rect x="2" y="9" width="4" height="12" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
-      <circle cx="4" cy="4" r="2" stroke="currentColor" strokeWidth="1.5" />
-    </svg>
-  )
-}
-
+// Dark rounded panel footer with giant wordmark (Lumóra reference).
 export default function Footer() {
+  const year = new Date().getFullYear()
+
   return (
-    <motion.footer
-      initial="hidden"
-      whileInView="visible"
-      viewport={viewport}
-      variants={fadeUp}
-      data-cursor-dark
-      style={{
-        background: 'var(--na-inv-bg)',
-        padding: 'clamp(40px, 5vw, 60px) clamp(24px, 4vw, 48px)',
-        borderTop: '1px solid var(--na-inv-border)',
-      }}
-    >
-      {/* Top row */}
-      <div
-        style={{
-          display: 'grid',
-          alignItems: 'start',
-          gap: 32,
-          paddingBottom: 'clamp(28px, 4vw, 40px)',
-          borderBottom: '1px solid var(--na-inv-border)',
-          marginBottom: 'clamp(24px, 3vw, 32px)',
-        }}
-        className="grid-cols-1 md:grid-cols-[1fr_auto]"
+    <div style={{ padding: 'var(--na-gutter)', paddingTop: 'clamp(24px, 4vw, 48px)' }}>
+      <footer
+        className="na-panel na-panel--dark na-inverse"
+        style={{ padding: 'clamp(28px, 5vw, 64px) clamp(22px, 4.5vw, 56px) clamp(22px, 3vw, 32px)' }}
       >
-        {/* Logo + tagline */}
-        <div>
-          <div style={{
+        {/* Wordmark */}
+        <div
+          style={{
             display: 'flex',
-            alignItems: 'center',
-            gap: 10,
-            fontSize: 14,
-            fontWeight: 700,
-            color: 'var(--na-inv-text)',
-            marginBottom: 10,
-          }}>
-            <NodeAxisMark />
-            NodeAxis
+            alignItems: 'flex-start',
+            justifyContent: 'space-between',
+            gap: 24,
+            flexWrap: 'wrap',
+            paddingBottom: 'clamp(28px, 4vw, 48px)',
+            borderBottom: '1px solid var(--na-inv-border)',
+          }}
+        >
+          <p className="na-wordmark" aria-hidden="true">{business.name}</p>
+          <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-start', gap: 14, maxWidth: 340 }}>
+            <p style={{ fontSize: 17, lineHeight: 1.5, color: 'var(--na-inv-text)' }}>
+              Helping {business.city} trades get more calls, more reviews, less paperwork.
+            </p>
+            <PillButton href={promise.ctaHref} arrow>
+              {promise.cta}
+            </PillButton>
           </div>
-          <p style={{
-            fontSize: 13,
-            color: 'var(--na-inv-muted)',
-            lineHeight: 1.6,
-            maxWidth: 280,
-          }}>
-            Custom websites and systems for businesses across Canada. Starting at $399.
-          </p>
         </div>
 
-        {/* Nav links */}
-        <nav aria-label="Footer navigation">
-          <ul style={{
-            display: 'flex',
-            flexDirection: 'column',
-            gap: 14,
-            listStyle: 'none',
-            alignItems: 'flex-end',
-          }}
-          className="items-start md:items-end"
-          >
-            <li><Link href="/" className="footer-link">Home</Link></li>
-            <li><Link href="/work" className="footer-link">Work</Link></li>
-            <li><Link href="/services" className="footer-link">Services</Link></li>
-            <li><Link href="/blog" className="footer-link">Insights</Link></li>
-            <li><Link href="/about" className="footer-link">About</Link></li>
-            <li><Link href="/contact" className="footer-link">Contact</Link></li>
-            <li><Link href="/privacy" className="footer-link">Privacy Policy</Link></li>
-            <li><Link href="/terms" className="footer-link">Terms of Service</Link></li>
-            <li>
+        {/* Columns */}
+        <div
+          className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-[1.3fr_1fr_1fr_1.2fr]"
+          style={{ gap: 'clamp(28px, 4vw, 48px)', padding: 'clamp(28px, 4vw, 48px) 0' }}
+        >
+          <div>
+            <h2 className="na-foot-heading">Talk to us</h2>
+            <a
+              href={`mailto:${business.email}`}
+              className="na-foot-link"
+              style={{
+                fontFamily: 'var(--na-font-display)',
+                fontSize: 'clamp(22px, 2.4vw, 30px)',
+                letterSpacing: '-0.03em',
+                textDecoration: 'underline',
+                textUnderlineOffset: 6,
+                textDecorationThickness: 1,
+                opacity: 1,
+              }}
+            >
+              {business.email}
+            </a>
+            <div style={{ marginTop: 8 }}>
               <a
-                href="https://linkedin.com/company/nodeaxis"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="footer-link"
-                style={{ display: 'inline-flex', alignItems: 'center', gap: 7 }}
+                href={business.phoneHref}
+                className="na-foot-link"
+                style={{ fontFamily: 'var(--na-font-display)', fontSize: 'clamp(20px, 2vw, 24px)', letterSpacing: '-0.02em', opacity: 1 }}
               >
-                <LinkedInIcon />
-                LinkedIn →
+                {business.phoneDisplay}
               </a>
-            </li>
-            <li>
-              <a href="mailto:info@nodeaxis.ca" className="footer-link">
-                info@nodeaxis.ca
-              </a>
-            </li>
-          </ul>
-        </nav>
-      </div>
+            </div>
+          </div>
 
-      {/* Bottom row */}
-      <div style={{
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'space-between',
-        flexWrap: 'wrap',
-        gap: 12,
-      }}>
-        <span style={{
-          fontSize: 11,
-          fontWeight: 600,
-          letterSpacing: '0.1em',
-          textTransform: 'uppercase',
-          color: 'var(--na-inv-muted)',
-          display: 'flex',
-          flexWrap: 'wrap',
-          gap: '0 12px',
-          alignItems: 'center',
-        }}>
-          <span>© 2026 NodeAxis — BC, Canada</span>
-          <a
-            href="tel:+17782408911"
-            style={{
-              color: 'var(--na-inv-muted)',
-              textDecoration: 'none',
-              fontWeight: 600,
-              letterSpacing: '0.05em',
-              transition: 'color 0.2s ease',
-            }}
-            onMouseEnter={e => (e.currentTarget.style.color = 'var(--na-inv-text)')}
-            onMouseLeave={e => (e.currentTarget.style.color = 'var(--na-inv-muted)')}
-          >
-            778-240-8911
-          </a>
-        </span>
-        <span style={{
-          fontSize: 11,
-          color: 'var(--na-inv-border)',
-          letterSpacing: '0.06em',
-        }}>
-          Hand-coded. No templates.
-        </span>
-      </div>
-    </motion.footer>
+          <nav aria-label="Footer">
+            <h2 className="na-foot-heading">Navigation</h2>
+            <ul style={{ listStyle: 'none' }}>
+              {navLinks.map(l => (
+                <li key={l.href}>
+                  <Link href={l.href} className="na-foot-link">{l.label}</Link>
+                </li>
+              ))}
+            </ul>
+          </nav>
+
+          <div>
+            <h2 className="na-foot-heading">Services</h2>
+            <ul style={{ listStyle: 'none' }}>
+              {tiers.map(t => (
+                <li key={t.id}>
+                  <Link href={t.id === 'audit' ? promise.ctaHref : `/services#${t.id}`} className="na-foot-link">
+                    {t.name}
+                  </Link>
+                </li>
+              ))}
+            </ul>
+          </div>
+
+          <div>
+            <h2 className="na-foot-heading">Contact</h2>
+            <dl style={{ display: 'grid', gap: 12, fontSize: 15, lineHeight: 1.5 }}>
+              <div>
+                <dt className="sr-only">Hours</dt>
+                <dd>{business.hours}</dd>
+              </div>
+              <div>
+                <dt style={{ fontSize: 13, color: 'var(--na-inv-muted)' }}>Service area</dt>
+                <dd>{business.serviceArea.join(', ')}</dd>
+              </div>
+              <div>
+                <dt className="sr-only">Meetings</dt>
+                <dd style={{ color: 'var(--na-inv-muted)' }}>We meet you in person, anywhere in {business.city} and nearby.</dd>
+              </div>
+            </dl>
+          </div>
+        </div>
+
+        {/* Bottom row */}
+        <div
+          style={{
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'space-between',
+            flexWrap: 'wrap',
+            gap: '8px 24px',
+            paddingTop: 20,
+            borderTop: '1px solid var(--na-inv-border)',
+            fontSize: 13,
+            color: 'var(--na-inv-muted)',
+          }}
+        >
+          <span style={{ display: 'inline-flex', alignItems: 'center', gap: 8 }}>
+            <NodeAxisMark size={16} />
+            © {year} {business.name} · {business.city}, {business.region}
+          </span>
+          <span style={{ display: 'inline-flex', gap: 20 }}>
+            <Link href="/privacy" className="na-foot-link" style={{ fontSize: 13 }}>Privacy Policy</Link>
+            <Link href="/terms" className="na-foot-link" style={{ fontSize: 13 }}>Terms of Service</Link>
+          </span>
+        </div>
+      </footer>
+    </div>
   )
 }

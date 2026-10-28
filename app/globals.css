@@ -1,8 +1,26 @@
 @import "tailwindcss";
 
 /* ─── TAILWIND THEME TOKENS ─────────────────────── */
-@theme {
-  --font-sans: var(--font-inter);
+/* `inline` so utilities resolve the CSS var at runtime (theme-aware).
+   e.g. bg-na-card, text-na-muted, border-na-border, font-display, rounded-panel */
+@theme inline {
+  --font-sans: var(--font-inter), 'Inter', ui-sans-serif, system-ui, sans-serif;
+  --font-display: var(--na-font-display);
+
+  --color-na-bg:        var(--na-bg);
+  --color-na-card:      var(--na-card);
+  --color-na-card-soft: var(--na-card-soft);
+  --color-na-text:      var(--na-text);
+  --color-na-muted:     var(--na-muted);
+  --color-na-accent:    var(--na-accent);
+  --color-na-cta:       var(--na-cta);
+  --color-na-border:    var(--na-border-mid);
+  --color-na-inv-bg:    var(--na-inv-bg);
+  --color-na-inv-text:  var(--na-inv-text);
+  --color-na-inv-muted: var(--na-inv-muted);
+
+  --radius-panel: var(--na-radius-panel);
+  --radius-card:  var(--na-radius-card);
 }
 
 /* ─── Z-INDEX SCALE ─────────────────────────────── */
@@ -10,72 +28,125 @@
   --z-base:    1;
   --z-float:   10;
   --z-nav:     50;
+  --z-menu:    100;
   --z-preview: 200;
   --z-noise:   9998;
   --z-loader:  9999;
 }
 
 /* ─── NODEAXIS LIGHT THEME (default) ────────────── */
+/* Warm editorial: cream canvas, white/soft cards, near-black ink,
+   one electric-blue accent, near-black "always dark" panels. */
 :root {
-  --na-bg:          #F2F4FB;
-  --na-surface:     #E8EBF7;
-  --na-surface-2:   #DDE1F2;
-  --na-text:        #0D0F1A;
-  --na-muted:       #516080;
-  --na-accent:      #2563EB;
-  --na-accent-rgb:  37,99,235;
-  --na-accent-dim:  rgba(37,99,235,0.08);
-  --na-border:      rgba(13,15,26,0.09);
-  --na-border-mid:  rgba(13,15,26,0.16);
-  --na-nav-bg:      rgba(242,244,251,0.88);
+  color-scheme: light;
 
-  /* Inverted (dark panel) in light mode */
-  --na-inv-bg:      #0D0F1A;
-  --na-inv-surface: #161820;
-  --na-inv-text:    #E8E8F0;
-  --na-inv-muted:   rgba(232,232,240,0.45);
-  --na-inv-border:  rgba(255,255,255,0.08);
-  --na-inv-accent:  #4F8EF7;
-  --na-inv-accent-rgb: 79,142,247;
+  /* Canvas + surfaces */
+  --na-bg:          #F3EEE6;   /* cream page canvas */
+  --na-card:        #FFFFFF;   /* white card / panel */
+  --na-card-soft:   #ECE8E1;   /* soft grey card / panel */
+  --na-surface:     #ECE8E1;   /* legacy alias → soft card */
+  --na-surface-2:   #E3DED5;   /* slightly deeper soft surface */
 
-  --na-heading:     #6B7A99;
-  --na-logo-color:  #4F8EF7;
+  /* Ink */
+  --na-text:        #121316;
+  --na-muted:       #64635E;   /* ≈#6B6A66, nudged for 4.5:1 on soft cards */
+  --na-heading:     #64635E;   /* legacy: muted italic accents in old pages */
+
+  /* Accent — text/icon use (theme-aware) */
+  --na-accent:      #2E3BFF;
+  --na-accent-rgb:  46,59,255;
+  --na-accent-dim:  rgba(46,59,255,0.08);
+  /* CTA fill — always the vivid blue with white text (6.7:1) */
+  --na-cta:         #2E3BFF;
+  --na-cta-hover:   #2330E0;
+  --na-on-cta:      #FFFFFF;
+
+  /* Lines */
+  --na-border:      rgba(18,19,22,0.08);
+  --na-border-mid:  rgba(18,19,22,0.14);
+
+  --na-nav-bg:      rgba(243,238,230,0.86);
+  --na-logo-color:  #121316;
+
+  /* Inverted = ALWAYS-DARK panel (footer, mobile menu, featured cards, admin) */
+  --na-inv-bg:      #121316;
+  --na-inv-surface: #1C1D21;
+  --na-inv-text:    #F3EEE6;
+  --na-inv-muted:   rgba(243,238,230,0.62);
+  --na-inv-border:  rgba(243,238,230,0.12);
+  --na-inv-accent:  #8F97FF;   /* lighter blue for text on dark (≥5.9:1) */
+  --na-inv-accent-rgb: 143,151,255;
+
+  /* Soft blur blobs (Muse-style CTA backdrop) */
+  --na-blob-blue:   rgba(46,59,255,0.18);
+  --na-blob-peach:  rgba(255,170,130,0.30);
+
+  /* Shape + type */
+  --na-radius-panel: clamp(22px, 2.6vw, 32px);
+  --na-radius-card:  clamp(18px, 1.8vw, 24px);
+  --na-gutter:       clamp(10px, 1.4vw, 16px);   /* panel inset from viewport edge */
+  --na-pad-panel:    clamp(24px, 5vw, 72px);
+  --na-font-display: var(--font-inter-tight), var(--font-inter), 'Inter Tight', 'Inter', system-ui, sans-serif;
+  --na-shadow-card:  0 1px 2px rgba(18,19,22,0.04), 0 12px 32px -18px rgba(18,19,22,0.18);
+  --na-shadow-float: 0 2px 6px rgba(18,19,22,0.06), 0 24px 56px -20px rgba(18,19,22,0.28);
 
   --ease: cubic-bezier(0.22, 1, 0.36, 1);
   --ease-out: cubic-bezier(0.55, 0, 1, 0.45);
 }
 
 /* ─── NODEAXIS DARK THEME ────────────────────────── */
+/* Same layout, ink/cream swapped. Always-dark panels go a step lighter
+   than the canvas so they still read as distinct cards. */
 .dark {
-  --na-bg:          #0A0A0F;
-  --na-surface:     #111118;
-  --na-surface-2:   #18181F;
-  --na-text:        #E8E8F0;
-  --na-muted:       #52525B;
-  --na-accent:      #4F8EF7;
-  --na-accent-rgb:  79,142,247;
-  --na-accent-dim:  rgba(79,142,247,0.12);
-  --na-heading:     #4F8EF7;
-  --na-border:      rgba(255,255,255,0.07);
-  --na-border-mid:  rgba(255,255,255,0.12);
-  --na-nav-bg:      rgba(10,10,15,0.85);
+  color-scheme: dark;
 
-  /* Inverted (dark panel) in dark mode — slightly deeper */
-  --na-inv-bg:      #050508;
-  --na-inv-surface: #0D0D14;
-  --na-inv-text:    #E8E8F0;
-  --na-inv-muted:   rgba(232,232,240,0.4);
-  --na-inv-border:  rgba(255,255,255,0.06);
-  --na-inv-accent:  #4F8EF7;
-  --na-inv-accent-rgb: 79,142,247;
-  --na-logo-color:  rgba(255,255,255,0.85);
+  --na-bg:          #0D0E10;
+  --na-card:        #18191C;
+  --na-card-soft:   #1F2024;
+  --na-surface:     #1F2024;
+  --na-surface-2:   #26272C;
+
+  --na-text:        #F3EEE6;
+  --na-muted:       #A9A69F;
+  --na-heading:     #A9A69F;
+
+  --na-accent:      #8F97FF;
+  --na-accent-rgb:  143,151,255;
+  --na-accent-dim:  rgba(143,151,255,0.12);
+  --na-cta:         #2E3BFF;
+  --na-cta-hover:   #4450FF;
+  --na-on-cta:      #FFFFFF;
+
+  --na-border:      rgba(243,238,230,0.08);
+  --na-border-mid:  rgba(243,238,230,0.14);
+
+  --na-nav-bg:      rgba(13,14,16,0.82);
+  --na-logo-color:  #F3EEE6;
+
+  --na-inv-bg:      #1A1B1F;
+  --na-inv-surface: #232428;
+  --na-inv-text:    #F3EEE6;
+  --na-inv-muted:   rgba(243,238,230,0.62);
+  --na-inv-border:  rgba(243,238,230,0.12);
+  --na-inv-accent:  #8F97FF;
+  --na-inv-accent-rgb: 143,151,255;
+
+  --na-blob-blue:   rgba(46,59,255,0.22);
+  --na-blob-peach:  rgba(255,150,110,0.12);
+
+  --na-shadow-card:  0 1px 2px rgba(0,0,0,0.3), 0 12px 32px -18px rgba(0,0,0,0.6);
+  --na-shadow-float: 0 2px 6px rgba(0,0,0,0.3), 0 24px 56px -20px rgba(0,0,0,0.7);
 }
 
 /* ─── RESET ─────────────────────────────────────── */
-*, *::before, *::after {
-  box-sizing: border-box;
-  margin: 0;
-  padding: 0;
+/* In @layer base so component classes (.na-*) and Tailwind utilities can override. */
+@layer base {
+  *, *::before, *::after {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+  }
+  a { text-decoration: none; color: inherit; }
 }
 
 @media (prefers-reduced-motion: no-preference) {
@@ -83,18 +154,17 @@
 }
 
 body {
-  font-family: var(--font-inter), 'Inter', sans-serif;
+  font-family: var(--font-inter), 'Inter', system-ui, sans-serif;
   background: var(--na-bg);
   color: var(--na-text);
   font-size: 16px;
-  line-height: 1.5;
+  line-height: 1.55;
   overflow-x: hidden;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   transition: background 0.35s ease, color 0.35s ease;
 }
 
-a { text-decoration: none; color: inherit; }
 
 /* ─── SKIP LINK ──────────────────────────────────── */
 .skip-link {
@@ -111,17 +181,6 @@ a { text-decoration: none; color: inherit; }
   transition: top 0.2s ease;
 }
 .skip-link:focus { top: 0; }
-
-/* ─── NOISE ─────────────────────────────────────── */
-body::after {
-  content: '';
-  position: fixed;
-  inset: 0;
-  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.035'/%3E%3C/svg%3E");
-  pointer-events: none;
-  z-index: 9998;
-  opacity: 0.5;
-}
 
 /* ─── SECTION LABELS ────────────────────────────── */
 .section-label {
@@ -340,10 +399,11 @@ body::after {
 /* Brand-consistent keyboard focus ring. Kept on :focus-visible so it shows
    for keyboard/AT users without appearing on mouse clicks. Do NOT remove
    outlines globally anywhere — this ring must always remain visible. */
-:focus-visible {
-  outline: 2px solid var(--na-accent);
-  outline-offset: 4px;
-  border-radius: 2px;
+@layer base {
+  :focus-visible {
+    outline: 2px solid var(--na-accent);
+    outline-offset: 4px;
+  }
 }
 
 /* ─── INTRO LOADER ──────────────────────────────── */
@@ -401,3 +461,252 @@ body::after {
     grid-template-columns: 40px 1fr auto !important;
   }
 }
+
+/* ═══════════════════════════════════════════════════
+   TRADES DESIGN SYSTEM (components/ui/*, Navbar, Footer)
+   ═══════════════════════════════════════════════════ */
+
+@layer components {
+
+/* Focus ring on always-dark surfaces: lighter blue keeps >=3:1 */
+.na-inverse :focus-visible,
+.na-inverse:focus-visible {
+  outline-color: var(--na-inv-accent);
+}
+
+/* ─── Display type ─── */
+.na-display {
+  font-family: var(--na-font-display);
+  font-weight: 500;
+  letter-spacing: -0.04em;
+  line-height: 0.95;
+  color: inherit;
+  text-wrap: balance;
+}
+.na-display--xl { font-size: clamp(56px, 10vw, 140px); }
+.na-display--lg { font-size: clamp(44px, 7vw, 96px); }
+.na-display--md { font-size: clamp(32px, 4.6vw, 64px); line-height: 1; }
+.na-display--sm { font-size: clamp(26px, 3.2vw, 44px); line-height: 1.05; letter-spacing: -0.03em; }
+.na-display--statement {
+  font-size: clamp(26px, 3.4vw, 46px);
+  line-height: 1.12;
+  letter-spacing: -0.03em;
+}
+.na-display__tail { color: var(--na-muted); }
+.na-inverse .na-display__tail { color: var(--na-inv-muted); }
+
+/* ─── Section tag  [01] LABEL ─── */
+.na-tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.6em;
+  font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  font-size: 12px;
+  font-weight: 500;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--na-muted);
+}
+.na-tag__index { color: var(--na-text); }
+.na-inverse .na-tag { color: var(--na-inv-muted); }
+.na-inverse .na-tag__index { color: var(--na-inv-text); }
+
+/* ─── Panel (big rounded inset section) ─── */
+.na-panel {
+  position: relative;
+  border-radius: var(--na-radius-panel);
+  overflow: clip;
+}
+.na-panel--inset { margin-inline: var(--na-gutter); }
+.na-panel--canvas { background: var(--na-bg);        color: var(--na-text); }
+.na-panel--white  { background: var(--na-card);      color: var(--na-text); }
+.na-panel--soft   { background: var(--na-card-soft); color: var(--na-text); }
+.na-panel--dark   { background: var(--na-inv-bg);    color: var(--na-inv-text); }
+.na-pad-none { padding: 0; }
+.na-pad-sm   { padding: clamp(20px, 3vw, 36px); }
+.na-pad-md   { padding: clamp(24px, 4.5vw, 56px); }
+.na-pad-lg   { padding: var(--na-pad-panel); }
+
+/* ─── Card ─── */
+.na-card {
+  position: relative;
+  border-radius: var(--na-radius-card);
+  overflow: clip;
+}
+.na-card--white   { background: var(--na-card);      color: var(--na-text); box-shadow: var(--na-shadow-card); }
+.na-card--soft    { background: var(--na-card-soft); color: var(--na-text); }
+.na-card--dark    { background: var(--na-inv-bg);    color: var(--na-inv-text); }
+.na-card--accent  { background: var(--na-cta);       color: var(--na-on-cta); }
+.na-card--outline { background: transparent; color: var(--na-text); border: 1px solid var(--na-border-mid); }
+.na-card--hover {
+  transition: transform 0.35s var(--ease), box-shadow 0.35s var(--ease);
+}
+@media (hover: hover) {
+  .na-card--hover:hover {
+    transform: translateY(-4px);
+    box-shadow: var(--na-shadow-float);
+  }
+}
+
+/* ─── Pill button ─── */
+.na-pill {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  min-height: 44px;
+  padding: 10px 22px;
+  border-radius: 999px;
+  border: 1px solid transparent;
+  font-family: inherit;
+  font-size: 15px;
+  font-weight: 500;
+  line-height: 1.1;
+  letter-spacing: -0.005em;
+  white-space: nowrap;
+  cursor: pointer;
+  text-decoration: none;
+  transition: background-color 0.2s ease, color 0.2s ease, border-color 0.2s ease,
+              opacity 0.2s ease, transform 0.25s var(--ease), box-shadow 0.25s var(--ease);
+}
+.na-pill--sm { padding: 8px 18px; font-size: 14px; }
+.na-pill--lg { min-height: 56px; padding: 14px 30px; font-size: 16px; }
+.na-pill--block { display: flex; width: 100%; }
+.na-pill:disabled, .na-pill[aria-disabled='true'] { opacity: 0.55; cursor: not-allowed; }
+.na-pill__icon { display: inline-flex; transition: transform 0.25s var(--ease); }
+@media (hover: hover) {
+  .na-pill:not(:disabled):hover { transform: translateY(-1px); }
+  .na-pill:not(:disabled):hover .na-pill__icon { transform: translateX(3px); }
+}
+.na-pill:not(:disabled):active { transform: scale(0.98); }
+
+.na-pill--primary { background: var(--na-cta); color: var(--na-on-cta); }
+.na-pill--primary:not(:disabled):hover { background: var(--na-cta-hover); box-shadow: 0 10px 24px -12px rgba(46,59,255,0.6); }
+
+.na-pill--secondary { background: var(--na-card); color: var(--na-text); border-color: var(--na-border-mid); }
+.na-pill--secondary:not(:disabled):hover { border-color: var(--na-text); }
+
+.na-pill--dark { background: var(--na-text); color: var(--na-bg); }
+.na-pill--dark:not(:disabled):hover { opacity: 0.88; }
+
+/* For use on dark panels */
+.na-pill--light { background: var(--na-inv-text); color: var(--na-inv-bg); }
+.na-pill--light:not(:disabled):hover { opacity: 0.9; }
+.na-pill--ghost { background: transparent; color: inherit; border-color: currentColor; }
+.na-pill--ghost:not(:disabled):hover { background: rgba(127,127,127,0.14); }
+
+/* ─── Image chip (inline photo inside headlines) ─── */
+.na-chip {
+  position: relative;
+  display: inline-block;
+  vertical-align: middle;
+  height: 0.78em;
+  border-radius: 0.2em;
+  overflow: hidden;
+  margin-inline: 0.06em;
+  transform: translateY(-0.06em) rotate(var(--na-chip-tilt, 0deg));
+  box-shadow: 0 0.06em 0.18em rgba(18,19,22,0.18);
+  background: var(--na-card-soft);
+}
+.na-chip img { object-fit: cover; }
+
+/* ─── Soft gradient blob (CTA backdrop) ─── */
+.na-blob {
+  position: absolute;
+  pointer-events: none;
+  border-radius: 50%;
+  filter: blur(80px);
+}
+
+/* ─── NAVBAR ─── */
+.na-nav-link {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  min-height: 44px;
+  padding-inline: 4px;
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--na-muted);
+  transition: color 0.2s ease;
+}
+.na-nav-link:hover, .na-nav-link[aria-current='page'] { color: var(--na-text); }
+.na-nav-link[aria-current='page']::after {
+  content: '';
+  position: absolute;
+  left: 50%;
+  bottom: 6px;
+  width: 4px;
+  height: 4px;
+  border-radius: 50%;
+  background: var(--na-accent);
+  transform: translateX(-50%);
+}
+.na-icon-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 44px;
+  height: 44px;
+  flex-shrink: 0;
+  border-radius: 999px;
+  border: 1px solid var(--na-border-mid);
+  background: var(--na-card);
+  color: var(--na-text);
+  cursor: pointer;
+  transition: border-color 0.2s ease, color 0.2s ease, background-color 0.2s ease;
+}
+.na-icon-btn:hover { border-color: var(--na-text); }
+.na-inverse .na-icon-btn {
+  background: transparent;
+  border-color: var(--na-inv-border);
+  color: var(--na-inv-text);
+}
+.na-inverse .na-icon-btn:hover { border-color: var(--na-inv-text); }
+
+.na-menu-link {
+  display: inline-block;
+  font-family: var(--na-font-display);
+  font-weight: 500;
+  font-size: clamp(44px, 12vw, 84px);
+  line-height: 1.02;
+  letter-spacing: -0.04em;
+  color: var(--na-inv-text);
+  padding: 0.04em 0.22em;
+  border-radius: 0.18em;
+  transition: background-color 0.2s ease, color 0.2s ease;
+}
+.na-menu-link:hover { color: var(--na-inv-accent); }
+.na-menu-link[aria-current='page'] { background: var(--na-inv-text); color: var(--na-inv-bg); }
+
+/* ─── FOOTER ─── */
+.na-foot-link {
+  display: inline-flex;
+  align-items: center;
+  min-height: 32px;
+  font-size: 15px;
+  color: var(--na-inv-text);
+  opacity: 0.86;
+  transition: opacity 0.2s ease, color 0.2s ease;
+}
+.na-foot-link:hover { opacity: 1; color: var(--na-inv-accent); }
+.na-foot-heading {
+  font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  font-size: 12px;
+  font-weight: 500;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--na-inv-muted);
+  margin-bottom: 14px;
+}
+.na-wordmark {
+  font-family: var(--na-font-display);
+  font-weight: 500;
+  letter-spacing: -0.06em;
+  line-height: 0.8;
+  font-size: clamp(64px, 18vw, 280px);
+  color: var(--na-inv-text);
+  white-space: nowrap;
+}
+
+} /* end @layer components */

@@ -1,10 +1,11 @@
 import type { Metadata } from 'next'
-import { Inter } from 'next/font/google'
+import { Inter, Inter_Tight } from 'next/font/google'
 import Script from 'next/script'
 import { ThemeProvider } from '@/lib/theme'
 import CookieConsent from '@/components/CookieConsent'
 import AnalyticsGate from '@/components/AnalyticsGate'
 import Tracker from '@/components/Tracker'
+import { business, promise } from '@/lib/offer'
 import './globals.css'
 
 const inter = Inter({
@@ -15,25 +16,38 @@ const inter = Inter({
   display: 'swap',
 })
 
+// Display face for headlines (used via --na-font-display / `font-display`).
+const interTight = Inter_Tight({
+  subsets: ['latin'],
+  variable: '--font-inter-tight',
+  weight: ['400', '500', '600'],
+  display: 'swap',
+})
+
+const SITE_URL = 'https://nodeaxis.ca'
+const TITLE = `NodeAxis — More Calls & Reviews for ${business.city} Trades | ${business.city}, ${business.region}`
+const DESCRIPTION = promise.sub
+const TELEPHONE = business.phoneHref.replace(/^tel:/, '')
 
 export const metadata: Metadata = {
-  metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL ?? 'https://nodeaxis.ca'),
-  title: 'NodeAxis — Web Design, Apps & Systems in BC, Canada | From $399',
-  description: 'NodeAxis builds hand-coded websites, web apps, dashboards, and software for businesses in British Columbia, Canada. No templates, no shortcuts — built to perform. From $399.',
+  metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL ?? SITE_URL),
+  title: TITLE,
+  description: DESCRIPTION,
   alternates: {
-    canonical: 'https://nodeaxis.ca',
+    canonical: SITE_URL,
   },
   openGraph: {
-    title: 'NodeAxis — Web Design, Apps & Systems in BC, Canada | From $399',
-    description: 'NodeAxis builds hand-coded websites, web apps, dashboards, and software for businesses in British Columbia, Canada. No templates, no shortcuts — built to perform. From $399.',
+    title: TITLE,
+    description: DESCRIPTION,
     type: 'website',
     locale: 'en_CA',
-    url: 'https://nodeaxis.ca',
+    url: SITE_URL,
+    siteName: business.name,
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'NodeAxis — Web Design, Apps & Systems in BC, Canada | From $399',
-    description: 'NodeAxis builds hand-coded websites, web apps, dashboards, and software for businesses in British Columbia, Canada. No templates, no shortcuts — built to perform. From $399.',
+    title: TITLE,
+    description: DESCRIPTION,
   },
 }
 
@@ -42,61 +56,64 @@ export default function RootLayout({
 }: {
   children: React.ReactNode
 }) {
+  const areaServed = business.serviceArea.map(name => ({
+    '@type': 'City',
+    name,
+    containedInPlace: { '@type': 'State', name: 'British Columbia' },
+  }))
+
   const jsonLd = {
     '@context': 'https://schema.org',
     '@graph': [
       {
         '@type': 'Organization',
-        '@id': 'https://nodeaxis.ca/#organization',
-        name: 'NodeAxis',
-        url: 'https://nodeaxis.ca',
-        telephone: '+17782408911',
-        email: 'info@nodeaxis.ca',
+        '@id': `${SITE_URL}/#organization`,
+        name: business.name,
+        url: SITE_URL,
+        telephone: TELEPHONE,
+        email: business.email,
         logo: {
           '@type': 'ImageObject',
-          url: 'https://nodeaxis.ca/icon.svg',
+          url: `${SITE_URL}/icon.svg`,
         },
         sameAs: ['https://www.linkedin.com/company/nodeaxis'],
-        areaServed: {
-          '@type': 'State',
-          name: 'British Columbia',
-          containedInPlace: {
-            '@type': 'Country',
-            name: 'Canada',
-          },
-        },
+        areaServed,
       },
       {
         '@type': 'LocalBusiness',
-        '@id': 'https://nodeaxis.ca/#localbusiness',
-        name: 'NodeAxis',
-        url: 'https://nodeaxis.ca',
-        telephone: '+17782408911',
-        email: 'info@nodeaxis.ca',
-        description: 'Custom web design, web applications, dashboards, and software development for businesses in British Columbia, Canada.',
+        '@id': `${SITE_URL}/#localbusiness`,
+        name: business.name,
+        url: SITE_URL,
+        telephone: TELEPHONE,
+        email: business.email,
+        description: `${promise.headline} ${promise.sub}`,
         priceRange: '$$',
         address: {
           '@type': 'PostalAddress',
-          addressLocality: 'British Columbia',
-          addressRegion: 'BC',
+          addressLocality: business.city,
+          addressRegion: business.region,
           addressCountry: 'CA',
         },
-        areaServed: {
-          '@type': 'State',
-          name: 'British Columbia',
+        areaServed,
+        openingHoursSpecification: {
+          '@type': 'OpeningHoursSpecification',
+          dayOfWeek: ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'],
+          opens: '08:00',
+          closes: '18:00',
         },
-        serviceType: 'Web Design, Web Applications, Dashboards, and Software Development',
+        serviceType: 'Google Business Profile optimization, review generation, missed-call text-back and admin tools for trades',
+        parentOrganization: { '@id': `${SITE_URL}/#organization` },
       },
     ],
   }
 
   return (
-    <html lang="en-CA" className={`${inter.variable} dark`} suppressHydrationWarning>
+    <html lang="en-CA" className={`${inter.variable} ${interTight.variable}`} suppressHydrationWarning>
       <head>
         {/* Organization + LocalBusiness structured data */}
         <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
-        {/* Anti-flash: runs before React hydrates, prevents theme flicker */}
-        <Script id="theme-init" strategy="beforeInteractive">{`(function(){try{var t=localStorage.getItem('nodeaxis-theme');if(t==='light'){document.documentElement.classList.remove('dark')}else{document.documentElement.classList.add('dark')}}catch(e){document.documentElement.classList.add('dark')}})();`}</Script>
+        {/* Anti-flash: runs before React hydrates. Light is the default; only add `dark` when the visitor chose it. */}
+        <Script id="theme-init" strategy="beforeInteractive">{`(function(){try{if(localStorage.getItem('nodeaxis-theme')==='dark'){document.documentElement.classList.add('dark')}else{document.documentElement.classList.remove('dark')}}catch(e){}})();`}</Script>
       </head>
       <body>
         <a href="#main-content" className="skip-link">Skip to content</a>
