@@ -38,7 +38,7 @@ export default function HowItWorks() {
                 style={track}
               >
                 <div
-                  className="absolute inset-x-0 flex h-9 items-center bg-[var(--na-inv-bg)] px-4 text-[13px] font-medium text-[var(--na-inv-text)]"
+                  className="absolute inset-x-0 flex h-9 items-center bg-[var(--na-text)] px-4 text-[13px] font-medium text-[var(--na-bg)]"
                   style={{ top: `${i * 24}px` }}
                 >
                   {s.title}

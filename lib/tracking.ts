@@ -1,5 +1,8 @@
+import { useSyncExternalStore } from 'react'
+
 const CONSENT_KEY = 'nodeaxis-cookie-consent'
 const SESSION_KEY = 'na-session-id'
+const CONSENT_EVENT = 'nodeaxis-consent-change'
 
 export function hasAnalyticsConsent(): boolean {
   try {
@@ -7,6 +10,22 @@ export function hasAnalyticsConsent(): boolean {
   } catch {
     return false
   }
+}
+
+// Consent writers (CookieConsent, privacy ConsentControls) save to localStorage
+// before dispatching CONSENT_EVENT, so re-reading storage on the event is accurate.
+function subscribeToConsent(onChange: () => void) {
+  window.addEventListener(CONSENT_EVENT, onChange)
+  window.addEventListener('storage', onChange)
+  return () => {
+    window.removeEventListener(CONSENT_EVENT, onChange)
+    window.removeEventListener('storage', onChange)
+  }
+}
+
+/** Live analytics-consent flag; always false during SSR. */
+export function useAnalyticsConsent(): boolean {
+  return useSyncExternalStore(subscribeToConsent, hasAnalyticsConsent, () => false)
 }
 
 export function getSessionId(): string {

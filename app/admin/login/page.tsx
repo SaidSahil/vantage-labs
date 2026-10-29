@@ -75,6 +75,7 @@ export default function AdminLoginPage() {
         </label>
         <input
           type="password"
+          aria-label="Admin password"
           value={password}
           onChange={e => {
             setPassword(e.target.value)

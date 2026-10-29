@@ -37,6 +37,8 @@ Strategy research (see `reports/`) + a Google Maps scan of 774 Surrey businesses
 
 **Follow-up pass (same day):** rebuilt the remaining old-style pages in the new design — `/about` (trades story), `/blog` + posts (3 new trades posts in `lib/posts.ts`; old slugs 308-redirect via `next.config.ts`), `/privacy` + `/terms` (rewritten for PIPEDA/BC PIPA and the new offer; on-page analytics consent toggle), new 404, OG image, `/projects/*` → 308 to `/work`, robots disallows `/admin`, `/api`, `/demo`; sitemap no longer lists projects. Fixed a JSX whitespace drop on `/about` ("Surreytrades") by using a template string.
 
+**Pre-launch audit:** removed 15 unused agency-era components + `lib/projects.ts`/`lib/useCountUp.ts` (preserved in tag `v1-agency-site`); replaced setState-in-effect consent logic in AnalyticsGate/Tracker/Tracked with a shared `useAnalyticsConsent()` (`useSyncExternalStore`) — `npm run lint` now 0 errors; labelled admin password input; fixed invisible "How it works" step bars in dark mode. Verified: tsc, lint, production build, 16 internal links (0 broken), 13 pages × 390/1440px (no overflow, no console/hydration errors, one h1 each, all images alt'd), contact API rejects invalid payloads, security headers, admin redirect, mobile menu Escape-close.
+
 **Still open / TODO:**
 - **Lawyer review of `/privacy` and `/terms` before launch** (incl. CASL consent for SMS review requests). Retention periods stated there aren't enforced by any automatic deletion yet.
 - Review agent-written copy (services "who it's for", honest notes) and confirm prices in `lib/offer.ts`.

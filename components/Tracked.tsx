@@ -1,7 +1,7 @@
 'use client'
-import { useEffect, useRef, useState, ReactNode } from 'react'
+import { useEffect, useRef, ReactNode } from 'react'
 import { usePathname } from 'next/navigation'
-import { hasAnalyticsConsent, getSessionId, sendBeaconJson } from '@/lib/tracking'
+import { useAnalyticsConsent, getSessionId, sendBeaconJson } from '@/lib/tracking'
 
 const FLUSH_INTERVAL_MS = 10000
 
@@ -10,18 +10,7 @@ export default function Tracked({ id, children }: { id: string; children: ReactN
   const ref = useRef<HTMLDivElement>(null)
   const visibleSince = useRef<number | null>(null)
   const pendingClicks = useRef(0)
-  const [consented, setConsented] = useState(false)
-
-  useEffect(() => {
-    setConsented(hasAnalyticsConsent())
-
-    function onConsentChange(e: Event) {
-      setConsented((e as CustomEvent<'accepted' | 'declined'>).detail === 'accepted')
-    }
-
-    window.addEventListener('nodeaxis-consent-change', onConsentChange)
-    return () => window.removeEventListener('nodeaxis-consent-change', onConsentChange)
-  }, [])
+  const consented = useAnalyticsConsent()
 
   useEffect(() => {
     if (!consented) return

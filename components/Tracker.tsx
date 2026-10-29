@@ -1,24 +1,12 @@
 'use client'
-import { useEffect, useRef, useState } from 'react'
+import { useEffect, useRef } from 'react'
 import { usePathname } from 'next/navigation'
-import { hasAnalyticsConsent, getSessionId, sendBeaconJson } from '@/lib/tracking'
+import { useAnalyticsConsent, getSessionId, sendBeaconJson } from '@/lib/tracking'
 
 export default function Tracker() {
   const pathname = usePathname()
-  const [consented, setConsented] = useState(false)
+  const consented = useAnalyticsConsent()
   const lastSent = useRef<string | null>(null)
-
-  useEffect(() => {
-    setConsented(hasAnalyticsConsent())
-
-    function onConsentChange(e: Event) {
-      const choice = (e as CustomEvent<'accepted' | 'declined'>).detail
-      setConsented(choice === 'accepted')
-    }
-
-    window.addEventListener('nodeaxis-consent-change', onConsentChange)
-    return () => window.removeEventListener('nodeaxis-consent-change', onConsentChange)
-  }, [])
 
   useEffect(() => {
     if (!consented || !pathname || lastSent.current === pathname) return
