@@ -1,121 +1,114 @@
 import { ImageResponse } from 'next/og'
+import { business, promise } from '@/lib/offer'
 
 export const runtime = 'edge'
-export const alt = 'NodeAxis — Web Design, Apps & Systems in BC, Canada'
+export const alt = `NodeAxis — ${promise.headline} Local help for ${business.city}, BC trades.`
 export const size = { width: 1200, height: 630 }
 export const contentType = 'image/png'
 
+// Brand colours mirror the --na-* tokens in app/globals.css (ImageResponse
+// can't read CSS variables, so they are repeated here).
+const CREAM = '#F3EEE6'
+const INK = '#121316'
+const MUTED = '#64635E'
+const ACCENT = '#2E3BFF'
+const WHITE = '#FFFFFF'
+
 export default async function Image() {
+  // "More calls. More 5-star reviews. Less paperwork." → one line per sentence.
+  const lines = promise.headline.split(/(?<=\.)\s+/)
+
   return new ImageResponse(
     (
       <div
         style={{
-          background: '#0D0F1A',
+          background: CREAM,
           width: '100%',
           height: '100%',
           display: 'flex',
-          flexDirection: 'column',
-          alignItems: 'center',
-          justifyContent: 'center',
-          gap: '36px',
-          position: 'relative',
+          padding: 28,
         }}
       >
-        {/* Subtle grid background */}
         <div
           style={{
-            position: 'absolute',
-            inset: 0,
-            backgroundImage:
-              'linear-gradient(rgba(79,142,247,0.04) 1px, transparent 1px), linear-gradient(90deg, rgba(79,142,247,0.04) 1px, transparent 1px)',
-            backgroundSize: '60px 60px',
+            background: WHITE,
+            borderRadius: 40,
+            width: '100%',
+            height: '100%',
             display: 'flex',
+            flexDirection: 'column',
+            justifyContent: 'space-between',
+            padding: '56px 64px',
+            position: 'relative',
+            overflow: 'hidden',
           }}
-        />
-
-        {/* Logo + wordmark */}
-        <div style={{ display: 'flex', alignItems: 'center', gap: '32px' }}>
-          <svg
-            width="100"
-            height="100"
-            viewBox="0 0 32 32"
-            xmlns="http://www.w3.org/2000/svg"
-          >
-            <rect width="32" height="32" rx="6" fill="#0D0F1A" />
-            <polygon
-              points="16,3 27,10 27,22 16,29 5,22 5,10"
-              fill="none"
-              stroke="rgba(255,255,255,0.85)"
-              stroke-width="1.4"
-              stroke-linejoin="round"
-            />
-            <line
-              x1="9.5" y1="9" x2="9.5" y2="23"
-              stroke="rgba(255,255,255,0.85)"
-              stroke-width="2"
-              stroke-linecap="round"
-            />
-            <line
-              x1="9.5" y1="9" x2="22.5" y2="23"
-              stroke="rgba(255,255,255,0.85)"
-              stroke-width="2"
-              stroke-linecap="round"
-            />
-            <line
-              x1="22.5" y1="9" x2="22.5" y2="23"
-              stroke="rgba(255,255,255,0.85)"
-              stroke-width="2"
-              stroke-linecap="round"
-            />
-            <circle cx="9.5" cy="9" r="1.6" fill="rgba(255,255,255,0.85)" />
-            <circle cx="22.5" cy="9" r="1.6" fill="rgba(255,255,255,0.85)" />
-            <circle cx="9.5" cy="23" r="1.6" fill="rgba(255,255,255,0.85)" />
-            <circle cx="22.5" cy="23" r="1.6" fill="rgba(255,255,255,0.85)" />
-          </svg>
-          <span
+        >
+          {/* soft blue blob */}
+          <div
             style={{
-              color: '#FFFFFF',
-              fontSize: '88px',
-              fontWeight: '800',
-              letterSpacing: '-4px',
-              lineHeight: 1,
+              position: 'absolute',
+              right: -160,
+              top: -200,
+              width: 520,
+              height: 520,
+              borderRadius: 9999,
+              background: 'rgba(46,59,255,0.14)',
+              display: 'flex',
             }}
-          >
-            NodeAxis
-          </span>
-        </div>
+          />
 
-        {/* Divider */}
-        <div
-          style={{
-            width: '480px',
-            height: '1px',
-            background: 'rgba(255,255,255,0.12)',
-            display: 'flex',
-          }}
-        />
+          {/* Logo + wordmark */}
+          <div style={{ display: 'flex', alignItems: 'center', gap: 16 }}>
+            <svg width="48" height="48" viewBox="0 0 22 22" fill="none">
+              <polygon points="11,1.5 19.5,6.25 19.5,15.75 11,20.5 2.5,15.75 2.5,6.25" stroke={INK} strokeWidth="1.3" strokeLinejoin="round" />
+              <line x1="7" y1="7" x2="7" y2="15" stroke={INK} strokeWidth="1.7" strokeLinecap="round" />
+              <line x1="7" y1="7" x2="15" y2="15" stroke={INK} strokeWidth="1.7" strokeLinecap="round" />
+              <line x1="15" y1="7" x2="15" y2="15" stroke={INK} strokeWidth="1.7" strokeLinecap="round" />
+              <circle cx="7" cy="7" r="1.2" fill={INK} />
+              <circle cx="15" cy="7" r="1.2" fill={INK} />
+              <circle cx="7" cy="15" r="1.2" fill={INK} />
+              <circle cx="15" cy="15" r="1.2" fill={INK} />
+            </svg>
+            <span style={{ color: INK, fontSize: 34, fontWeight: 600, letterSpacing: '-1px' }}>{business.name}</span>
+          </div>
 
-        {/* Tagline */}
-        <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '12px' }}>
-          <span
-            style={{
-              color: 'rgba(255,255,255,0.55)',
-              fontSize: '28px',
-              textAlign: 'center',
-              letterSpacing: '-0.5px',
-            }}
-          >
-            Web Design, Apps &amp; Systems — BC, Canada
-          </span>
-          <span
-            style={{
-              color: '#4F8EF7',
-              fontSize: '22px',
-              letterSpacing: '0.5px',
-            }}
-          >
-            nodeaxis.ca
-          </span>
+          {/* Headline */}
+          <div style={{ display: 'flex', flexDirection: 'column' }}>
+            {lines.map((line, i) => (
+              <span
+                key={line}
+                style={{
+                  color: i === lines.length - 1 ? MUTED : INK,
+                  fontSize: 86,
+                  fontWeight: 600,
+                  letterSpacing: '-4px',
+                  lineHeight: 1,
+                }}
+              >
+                {line}
+              </span>
+            ))}
+          </div>
+
+          {/* Footer row */}
+          <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+            <span style={{ color: INK, fontSize: 28, fontWeight: 500 }}>
+              {`${business.name} · ${business.city}, ${business.region}`}
+            </span>
+            <span
+              style={{
+                display: 'flex',
+                background: ACCENT,
+                color: WHITE,
+                fontSize: 24,
+                fontWeight: 600,
+                padding: '14px 28px',
+                borderRadius: 9999,
+              }}
+            >
+              {promise.cta}
+            </span>
+          </div>
         </div>
       </div>
     ),

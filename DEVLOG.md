@@ -35,7 +35,10 @@ Strategy research (see `reports/`) + a Google Maps scan of 774 Surrey businesses
 - `next.config.ts` — `/demo/*` now framable same-origin (was DENY); Calendly allowed in `frame-src` (`NEXT_PUBLIC_CALENDLY_URL` enables the embed on `/contact`).
 - Real photos in `public/images/` (Unsplash/Pexels, see `CREDITS.md`).
 
+**Follow-up pass (same day):** rebuilt the remaining old-style pages in the new design — `/about` (trades story), `/blog` + posts (3 new trades posts in `lib/posts.ts`; old slugs 308-redirect via `next.config.ts`), `/privacy` + `/terms` (rewritten for PIPEDA/BC PIPA and the new offer; on-page analytics consent toggle), new 404, OG image, `/projects/*` → 308 to `/work`, robots disallows `/admin`, `/api`, `/demo`; sitemap no longer lists projects. Fixed a JSX whitespace drop on `/about` ("Surreytrades") by using a template string.
+
 **Still open / TODO:**
+- **Lawyer review of `/privacy` and `/terms` before launch** (incl. CASL consent for SMS review requests). Retention periods stated there aren't enforced by any automatic deletion yet.
 - Review agent-written copy (services "who it's for", honest notes) and confirm prices in `lib/offer.ts`.
 - Set `NEXT_PUBLIC_CALENDLY_URL`.
 - Pre-existing lint errors (set-state-in-effect) in `AnalyticsGate`, `Process`, `Tracked`, `Tracker`.

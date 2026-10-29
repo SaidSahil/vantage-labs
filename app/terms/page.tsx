@@ -1,94 +1,186 @@
+/*
+ * ⚠️  LEGAL REVIEW REQUIRED BEFORE LAUNCH
+ * These terms were drafted for the trades offer in lib/offer.ts (as of 2026-10-28)
+ * but have NOT been reviewed by a lawyer. Have them reviewed by a BC lawyer before
+ * the site goes live. In particular confirm:
+ *  - payment defaults (50% deposit / balance on delivery / 14-day invoices / late fees)
+ *    — these are PLACEHOLDER DEFAULTS chosen by the dev team, not agreed business terms;
+ *  - limitation-of-liability cap and wording;
+ *  - website/content ownership and what happens to tools (text-back, review requests)
+ *    when the monthly plan is cancelled;
+ *  - taxes (GST/PST) wording, and CASL/consent obligations for SMS review requests.
+ * Prices and tier names are read from lib/offer.ts so they stay in sync.
+ */
 import LegalShell, { type LegalSection } from '@/components/LegalShell'
+import { business, tiers } from '@/lib/offer'
+
+const tier = (id: string) => tiers.find(t => t.id === id) ?? tiers[0]
+const audit = tier('audit')
+const starter = tier('starter')
+const growth = tier('growth')
+const systems = tier('systems')
+
+const email = `<a href="mailto:${business.email}">${business.email}</a>`
+const phone = `<a href="${business.phoneHref}">${business.phoneDisplay}</a>`
 
 const sections: LegalSection[] = [
   {
-    heading: '1. Agreement to these terms',
+    id: 'agreement',
+    heading: '1. About these terms',
     body: [
-      'These Terms of Service ("Terms") govern your access to and use of the NodeAxis website at <strong>nodeaxis.ca</strong> (the "Site") and any services we provide. By using the Site or engaging us, you agree to these Terms. If you do not agree, please do not use the Site.',
-      'NodeAxis ("NodeAxis", "we", "us", or "our") is a web design and software development studio based in British Columbia, Canada.',
+      `These Terms of Service ("Terms") apply when you use <strong>nodeaxis.ca</strong> (the "Site") or buy services from NodeAxis ("NodeAxis", "we", "us"), a business based in ${business.city}, British Columbia, Canada. "You" means the person or business using the Site or our services.`,
+      'By using the Site, requesting an audit or paying for a service, you agree to these Terms. If we give you a written quote or proposal, it forms part of our agreement; if it conflicts with these Terms, the quote or proposal wins for that work.',
     ],
   },
   {
+    id: 'services',
     heading: '2. Our services',
     body: [
-      'We design and build custom websites, web applications, dashboards, and software for businesses. The specific scope, deliverables, timeline, and price for any engagement are agreed separately in a written quote or proposal (an "Engagement"). In the event of a conflict between a signed Engagement and these Terms, the Engagement governs.',
-      'Information on the Site — including pricing such as "from $399" — is provided as a general guide and does not constitute a binding offer. A firm price is confirmed in your individual quote.',
-    ],
-  },
-  {
-    heading: '3. Quotes, fees, and payment',
-    body: [
-      'We provide fixed, upfront quotes for project work — no hourly billing and no surprise invoices. Payment terms (including any deposit, milestones, or final balance) are set out in your Engagement.',
-      'Unless otherwise stated, quotes are valid for 30 days. Optional ongoing maintenance or support is billed separately as described in your Engagement.',
-    ],
-  },
-  {
-    heading: '4. Client responsibilities',
-    body: [
-      'To deliver your project, we rely on you to provide, in a timely manner:',
+      'We offer the following services. What\'s included in each is described on our <a href="/services">Services page</a>; anything extra is confirmed in writing before we start.',
       [
-        'Content, assets, and information needed for the work (text, images, branding, access credentials, etc.);',
-        'Timely feedback and approvals at agreed checkpoints;',
-        'Confirmation that any materials you supply do not infringe the rights of others.',
+        `<strong>${audit.name}</strong> (${audit.price}, ${audit.cadence}) — a review of your Google presence, reviews, website and call handling, explained in person.`,
+        `<strong>${starter.name}</strong> (${starter.price}, ${starter.cadence}) — a one-time project to fix the basics, such as your Google Business Profile, a review-request setup and, if you need one, a simple website.`,
+        `<strong>${growth.name}</strong> (${growth.price} ${growth.cadence}) — an ongoing monthly plan including missed-call text-back, automatic review requests, a shared lead inbox, a monthly report and local support.`,
+        `<strong>${systems.name}</strong> (${systems.price.toLowerCase()} ${systems.cadence}) — custom tools such as quote and job trackers, booking or invoice automation, priced in a written quote.`,
       ],
-      'Delays in providing these may affect agreed timelines.',
+      'Prices on the Site are in Canadian dollars and do not include applicable taxes (GST/PST), which are added to your invoice. We may change our prices for new orders at any time; we\'ll give monthly-plan clients at least 30 days\' notice of a price change.',
     ],
   },
   {
-    heading: '5. Ownership and intellectual property',
+    id: 'free-audit',
+    heading: '3. The free audit',
     body: [
-      'On full payment for an Engagement, ownership of the final, delivered work product is transferred to you, including the source code for your project. You control your own domain and hosting and are never locked into a proprietary platform with us.',
-      'We retain ownership of our pre-existing tools, libraries, techniques, and general know-how, and of any third-party or open-source components, which remain subject to their own licences. Unless you ask us not to, we may reference completed work in our portfolio and marketing.',
-      'The Site itself — including its design, code, text, and branding — is owned by NodeAxis and may not be copied or reused without permission.',
+      'The free audit costs nothing and you are under <strong>no obligation</strong> to buy anything afterwards. You keep the report. As part of the audit we may look at your public Google listing, reviews and website, and make a test call or text to your business line to check how missed calls are handled.',
+      'The audit reflects what we can see at the time and is our honest opinion — not a guarantee of results.',
     ],
   },
   {
-    heading: '6. Third-party services',
+    id: 'one-time-payments',
+    heading: '4. One-time projects: payment',
     body: [
-      'Projects may incorporate third-party platforms and services (for example, hosting, payment processing, scheduling, or email providers). Your use of those services is subject to their own terms and pricing, and we are not responsible for their availability, performance, or policies.',
+      'Unless your written quote says otherwise, these default terms apply to one-time work (including Get Found and Custom Systems):',
+      [
+        '<strong>50% deposit</strong> to book the work, due before we start;',
+        '<strong>remaining 50% on delivery</strong>, when the agreed work is completed and handed over;',
+        'invoices are due within <strong>14 days</strong>;',
+        'if an invoice is overdue, we may pause work until it is paid.',
+      ],
+      'The deposit covers time we reserve and work we begin, so it is non-refundable once work has started. If you cancel before we start, we\'ll refund the deposit in full. Changes you ask for that go beyond the agreed scope are quoted separately before we do them.',
     ],
   },
   {
-    heading: '7. Warranties and disclaimers',
+    id: 'monthly-plan',
+    heading: '5. Monthly plan: billing and cancelling',
     body: [
-      'We perform our services with reasonable skill and care. Except as expressly stated in your Engagement, the Site and our services are provided "as is" and "as available", without warranties of any kind, whether express or implied, including implied warranties of merchantability, fitness for a particular purpose, and non-infringement. We do not warrant that the Site will be uninterrupted, error-free, or completely secure.',
+      `The ${growth.name} plan is billed <strong>monthly in advance</strong>, starting on the day the plan goes live. It is <strong>month-to-month</strong> — there is no long-term contract.`,
+      [
+        'You can cancel at any time by email, phone or in person. Cancellation takes effect at the <strong>end of your current billing period</strong>; you won\'t be billed again after that.',
+        'We don\'t give partial refunds for the rest of a month you\'ve already paid for, but the service keeps running until that month ends.',
+        'If a payment fails and isn\'t fixed within 14 days of us telling you, we may pause the plan.',
+        `We may end the plan with 30 days' notice, or straight away if these Terms are seriously breached (for example, a request to post fake reviews).`,
+      ],
+      'When the plan ends, we switch off the tools we run for you (such as missed-call text-back and automatic review requests) and help you take over anything that stays with you, such as your Google Business Profile access and your list of leads.',
     ],
   },
   {
-    heading: '8. Limitation of liability',
+    id: 'your-responsibilities',
+    heading: '6. Your responsibilities',
     body: [
-      'To the fullest extent permitted by law, NodeAxis will not be liable for any indirect, incidental, special, consequential, or punitive damages, or for any loss of profits, revenue, data, or goodwill, arising out of or relating to your use of the Site or our services. Our total aggregate liability for any claim relating to an Engagement will not exceed the fees you paid to us for that Engagement.',
-      'Nothing in these Terms limits liability that cannot be limited or excluded under applicable law.',
+      'To do good work for you, we rely on you to:',
+      [
+        'give us accurate, up-to-date information about your business — name, services, service area, hours, licences and contact details;',
+        'give us the access we need, such as manager access to your <strong>Google Business Profile</strong>, your website or domain, and any phone or texting setup, and keep your own passwords secure;',
+        'make sure you have the right to use any photos, logos and text you give us;',
+        'only ask us to send review requests or text messages to your own customers, who have dealt with your business and have not asked you to stop contacting them;',
+        'reply to your leads and customers — we make sure they reach you, but the job is yours to win;',
+        'respond to our questions and approvals within a reasonable time. Delays on your side may push back delivery dates.',
+      ],
     ],
   },
   {
-    heading: '9. Indemnity',
+    id: 'reviews',
+    heading: '7. Reviews: we play by the rules',
     body: [
-      'You agree to indemnify and hold NodeAxis harmless from any claims, damages, or expenses arising from materials you provide to us or from your use of deliverables in a way that breaches these Terms or the rights of a third party.',
+      'Our review service only <strong>asks real customers</strong> for honest feedback after a job. To keep your business safe on Google and within the law, we follow Google\'s review policies. That means we will not:',
+      [
+        'write, buy or post fake reviews, or reviews from people who weren\'t customers;',
+        'offer customers discounts, gifts or other incentives in exchange for reviews;',
+        'ask only happy customers for reviews while filtering out others ("review gating");',
+        'pressure customers or post reviews on their behalf.',
+      ],
+      'You agree not to ask us, or anyone else, to do any of these things for your business.',
     ],
   },
   {
-    heading: '10. Termination',
+    id: 'no-guarantees',
+    heading: '8. Results: no guarantees',
     body: [
-      'Either party may end an Engagement as described in that Engagement. Fees for work performed up to the date of termination remain payable. We may suspend or restrict access to the Site at any time if we reasonably believe these Terms have been breached.',
+      'We work hard to get you more calls and more reviews, and our monthly report shows you exactly what happened. But we don\'t control Google, your customers or your market, so we <strong>cannot guarantee</strong> any particular search ranking, map position, number or rating of reviews, call or lead volume, or revenue.',
+      'Any examples, statistics or estimates on the Site or in an audit are for illustration and are not a promise of your results.',
     ],
   },
   {
-    heading: '11. Governing law',
+    id: 'third-party-platforms',
+    heading: '9. Third-party platforms',
     body: [
-      'These Terms are governed by the laws of the Province of British Columbia and the federal laws of Canada applicable there, without regard to conflict-of-laws principles. The courts located in British Columbia will have jurisdiction over any dispute arising from these Terms.',
+      'Our services depend on platforms we don\'t own, including Google (Search, Maps and Business Profile), phone and SMS providers, website hosts and domain registrars. Those platforms have their own terms and can change their rules, features, prices or availability, suspend listings, filter or remove reviews, or delay or block messages at any time.',
+      'We are not responsible for what those platforms do, but we\'ll tell you when a change affects you and help you deal with it. Some platform fees (for example a domain name) may be billed to you directly or passed through at cost — we\'ll tell you upfront.',
     ],
   },
   {
-    heading: '12. Changes to these terms',
+    id: 'ownership',
+    heading: '10. Who owns what',
     body: [
-      'We may update these Terms from time to time. The "Last updated" date above reflects the most recent revision. Continued use of the Site after changes take effect constitutes acceptance of the updated Terms.',
+      [
+        '<strong>Your content stays yours.</strong> Your business name, logo, photos, text, customer list and leads belong to you. You give us permission to use them only to provide our services.',
+        '<strong>Your Google Business Profile is yours.</strong> You remain the owner; we only work as a manager on it, and you can remove our access at any time.',
+        '<strong>Websites we deliver.</strong> Once a one-time project is paid in full, you own the finished website design and content we made for you, and we\'ll hand over the files and access on request. Until it\'s paid in full, we keep ownership.',
+        '<strong>Our tools and know-how.</strong> We keep ownership of our own templates, code libraries, processes and the software we use to run monthly services (such as text-back and review-request systems). You can use them while your plan is active; they don\'t transfer to you.',
+      ],
+      'Unless you tell us not to, we may mention that you are a client and show the work we did for you (without private information) in our portfolio.',
     ],
   },
   {
-    heading: '13. Contact us',
+    id: 'site-use',
+    heading: '11. Using the Site',
     body: [
-      'Questions about these Terms? Contact us at <strong>info@nodeaxis.ca</strong> or 778-240-8911.',
+      'Please don\'t misuse the Site — for example by trying to break into it, overloading it, scraping it, or submitting spam or false information through our forms. Content on the Site is owned by NodeAxis or used with permission and can\'t be copied for commercial use without our OK.',
+      'Demo websites we share with businesses are samples only. They expire after 30 days and are not offers to sell the business\'s name or brand to anyone.',
+      'How we handle personal information is explained in our <a href="/privacy">Privacy Policy</a>.',
+    ],
+  },
+  {
+    id: 'liability',
+    heading: '12. Limits of our liability',
+    body: [
+      'The Site is provided "as is". To the extent the law allows:',
+      [
+        'we aren\'t liable for indirect or consequential losses, such as lost profits, lost jobs, lost data or loss of reputation;',
+        'we aren\'t liable for problems caused by third-party platforms (section 9), by information or access you gave us, or by events outside our reasonable control (such as outages or natural disasters);',
+        'our total liability for any claim connected to our services is limited to the amount you paid us for the service in question in the <strong>12 months</strong> before the claim.',
+      ],
+      'Nothing in these Terms limits liability that can\'t be limited by law. You agree to be responsible for claims that arise from content you gave us or instructions you asked us to follow, such as using photos you didn\'t have the rights to.',
+    ],
+  },
+  {
+    id: 'law',
+    heading: '13. Governing law and disputes',
+    body: [
+      'These Terms are governed by the laws of <strong>British Columbia</strong> and the federal laws of Canada that apply there. If we have a disagreement, let\'s talk first — most things can be sorted out over a coffee. If we can\'t resolve it, the courts of British Columbia will have exclusive jurisdiction.',
+    ],
+  },
+  {
+    id: 'changes',
+    heading: '14. Changes and general terms',
+    body: [
+      'We may update these Terms from time to time; the "Last updated" date shows the current version. Changes apply to new orders and, for monthly plans, from your next billing period after we let you know. If any part of these Terms can\'t be enforced, the rest still applies. Not enforcing a term right away doesn\'t mean we\'ve given it up.',
+    ],
+  },
+  {
+    id: 'contact',
+    heading: '15. Contact',
+    body: [
+      `Questions about these Terms? Email ${email} or call ${phone} (${business.hours}). We're based in ${business.city}, BC, and happy to go through anything in person.`,
     ],
   },
 ]
@@ -97,8 +189,8 @@ export default function TermsPage() {
   return (
     <LegalShell
       title="Terms of Service"
-      intro="These terms set out the ground rules for using our website and working with us — written to be clear, fair, and free of surprises."
-      updated="June 18, 2026"
+      intro="The rules for using our site and working with us — free audit, one-time projects and the monthly plan. Short, plain and fair."
+      updated="October 28, 2026"
       sections={sections}
     />
   )

@@ -36,7 +36,7 @@ export default function CookieConsent() {
       {visible && (
         <motion.div
           role="dialog"
-          aria-label="Cookie consent"
+          aria-label="Analytics consent"
           aria-live="polite"
           className="na-inverse"
           initial={{ opacity: 0, y: 24 }}
@@ -59,7 +59,7 @@ export default function CookieConsent() {
             boxShadow: 'var(--na-shadow-float)',
           }}
         >
-          <p className="na-tag" style={{ marginBottom: 8 }}>Cookies</p>
+          <p className="na-tag" style={{ marginBottom: 8 }}>Analytics</p>
           <p
             style={{
               fontSize: 14,
@@ -68,10 +68,11 @@ export default function CookieConsent() {
               margin: '0 0 16px',
             }}
           >
-            We use only what&apos;s needed to keep this site working. With your consent,
-            we may also measure traffic to improve it. Read our{' '}
+            No ad or tracking cookies. If you accept, we&apos;ll measure which pages and
+            sections get viewed — with approximate location and device type — to improve
+            the site. Decline and nothing is measured. You can change this any time in our{' '}
             <Link
-              href="/privacy"
+              href="/privacy#consent"
               style={{ color: 'var(--na-inv-accent)', textDecoration: 'underline', textUnderlineOffset: 3, fontWeight: 500 }}
             >
               Privacy Policy
@@ -85,7 +86,7 @@ export default function CookieConsent() {
               className="na-pill na-pill--primary na-pill--sm"
               style={{ flex: '1 1 auto' }}
             >
-              Accept
+              Accept analytics
             </button>
             <button
               type="button"

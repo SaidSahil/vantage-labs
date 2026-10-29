@@ -1,14 +1,17 @@
 import type { Metadata } from 'next'
 
+const title = 'About NodeAxis — Local Tech Partner for Surrey Trades'
+const description = 'NodeAxis is a Surrey, BC team helping plumbers, HVAC, roofers, electricians and landscapers get more calls, more 5-star reviews and less paperwork. We meet you in person.'
+
 export const metadata: Metadata = {
-  title: 'About NodeAxis — Web Design, Apps & Systems Agency in BC',
-  description: 'NodeAxis is a digital studio in British Columbia, Canada. We build custom websites, web apps, dashboards, and software for businesses — starting at $399.',
+  title,
+  description,
   alternates: {
     canonical: 'https://nodeaxis.ca/about',
   },
   openGraph: {
-    title: 'About NodeAxis — Web Design, Apps & Systems Agency in BC',
-    description: 'NodeAxis is a digital studio in British Columbia, Canada. We build custom websites, web apps, dashboards, and software for businesses — starting at $399.',
+    title,
+    description,
     type: 'website',
     locale: 'en_CA',
     url: 'https://nodeaxis.ca/about',

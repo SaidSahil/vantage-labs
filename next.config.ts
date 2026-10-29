@@ -84,6 +84,10 @@ const nextConfig: NextConfig = {
         destination: 'https://nodeaxis.ca/:path*',
         permanent: true,
       },
+      // Old agency-era posts, replaced by trades-focused ones on 2026-10-28.
+      { source: '/blog/hand-coded-vs-wordpress', destination: '/blog/google-business-profile-checklist-trades', permanent: true },
+      { source: '/blog/small-business-website-cost-bc', destination: '/services', permanent: true },
+      { source: '/blog/signs-your-website-is-costing-you-customers', destination: '/blog/cost-of-a-missed-call-plumbing-hvac', permanent: true },
     ]
   },
 };

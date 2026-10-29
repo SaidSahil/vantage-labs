@@ -1,16 +1,18 @@
 import type { Metadata } from 'next'
 
+const title = 'Insights for Surrey Trades — Calls, Reviews & Google | NodeAxis'
+const description =
+  'Plain-language advice for Surrey, BC plumbers, HVAC, roofing, electrical and landscaping businesses: get more calls, more Google reviews and less paperwork.'
+
 export const metadata: Metadata = {
-  title: 'Insights — Web, SEO & Business Advice | NodeAxis',
-  description:
-    'Practical, no-nonsense advice on websites, SEO, pricing, and conversion for small businesses in British Columbia, from the NodeAxis studio.',
+  title,
+  description,
   alternates: {
     canonical: 'https://nodeaxis.ca/blog',
   },
   openGraph: {
-    title: 'Insights — Web, SEO & Business Advice | NodeAxis',
-    description:
-      'Practical, no-nonsense advice on websites, SEO, pricing, and conversion for small businesses in British Columbia.',
+    title,
+    description,
     type: 'website',
     locale: 'en_CA',
     url: 'https://nodeaxis.ca/blog',

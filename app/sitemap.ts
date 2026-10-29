@@ -1,5 +1,4 @@
 import { MetadataRoute } from 'next'
-import { projects } from '@/lib/projects'
 import { posts } from '@/lib/posts'
 
 const BASE_URL = 'https://nodeaxis.ca'
@@ -62,13 +61,6 @@ export default function sitemap(): MetadataRoute.Sitemap {
     },
   ]
 
-  const projectRoutes: MetadataRoute.Sitemap = projects.map((project) => ({
-    url: `${BASE_URL}/projects/${project.slug}`,
-    lastModified: new Date(),
-    changeFrequency: 'monthly',
-    priority: 0.7,
-  }))
-
   const blogRoutes: MetadataRoute.Sitemap = posts.map((post) => ({
     url: `${BASE_URL}/blog/${post.slug}`,
     lastModified: new Date(post.date),
@@ -76,5 +68,5 @@ export default function sitemap(): MetadataRoute.Sitemap {
     priority: 0.6,
   }))
 
-  return [...staticRoutes, ...projectRoutes, ...blogRoutes]
+  return [...staticRoutes, ...blogRoutes]
 }
